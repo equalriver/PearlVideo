@@ -1,0 +1,1036 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 50;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		3786B35F33F6D11DBE357261 /* Pods_PearlVideo.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D3B3E5C129A02C953A874031 /* Pods_PearlVideo.framework */; };
+		481C599D2252EDD30086F616 /* PVLoginChildVCPro.swift in Sources */ = {isa = PBXBuildFile; fileRef = 481C599C2252EDD30086F616 /* PVLoginChildVCPro.swift */; };
+		481C599F225311110086F616 /* PVForgetPsdVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 481C599E225311110086F616 /* PVForgetPsdVC.swift */; };
+		481C59A1225336D70086F616 /* PVAgreementWebVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 481C59A0225336D70086F616 /* PVAgreementWebVC.swift */; };
+		481C59A3225338A50086F616 /* PVHomeVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 481C59A2225338A50086F616 /* PVHomeVC.swift */; };
+		481C59A5225338CB0086F616 /* PVAttentionVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 481C59A4225338CB0086F616 /* PVAttentionVC.swift */; };
+		481C59A7225338E70086F616 /* PVPearlVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 481C59A6225338E70086F616 /* PVPearlVC.swift */; };
+		481C59A9225342220086F616 /* PVMeHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 481C59A8225342220086F616 /* PVMeHeaderView.swift */; };
+		481C59AB22535CFB0086F616 /* PVMePro.swift in Sources */ = {isa = PBXBuildFile; fileRef = 481C59AA22535CFB0086F616 /* PVMePro.swift */; };
+		481C59AD2253621F0086F616 /* PVMeVCChild.swift in Sources */ = {isa = PBXBuildFile; fileRef = 481C59AC2253621F0086F616 /* PVMeVCChild.swift */; };
+		481C59AF225363AF0086F616 /* PVMeProductionCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 481C59AE225363AF0086F616 /* PVMeProductionCell.swift */; };
+		481C59B1225366210086F616 /* PVMeVCChildPro.swift in Sources */ = {isa = PBXBuildFile; fileRef = 481C59B0225366210086F616 /* PVMeVCChildPro.swift */; };
+		481C59B322537E4B0086F616 /* PVMeAttentionVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 481C59B222537E4B0086F616 /* PVMeAttentionVC.swift */; };
+		481C59B522537F6B0086F616 /* PVMeAttentionCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 481C59B422537F6B0086F616 /* PVMeAttentionCell.swift */; };
+		481C59B72253882B0086F616 /* PVMeFansVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 481C59B62253882B0086F616 /* PVMeFansVC.swift */; };
+		481C59B922538C4B0086F616 /* PVMeUserinfoEditVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 481C59B822538C4B0086F616 /* PVMeUserinfoEditVC.swift */; };
+		481C59BB22538E570086F616 /* PVMeUserinfoEditCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 481C59BA22538E570086F616 /* PVMeUserinfoEditCell.swift */; };
+		481D6652225450E900B59929 /* PVDatePickerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 481D6651225450E900B59929 /* PVDatePickerView.swift */; };
+		481D66542254A02400B59929 /* PVMeSettingVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 481D66532254A02400B59929 /* PVMeSettingVC.swift */; };
+		481D66562254A28700B59929 /* PVMeSettingCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 481D66552254A28700B59929 /* PVMeSettingCell.swift */; };
+		481D66582254BCC400B59929 /* PVMeSettingVCChild.swift in Sources */ = {isa = PBXBuildFile; fileRef = 481D66572254BCC400B59929 /* PVMeSettingVCChild.swift */; };
+		481D665A2254CEA000B59929 /* PVMeSettingVCChildPro.swift in Sources */ = {isa = PBXBuildFile; fileRef = 481D66592254CEA000B59929 /* PVMeSettingVCChildPro.swift */; };
+		481D665C2254D91100B59929 /* PVMeSettingVCChildView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 481D665B2254D91100B59929 /* PVMeSettingVCChildView.swift */; };
+		481F20E3225F11A900331CCF /* PVUserInfoVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 481F20E2225F11A900331CCF /* PVUserInfoVC.swift */; };
+		481F20E5225F159900331CCF /* PVUserInfoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 481F20E4225F159900331CCF /* PVUserInfoView.swift */; };
+		481F20E7225F177000331CCF /* PVUserInfoPro.swift in Sources */ = {isa = PBXBuildFile; fileRef = 481F20E6225F177000331CCF /* PVUserInfoPro.swift */; };
+		48200A48225DE00300D19735 /* PVAttentionCommentDetailVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48200A47225DE00300D19735 /* PVAttentionCommentDetailVC.swift */; };
+		48200A4A225DE02700D19735 /* PVAttentionCommentDetailViews.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48200A49225DE02700D19735 /* PVAttentionCommentDetailViews.swift */; };
+		48200A4C225DF22A00D19735 /* PVAttentionCommentDetailPro.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48200A4B225DF22A00D19735 /* PVAttentionCommentDetailPro.swift */; };
+		48200A4E225E0E2800D19735 /* PVHomeReportVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48200A4D225E0E2800D19735 /* PVHomeReportVC.swift */; };
+		48200A50225E0EE600D19735 /* PVHomeReportCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48200A4F225E0EE600D19735 /* PVHomeReportCell.swift */; };
+		48200A52225E130100D19735 /* PVHomeReportDetailVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48200A51225E130100D19735 /* PVHomeReportDetailVC.swift */; };
+		48200A54225E1B5900D19735 /* PVHomeReportDetailPro.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48200A53225E1B5900D19735 /* PVHomeReportDetailPro.swift */; };
+		4821C6A322560D4F0030BF4B /* PVMeMessageVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4821C6A222560D4F0030BF4B /* PVMeMessageVC.swift */; };
+		4821C6A52256131A0030BF4B /* PVMeMessageVCChild.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4821C6A42256131A0030BF4B /* PVMeMessageVCChild.swift */; };
+		482F3C3A225ADF7600FEC130 /* PVMeMessageVCChildPro.swift in Sources */ = {isa = PBXBuildFile; fileRef = 482F3C39225ADF7600FEC130 /* PVMeMessageVCChildPro.swift */; };
+		482F3C3C225AE43F00FEC130 /* PVMeMessageVCChildView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 482F3C3B225AE43F00FEC130 /* PVMeMessageVCChildView.swift */; };
+		482F3C3E225B30CC00FEC130 /* PVMeInvitationCodeVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 482F3C3D225B30CC00FEC130 /* PVMeInvitationCodeVC.swift */; };
+		482F3C40225B5F0900FEC130 /* PVMeInvitationBindingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 482F3C3F225B5F0900FEC130 /* PVMeInvitationBindingView.swift */; };
+		482F3C42225B716800FEC130 /* PVMeTeamVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 482F3C41225B716800FEC130 /* PVMeTeamVC.swift */; };
+		482F3C44225B79B900FEC130 /* PVMeTeamVCPro.swift in Sources */ = {isa = PBXBuildFile; fileRef = 482F3C43225B79B900FEC130 /* PVMeTeamVCPro.swift */; };
+		483657FE225C2EFC00BCB2D9 /* PVMeTeamVCChild.swift in Sources */ = {isa = PBXBuildFile; fileRef = 483657FD225C2EFC00BCB2D9 /* PVMeTeamVCChild.swift */; };
+		48365800225C30B700BCB2D9 /* PVMeTeamVCChildPro.swift in Sources */ = {isa = PBXBuildFile; fileRef = 483657FF225C30B700BCB2D9 /* PVMeTeamVCChildPro.swift */; };
+		48365802225C311C00BCB2D9 /* PVMeTeamVCChildView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48365801225C311C00BCB2D9 /* PVMeTeamVCChildView.swift */; };
+		48365804225C74BD00BCB2D9 /* PVAttentionCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48365803225C74BD00BCB2D9 /* PVAttentionCell.swift */; };
+		48365806225C853800BCB2D9 /* PVAttentionDetailVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48365805225C853800BCB2D9 /* PVAttentionDetailVC.swift */; };
+		48365808225C8C4700BCB2D9 /* PVAttentionDetailViews.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48365807225C8C4700BCB2D9 /* PVAttentionDetailViews.swift */; };
+		4836580A225CA6FC00BCB2D9 /* PVAttentionDetailPro.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48365809225CA6FC00BCB2D9 /* PVAttentionDetailPro.swift */; };
+		484DAD08224F10B4002BA454 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 484DAD07224F10B4002BA454 /* AppDelegate.swift */; };
+		484DAD0F224F10B5002BA454 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 484DAD0E224F10B5002BA454 /* Assets.xcassets */; };
+		484DAD12224F10B5002BA454 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 484DAD10224F10B5002BA454 /* LaunchScreen.storyboard */; };
+		484DAD25224F1380002BA454 /* KeysMacro.swift in Sources */ = {isa = PBXBuildFile; fileRef = 484DAD22224F1380002BA454 /* KeysMacro.swift */; };
+		484DAD26224F1380002BA454 /* ArgsMacro.swift in Sources */ = {isa = PBXBuildFile; fileRef = 484DAD23224F1380002BA454 /* ArgsMacro.swift */; };
+		484DAD27224F1380002BA454 /* ToolMacro.swift in Sources */ = {isa = PBXBuildFile; fileRef = 484DAD24224F1380002BA454 /* ToolMacro.swift */; };
+		484DAD37224F140F002BA454 /* PVNetworkTool.swift in Sources */ = {isa = PBXBuildFile; fileRef = 484DAD29224F140F002BA454 /* PVNetworkTool.swift */; };
+		484DAD38224F140F002BA454 /* PVRefresh.swift in Sources */ = {isa = PBXBuildFile; fileRef = 484DAD2A224F140F002BA454 /* PVRefresh.swift */; };
+		484DAD39224F140F002BA454 /* PVNetworkValidate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 484DAD2B224F140F002BA454 /* PVNetworkValidate.swift */; };
+		484DAD3A224F140F002BA454 /* PVNetworkRouter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 484DAD2C224F140F002BA454 /* PVNetworkRouter.swift */; };
+		484DAD3B224F140F002BA454 /* PVCustomTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = 484DAD2E224F140F002BA454 /* PVCustomTextField.swift */; };
+		484DAD3C224F140F002BA454 /* PVCustomButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 484DAD2F224F140F002BA454 /* PVCustomButton.swift */; };
+		484DAD3D224F140F002BA454 /* YPJTextFieldEx.swift in Sources */ = {isa = PBXBuildFile; fileRef = 484DAD31224F140F002BA454 /* YPJTextFieldEx.swift */; };
+		484DAD3E224F140F002BA454 /* YPJViewEx.swift in Sources */ = {isa = PBXBuildFile; fileRef = 484DAD32224F140F002BA454 /* YPJViewEx.swift */; };
+		484DAD3F224F140F002BA454 /* YPJExTools.swift in Sources */ = {isa = PBXBuildFile; fileRef = 484DAD34224F140F002BA454 /* YPJExTools.swift */; };
+		484DAD40224F140F002BA454 /* YPJOtherTools.swift in Sources */ = {isa = PBXBuildFile; fileRef = 484DAD35224F140F002BA454 /* YPJOtherTools.swift */; };
+		484DAD41224F140F002BA454 /* GCDTools.swift in Sources */ = {isa = PBXBuildFile; fileRef = 484DAD36224F140F002BA454 /* GCDTools.swift */; };
+		484DAD44224F14F7002BA454 /* AppDelegateEx.swift in Sources */ = {isa = PBXBuildFile; fileRef = 484DAD42224F14F7002BA454 /* AppDelegateEx.swift */; };
+		484DAD45224F14F7002BA454 /* PVTabBarController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 484DAD43224F14F7002BA454 /* PVTabBarController.swift */; };
+		484DADC5224F1741002BA454 /* PVBaseTableCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 484DAD47224F1741002BA454 /* PVBaseTableCell.swift */; };
+		484DADC6224F1741002BA454 /* PVBaseViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 484DAD48224F1741002BA454 /* PVBaseViewController.swift */; };
+		484DADC7224F1741002BA454 /* PVBaseRootNaviVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 484DAD49224F1741002BA454 /* PVBaseRootNaviVC.swift */; };
+		484DADC8224F1741002BA454 /* PVNavigationBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 484DAD4A224F1741002BA454 /* PVNavigationBar.swift */; };
+		484DADC9224F1741002BA454 /* PVBaseWMPageVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 484DAD4B224F1741002BA454 /* PVBaseWMPageVC.swift */; };
+		484DADCA224F1741002BA454 /* PVBaseModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 484DAD4C224F1741002BA454 /* PVBaseModel.swift */; };
+		484DADCB224F1741002BA454 /* PVBaseNavigationVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 484DAD4D224F1741002BA454 /* PVBaseNavigationVC.swift */; };
+		484DADCD224F1741002BA454 /* PVMeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 484DAD52224F1741002BA454 /* PVMeViewController.swift */; };
+		484DADDF224F1741002BA454 /* EipUserInfoModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 484DAD66224F1741002BA454 /* EipUserInfoModel.swift */; };
+		484DADE0224F1741002BA454 /* EipContactModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 484DAD67224F1741002BA454 /* EipContactModel.swift */; };
+		484DADE1224F1741002BA454 /* EipMessageModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 484DAD68224F1741002BA454 /* EipMessageModel.swift */; };
+		484DADE2224F1741002BA454 /* EipApplicationModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 484DAD69224F1741002BA454 /* EipApplicationModel.swift */; };
+		484DADE3224F1741002BA454 /* PVLoginPro.swift in Sources */ = {isa = PBXBuildFile; fileRef = 484DAD6C224F1741002BA454 /* PVLoginPro.swift */; };
+		484DADE4224F1741002BA454 /* PVLoginVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 484DAD6E224F1741002BA454 /* PVLoginVC.swift */; };
+		484DAE2D224F6DB4002BA454 /* PVLoginChildVCs.swift in Sources */ = {isa = PBXBuildFile; fileRef = 484DAE2C224F6DB4002BA454 /* PVLoginChildVCs.swift */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXFileReference section */
+		481C599C2252EDD30086F616 /* PVLoginChildVCPro.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PVLoginChildVCPro.swift; sourceTree = "<group>"; };
+		481C599E225311110086F616 /* PVForgetPsdVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PVForgetPsdVC.swift; sourceTree = "<group>"; };
+		481C59A0225336D70086F616 /* PVAgreementWebVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PVAgreementWebVC.swift; sourceTree = "<group>"; };
+		481C59A2225338A50086F616 /* PVHomeVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PVHomeVC.swift; sourceTree = "<group>"; };
+		481C59A4225338CB0086F616 /* PVAttentionVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PVAttentionVC.swift; sourceTree = "<group>"; };
+		481C59A6225338E70086F616 /* PVPearlVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PVPearlVC.swift; sourceTree = "<group>"; };
+		481C59A8225342220086F616 /* PVMeHeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PVMeHeaderView.swift; sourceTree = "<group>"; };
+		481C59AA22535CFB0086F616 /* PVMePro.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PVMePro.swift; sourceTree = "<group>"; };
+		481C59AC2253621F0086F616 /* PVMeVCChild.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PVMeVCChild.swift; sourceTree = "<group>"; };
+		481C59AE225363AF0086F616 /* PVMeProductionCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PVMeProductionCell.swift; sourceTree = "<group>"; };
+		481C59B0225366210086F616 /* PVMeVCChildPro.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PVMeVCChildPro.swift; sourceTree = "<group>"; };
+		481C59B222537E4B0086F616 /* PVMeAttentionVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PVMeAttentionVC.swift; sourceTree = "<group>"; };
+		481C59B422537F6B0086F616 /* PVMeAttentionCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PVMeAttentionCell.swift; sourceTree = "<group>"; };
+		481C59B62253882B0086F616 /* PVMeFansVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PVMeFansVC.swift; sourceTree = "<group>"; };
+		481C59B822538C4B0086F616 /* PVMeUserinfoEditVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PVMeUserinfoEditVC.swift; sourceTree = "<group>"; };
+		481C59BA22538E570086F616 /* PVMeUserinfoEditCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PVMeUserinfoEditCell.swift; sourceTree = "<group>"; };
+		481D6651225450E900B59929 /* PVDatePickerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PVDatePickerView.swift; sourceTree = "<group>"; };
+		481D66532254A02400B59929 /* PVMeSettingVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PVMeSettingVC.swift; sourceTree = "<group>"; };
+		481D66552254A28700B59929 /* PVMeSettingCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PVMeSettingCell.swift; sourceTree = "<group>"; };
+		481D66572254BCC400B59929 /* PVMeSettingVCChild.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PVMeSettingVCChild.swift; sourceTree = "<group>"; };
+		481D66592254CEA000B59929 /* PVMeSettingVCChildPro.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PVMeSettingVCChildPro.swift; sourceTree = "<group>"; };
+		481D665B2254D91100B59929 /* PVMeSettingVCChildView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PVMeSettingVCChildView.swift; sourceTree = "<group>"; };
+		481F20E2225F11A900331CCF /* PVUserInfoVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PVUserInfoVC.swift; sourceTree = "<group>"; };
+		481F20E4225F159900331CCF /* PVUserInfoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PVUserInfoView.swift; sourceTree = "<group>"; };
+		481F20E6225F177000331CCF /* PVUserInfoPro.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PVUserInfoPro.swift; sourceTree = "<group>"; };
+		48200A47225DE00300D19735 /* PVAttentionCommentDetailVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PVAttentionCommentDetailVC.swift; sourceTree = "<group>"; };
+		48200A49225DE02700D19735 /* PVAttentionCommentDetailViews.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PVAttentionCommentDetailViews.swift; sourceTree = "<group>"; };
+		48200A4B225DF22A00D19735 /* PVAttentionCommentDetailPro.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PVAttentionCommentDetailPro.swift; sourceTree = "<group>"; };
+		48200A4D225E0E2800D19735 /* PVHomeReportVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PVHomeReportVC.swift; sourceTree = "<group>"; };
+		48200A4F225E0EE600D19735 /* PVHomeReportCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PVHomeReportCell.swift; sourceTree = "<group>"; };
+		48200A51225E130100D19735 /* PVHomeReportDetailVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PVHomeReportDetailVC.swift; sourceTree = "<group>"; };
+		48200A53225E1B5900D19735 /* PVHomeReportDetailPro.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PVHomeReportDetailPro.swift; sourceTree = "<group>"; };
+		4821C6A222560D4F0030BF4B /* PVMeMessageVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PVMeMessageVC.swift; sourceTree = "<group>"; };
+		4821C6A42256131A0030BF4B /* PVMeMessageVCChild.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PVMeMessageVCChild.swift; sourceTree = "<group>"; };
+		482F3C39225ADF7600FEC130 /* PVMeMessageVCChildPro.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PVMeMessageVCChildPro.swift; sourceTree = "<group>"; };
+		482F3C3B225AE43F00FEC130 /* PVMeMessageVCChildView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PVMeMessageVCChildView.swift; sourceTree = "<group>"; };
+		482F3C3D225B30CC00FEC130 /* PVMeInvitationCodeVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PVMeInvitationCodeVC.swift; sourceTree = "<group>"; };
+		482F3C3F225B5F0900FEC130 /* PVMeInvitationBindingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PVMeInvitationBindingView.swift; sourceTree = "<group>"; };
+		482F3C41225B716800FEC130 /* PVMeTeamVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PVMeTeamVC.swift; sourceTree = "<group>"; };
+		482F3C43225B79B900FEC130 /* PVMeTeamVCPro.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PVMeTeamVCPro.swift; sourceTree = "<group>"; };
+		483657FD225C2EFC00BCB2D9 /* PVMeTeamVCChild.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PVMeTeamVCChild.swift; sourceTree = "<group>"; };
+		483657FF225C30B700BCB2D9 /* PVMeTeamVCChildPro.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PVMeTeamVCChildPro.swift; sourceTree = "<group>"; };
+		48365801225C311C00BCB2D9 /* PVMeTeamVCChildView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PVMeTeamVCChildView.swift; sourceTree = "<group>"; };
+		48365803225C74BD00BCB2D9 /* PVAttentionCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PVAttentionCell.swift; sourceTree = "<group>"; };
+		48365805225C853800BCB2D9 /* PVAttentionDetailVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PVAttentionDetailVC.swift; sourceTree = "<group>"; };
+		48365807225C8C4700BCB2D9 /* PVAttentionDetailViews.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PVAttentionDetailViews.swift; sourceTree = "<group>"; };
+		48365809225CA6FC00BCB2D9 /* PVAttentionDetailPro.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PVAttentionDetailPro.swift; sourceTree = "<group>"; };
+		484DAD04224F10B4002BA454 /* PearlVideo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = PearlVideo.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		484DAD07224F10B4002BA454 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
+		484DAD0E224F10B5002BA454 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		484DAD11224F10B5002BA454 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
+		484DAD13224F10B5002BA454 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		484DAD21224F12DE002BA454 /* BridgingHeader.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = BridgingHeader.h; sourceTree = "<group>"; };
+		484DAD22224F1380002BA454 /* KeysMacro.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = KeysMacro.swift; sourceTree = "<group>"; };
+		484DAD23224F1380002BA454 /* ArgsMacro.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ArgsMacro.swift; sourceTree = "<group>"; };
+		484DAD24224F1380002BA454 /* ToolMacro.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ToolMacro.swift; sourceTree = "<group>"; };
+		484DAD29224F140F002BA454 /* PVNetworkTool.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PVNetworkTool.swift; sourceTree = "<group>"; };
+		484DAD2A224F140F002BA454 /* PVRefresh.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PVRefresh.swift; sourceTree = "<group>"; };
+		484DAD2B224F140F002BA454 /* PVNetworkValidate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PVNetworkValidate.swift; sourceTree = "<group>"; };
+		484DAD2C224F140F002BA454 /* PVNetworkRouter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PVNetworkRouter.swift; sourceTree = "<group>"; };
+		484DAD2E224F140F002BA454 /* PVCustomTextField.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PVCustomTextField.swift; sourceTree = "<group>"; };
+		484DAD2F224F140F002BA454 /* PVCustomButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PVCustomButton.swift; sourceTree = "<group>"; };
+		484DAD31224F140F002BA454 /* YPJTextFieldEx.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = YPJTextFieldEx.swift; sourceTree = "<group>"; };
+		484DAD32224F140F002BA454 /* YPJViewEx.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = YPJViewEx.swift; sourceTree = "<group>"; };
+		484DAD34224F140F002BA454 /* YPJExTools.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = YPJExTools.swift; sourceTree = "<group>"; };
+		484DAD35224F140F002BA454 /* YPJOtherTools.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = YPJOtherTools.swift; sourceTree = "<group>"; };
+		484DAD36224F140F002BA454 /* GCDTools.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GCDTools.swift; sourceTree = "<group>"; };
+		484DAD42224F14F7002BA454 /* AppDelegateEx.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AppDelegateEx.swift; sourceTree = "<group>"; };
+		484DAD43224F14F7002BA454 /* PVTabBarController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PVTabBarController.swift; sourceTree = "<group>"; };
+		484DAD47224F1741002BA454 /* PVBaseTableCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PVBaseTableCell.swift; sourceTree = "<group>"; };
+		484DAD48224F1741002BA454 /* PVBaseViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PVBaseViewController.swift; sourceTree = "<group>"; };
+		484DAD49224F1741002BA454 /* PVBaseRootNaviVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PVBaseRootNaviVC.swift; sourceTree = "<group>"; };
+		484DAD4A224F1741002BA454 /* PVNavigationBar.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PVNavigationBar.swift; sourceTree = "<group>"; };
+		484DAD4B224F1741002BA454 /* PVBaseWMPageVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PVBaseWMPageVC.swift; sourceTree = "<group>"; };
+		484DAD4C224F1741002BA454 /* PVBaseModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PVBaseModel.swift; sourceTree = "<group>"; };
+		484DAD4D224F1741002BA454 /* PVBaseNavigationVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PVBaseNavigationVC.swift; sourceTree = "<group>"; };
+		484DAD52224F1741002BA454 /* PVMeViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PVMeViewController.swift; sourceTree = "<group>"; };
+		484DAD66224F1741002BA454 /* EipUserInfoModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EipUserInfoModel.swift; sourceTree = "<group>"; };
+		484DAD67224F1741002BA454 /* EipContactModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EipContactModel.swift; sourceTree = "<group>"; };
+		484DAD68224F1741002BA454 /* EipMessageModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EipMessageModel.swift; sourceTree = "<group>"; };
+		484DAD69224F1741002BA454 /* EipApplicationModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = EipApplicationModel.swift; sourceTree = "<group>"; };
+		484DAD6C224F1741002BA454 /* PVLoginPro.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PVLoginPro.swift; sourceTree = "<group>"; };
+		484DAD6E224F1741002BA454 /* PVLoginVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PVLoginVC.swift; sourceTree = "<group>"; };
+		484DAE2C224F6DB4002BA454 /* PVLoginChildVCs.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PVLoginChildVCs.swift; sourceTree = "<group>"; };
+		761B771C9F0CE0F909F03944 /* Pods-PearlVideo.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-PearlVideo.release.xcconfig"; path = "Target Support Files/Pods-PearlVideo/Pods-PearlVideo.release.xcconfig"; sourceTree = "<group>"; };
+		930A2A5820FE0D1607F8150B /* Pods-PearlVideo.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-PearlVideo.debug.xcconfig"; path = "Target Support Files/Pods-PearlVideo/Pods-PearlVideo.debug.xcconfig"; sourceTree = "<group>"; };
+		D3B3E5C129A02C953A874031 /* Pods_PearlVideo.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_PearlVideo.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		484DAD01224F10B4002BA454 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				3786B35F33F6D11DBE357261 /* Pods_PearlVideo.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		484DACFB224F10B4002BA454 = {
+			isa = PBXGroup;
+			children = (
+				484DAD06224F10B4002BA454 /* PearlVideo */,
+				484DAD05224F10B4002BA454 /* Products */,
+				7457E57789A11B4EB0CD7ED1 /* Pods */,
+				6DFCBF0E62A631F5DD4B9CC2 /* Frameworks */,
+			);
+			sourceTree = "<group>";
+		};
+		484DAD05224F10B4002BA454 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				484DAD04224F10B4002BA454 /* PearlVideo.app */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		484DAD06224F10B4002BA454 /* PearlVideo */ = {
+			isa = PBXGroup;
+			children = (
+				484DAD1B224F1208002BA454 /* Sections */,
+				484DAD20224F1254002BA454 /* Vendor */,
+				484DAD1F224F1247002BA454 /* Helper */,
+				484DAD1E224F123E002BA454 /* Macro */,
+				484DAD1D224F1234002BA454 /* Main */,
+				484DAD1C224F1213002BA454 /* Resource */,
+				484DAD0E224F10B5002BA454 /* Assets.xcassets */,
+				484DAD10224F10B5002BA454 /* LaunchScreen.storyboard */,
+				484DAD13224F10B5002BA454 /* Info.plist */,
+				484DAD21224F12DE002BA454 /* BridgingHeader.h */,
+			);
+			path = PearlVideo;
+			sourceTree = "<group>";
+		};
+		484DAD1B224F1208002BA454 /* Sections */ = {
+			isa = PBXGroup;
+			children = (
+				484DAD65224F1741002BA454 /* Model */,
+				484DAD46224F1741002BA454 /* Base */,
+				484DAD6A224F1741002BA454 /* Login */,
+				484DAD73224F1741002BA454 /* Home */,
+				484DADBB224F1741002BA454 /* Attention */,
+				484DAD7C224F1741002BA454 /* Play */,
+				484DAE28224F1822002BA454 /* Pearl */,
+				484DAD4E224F1741002BA454 /* Me */,
+			);
+			path = Sections;
+			sourceTree = "<group>";
+		};
+		484DAD1C224F1213002BA454 /* Resource */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Resource;
+			sourceTree = "<group>";
+		};
+		484DAD1D224F1234002BA454 /* Main */ = {
+			isa = PBXGroup;
+			children = (
+				484DAD42224F14F7002BA454 /* AppDelegateEx.swift */,
+				484DAD43224F14F7002BA454 /* PVTabBarController.swift */,
+				484DAD07224F10B4002BA454 /* AppDelegate.swift */,
+			);
+			path = Main;
+			sourceTree = "<group>";
+		};
+		484DAD1E224F123E002BA454 /* Macro */ = {
+			isa = PBXGroup;
+			children = (
+				484DAD23224F1380002BA454 /* ArgsMacro.swift */,
+				484DAD22224F1380002BA454 /* KeysMacro.swift */,
+				484DAD24224F1380002BA454 /* ToolMacro.swift */,
+			);
+			path = Macro;
+			sourceTree = "<group>";
+		};
+		484DAD1F224F1247002BA454 /* Helper */ = {
+			isa = PBXGroup;
+			children = (
+				484DAD2D224F140F002BA454 /* CustomUI */,
+				484DAD30224F140F002BA454 /* Extension */,
+				484DAD28224F140F002BA454 /* Network */,
+				484DAD33224F140F002BA454 /* Tools */,
+			);
+			path = Helper;
+			sourceTree = "<group>";
+		};
+		484DAD20224F1254002BA454 /* Vendor */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Vendor;
+			sourceTree = "<group>";
+		};
+		484DAD28224F140F002BA454 /* Network */ = {
+			isa = PBXGroup;
+			children = (
+				484DAD29224F140F002BA454 /* PVNetworkTool.swift */,
+				484DAD2A224F140F002BA454 /* PVRefresh.swift */,
+				484DAD2B224F140F002BA454 /* PVNetworkValidate.swift */,
+				484DAD2C224F140F002BA454 /* PVNetworkRouter.swift */,
+			);
+			path = Network;
+			sourceTree = "<group>";
+		};
+		484DAD2D224F140F002BA454 /* CustomUI */ = {
+			isa = PBXGroup;
+			children = (
+				484DAD2E224F140F002BA454 /* PVCustomTextField.swift */,
+				484DAD2F224F140F002BA454 /* PVCustomButton.swift */,
+				481D6651225450E900B59929 /* PVDatePickerView.swift */,
+			);
+			path = CustomUI;
+			sourceTree = "<group>";
+		};
+		484DAD30224F140F002BA454 /* Extension */ = {
+			isa = PBXGroup;
+			children = (
+				484DAD31224F140F002BA454 /* YPJTextFieldEx.swift */,
+				484DAD32224F140F002BA454 /* YPJViewEx.swift */,
+			);
+			path = Extension;
+			sourceTree = "<group>";
+		};
+		484DAD33224F140F002BA454 /* Tools */ = {
+			isa = PBXGroup;
+			children = (
+				484DAD34224F140F002BA454 /* YPJExTools.swift */,
+				484DAD35224F140F002BA454 /* YPJOtherTools.swift */,
+				484DAD36224F140F002BA454 /* GCDTools.swift */,
+			);
+			path = Tools;
+			sourceTree = "<group>";
+		};
+		484DAD46224F1741002BA454 /* Base */ = {
+			isa = PBXGroup;
+			children = (
+				484DAD47224F1741002BA454 /* PVBaseTableCell.swift */,
+				484DAD48224F1741002BA454 /* PVBaseViewController.swift */,
+				484DAD49224F1741002BA454 /* PVBaseRootNaviVC.swift */,
+				484DAD4A224F1741002BA454 /* PVNavigationBar.swift */,
+				484DAD4B224F1741002BA454 /* PVBaseWMPageVC.swift */,
+				484DAD4C224F1741002BA454 /* PVBaseModel.swift */,
+				484DAD4D224F1741002BA454 /* PVBaseNavigationVC.swift */,
+			);
+			path = Base;
+			sourceTree = "<group>";
+		};
+		484DAD4E224F1741002BA454 /* Me */ = {
+			isa = PBXGroup;
+			children = (
+				484DAD4F224F1741002BA454 /* Protocol */,
+				484DAD51224F1741002BA454 /* Controller */,
+				484DAD5C224F1741002BA454 /* View */,
+			);
+			path = Me;
+			sourceTree = "<group>";
+		};
+		484DAD4F224F1741002BA454 /* Protocol */ = {
+			isa = PBXGroup;
+			children = (
+				481F20E6225F177000331CCF /* PVUserInfoPro.swift */,
+				481C59AA22535CFB0086F616 /* PVMePro.swift */,
+				481C59B0225366210086F616 /* PVMeVCChildPro.swift */,
+				481D66592254CEA000B59929 /* PVMeSettingVCChildPro.swift */,
+				482F3C39225ADF7600FEC130 /* PVMeMessageVCChildPro.swift */,
+				482F3C43225B79B900FEC130 /* PVMeTeamVCPro.swift */,
+				483657FF225C30B700BCB2D9 /* PVMeTeamVCChildPro.swift */,
+			);
+			path = Protocol;
+			sourceTree = "<group>";
+		};
+		484DAD51224F1741002BA454 /* Controller */ = {
+			isa = PBXGroup;
+			children = (
+				481F20E2225F11A900331CCF /* PVUserInfoVC.swift */,
+				484DAD52224F1741002BA454 /* PVMeViewController.swift */,
+				481C59AC2253621F0086F616 /* PVMeVCChild.swift */,
+				481C59B222537E4B0086F616 /* PVMeAttentionVC.swift */,
+				481C59B62253882B0086F616 /* PVMeFansVC.swift */,
+				481C59B822538C4B0086F616 /* PVMeUserinfoEditVC.swift */,
+				481D66532254A02400B59929 /* PVMeSettingVC.swift */,
+				481D66572254BCC400B59929 /* PVMeSettingVCChild.swift */,
+				4821C6A222560D4F0030BF4B /* PVMeMessageVC.swift */,
+				4821C6A42256131A0030BF4B /* PVMeMessageVCChild.swift */,
+				482F3C3D225B30CC00FEC130 /* PVMeInvitationCodeVC.swift */,
+				482F3C41225B716800FEC130 /* PVMeTeamVC.swift */,
+				483657FD225C2EFC00BCB2D9 /* PVMeTeamVCChild.swift */,
+			);
+			path = Controller;
+			sourceTree = "<group>";
+		};
+		484DAD5C224F1741002BA454 /* View */ = {
+			isa = PBXGroup;
+			children = (
+				481F20E4225F159900331CCF /* PVUserInfoView.swift */,
+				481C59A8225342220086F616 /* PVMeHeaderView.swift */,
+				481C59AE225363AF0086F616 /* PVMeProductionCell.swift */,
+				481C59B422537F6B0086F616 /* PVMeAttentionCell.swift */,
+				481C59BA22538E570086F616 /* PVMeUserinfoEditCell.swift */,
+				481D66552254A28700B59929 /* PVMeSettingCell.swift */,
+				481D665B2254D91100B59929 /* PVMeSettingVCChildView.swift */,
+				482F3C3B225AE43F00FEC130 /* PVMeMessageVCChildView.swift */,
+				482F3C3F225B5F0900FEC130 /* PVMeInvitationBindingView.swift */,
+				48365801225C311C00BCB2D9 /* PVMeTeamVCChildView.swift */,
+			);
+			path = View;
+			sourceTree = "<group>";
+		};
+		484DAD65224F1741002BA454 /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				484DAD66224F1741002BA454 /* EipUserInfoModel.swift */,
+				484DAD67224F1741002BA454 /* EipContactModel.swift */,
+				484DAD68224F1741002BA454 /* EipMessageModel.swift */,
+				484DAD69224F1741002BA454 /* EipApplicationModel.swift */,
+			);
+			path = Model;
+			sourceTree = "<group>";
+		};
+		484DAD6A224F1741002BA454 /* Login */ = {
+			isa = PBXGroup;
+			children = (
+				484DAD6B224F1741002BA454 /* Protocol */,
+				484DAD6D224F1741002BA454 /* Controller */,
+				484DAD70224F1741002BA454 /* View */,
+			);
+			path = Login;
+			sourceTree = "<group>";
+		};
+		484DAD6B224F1741002BA454 /* Protocol */ = {
+			isa = PBXGroup;
+			children = (
+				484DAD6C224F1741002BA454 /* PVLoginPro.swift */,
+				481C599C2252EDD30086F616 /* PVLoginChildVCPro.swift */,
+			);
+			path = Protocol;
+			sourceTree = "<group>";
+		};
+		484DAD6D224F1741002BA454 /* Controller */ = {
+			isa = PBXGroup;
+			children = (
+				484DAD6E224F1741002BA454 /* PVLoginVC.swift */,
+				484DAE2C224F6DB4002BA454 /* PVLoginChildVCs.swift */,
+				481C599E225311110086F616 /* PVForgetPsdVC.swift */,
+				481C59A0225336D70086F616 /* PVAgreementWebVC.swift */,
+			);
+			path = Controller;
+			sourceTree = "<group>";
+		};
+		484DAD70224F1741002BA454 /* View */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = View;
+			sourceTree = "<group>";
+		};
+		484DAD73224F1741002BA454 /* Home */ = {
+			isa = PBXGroup;
+			children = (
+				484DAD74224F1741002BA454 /* Protocol */,
+				484DAD77224F1741002BA454 /* Controller */,
+				484DAD7A224F1741002BA454 /* View */,
+			);
+			path = Home;
+			sourceTree = "<group>";
+		};
+		484DAD74224F1741002BA454 /* Protocol */ = {
+			isa = PBXGroup;
+			children = (
+				48200A53225E1B5900D19735 /* PVHomeReportDetailPro.swift */,
+			);
+			path = Protocol;
+			sourceTree = "<group>";
+		};
+		484DAD77224F1741002BA454 /* Controller */ = {
+			isa = PBXGroup;
+			children = (
+				481C59A2225338A50086F616 /* PVHomeVC.swift */,
+				48200A4D225E0E2800D19735 /* PVHomeReportVC.swift */,
+				48200A51225E130100D19735 /* PVHomeReportDetailVC.swift */,
+			);
+			path = Controller;
+			sourceTree = "<group>";
+		};
+		484DAD7A224F1741002BA454 /* View */ = {
+			isa = PBXGroup;
+			children = (
+				48200A4F225E0EE600D19735 /* PVHomeReportCell.swift */,
+			);
+			path = View;
+			sourceTree = "<group>";
+		};
+		484DAD7C224F1741002BA454 /* Play */ = {
+			isa = PBXGroup;
+			children = (
+				484DADB5224F1741002BA454 /* Protocol */,
+				484DADB7224F1741002BA454 /* Controller */,
+				484DADB9224F1741002BA454 /* View */,
+			);
+			path = Play;
+			sourceTree = "<group>";
+		};
+		484DADB5224F1741002BA454 /* Protocol */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Protocol;
+			sourceTree = "<group>";
+		};
+		484DADB7224F1741002BA454 /* Controller */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Controller;
+			sourceTree = "<group>";
+		};
+		484DADB9224F1741002BA454 /* View */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = View;
+			sourceTree = "<group>";
+		};
+		484DADBB224F1741002BA454 /* Attention */ = {
+			isa = PBXGroup;
+			children = (
+				484DADBC224F1741002BA454 /* Protocol */,
+				484DADBF224F1741002BA454 /* Controller */,
+				484DADC3224F1741002BA454 /* View */,
+			);
+			path = Attention;
+			sourceTree = "<group>";
+		};
+		484DADBC224F1741002BA454 /* Protocol */ = {
+			isa = PBXGroup;
+			children = (
+				48365809225CA6FC00BCB2D9 /* PVAttentionDetailPro.swift */,
+				48200A4B225DF22A00D19735 /* PVAttentionCommentDetailPro.swift */,
+			);
+			path = Protocol;
+			sourceTree = "<group>";
+		};
+		484DADBF224F1741002BA454 /* Controller */ = {
+			isa = PBXGroup;
+			children = (
+				481C59A4225338CB0086F616 /* PVAttentionVC.swift */,
+				48365805225C853800BCB2D9 /* PVAttentionDetailVC.swift */,
+				48200A47225DE00300D19735 /* PVAttentionCommentDetailVC.swift */,
+			);
+			path = Controller;
+			sourceTree = "<group>";
+		};
+		484DADC3224F1741002BA454 /* View */ = {
+			isa = PBXGroup;
+			children = (
+				48365803225C74BD00BCB2D9 /* PVAttentionCell.swift */,
+				48365807225C8C4700BCB2D9 /* PVAttentionDetailViews.swift */,
+				48200A49225DE02700D19735 /* PVAttentionCommentDetailViews.swift */,
+			);
+			path = View;
+			sourceTree = "<group>";
+		};
+		484DAE28224F1822002BA454 /* Pearl */ = {
+			isa = PBXGroup;
+			children = (
+				484DAE2B224F185A002BA454 /* Protocol */,
+				484DAE2A224F1852002BA454 /* Controller */,
+				484DAE29224F1840002BA454 /* View */,
+			);
+			path = Pearl;
+			sourceTree = "<group>";
+		};
+		484DAE29224F1840002BA454 /* View */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = View;
+			sourceTree = "<group>";
+		};
+		484DAE2A224F1852002BA454 /* Controller */ = {
+			isa = PBXGroup;
+			children = (
+				481C59A6225338E70086F616 /* PVPearlVC.swift */,
+			);
+			path = Controller;
+			sourceTree = "<group>";
+		};
+		484DAE2B224F185A002BA454 /* Protocol */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Protocol;
+			sourceTree = "<group>";
+		};
+		6DFCBF0E62A631F5DD4B9CC2 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				D3B3E5C129A02C953A874031 /* Pods_PearlVideo.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		7457E57789A11B4EB0CD7ED1 /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				930A2A5820FE0D1607F8150B /* Pods-PearlVideo.debug.xcconfig */,
+				761B771C9F0CE0F909F03944 /* Pods-PearlVideo.release.xcconfig */,
+			);
+			path = Pods;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		484DAD03224F10B4002BA454 /* PearlVideo */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 484DAD16224F10B5002BA454 /* Build configuration list for PBXNativeTarget "PearlVideo" */;
+			buildPhases = (
+				6169A1F415B24AF2A26943DD /* [CP] Check Pods Manifest.lock */,
+				484DAD00224F10B4002BA454 /* Sources */,
+				484DAD01224F10B4002BA454 /* Frameworks */,
+				484DAD02224F10B4002BA454 /* Resources */,
+				E6A4157213B12214D74ADA84 /* [CP] Embed Pods Frameworks */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = PearlVideo;
+			productName = PearlVideo;
+			productReference = 484DAD04224F10B4002BA454 /* PearlVideo.app */;
+			productType = "com.apple.product-type.application";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		484DACFC224F10B4002BA454 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				LastSwiftUpdateCheck = 1010;
+				LastUpgradeCheck = 1010;
+				ORGANIZATIONNAME = equalriver;
+				TargetAttributes = {
+					484DAD03224F10B4002BA454 = {
+						CreatedOnToolsVersion = 10.1;
+					};
+				};
+			};
+			buildConfigurationList = 484DACFF224F10B4002BA454 /* Build configuration list for PBXProject "PearlVideo" */;
+			compatibilityVersion = "Xcode 9.3";
+			developmentRegion = en;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+				Base,
+			);
+			mainGroup = 484DACFB224F10B4002BA454;
+			productRefGroup = 484DAD05224F10B4002BA454 /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				484DAD03224F10B4002BA454 /* PearlVideo */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		484DAD02224F10B4002BA454 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				484DAD12224F10B5002BA454 /* LaunchScreen.storyboard in Resources */,
+				484DAD0F224F10B5002BA454 /* Assets.xcassets in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		6169A1F415B24AF2A26943DD /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-PearlVideo-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+		E6A4157213B12214D74ADA84 /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-PearlVideo/Pods-PearlVideo-frameworks.sh",
+				"${BUILT_PRODUCTS_DIR}/Alamofire/Alamofire.framework",
+				"${BUILT_PRODUCTS_DIR}/IQKeyboardManagerSwift/IQKeyboardManagerSwift.framework",
+				"${BUILT_PRODUCTS_DIR}/Kingfisher/Kingfisher.framework",
+				"${BUILT_PRODUCTS_DIR}/MJRefresh/MJRefresh.framework",
+				"${BUILT_PRODUCTS_DIR}/ObjectMapper/ObjectMapper.framework",
+				"${BUILT_PRODUCTS_DIR}/PYSearch/PYSearch.framework",
+				"${BUILT_PRODUCTS_DIR}/SVProgressHUD/SVProgressHUD.framework",
+				"${BUILT_PRODUCTS_DIR}/SnapKit/SnapKit.framework",
+				"${BUILT_PRODUCTS_DIR}/SwiftyJSON/SwiftyJSON.framework",
+				"${BUILT_PRODUCTS_DIR}/TZImagePickerController/TZImagePickerController.framework",
+				"${BUILT_PRODUCTS_DIR}/Toast-Swift/Toast_Swift.framework",
+				"${BUILT_PRODUCTS_DIR}/UITableView+FDTemplateLayoutCell/UITableView_FDTemplateLayoutCell.framework",
+				"${BUILT_PRODUCTS_DIR}/WMPageController/WMPageController.framework",
+				"${BUILT_PRODUCTS_DIR}/YYKit/YYKit.framework",
+				"${BUILT_PRODUCTS_DIR}/lottie-ios/Lottie.framework",
+				"${BUILT_PRODUCTS_DIR}/pop/pop.framework",
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Alamofire.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/IQKeyboardManagerSwift.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Kingfisher.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/MJRefresh.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/ObjectMapper.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/PYSearch.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SVProgressHUD.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SnapKit.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SwiftyJSON.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/TZImagePickerController.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Toast_Swift.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/UITableView_FDTemplateLayoutCell.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/WMPageController.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/YYKit.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Lottie.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/pop.framework",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-PearlVideo/Pods-PearlVideo-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+/* End PBXShellScriptBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		484DAD00224F10B4002BA454 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				48365800225C30B700BCB2D9 /* PVMeTeamVCChildPro.swift in Sources */,
+				482F3C42225B716800FEC130 /* PVMeTeamVC.swift in Sources */,
+				484DADCA224F1741002BA454 /* PVBaseModel.swift in Sources */,
+				481C59A3225338A50086F616 /* PVHomeVC.swift in Sources */,
+				481D66582254BCC400B59929 /* PVMeSettingVCChild.swift in Sources */,
+				48200A4C225DF22A00D19735 /* PVAttentionCommentDetailPro.swift in Sources */,
+				481C59A9225342220086F616 /* PVMeHeaderView.swift in Sources */,
+				481C599F225311110086F616 /* PVForgetPsdVC.swift in Sources */,
+				481C59AF225363AF0086F616 /* PVMeProductionCell.swift in Sources */,
+				481C59AD2253621F0086F616 /* PVMeVCChild.swift in Sources */,
+				484DAD25224F1380002BA454 /* KeysMacro.swift in Sources */,
+				48365804225C74BD00BCB2D9 /* PVAttentionCell.swift in Sources */,
+				484DADE3224F1741002BA454 /* PVLoginPro.swift in Sources */,
+				481C59A5225338CB0086F616 /* PVAttentionVC.swift in Sources */,
+				484DADE1224F1741002BA454 /* EipMessageModel.swift in Sources */,
+				484DAD3C224F140F002BA454 /* PVCustomButton.swift in Sources */,
+				481D66542254A02400B59929 /* PVMeSettingVC.swift in Sources */,
+				481D665C2254D91100B59929 /* PVMeSettingVCChildView.swift in Sources */,
+				484DAD37224F140F002BA454 /* PVNetworkTool.swift in Sources */,
+				481C59A7225338E70086F616 /* PVPearlVC.swift in Sources */,
+				481C59A1225336D70086F616 /* PVAgreementWebVC.swift in Sources */,
+				484DAD3D224F140F002BA454 /* YPJTextFieldEx.swift in Sources */,
+				481C59B322537E4B0086F616 /* PVMeAttentionVC.swift in Sources */,
+				484DADC5224F1741002BA454 /* PVBaseTableCell.swift in Sources */,
+				481C59B1225366210086F616 /* PVMeVCChildPro.swift in Sources */,
+				481F20E3225F11A900331CCF /* PVUserInfoVC.swift in Sources */,
+				48200A54225E1B5900D19735 /* PVHomeReportDetailPro.swift in Sources */,
+				48365808225C8C4700BCB2D9 /* PVAttentionDetailViews.swift in Sources */,
+				481D665A2254CEA000B59929 /* PVMeSettingVCChildPro.swift in Sources */,
+				484DAD40224F140F002BA454 /* YPJOtherTools.swift in Sources */,
+				484DAD3B224F140F002BA454 /* PVCustomTextField.swift in Sources */,
+				48365802225C311C00BCB2D9 /* PVMeTeamVCChildView.swift in Sources */,
+				482F3C3E225B30CC00FEC130 /* PVMeInvitationCodeVC.swift in Sources */,
+				481D6652225450E900B59929 /* PVDatePickerView.swift in Sources */,
+				48200A50225E0EE600D19735 /* PVHomeReportCell.swift in Sources */,
+				481C599D2252EDD30086F616 /* PVLoginChildVCPro.swift in Sources */,
+				4821C6A322560D4F0030BF4B /* PVMeMessageVC.swift in Sources */,
+				481C59B522537F6B0086F616 /* PVMeAttentionCell.swift in Sources */,
+				482F3C40225B5F0900FEC130 /* PVMeInvitationBindingView.swift in Sources */,
+				484DADE2224F1741002BA454 /* EipApplicationModel.swift in Sources */,
+				481C59B922538C4B0086F616 /* PVMeUserinfoEditVC.swift in Sources */,
+				484DAD45224F14F7002BA454 /* PVTabBarController.swift in Sources */,
+				484DADC8224F1741002BA454 /* PVNavigationBar.swift in Sources */,
+				4836580A225CA6FC00BCB2D9 /* PVAttentionDetailPro.swift in Sources */,
+				482F3C3C225AE43F00FEC130 /* PVMeMessageVCChildView.swift in Sources */,
+				484DADE0224F1741002BA454 /* EipContactModel.swift in Sources */,
+				484DAD3E224F140F002BA454 /* YPJViewEx.swift in Sources */,
+				484DAD44224F14F7002BA454 /* AppDelegateEx.swift in Sources */,
+				484DADC7224F1741002BA454 /* PVBaseRootNaviVC.swift in Sources */,
+				481F20E7225F177000331CCF /* PVUserInfoPro.swift in Sources */,
+				484DAD41224F140F002BA454 /* GCDTools.swift in Sources */,
+				484DAD3A224F140F002BA454 /* PVNetworkRouter.swift in Sources */,
+				481D66562254A28700B59929 /* PVMeSettingCell.swift in Sources */,
+				484DAD39224F140F002BA454 /* PVNetworkValidate.swift in Sources */,
+				481F20E5225F159900331CCF /* PVUserInfoView.swift in Sources */,
+				484DADC9224F1741002BA454 /* PVBaseWMPageVC.swift in Sources */,
+				48365806225C853800BCB2D9 /* PVAttentionDetailVC.swift in Sources */,
+				484DADC6224F1741002BA454 /* PVBaseViewController.swift in Sources */,
+				48200A52225E130100D19735 /* PVHomeReportDetailVC.swift in Sources */,
+				484DAD38224F140F002BA454 /* PVRefresh.swift in Sources */,
+				484DAD08224F10B4002BA454 /* AppDelegate.swift in Sources */,
+				48200A48225DE00300D19735 /* PVAttentionCommentDetailVC.swift in Sources */,
+				484DAD27224F1380002BA454 /* ToolMacro.swift in Sources */,
+				48200A4A225DE02700D19735 /* PVAttentionCommentDetailViews.swift in Sources */,
+				4821C6A52256131A0030BF4B /* PVMeMessageVCChild.swift in Sources */,
+				483657FE225C2EFC00BCB2D9 /* PVMeTeamVCChild.swift in Sources */,
+				484DAE2D224F6DB4002BA454 /* PVLoginChildVCs.swift in Sources */,
+				481C59AB22535CFB0086F616 /* PVMePro.swift in Sources */,
+				484DAD26224F1380002BA454 /* ArgsMacro.swift in Sources */,
+				48200A4E225E0E2800D19735 /* PVHomeReportVC.swift in Sources */,
+				484DADDF224F1741002BA454 /* EipUserInfoModel.swift in Sources */,
+				484DADE4224F1741002BA454 /* PVLoginVC.swift in Sources */,
+				482F3C44225B79B900FEC130 /* PVMeTeamVCPro.swift in Sources */,
+				484DADCB224F1741002BA454 /* PVBaseNavigationVC.swift in Sources */,
+				482F3C3A225ADF7600FEC130 /* PVMeMessageVCChildPro.swift in Sources */,
+				484DAD3F224F140F002BA454 /* YPJExTools.swift in Sources */,
+				481C59B72253882B0086F616 /* PVMeFansVC.swift in Sources */,
+				481C59BB22538E570086F616 /* PVMeUserinfoEditCell.swift in Sources */,
+				484DADCD224F1741002BA454 /* PVMeViewController.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXVariantGroup section */
+		484DAD10224F10B5002BA454 /* LaunchScreen.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				484DAD11224F10B5002BA454 /* Base */,
+			);
+			name = LaunchScreen.storyboard;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
+
+/* Begin XCBuildConfiguration section */
+		484DAD14224F10B5002BA454 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 12.1;
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				MTL_FAST_MATH = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = iphoneos;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+			};
+			name = Debug;
+		};
+		484DAD15224F10B5002BA454 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 12.1;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				MTL_FAST_MATH = YES;
+				SDKROOT = iphoneos;
+				SWIFT_COMPILATION_MODE = wholemodule;
+				SWIFT_OPTIMIZATION_LEVEL = "-O";
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		484DAD17224F10B5002BA454 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 930A2A5820FE0D1607F8150B /* Pods-PearlVideo.debug.xcconfig */;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = 5D56L9247R;
+				INFOPLIST_FILE = PearlVideo/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.lzmingsi.PearlVideo;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_OBJC_BRIDGING_HEADER = "$(SRCROOT)/PearlVideo/BridgingHeader.h";
+				SWIFT_VERSION = 4.2;
+				TARGETED_DEVICE_FAMILY = 1;
+			};
+			name = Debug;
+		};
+		484DAD18224F10B5002BA454 /* Release */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 761B771C9F0CE0F909F03944 /* Pods-PearlVideo.release.xcconfig */;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = 5D56L9247R;
+				INFOPLIST_FILE = PearlVideo/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.lzmingsi.PearlVideo;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_OBJC_BRIDGING_HEADER = "$(SRCROOT)/PearlVideo/BridgingHeader.h";
+				SWIFT_VERSION = 4.2;
+				TARGETED_DEVICE_FAMILY = 1;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		484DACFF224F10B4002BA454 /* Build configuration list for PBXProject "PearlVideo" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				484DAD14224F10B5002BA454 /* Debug */,
+				484DAD15224F10B5002BA454 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		484DAD16224F10B5002BA454 /* Build configuration list for PBXNativeTarget "PearlVideo" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				484DAD17224F10B5002BA454 /* Debug */,
+				484DAD18224F10B5002BA454 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = 484DACFC224F10B4002BA454 /* Project object */;
+}
