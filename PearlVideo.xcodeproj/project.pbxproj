@@ -33,6 +33,9 @@
 		481F20E3225F11A900331CCF /* PVUserInfoVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 481F20E2225F11A900331CCF /* PVUserInfoVC.swift */; };
 		481F20E5225F159900331CCF /* PVUserInfoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 481F20E4225F159900331CCF /* PVUserInfoView.swift */; };
 		481F20E7225F177000331CCF /* PVUserInfoPro.swift in Sources */ = {isa = PBXBuildFile; fileRef = 481F20E6225F177000331CCF /* PVUserInfoPro.swift */; };
+		481F20E9225F270600331CCF /* PVHomeViews.swift in Sources */ = {isa = PBXBuildFile; fileRef = 481F20E8225F270600331CCF /* PVHomeViews.swift */; };
+		481F20EB225F350800331CCF /* PVHomePro.swift in Sources */ = {isa = PBXBuildFile; fileRef = 481F20EA225F350800331CCF /* PVHomePro.swift */; };
+		481F20ED225F416F00331CCF /* PVHomeCommentPro.swift in Sources */ = {isa = PBXBuildFile; fileRef = 481F20EC225F416F00331CCF /* PVHomeCommentPro.swift */; };
 		48200A48225DE00300D19735 /* PVAttentionCommentDetailVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48200A47225DE00300D19735 /* PVAttentionCommentDetailVC.swift */; };
 		48200A4A225DE02700D19735 /* PVAttentionCommentDetailViews.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48200A49225DE02700D19735 /* PVAttentionCommentDetailViews.swift */; };
 		48200A4C225DF22A00D19735 /* PVAttentionCommentDetailPro.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48200A4B225DF22A00D19735 /* PVAttentionCommentDetailPro.swift */; };
@@ -117,6 +120,9 @@
 		481F20E2225F11A900331CCF /* PVUserInfoVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PVUserInfoVC.swift; sourceTree = "<group>"; };
 		481F20E4225F159900331CCF /* PVUserInfoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PVUserInfoView.swift; sourceTree = "<group>"; };
 		481F20E6225F177000331CCF /* PVUserInfoPro.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PVUserInfoPro.swift; sourceTree = "<group>"; };
+		481F20E8225F270600331CCF /* PVHomeViews.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PVHomeViews.swift; sourceTree = "<group>"; };
+		481F20EA225F350800331CCF /* PVHomePro.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PVHomePro.swift; sourceTree = "<group>"; };
+		481F20EC225F416F00331CCF /* PVHomeCommentPro.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PVHomeCommentPro.swift; sourceTree = "<group>"; };
 		48200A47225DE00300D19735 /* PVAttentionCommentDetailVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PVAttentionCommentDetailVC.swift; sourceTree = "<group>"; };
 		48200A49225DE02700D19735 /* PVAttentionCommentDetailViews.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PVAttentionCommentDetailViews.swift; sourceTree = "<group>"; };
 		48200A4B225DF22A00D19735 /* PVAttentionCommentDetailPro.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PVAttentionCommentDetailPro.swift; sourceTree = "<group>"; };
@@ -464,6 +470,8 @@
 		484DAD74224F1741002BA454 /* Protocol */ = {
 			isa = PBXGroup;
 			children = (
+				481F20EA225F350800331CCF /* PVHomePro.swift */,
+				481F20EC225F416F00331CCF /* PVHomeCommentPro.swift */,
 				48200A53225E1B5900D19735 /* PVHomeReportDetailPro.swift */,
 			);
 			path = Protocol;
@@ -482,6 +490,7 @@
 		484DAD7A224F1741002BA454 /* View */ = {
 			isa = PBXGroup;
 			children = (
+				481F20E8225F270600331CCF /* PVHomeViews.swift */,
 				48200A4F225E0EE600D19735 /* PVHomeReportCell.swift */,
 			);
 			path = View;
@@ -803,6 +812,7 @@
 				484DADE0224F1741002BA454 /* EipContactModel.swift in Sources */,
 				484DAD3E224F140F002BA454 /* YPJViewEx.swift in Sources */,
 				484DAD44224F14F7002BA454 /* AppDelegateEx.swift in Sources */,
+				481F20ED225F416F00331CCF /* PVHomeCommentPro.swift in Sources */,
 				484DADC7224F1741002BA454 /* PVBaseRootNaviVC.swift in Sources */,
 				481F20E7225F177000331CCF /* PVUserInfoPro.swift in Sources */,
 				484DAD41224F140F002BA454 /* GCDTools.swift in Sources */,
@@ -812,6 +822,7 @@
 				481F20E5225F159900331CCF /* PVUserInfoView.swift in Sources */,
 				484DADC9224F1741002BA454 /* PVBaseWMPageVC.swift in Sources */,
 				48365806225C853800BCB2D9 /* PVAttentionDetailVC.swift in Sources */,
+				481F20E9225F270600331CCF /* PVHomeViews.swift in Sources */,
 				484DADC6224F1741002BA454 /* PVBaseViewController.swift in Sources */,
 				48200A52225E130100D19735 /* PVHomeReportDetailVC.swift in Sources */,
 				484DAD38224F140F002BA454 /* PVRefresh.swift in Sources */,
@@ -831,6 +842,7 @@
 				484DADCB224F1741002BA454 /* PVBaseNavigationVC.swift in Sources */,
 				482F3C3A225ADF7600FEC130 /* PVMeMessageVCChildPro.swift in Sources */,
 				484DAD3F224F140F002BA454 /* YPJExTools.swift in Sources */,
+				481F20EB225F350800331CCF /* PVHomePro.swift in Sources */,
 				481C59B72253882B0086F616 /* PVMeFansVC.swift in Sources */,
 				481C59BB22538E570086F616 /* PVMeUserinfoEditCell.swift in Sources */,
 				484DADCD224F1741002BA454 /* PVMeViewController.swift in Sources */,

@@ -124,6 +124,7 @@ class PVAttentionCommentDetailHeaderView: UIView {
 
 //MARK: - cell
 protocol PVAttentionCommentDetailDelegate: NSObjectProtocol {
+    func didSelectedHeader(cell: PVAttentionCommentDetailCell)
     func didSelectedLike(cell: PVAttentionCommentDetailCell, sender: UIButton)
 }
 
@@ -138,6 +139,9 @@ class PVAttentionCommentDetailCell: PVBaseTableCell {
         iv.contentMode = .scaleAspectFill
         let rect = CGRect.init(x: 0, y: 0, width: 40 * KScreenRatio_6, height: 40 * KScreenRatio_6)
         iv.ypj.addCornerShape(rect: rect, cornerRadius: rect.height / 2, fillColor: UIColor.white)
+        iv.isUserInteractionEnabled = true
+        let tap = UITapGestureRecognizer.init(target: self, action: #selector(headerTap))
+        iv.addGestureRecognizer(tap)
         return iv
     }()
     lazy var nameLabel: UILabel = {
@@ -240,6 +244,10 @@ class PVAttentionCommentDetailCell: PVBaseTableCell {
         contentLabel.text = nil
         dateLabel.text = nil
         likeBtn.setTitle(nil, for: .normal)
+    }
+    
+    @objc func headerTap() {
+        delegate?.didSelectedHeader(cell: self)
     }
     
     @objc func likeAction(sender: UIButton) {

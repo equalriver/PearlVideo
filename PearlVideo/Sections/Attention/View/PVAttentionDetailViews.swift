@@ -106,6 +106,7 @@ class PVAttentionDetailNaviBar: UIView {
 
 //MARK: - 关注详情主页
 protocol PVAttentionDetailMainViewDelegate: NSObjectProtocol {
+    ///点击头像
     func didClickHeader()
 }
 class PVAttentionDetailMainView: UIScrollView {

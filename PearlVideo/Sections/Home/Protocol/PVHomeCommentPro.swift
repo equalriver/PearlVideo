@@ -1,24 +1,32 @@
 //
-//  PVAttentionCommentDetailPro.swift
+//  PVHomeCommentPro.swift
 //  PearlVideo
 //
-//  Created by equalriver on 2019/4/10.
+//  Created by equalriver on 2019/4/11.
 //  Copyright © 2019 equalriver. All rights reserved.
 //
 
-
-//MARK: - aciton
-extension PVAttentionCommentDetailVC {
+extension PVHomeCommentView {
     
-    @objc func dismissAction(sender: UIButton) {
+    @objc func closeAction(sender: UIButton) {
         if commentInputView.inputTV.isFirstResponder {
-            view.endEditing(true)
+            endEditing(true)
             DispatchQueue.main.asyncAfter(deadline: .now() + 0.25) {
-                self.dismiss(animated: true, completion: nil)
+                self.ypj.viewAnimateDismissFromBottom(duration: 0.3, completion: { (isFinish) in
+                    if isFinish {
+                        self.isHidden = true
+                        self.delegate?.didSelectedClose()
+                    }
+                })
             }
             return
         }
-        dismiss(animated: true, completion: nil)
+        self.ypj.viewAnimateDismissFromBottom(duration: 0.3, completion: { (isFinish) in
+            if isFinish {
+                self.isHidden = true
+                self.delegate?.didSelectedClose()
+            }
+        })
     }
     
 }
@@ -26,7 +34,7 @@ extension PVAttentionCommentDetailVC {
 
 
 //MARK: - table view delegate
-extension PVAttentionCommentDetailVC: UITableViewDataSource, UITableViewDelegate {
+extension PVHomeCommentView: UITableViewDataSource, UITableViewDelegate {
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return 0
@@ -48,7 +56,7 @@ extension PVAttentionCommentDetailVC: UITableViewDataSource, UITableViewDelegate
 }
 
 //MARK: - header delegate
-extension PVAttentionCommentDetailVC: PVAttentionCommentDetailHeaderDelegate {
+extension PVHomeCommentView: PVAttentionCommentDetailHeaderDelegate {
     
     func didSelectedLike(sender: UIButton) {
         
@@ -57,7 +65,7 @@ extension PVAttentionCommentDetailVC: PVAttentionCommentDetailHeaderDelegate {
 }
 
 //MARK: - cell delegate
-extension PVAttentionCommentDetailVC: PVAttentionCommentDetailDelegate {
+extension PVHomeCommentView: PVAttentionCommentDetailDelegate {
     
     func didSelectedHeader(cell: PVAttentionCommentDetailCell) {
         
@@ -70,7 +78,7 @@ extension PVAttentionCommentDetailVC: PVAttentionCommentDetailDelegate {
 }
 
 //MARK: - input view delegate
-extension PVAttentionCommentDetailVC: YYTextViewDelegate {
+extension PVHomeCommentView: YYTextViewDelegate {
     
     func textViewDidChange(_ textView: YYTextView) {
         if textView.contentSize.height > textView.height && textView.contentSize.height <= 80 {
@@ -81,7 +89,7 @@ extension PVAttentionCommentDetailVC: YYTextViewDelegate {
     }
     
 }
-extension PVAttentionCommentDetailVC: PVAttentionDetailCommentInputViewDelegate {
+extension PVHomeCommentView: PVAttentionDetailCommentInputViewDelegate {
     
     func didSelectedDone(textView: YYTextView) {
         UIView.animate(withDuration: 0.25) {
