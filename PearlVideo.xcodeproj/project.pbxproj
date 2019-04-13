@@ -45,6 +45,8 @@
 		48200A54225E1B5900D19735 /* PVHomeReportDetailPro.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48200A53225E1B5900D19735 /* PVHomeReportDetailPro.swift */; };
 		4821C6A322560D4F0030BF4B /* PVMeMessageVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4821C6A222560D4F0030BF4B /* PVMeMessageVC.swift */; };
 		4821C6A52256131A0030BF4B /* PVMeMessageVCChild.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4821C6A42256131A0030BF4B /* PVMeMessageVCChild.swift */; };
+		48283CD122602C5800CBE8CD /* pearl.gif in Resources */ = {isa = PBXBuildFile; fileRef = 48283CD022602C5800CBE8CD /* pearl.gif */; };
+		48283CD322602F4E00CBE8CD /* PVPearlViews.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48283CD222602F4E00CBE8CD /* PVPearlViews.swift */; };
 		482F3C3A225ADF7600FEC130 /* PVMeMessageVCChildPro.swift in Sources */ = {isa = PBXBuildFile; fileRef = 482F3C39225ADF7600FEC130 /* PVMeMessageVCChildPro.swift */; };
 		482F3C3C225AE43F00FEC130 /* PVMeMessageVCChildView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 482F3C3B225AE43F00FEC130 /* PVMeMessageVCChildView.swift */; };
 		482F3C3E225B30CC00FEC130 /* PVMeInvitationCodeVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 482F3C3D225B30CC00FEC130 /* PVMeInvitationCodeVC.swift */; };
@@ -132,6 +134,8 @@
 		48200A53225E1B5900D19735 /* PVHomeReportDetailPro.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PVHomeReportDetailPro.swift; sourceTree = "<group>"; };
 		4821C6A222560D4F0030BF4B /* PVMeMessageVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PVMeMessageVC.swift; sourceTree = "<group>"; };
 		4821C6A42256131A0030BF4B /* PVMeMessageVCChild.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PVMeMessageVCChild.swift; sourceTree = "<group>"; };
+		48283CD022602C5800CBE8CD /* pearl.gif */ = {isa = PBXFileReference; lastKnownFileType = image.gif; path = pearl.gif; sourceTree = "<group>"; };
+		48283CD222602F4E00CBE8CD /* PVPearlViews.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PVPearlViews.swift; sourceTree = "<group>"; };
 		482F3C39225ADF7600FEC130 /* PVMeMessageVCChildPro.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PVMeMessageVCChildPro.swift; sourceTree = "<group>"; };
 		482F3C3B225AE43F00FEC130 /* PVMeMessageVCChildView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PVMeMessageVCChildView.swift; sourceTree = "<group>"; };
 		482F3C3D225B30CC00FEC130 /* PVMeInvitationCodeVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PVMeInvitationCodeVC.swift; sourceTree = "<group>"; };
@@ -252,6 +256,7 @@
 		484DAD1C224F1213002BA454 /* Resource */ = {
 			isa = PBXGroup;
 			children = (
+				48283CD022602C5800CBE8CD /* pearl.gif */,
 			);
 			path = Resource;
 			sourceTree = "<group>";
@@ -579,6 +584,7 @@
 		484DAE29224F1840002BA454 /* View */ = {
 			isa = PBXGroup;
 			children = (
+				48283CD222602F4E00CBE8CD /* PVPearlViews.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -677,6 +683,7 @@
 			files = (
 				484DAD12224F10B5002BA454 /* LaunchScreen.storyboard in Resources */,
 				484DAD0F224F10B5002BA454 /* Assets.xcassets in Resources */,
+				48283CD122602C5800CBE8CD /* pearl.gif in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -790,6 +797,7 @@
 				484DADC5224F1741002BA454 /* PVBaseTableCell.swift in Sources */,
 				481C59B1225366210086F616 /* PVMeVCChildPro.swift in Sources */,
 				481F20E3225F11A900331CCF /* PVUserInfoVC.swift in Sources */,
+				48283CD322602F4E00CBE8CD /* PVPearlViews.swift in Sources */,
 				48200A54225E1B5900D19735 /* PVHomeReportDetailPro.swift in Sources */,
 				48365808225C8C4700BCB2D9 /* PVAttentionDetailViews.swift in Sources */,
 				481D665A2254CEA000B59929 /* PVMeSettingVCChildPro.swift in Sources */,

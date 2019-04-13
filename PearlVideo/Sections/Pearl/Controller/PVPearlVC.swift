@@ -9,6 +9,9 @@
 import UIKit
 
 class PVPearlVC: PVBaseNavigationVC {
+    
+    
+    
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -16,14 +19,5 @@ class PVPearlVC: PVBaseNavigationVC {
         
     }
     
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
-        YPJOtherTool.ypj.loginValidate(currentVC: self) { (isFinish) in
-            if isFinish {
-                
-            }
-        }
-    }
-   
 
 }
