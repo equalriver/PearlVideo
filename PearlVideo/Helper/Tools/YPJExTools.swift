@@ -31,8 +31,19 @@ extension UIView: YPJToolable {
 
 extension YPJViewTools where YPJToolType == UIView {
     
-    //MARK: - 添加圆形shape layer
-    ///添加圆形shape layer
+    //MARK: - 设置圆角mask
+    ///设置圆角mask
+    func makeViewRoundingMask(roundedRect: CGRect, corners: UIRectCorner, cornerRadii: CGSize) {
+        let p = UIBezierPath.init(roundedRect: roundedRect, byRoundingCorners: corners, cornerRadii: cornerRadii)
+        let l = CAShapeLayer()
+        l.frame = roundedRect
+        l.path = p.cgPath
+        ypj.layer.mask = l
+    }
+    
+    
+    //MARK: - 添加圆角sublayer层
+    ///添加圆角sublayer层
     func addCornerShape(rect: CGRect, cornerRadius: CGFloat, fillColor: UIColor) {
         let p = UIBezierPath()
         

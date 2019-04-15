@@ -21,7 +21,7 @@ class PVAttentionCommentDetailHeaderView: UIView {
         let iv = UIImageView()
         iv.contentMode = .scaleAspectFill
         let rect = CGRect.init(x: 0, y: 0, width: 40 * KScreenRatio_6, height: 40 * KScreenRatio_6)
-        iv.ypj.addCornerShape(rect: rect, cornerRadius: rect.height / 2, fillColor: UIColor.white)
+        iv.ypj.makeViewRoundingMask(roundedRect: rect, corners: UIRectCorner.allCorners, cornerRadii: CGSize.init(width: rect.height / 2, height: rect.height / 2))
         return iv
     }()
     lazy var nameLabel: UILabel = {
@@ -138,7 +138,7 @@ class PVAttentionCommentDetailCell: PVBaseTableCell {
         let iv = UIImageView()
         iv.contentMode = .scaleAspectFill
         let rect = CGRect.init(x: 0, y: 0, width: 40 * KScreenRatio_6, height: 40 * KScreenRatio_6)
-        iv.ypj.addCornerShape(rect: rect, cornerRadius: rect.height / 2, fillColor: UIColor.white)
+        iv.ypj.makeViewRoundingMask(roundedRect: rect, corners: UIRectCorner.allCorners, cornerRadii: CGSize.init(width: rect.height / 2, height: rect.height / 2))
         iv.isUserInteractionEnabled = true
         let tap = UITapGestureRecognizer.init(target: self, action: #selector(headerTap))
         iv.addGestureRecognizer(tap)

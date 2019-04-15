@@ -36,6 +36,17 @@
 		481F20E9225F270600331CCF /* PVHomeViews.swift in Sources */ = {isa = PBXBuildFile; fileRef = 481F20E8225F270600331CCF /* PVHomeViews.swift */; };
 		481F20EB225F350800331CCF /* PVHomePro.swift in Sources */ = {isa = PBXBuildFile; fileRef = 481F20EA225F350800331CCF /* PVHomePro.swift */; };
 		481F20ED225F416F00331CCF /* PVHomeCommentPro.swift in Sources */ = {isa = PBXBuildFile; fileRef = 481F20EC225F416F00331CCF /* PVHomeCommentPro.swift */; };
+		481F802B2261802B00C20CB1 /* PVPearlPro.swift in Sources */ = {isa = PBXBuildFile; fileRef = 481F802A2261802B00C20CB1 /* PVPearlPro.swift */; };
+		481F802D2261872A00C20CB1 /* PVPearlPearlDetailVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 481F802C2261872900C20CB1 /* PVPearlPearlDetailVC.swift */; };
+		481F802F22618E0100C20CB1 /* PVPearlPearlDetailCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 481F802E22618E0100C20CB1 /* PVPearlPearlDetailCell.swift */; };
+		481F8031226190D500C20CB1 /* PVPearlPlantDetailVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 481F8030226190D500C20CB1 /* PVPearlPlantDetailVC.swift */; };
+		481F80332261934D00C20CB1 /* PVPearlUserLevelVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 481F80322261934D00C20CB1 /* PVPearlUserLevelVC.swift */; };
+		481F80352261C65B00C20CB1 /* PVPearlUserLevelCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 481F80342261C65B00C20CB1 /* PVPearlUserLevelCell.swift */; };
+		481F80372261D0B600C20CB1 /* PVPearlShellLevelVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 481F80362261D0B600C20CB1 /* PVPearlShellLevelVC.swift */; };
+		481F80392261DCE600C20CB1 /* PVPearlMarketVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 481F80382261DCE600C20CB1 /* PVPearlMarketVC.swift */; };
+		481F803B2261E8DF00C20CB1 /* PVPearlMarketChildVCs.swift in Sources */ = {isa = PBXBuildFile; fileRef = 481F803A2261E8DF00C20CB1 /* PVPearlMarketChildVCs.swift */; };
+		481F803D2261EB1200C20CB1 /* PVPearlMarketChildViews.swift in Sources */ = {isa = PBXBuildFile; fileRef = 481F803C2261EB1200C20CB1 /* PVPearlMarketChildViews.swift */; };
+		481F803F2261EB7900C20CB1 /* PVPearlMarketChildPro.swift in Sources */ = {isa = PBXBuildFile; fileRef = 481F803E2261EB7900C20CB1 /* PVPearlMarketChildPro.swift */; };
 		48200A48225DE00300D19735 /* PVAttentionCommentDetailVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48200A47225DE00300D19735 /* PVAttentionCommentDetailVC.swift */; };
 		48200A4A225DE02700D19735 /* PVAttentionCommentDetailViews.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48200A49225DE02700D19735 /* PVAttentionCommentDetailViews.swift */; };
 		48200A4C225DF22A00D19735 /* PVAttentionCommentDetailPro.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48200A4B225DF22A00D19735 /* PVAttentionCommentDetailPro.swift */; };
@@ -45,6 +56,14 @@
 		48200A54225E1B5900D19735 /* PVHomeReportDetailPro.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48200A53225E1B5900D19735 /* PVHomeReportDetailPro.swift */; };
 		4821C6A322560D4F0030BF4B /* PVMeMessageVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4821C6A222560D4F0030BF4B /* PVMeMessageVC.swift */; };
 		4821C6A52256131A0030BF4B /* PVMeMessageVCChild.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4821C6A42256131A0030BF4B /* PVMeMessageVCChild.swift */; };
+		482290A12264318C00870988 /* PVPearlSendBillVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 482290A02264318C00870988 /* PVPearlSendBillVC.swift */; };
+		482290A3226450CE00870988 /* PVPearlSendBillCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 482290A2226450CE00870988 /* PVPearlSendBillCell.swift */; };
+		482290A5226461BC00870988 /* PVPearlDealRecordVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 482290A4226461BC00870988 /* PVPearlDealRecordVC.swift */; };
+		482290A72264630D00870988 /* PVPearlDealRecordChildVCs.swift in Sources */ = {isa = PBXBuildFile; fileRef = 482290A62264630D00870988 /* PVPearlDealRecordChildVCs.swift */; };
+		482290A92264641200870988 /* PVPearlDealRecordChildViews.swift in Sources */ = {isa = PBXBuildFile; fileRef = 482290A82264641200870988 /* PVPearlDealRecordChildViews.swift */; };
+		482290AB2264746600870988 /* PVPearlDealRecordChildPro.swift in Sources */ = {isa = PBXBuildFile; fileRef = 482290AA2264746600870988 /* PVPearlDealRecordChildPro.swift */; };
+		482290AD2264792200870988 /* PVPearlOrderDetailVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 482290AC2264792200870988 /* PVPearlOrderDetailVC.swift */; };
+		482290AF22647DDE00870988 /* PVPearlOrderDetailViews.swift in Sources */ = {isa = PBXBuildFile; fileRef = 482290AE22647DDE00870988 /* PVPearlOrderDetailViews.swift */; };
 		48283CD122602C5800CBE8CD /* pearl.gif in Resources */ = {isa = PBXBuildFile; fileRef = 48283CD022602C5800CBE8CD /* pearl.gif */; };
 		48283CD322602F4E00CBE8CD /* PVPearlViews.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48283CD222602F4E00CBE8CD /* PVPearlViews.swift */; };
 		482F3C3A225ADF7600FEC130 /* PVMeMessageVCChildPro.swift in Sources */ = {isa = PBXBuildFile; fileRef = 482F3C39225ADF7600FEC130 /* PVMeMessageVCChildPro.swift */; };
@@ -125,6 +144,17 @@
 		481F20E8225F270600331CCF /* PVHomeViews.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PVHomeViews.swift; sourceTree = "<group>"; };
 		481F20EA225F350800331CCF /* PVHomePro.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PVHomePro.swift; sourceTree = "<group>"; };
 		481F20EC225F416F00331CCF /* PVHomeCommentPro.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PVHomeCommentPro.swift; sourceTree = "<group>"; };
+		481F802A2261802B00C20CB1 /* PVPearlPro.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PVPearlPro.swift; sourceTree = "<group>"; };
+		481F802C2261872900C20CB1 /* PVPearlPearlDetailVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PVPearlPearlDetailVC.swift; sourceTree = "<group>"; };
+		481F802E22618E0100C20CB1 /* PVPearlPearlDetailCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PVPearlPearlDetailCell.swift; sourceTree = "<group>"; };
+		481F8030226190D500C20CB1 /* PVPearlPlantDetailVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PVPearlPlantDetailVC.swift; sourceTree = "<group>"; };
+		481F80322261934D00C20CB1 /* PVPearlUserLevelVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PVPearlUserLevelVC.swift; sourceTree = "<group>"; };
+		481F80342261C65B00C20CB1 /* PVPearlUserLevelCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PVPearlUserLevelCell.swift; sourceTree = "<group>"; };
+		481F80362261D0B600C20CB1 /* PVPearlShellLevelVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PVPearlShellLevelVC.swift; sourceTree = "<group>"; };
+		481F80382261DCE600C20CB1 /* PVPearlMarketVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PVPearlMarketVC.swift; sourceTree = "<group>"; };
+		481F803A2261E8DF00C20CB1 /* PVPearlMarketChildVCs.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PVPearlMarketChildVCs.swift; sourceTree = "<group>"; };
+		481F803C2261EB1200C20CB1 /* PVPearlMarketChildViews.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PVPearlMarketChildViews.swift; sourceTree = "<group>"; };
+		481F803E2261EB7900C20CB1 /* PVPearlMarketChildPro.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PVPearlMarketChildPro.swift; sourceTree = "<group>"; };
 		48200A47225DE00300D19735 /* PVAttentionCommentDetailVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PVAttentionCommentDetailVC.swift; sourceTree = "<group>"; };
 		48200A49225DE02700D19735 /* PVAttentionCommentDetailViews.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PVAttentionCommentDetailViews.swift; sourceTree = "<group>"; };
 		48200A4B225DF22A00D19735 /* PVAttentionCommentDetailPro.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PVAttentionCommentDetailPro.swift; sourceTree = "<group>"; };
@@ -134,6 +164,14 @@
 		48200A53225E1B5900D19735 /* PVHomeReportDetailPro.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PVHomeReportDetailPro.swift; sourceTree = "<group>"; };
 		4821C6A222560D4F0030BF4B /* PVMeMessageVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PVMeMessageVC.swift; sourceTree = "<group>"; };
 		4821C6A42256131A0030BF4B /* PVMeMessageVCChild.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PVMeMessageVCChild.swift; sourceTree = "<group>"; };
+		482290A02264318C00870988 /* PVPearlSendBillVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PVPearlSendBillVC.swift; sourceTree = "<group>"; };
+		482290A2226450CE00870988 /* PVPearlSendBillCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PVPearlSendBillCell.swift; sourceTree = "<group>"; };
+		482290A4226461BC00870988 /* PVPearlDealRecordVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PVPearlDealRecordVC.swift; sourceTree = "<group>"; };
+		482290A62264630D00870988 /* PVPearlDealRecordChildVCs.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PVPearlDealRecordChildVCs.swift; sourceTree = "<group>"; };
+		482290A82264641200870988 /* PVPearlDealRecordChildViews.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PVPearlDealRecordChildViews.swift; sourceTree = "<group>"; };
+		482290AA2264746600870988 /* PVPearlDealRecordChildPro.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PVPearlDealRecordChildPro.swift; sourceTree = "<group>"; };
+		482290AC2264792200870988 /* PVPearlOrderDetailVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PVPearlOrderDetailVC.swift; sourceTree = "<group>"; };
+		482290AE22647DDE00870988 /* PVPearlOrderDetailViews.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PVPearlOrderDetailViews.swift; sourceTree = "<group>"; };
 		48283CD022602C5800CBE8CD /* pearl.gif */ = {isa = PBXFileReference; lastKnownFileType = image.gif; path = pearl.gif; sourceTree = "<group>"; };
 		48283CD222602F4E00CBE8CD /* PVPearlViews.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PVPearlViews.swift; sourceTree = "<group>"; };
 		482F3C39225ADF7600FEC130 /* PVMeMessageVCChildPro.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PVMeMessageVCChildPro.swift; sourceTree = "<group>"; };
@@ -585,6 +623,12 @@
 			isa = PBXGroup;
 			children = (
 				48283CD222602F4E00CBE8CD /* PVPearlViews.swift */,
+				481F802E22618E0100C20CB1 /* PVPearlPearlDetailCell.swift */,
+				481F80342261C65B00C20CB1 /* PVPearlUserLevelCell.swift */,
+				481F803C2261EB1200C20CB1 /* PVPearlMarketChildViews.swift */,
+				482290A2226450CE00870988 /* PVPearlSendBillCell.swift */,
+				482290A82264641200870988 /* PVPearlDealRecordChildViews.swift */,
+				482290AE22647DDE00870988 /* PVPearlOrderDetailViews.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -593,6 +637,16 @@
 			isa = PBXGroup;
 			children = (
 				481C59A6225338E70086F616 /* PVPearlVC.swift */,
+				481F802C2261872900C20CB1 /* PVPearlPearlDetailVC.swift */,
+				481F8030226190D500C20CB1 /* PVPearlPlantDetailVC.swift */,
+				481F80322261934D00C20CB1 /* PVPearlUserLevelVC.swift */,
+				481F80362261D0B600C20CB1 /* PVPearlShellLevelVC.swift */,
+				481F80382261DCE600C20CB1 /* PVPearlMarketVC.swift */,
+				481F803A2261E8DF00C20CB1 /* PVPearlMarketChildVCs.swift */,
+				482290A02264318C00870988 /* PVPearlSendBillVC.swift */,
+				482290A4226461BC00870988 /* PVPearlDealRecordVC.swift */,
+				482290A62264630D00870988 /* PVPearlDealRecordChildVCs.swift */,
+				482290AC2264792200870988 /* PVPearlOrderDetailVC.swift */,
 			);
 			path = Controller;
 			sourceTree = "<group>";
@@ -600,6 +654,9 @@
 		484DAE2B224F185A002BA454 /* Protocol */ = {
 			isa = PBXGroup;
 			children = (
+				481F802A2261802B00C20CB1 /* PVPearlPro.swift */,
+				481F803E2261EB7900C20CB1 /* PVPearlMarketChildPro.swift */,
+				482290AA2264746600870988 /* PVPearlDealRecordChildPro.swift */,
 			);
 			path = Protocol;
 			sourceTree = "<group>";
@@ -777,34 +834,48 @@
 				481C59A3225338A50086F616 /* PVHomeVC.swift in Sources */,
 				481D66582254BCC400B59929 /* PVMeSettingVCChild.swift in Sources */,
 				48200A4C225DF22A00D19735 /* PVAttentionCommentDetailPro.swift in Sources */,
+				482290A92264641200870988 /* PVPearlDealRecordChildViews.swift in Sources */,
 				481C59A9225342220086F616 /* PVMeHeaderView.swift in Sources */,
 				481C599F225311110086F616 /* PVForgetPsdVC.swift in Sources */,
 				481C59AF225363AF0086F616 /* PVMeProductionCell.swift in Sources */,
+				481F80392261DCE600C20CB1 /* PVPearlMarketVC.swift in Sources */,
+				481F80372261D0B600C20CB1 /* PVPearlShellLevelVC.swift in Sources */,
 				481C59AD2253621F0086F616 /* PVMeVCChild.swift in Sources */,
 				484DAD25224F1380002BA454 /* KeysMacro.swift in Sources */,
 				48365804225C74BD00BCB2D9 /* PVAttentionCell.swift in Sources */,
 				484DADE3224F1741002BA454 /* PVLoginPro.swift in Sources */,
+				481F80332261934D00C20CB1 /* PVPearlUserLevelVC.swift in Sources */,
 				481C59A5225338CB0086F616 /* PVAttentionVC.swift in Sources */,
+				481F802F22618E0100C20CB1 /* PVPearlPearlDetailCell.swift in Sources */,
 				484DADE1224F1741002BA454 /* EipMessageModel.swift in Sources */,
 				484DAD3C224F140F002BA454 /* PVCustomButton.swift in Sources */,
 				481D66542254A02400B59929 /* PVMeSettingVC.swift in Sources */,
+				481F80352261C65B00C20CB1 /* PVPearlUserLevelCell.swift in Sources */,
 				481D665C2254D91100B59929 /* PVMeSettingVCChildView.swift in Sources */,
+				482290AD2264792200870988 /* PVPearlOrderDetailVC.swift in Sources */,
 				484DAD37224F140F002BA454 /* PVNetworkTool.swift in Sources */,
 				481C59A7225338E70086F616 /* PVPearlVC.swift in Sources */,
 				481C59A1225336D70086F616 /* PVAgreementWebVC.swift in Sources */,
 				484DAD3D224F140F002BA454 /* YPJTextFieldEx.swift in Sources */,
+				481F802B2261802B00C20CB1 /* PVPearlPro.swift in Sources */,
 				481C59B322537E4B0086F616 /* PVMeAttentionVC.swift in Sources */,
+				481F803F2261EB7900C20CB1 /* PVPearlMarketChildPro.swift in Sources */,
 				484DADC5224F1741002BA454 /* PVBaseTableCell.swift in Sources */,
+				482290A5226461BC00870988 /* PVPearlDealRecordVC.swift in Sources */,
 				481C59B1225366210086F616 /* PVMeVCChildPro.swift in Sources */,
 				481F20E3225F11A900331CCF /* PVUserInfoVC.swift in Sources */,
+				481F803D2261EB1200C20CB1 /* PVPearlMarketChildViews.swift in Sources */,
 				48283CD322602F4E00CBE8CD /* PVPearlViews.swift in Sources */,
 				48200A54225E1B5900D19735 /* PVHomeReportDetailPro.swift in Sources */,
+				482290AB2264746600870988 /* PVPearlDealRecordChildPro.swift in Sources */,
 				48365808225C8C4700BCB2D9 /* PVAttentionDetailViews.swift in Sources */,
+				482290AF22647DDE00870988 /* PVPearlOrderDetailViews.swift in Sources */,
 				481D665A2254CEA000B59929 /* PVMeSettingVCChildPro.swift in Sources */,
 				484DAD40224F140F002BA454 /* YPJOtherTools.swift in Sources */,
 				484DAD3B224F140F002BA454 /* PVCustomTextField.swift in Sources */,
 				48365802225C311C00BCB2D9 /* PVMeTeamVCChildView.swift in Sources */,
 				482F3C3E225B30CC00FEC130 /* PVMeInvitationCodeVC.swift in Sources */,
+				482290A12264318C00870988 /* PVPearlSendBillVC.swift in Sources */,
 				481D6652225450E900B59929 /* PVDatePickerView.swift in Sources */,
 				48200A50225E0EE600D19735 /* PVHomeReportCell.swift in Sources */,
 				481C599D2252EDD30086F616 /* PVLoginChildVCPro.swift in Sources */,
@@ -813,6 +884,7 @@
 				482F3C40225B5F0900FEC130 /* PVMeInvitationBindingView.swift in Sources */,
 				484DADE2224F1741002BA454 /* EipApplicationModel.swift in Sources */,
 				481C59B922538C4B0086F616 /* PVMeUserinfoEditVC.swift in Sources */,
+				481F803B2261E8DF00C20CB1 /* PVPearlMarketChildVCs.swift in Sources */,
 				484DAD45224F14F7002BA454 /* PVTabBarController.swift in Sources */,
 				484DADC8224F1741002BA454 /* PVNavigationBar.swift in Sources */,
 				4836580A225CA6FC00BCB2D9 /* PVAttentionDetailPro.swift in Sources */,
@@ -826,6 +898,7 @@
 				484DAD41224F140F002BA454 /* GCDTools.swift in Sources */,
 				484DAD3A224F140F002BA454 /* PVNetworkRouter.swift in Sources */,
 				481D66562254A28700B59929 /* PVMeSettingCell.swift in Sources */,
+				481F802D2261872A00C20CB1 /* PVPearlPearlDetailVC.swift in Sources */,
 				484DAD39224F140F002BA454 /* PVNetworkValidate.swift in Sources */,
 				481F20E5225F159900331CCF /* PVUserInfoView.swift in Sources */,
 				484DADC9224F1741002BA454 /* PVBaseWMPageVC.swift in Sources */,
@@ -839,6 +912,7 @@
 				484DAD27224F1380002BA454 /* ToolMacro.swift in Sources */,
 				48200A4A225DE02700D19735 /* PVAttentionCommentDetailViews.swift in Sources */,
 				4821C6A52256131A0030BF4B /* PVMeMessageVCChild.swift in Sources */,
+				481F8031226190D500C20CB1 /* PVPearlPlantDetailVC.swift in Sources */,
 				483657FE225C2EFC00BCB2D9 /* PVMeTeamVCChild.swift in Sources */,
 				484DAE2D224F6DB4002BA454 /* PVLoginChildVCs.swift in Sources */,
 				481C59AB22535CFB0086F616 /* PVMePro.swift in Sources */,
@@ -849,7 +923,9 @@
 				482F3C44225B79B900FEC130 /* PVMeTeamVCPro.swift in Sources */,
 				484DADCB224F1741002BA454 /* PVBaseNavigationVC.swift in Sources */,
 				482F3C3A225ADF7600FEC130 /* PVMeMessageVCChildPro.swift in Sources */,
+				482290A72264630D00870988 /* PVPearlDealRecordChildVCs.swift in Sources */,
 				484DAD3F224F140F002BA454 /* YPJExTools.swift in Sources */,
+				482290A3226450CE00870988 /* PVPearlSendBillCell.swift in Sources */,
 				481F20EB225F350800331CCF /* PVHomePro.swift in Sources */,
 				481C59B72253882B0086F616 /* PVMeFansVC.swift in Sources */,
 				481C59BB22538E570086F616 /* PVMeUserinfoEditCell.swift in Sources */,

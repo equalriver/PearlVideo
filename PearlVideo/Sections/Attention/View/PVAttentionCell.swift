@@ -31,7 +31,7 @@ class PVAttentionCell: UICollectionViewCell {
     lazy var headerIV: UIImageView = {
         let iv = UIImageView()
         let rect = CGRect.init(x: 0, y: 0, width: 25 * KScreenRatio_6, height: 25 * KScreenRatio_6)
-        iv.ypj.addCornerShape(rect: rect, cornerRadius: rect.height / 2, fillColor: UIColor.clear)
+        iv.ypj.makeViewRoundingMask(roundedRect: rect, corners: UIRectCorner.allCorners, cornerRadii: CGSize.init(width: rect.height / 2, height: rect.height / 2))
         return iv
     }()
     lazy var likeBtn: UIButton = {

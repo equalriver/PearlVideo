@@ -44,10 +44,10 @@ class PVMeMessageNoticeCell: PVBaseTableCell {
         initUI()
         //addShape
         let rect = CGRect.init(x: 0, y: 0, width: 360 * KScreenRatio_6, height: 80 * KScreenRatio_6)
-        bgView.ypj.addCornerShape(rect: rect, cornerRadius: 5, fillColor: kColor_background!)
+        bgView.ypj.makeViewRoundingMask(roundedRect: rect, corners: UIRectCorner.allCorners, cornerRadii: CGSize.init(width: 5, height: 5))
         
         let rect_1 = CGRect.init(x: 0, y: 0, width: 40 * KScreenRatio_6, height: 40 * KScreenRatio_6)
-        iconIV.ypj.addCornerShape(rect: rect_1, cornerRadius: 20 * KScreenRatio_6, fillColor: UIColor.white)
+        iconIV.ypj.makeViewRoundingMask(roundedRect: rect_1, corners: UIRectCorner.allCorners, cornerRadii: CGSize.init(width: rect.height / 2, height: rect.height / 2))
     }
     
     required init?(coder aDecoder: NSCoder) {
@@ -175,13 +175,13 @@ class PVMeMessageCommentCell: PVBaseTableCell {
     
     func addShape() {
         let rect = CGRect.init(x: 0, y: 0, width: 360 * KScreenRatio_6, height: 80 * KScreenRatio_6)
-        bgView.ypj.addCornerShape(rect: rect, cornerRadius: 5, fillColor: kColor_background!)
+        bgView.ypj.makeViewRoundingMask(roundedRect: rect, corners: UIRectCorner.allCorners, cornerRadii: CGSize.init(width: 5, height: 5))
         
         let rect_1 = CGRect.init(x: 0, y: 0, width: 40 * KScreenRatio_6, height: 40 * KScreenRatio_6)
-        iconIV.ypj.addCornerShape(rect: rect_1, cornerRadius: 20 * KScreenRatio_6, fillColor: UIColor.white)
+        iconIV.ypj.makeViewRoundingMask(roundedRect: rect_1, corners: UIRectCorner.allCorners, cornerRadii: CGSize.init(width: rect.height / 2, height: rect.height / 2))
         
         let rect_2 = CGRect.init(x: 0, y: 0, width: 60 * KScreenRatio_6, height: 60 * KScreenRatio_6)
-        rightImgIV.ypj.addCornerShape(rect: rect_2, cornerRadius: 5, fillColor: UIColor.white)
+        rightImgIV.ypj.makeViewRoundingMask(roundedRect: rect_2, corners: UIRectCorner.allCorners, cornerRadii: CGSize.init(width: 5, height: 5))
     }
     
     override func prepareForReuse() {
@@ -219,7 +219,7 @@ class PVMeMessageLikeCell: PVBaseTableCell {
         v.backgroundColor = UIColor.red
         v.isHidden = true
         let rect = CGRect.init(x: 0, y: 0, width: 5, height: 5)
-        v.ypj.addCornerShape(rect: rect, cornerRadius: 2.5, fillColor: UIColor.white)
+        v.ypj.makeViewRoundingMask(roundedRect: rect, corners: UIRectCorner.allCorners, cornerRadii: CGSize.init(width: rect.height / 2, height: rect.height / 2))
         
         return v
     }()
@@ -294,13 +294,13 @@ class PVMeMessageLikeCell: PVBaseTableCell {
     
     func addShape() {
         let rect = CGRect.init(x: 0, y: 0, width: 360 * KScreenRatio_6, height: 80 * KScreenRatio_6)
-        bgView.ypj.addCornerShape(rect: rect, cornerRadius: 5, fillColor: kColor_background!)
+        bgView.ypj.makeViewRoundingMask(roundedRect: rect, corners: UIRectCorner.allCorners, cornerRadii: CGSize.init(width: 5, height: 5))
         
         let rect_1 = CGRect.init(x: 0, y: 0, width: 40 * KScreenRatio_6, height: 40 * KScreenRatio_6)
-        iconIV.ypj.addCornerShape(rect: rect_1, cornerRadius: 20 * KScreenRatio_6, fillColor: UIColor.white)
+        iconIV.ypj.makeViewRoundingMask(roundedRect: rect_1, corners: UIRectCorner.allCorners, cornerRadii: CGSize.init(width: rect.height / 2, height: rect.height / 2))
         
         let rect_2 = CGRect.init(x: 0, y: 0, width: 60 * KScreenRatio_6, height: 60 * KScreenRatio_6)
-        rightImgIV.ypj.addCornerShape(rect: rect_2, cornerRadius: 5, fillColor: UIColor.white)
+        rightImgIV.ypj.makeViewRoundingMask(roundedRect: rect_2, corners: UIRectCorner.allCorners, cornerRadii: CGSize.init(width: 5, height: 5))
     }
     
     override func prepareForReuse() {
@@ -389,10 +389,10 @@ class PVMeMessageAttentionCell: PVBaseTableCell {
     
     func addShape() {
         let rect = CGRect.init(x: 0, y: 0, width: 360 * KScreenRatio_6, height: 80 * KScreenRatio_6)
-        bgView.ypj.addCornerShape(rect: rect, cornerRadius: 5, fillColor: kColor_background!)
+        bgView.ypj.makeViewRoundingMask(roundedRect: rect, corners: UIRectCorner.allCorners, cornerRadii: CGSize.init(width: 5, height: 5))
         
         let rect_1 = CGRect.init(x: 0, y: 0, width: 40 * KScreenRatio_6, height: 40 * KScreenRatio_6)
-        iconIV.ypj.addCornerShape(rect: rect_1, cornerRadius: 20 * KScreenRatio_6, fillColor: UIColor.white)
+        iconIV.ypj.makeViewRoundingMask(roundedRect: rect_1, corners: UIRectCorner.allCorners, cornerRadii: CGSize.init(width: rect.height / 2, height: rect.height / 2))
     }
     
     override func prepareForReuse() {

@@ -26,37 +26,37 @@ public let kCornerRadius: CGFloat = 6
 //fonts
 
 ///18, black
-public let kFont_navi_weight = UIFont.systemFont(ofSize: 18 * KScreenRatio_6, weight: UIFont.Weight.black)
+public let kFont_navi_weight = UIFont.systemFont(ofSize: 18, weight: UIFont.Weight.black)
 
 ///17, black
-public let kFont_naviBtn_weight = UIFont.systemFont(ofSize: 17 * KScreenRatio_6, weight: UIFont.Weight.black)
+public let kFont_naviBtn_weight = UIFont.systemFont(ofSize: 17, weight: UIFont.Weight.black)
 
 ///18, semibold
-public let kFont_btn_weight = UIFont.systemFont(ofSize: 18 * KScreenRatio_6, weight: .semibold)
+public let kFont_btn_weight = UIFont.systemFont(ofSize: 18, weight: .semibold)
 
 ///16
-public let kFont_text = UIFont.systemFont(ofSize: 16 * KScreenRatio_6)
+public let kFont_text = UIFont.systemFont(ofSize: 16)
 
 ///16, semibold
-public let kFont_text_weight = UIFont.systemFont(ofSize: 16 * KScreenRatio_6, weight: .semibold)
+public let kFont_text_weight = UIFont.systemFont(ofSize: 16, weight: .semibold)
 
 ///14
-public let kFont_text_2 = UIFont.systemFont(ofSize: 14 * KScreenRatio_6)
+public let kFont_text_2 = UIFont.systemFont(ofSize: 14)
 
 ///14, semibold
-public let kFont_text_2_weight = UIFont.systemFont(ofSize: 14 * KScreenRatio_6, weight: .semibold)
+public let kFont_text_2_weight = UIFont.systemFont(ofSize: 14, weight: .semibold)
 
 ///12
-public let kFont_text_3 = UIFont.systemFont(ofSize: 12 * KScreenRatio_6)
+public let kFont_text_3 = UIFont.systemFont(ofSize: 12)
 
 ///12, semibold
-public let kFont_text_3_weight = UIFont.systemFont(ofSize: 12 * KScreenRatio_6, weight: .semibold)
+public let kFont_text_3_weight = UIFont.systemFont(ofSize: 12, weight: .semibold)
 
 ///10
-public let kFont_text_4 = UIFont.systemFont(ofSize: 10 * KScreenRatio_6)
+public let kFont_text_4 = UIFont.systemFont(ofSize: 10)
 
 ///10, semibold
-public let kFont_text_4_weight = UIFont.systemFont(ofSize: 10 * KScreenRatio_6, weight: .semibold)
+public let kFont_text_4_weight = UIFont.systemFont(ofSize: 10, weight: .semibold)
 
 
 //colors
