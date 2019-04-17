@@ -5,39 +5,11 @@
       "scale" : "1x"
     },
     {
-      "resizing" : {
-        "mode" : "9-part",
-        "center" : {
-          "mode" : "tile",
-          "width" : 1,
-          "height" : 1
-        },
-        "cap-insets" : {
-          "bottom" : 10,
-          "top" : 10,
-          "right" : 10,
-          "left" : 9
-        }
-      },
       "idiom" : "universal",
       "filename" : "圆角矩形 4 拷贝 3@2x.png",
       "scale" : "2x"
     },
     {
-      "resizing" : {
-        "mode" : "9-part",
-        "center" : {
-          "mode" : "tile",
-          "width" : 1,
-          "height" : 1
-        },
-        "cap-insets" : {
-          "bottom" : 15,
-          "top" : 15,
-          "right" : 18,
-          "left" : 15
-        }
-      },
       "idiom" : "universal",
       "filename" : "圆角矩形 4 拷贝 3@3x.png",
       "scale" : "3x"

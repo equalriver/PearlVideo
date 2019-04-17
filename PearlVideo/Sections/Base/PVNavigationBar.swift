@@ -82,7 +82,7 @@ class PVNavigationBar: UIView {
     private lazy var rightBtnBgView: UIStackView = {
         let v = UIStackView()
         v.axis = .horizontal
-        v.alignment = .trailing
+        v.alignment = .leading
         v.distribution = .equalSpacing
         return v
     }()

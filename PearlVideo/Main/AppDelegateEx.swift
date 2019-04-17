@@ -48,7 +48,7 @@ extension AppDelegate {
         
         
         
-        
+        /*
         //JPush
         let entity = JPUSHRegisterEntity.init()
         entity.types = Int(JPAuthorizationOptions.alert.rawValue | JPAuthorizationOptions.badge.rawValue | JPAuthorizationOptions.sound.rawValue)
@@ -57,6 +57,7 @@ extension AppDelegate {
         JPUSHService.register(forRemoteNotificationConfig: entity, delegate: self)
         //获取JPush服务器推送
         NotificationCenter.default.addObserver(self, selector: #selector(networkDidReceiveMessage(noti:)), name: NSNotification.Name.jpfNetworkDidReceiveMessage, object: nil)
+        */
      
     }
     
@@ -66,9 +67,9 @@ extension AppDelegate {
         UITextField.appearance().tintColor = kColor_subText
         UITextField.appearance().clearButtonMode = .whileEditing
         
-        UITabBarItem.appearance().setTitleTextAttributes([NSAttributedString.Key.font: UIFont.systemFont(ofSize: 11 * KScreenRatio_6),
-                                                          NSAttributedString.Key.foregroundColor: kColor_theme!], for: UIControl.State.selected)
-        UITabBarItem.appearance().setTitleTextAttributes([NSAttributedString.Key.font: UIFont.systemFont(ofSize: 11 * KScreenRatio_6),
+        UITabBarItem.appearance().setTitleTextAttributes([NSAttributedString.Key.font: UIFont.systemFont(ofSize: 12 * KScreenRatio_6),
+                                                          NSAttributedString.Key.foregroundColor: UIColor.init(patternImage: UIImage.init(named: "gradient_bg")!)], for: UIControl.State.selected)
+        UITabBarItem.appearance().setTitleTextAttributes([NSAttributedString.Key.font: UIFont.systemFont(ofSize: 12 * KScreenRatio_6),
                                                           NSAttributedString.Key.foregroundColor: kColor_subText!], for: UIControl.State.normal)
         
         
@@ -90,34 +91,34 @@ extension AppDelegate {
 }
 
 //MARK: - JPUSHRegisterDelegate
-extension AppDelegate: JPUSHRegisterDelegate {
-    @available(iOS 10.0, *)
-    func jpushNotificationCenter(_ center: UNUserNotificationCenter!, willPresent notification: UNNotification!, withCompletionHandler completionHandler: ((Int) -> Void)!) {
-        let info = notification.request.content.userInfo
-        if let trigger = notification.request.trigger {
-            if trigger.isKind(of: UNPushNotificationTrigger.self) {
-                JPUSHService.handleRemoteNotification(info)
-                handleAPNs(info: info)
-            }
-        }
-        completionHandler(Int(UNNotificationPresentationOptions.alert.rawValue))
-    }
-    
-    @available(iOS 10.0, *)
-    func jpushNotificationCenter(_ center: UNUserNotificationCenter!, didReceive response: UNNotificationResponse!, withCompletionHandler completionHandler: (() -> Void)!) {
-        let info = response.notification.request.content.userInfo
-        if let trigger = response.notification.request.trigger {
-            if trigger.isKind(of: UNPushNotificationTrigger.self) {
-                JPUSHService.handleRemoteNotification(info)
-                handleAPNs(info: info)
-            }
-        }
-        completionHandler()
-    }
-    
-    @available(iOS 10.0, *)
-    func jpushNotificationCenter(_ center: UNUserNotificationCenter!, openSettingsFor notification: UNNotification?) {
-        
-    }
-}
+//extension AppDelegate: JPUSHRegisterDelegate {
+//    @available(iOS 10.0, *)
+//    func jpushNotificationCenter(_ center: UNUserNotificationCenter!, willPresent notification: UNNotification!, withCompletionHandler completionHandler: ((Int) -> Void)!) {
+//        let info = notification.request.content.userInfo
+//        if let trigger = notification.request.trigger {
+//            if trigger.isKind(of: UNPushNotificationTrigger.self) {
+//                JPUSHService.handleRemoteNotification(info)
+//                handleAPNs(info: info)
+//            }
+//        }
+//        completionHandler(Int(UNNotificationPresentationOptions.alert.rawValue))
+//    }
+//
+//    @available(iOS 10.0, *)
+//    func jpushNotificationCenter(_ center: UNUserNotificationCenter!, didReceive response: UNNotificationResponse!, withCompletionHandler completionHandler: (() -> Void)!) {
+//        let info = response.notification.request.content.userInfo
+//        if let trigger = response.notification.request.trigger {
+//            if trigger.isKind(of: UNPushNotificationTrigger.self) {
+//                JPUSHService.handleRemoteNotification(info)
+//                handleAPNs(info: info)
+//            }
+//        }
+//        completionHandler()
+//    }
+//
+//    @available(iOS 10.0, *)
+//    func jpushNotificationCenter(_ center: UNUserNotificationCenter!, openSettingsFor notification: UNNotification?) {
+//
+//    }
+//}
 

@@ -25,15 +25,15 @@ class PVLoginVC: PVBaseWMPageVC {
     
     
     override func viewDidLoad() {
-        super.viewDidLoad()
-        naviBar.isHidden = true
         menuItemWidth = 60 * KScreenRatio_6
         titleSizeNormal = 18 * KScreenRatio_6
         titleSizeSelected = 24 * KScreenRatio_6
         titleColorNormal = kColor_subText!
         titleColorSelected = kColor_text!
         itemsMargins = [20 * KScreenRatio_6, 0, 0] as [NSNumber]
+        super.viewDidLoad()
         
+        naviBar.isHidden = true
         backgroundIV.addSubview(dismissBtn)
         view.addSubview(backgroundIV)
         backgroundIV.snp.makeConstraints { (make) in

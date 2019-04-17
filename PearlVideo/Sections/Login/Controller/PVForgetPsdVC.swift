@@ -40,13 +40,13 @@ class PVForgetPsdVC: PVBaseNavigationVC {
         b.titleLabel?.font = kFont_text
         b.setTitle("获取验证码", for: .normal)
         b.setTitleColor(UIColor.white, for: .normal)
-        b.setBackgroundImage(UIImage.init(named: ""), for: .normal)
+        b.setBackgroundImage(UIImage.init(named: "gradient_bg"), for: .normal)
         b.addTarget(self, action: #selector(didClickGetAuthCode(sender:)), for: .touchUpInside)
         return b
     }()
     lazy var nextBtn: UIButton = {
         let b = UIButton()
-        b.setImage(UIImage.init(named: ""), for: .normal)
+        b.setBackgroundImage(UIImage.init(named: "gradient_bg"), for: .normal)
         b.titleLabel?.font = kFont_text
         b.setTitle("下一步", for: .normal)
         b.setTitleColor(UIColor.white, for: .normal)
@@ -168,7 +168,7 @@ class PVPasswordChangeVC: PVBaseNavigationVC {
     }()
     lazy var confirmBtn: UIButton = {
         let b = UIButton()
-        b.setImage(UIImage.init(named: ""), for: .normal)
+        b.setBackgroundImage(UIImage.init(named: "gradient_bg"), for: .normal)
         b.titleLabel?.font = kFont_text
         b.setTitle("进入", for: .normal)
         b.setTitleColor(UIColor.white, for: .normal)

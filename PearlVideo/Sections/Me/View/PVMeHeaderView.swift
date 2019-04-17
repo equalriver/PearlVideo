@@ -19,9 +19,9 @@ class PVMeHeaderView: UIView {
     weak public var delegate: PVMeHeaderViewDelegate?
     
     lazy var iconIV: UIImageView = {
-        let iv = UIImageView()
+        let iv = UIImageView.init(image: UIImage.init(named: "me_placeholder"))
         iv.layer.cornerRadius = 55 * KScreenRatio_6
-        iv.layer.masksToBounds = true
+//        iv.layer.masksToBounds = true
         return iv
     }()
     lazy var nameLabel: UILabel = {
@@ -68,6 +68,7 @@ class PVMeHeaderView: UIView {
     }()
     lazy var invitationCodeBtn: UIButton = {
         let b = UIButton()
+        b.titleLabel?.font = kFont_text_2
         b.setBackgroundImage(UIImage.init(named: "gradient_bg"), for: .normal)
         b.setTitle("我的邀请码", for: .normal)
         b.setTitleColor(UIColor.white, for: .normal)
@@ -80,6 +81,7 @@ class PVMeHeaderView: UIView {
     }()
     lazy var teamBtn: UIButton = {
         let b = UIButton()
+        b.titleLabel?.font = kFont_text_2
         b.setTitle("团队", for: .normal)
         b.setTitleColor(kColor_text, for: .normal)
         b.layer.cornerRadius = 5
@@ -120,9 +122,10 @@ class PVMeHeaderView: UIView {
     lazy var shadowView: UIView = {
         let v = UIView()
         v.layer.shadowColor = UIColor.init(hexString: "#843EB0")!.cgColor
-        v.layer.shadowRadius = 5
-        v.layer.shadowOpacity = 1
-        v.layer.shadowOffset = CGSize.zero
+        v.layer.shadowRadius = 1.5
+        v.layer.shadowOpacity = 0.5
+        v.layer.shadowOffset = CGSize.init(width: 0, height: -1)
+        v.backgroundColor = kColor_background
         return v
     }()
     
@@ -156,8 +159,9 @@ class PVMeHeaderView: UIView {
             make.left.top.equalToSuperview().offset(15 * KScreenRatio_6)
         }
         nameLabel.snp.makeConstraints { (make) in
-            make.left.top.equalTo(iconIV).offset(15 * KScreenRatio_6)
-            make.width.equalTo(60)
+            make.top.equalTo(iconIV).offset(15 * KScreenRatio_6)
+            make.left.equalTo(iconIV.snp.right).offset(15 * KScreenRatio_6)
+            make.width.equalTo(110 * KScreenRatio_6)
         }
         genderIV.snp.makeConstraints { (make) in
             make.centerY.equalTo(nameLabel)
@@ -165,14 +169,14 @@ class PVMeHeaderView: UIView {
             make.size.equalTo(CGSize.init(width: 20 * KScreenRatio_6, height: 20 * KScreenRatio_6))
         }
         locationIV.snp.makeConstraints { (make) in
-            make.left.equalTo(iconIV)
+            make.left.equalTo(nameLabel)
             make.top.equalTo(nameLabel.snp.bottom).offset(10 * KScreenRatio_6)
             make.size.equalTo(CGSize.init(width: 20 * KScreenRatio_6, height: 20 * KScreenRatio_6))
         }
         locationLabel.snp.makeConstraints { (make) in
             make.centerY.equalTo(locationIV)
-            make.left.equalTo(locationIV.snp.right).offset(2)
-            make.width.equalTo(30)
+            make.left.equalTo(locationIV.isHidden ? locationIV : locationIV.snp.right).offset(2)
+            make.width.equalTo(140 * KScreenRatio_6)
         }
         ageLabel.snp.makeConstraints { (make) in
             make.size.equalTo(CGSize.init(width: 50, height: 20))
@@ -203,7 +207,7 @@ class PVMeHeaderView: UIView {
         hotCountItem.snp.makeConstraints { (make) in
             make.size.equalTo(CGSize.init(width: 60 * KScreenRatio_6, height: 60 * KScreenRatio_6))
             make.left.equalToSuperview().offset(20 * KScreenRatio_6)
-            make.top.equalTo(iconIV.snp.bottom).offset(60 * KScreenRatio_6)
+            make.top.equalTo(invitationCodeBtn.snp.bottom).offset(40 * KScreenRatio_6)
         }
         fansCountItem.snp.makeConstraints { (make) in
             make.size.equalTo(CGSize.init(width: 60 * KScreenRatio_6, height: 60 * KScreenRatio_6))

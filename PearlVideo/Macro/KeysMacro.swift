@@ -15,7 +15,7 @@ public let kLastInputIP = "kLastInputIP"
 public let kLastInputAccount = "kLastInputAccount"
 
 ///base url
-public let kBaseURLString = ""
+public let kBaseURLString = "http://192.168.0.137:8080/api/"
 
 ///获取app version url  k: ["results"][0]["version"]
 public let kAppVersionURL = "http://itunes.apple.com/lookup?id=你的AppStoreid"

@@ -8,7 +8,7 @@
 
 import Foundation
 
-
+//MARK: - 登录
 extension PVPhoneLoginVC {
     
     //显示密码
@@ -42,9 +42,10 @@ extension PVPhoneLoginVC {
         self.timer.resume()
     }
     
-    //切换登录模式
+    //切换登录模式 selected为验证码登录
     @objc func didSelectedLoginType(sender: UIButton) {
         sender.isSelected = !sender.isSelected
+        isPasswordLogin = !sender.isSelected
         if sender.isSelected == false {//切换到密码登录
             UIView.animate(withDuration: 0.5, animations: {
                 self.authCodeTF.alpha = 0
@@ -102,27 +103,43 @@ extension PVRegisterVC {
     
     //获取验证码
     @objc func didClickGetAuthCode(sender: UIButton) {
-        
-        sender.isUserInteractionEnabled = false
-        var t = 59
-        
-        self.timer.setEventHandler {
-            if t <= 1 {
-                self.timer.suspend()
-                DispatchQueue.main.async {
-                    sender.setTitle("获取验证码", for: .normal)
-                    sender.isEnabled = true
-                }
-            }
-            else {
-                t -= 1
-                DispatchQueue.main.async {
-                    sender.setTitle("已发送(\(t))", for: .normal)
-                    sender.isEnabled = false
-                }
-            }
+        guard phoneTF.hasText else {
+            view.makeToast("请输入手机号")
+            return
         }
-        self.timer.resume()
+        guard phoneTF.text!.ypj.isPhoneNumber else {
+            view.makeToast("手机号输入不正确")
+            return
+        }
+        PVNetworkTool.Request(router: .getAuthCode(phone: phoneTF.text!), success: { (resp) in
+            auth()
+            
+        }) { (e) in
+            self.view.makeToast(e.localizedDescription)
+        }
+        
+        func auth() {
+            var t = 59
+            
+            self.timer.setEventHandler {
+                if t <= 1 {
+                    self.timer.suspend()
+                    DispatchQueue.main.async {
+                        sender.setTitle("获取验证码", for: .normal)
+                        sender.isEnabled = true
+                    }
+                }
+                else {
+                    t -= 1
+                    DispatchQueue.main.async {
+                        sender.setTitle("已发送(\(t))", for: .normal)
+                        sender.isEnabled = false
+                    }
+                }
+            }
+            self.timer.resume()
+        }
+        
     }
     
     @objc func register() {

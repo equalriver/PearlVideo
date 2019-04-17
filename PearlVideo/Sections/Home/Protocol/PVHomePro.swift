@@ -38,7 +38,7 @@ extension PVHomeVC: PVHomeNaviBarDelegate {
 //MARK: - info delegate
 extension PVHomeVC: PVHomeVideoInfoDelegate {
     
-    func didClickHeader() {
+    func didClickHead() {
 //        PVUserInfoVC
     }
     

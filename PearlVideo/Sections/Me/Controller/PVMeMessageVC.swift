@@ -13,16 +13,17 @@ class PVMeMessageVC: PVBaseWMPageVC {
     let items = ["通知", "评论", "点赞", "关注"]
 
     override func viewDidLoad() {
-        super.viewDidLoad()
-        isNeedBackButton = false
-        title = "消息"
-        view.backgroundColor = UIColor.white
+        
         titleColorNormal = kColor_text!
         titleColorSelected = kColor_pink!
         titleSizeNormal = 16 * KScreenRatio_6
         titleSizeSelected = 18 * KScreenRatio_6
         menuViewStyle = .line
+        super.viewDidLoad()
         
+        isNeedBackButton = false
+        title = "消息"
+        view.backgroundColor = UIColor.white
         
     }
     

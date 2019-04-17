@@ -32,15 +32,15 @@ class PVUserInfoVC: PVBaseWMPageVC {
     
     
     override func viewDidLoad() {
-        super.viewDidLoad()
-
-        view.backgroundColor = UIColor.white
+        
         titleColorNormal = kColor_subText!
         titleColorSelected = kColor_text!
+        progressColor = UIColor.init(patternImage: UIImage.init(named: "gradient_bg")!)
+        progressWidth = 35 * KScreenRatio_6
         menuViewStyle = .line
-        //FIX ME: layoutSubviews ?
-        menuView?.progressView.layer.contents = UIImage.init(named: "gradient_bg")?.cgImage
+        super.viewDidLoad()
         
+        view.backgroundColor = UIColor.white
         naviBar.rightBarButtons = [shareBtn]
         
         view.addSubview(headerView)
@@ -51,5 +51,6 @@ class PVUserInfoVC: PVBaseWMPageVC {
         }
     }
 
+    
 
 }

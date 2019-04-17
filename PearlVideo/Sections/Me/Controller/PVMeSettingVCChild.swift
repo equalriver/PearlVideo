@@ -36,8 +36,9 @@ class PVMeNameValidateVC: PVBaseNavigationVC {
         b.titleLabel?.font = kFont_text
         b.setTitle("同意珍视频用户协议", for: .normal)
         b.setTitleColor(kColor_pink, for: .normal)
-        b.setImage(UIImage.init(named: ""), for: .normal)
-        b.setImage(UIImage.init(named: ""), for: .selected)
+        b.setImage(UIImage.init(named: "login_unselected"), for: .normal)
+        b.setImage(UIImage.init(named: "login_selected"), for: .selected)
+        b.isSelected = true
         b.addTarget(self, action: #selector(acceptAgreement(sender:)), for: .touchUpInside)
         return b
     }()
@@ -120,13 +121,13 @@ class PVMePasswordChangeVC: PVBaseNavigationVC {
         b.titleLabel?.font = kFont_text
         b.setTitle("获取验证码", for: .normal)
         b.setTitleColor(UIColor.white, for: .normal)
-        b.setBackgroundImage(UIImage.init(named: ""), for: .normal)
+        b.setBackgroundImage(UIImage.init(named: "gradient_bg"), for: .normal)
         b.addTarget(self, action: #selector(didClickGetAuthCode(sender:)), for: .touchUpInside)
         return b
     }()
     lazy var nextBtn: UIButton = {
         let b = UIButton()
-        b.setImage(UIImage.init(named: ""), for: .normal)
+        b.setBackgroundImage(UIImage.init(named: "gradient_bg"), for: .normal)
         b.titleLabel?.font = kFont_text
         b.setTitle("下一步", for: .normal)
         b.setTitleColor(UIColor.white, for: .normal)
@@ -285,7 +286,7 @@ class PVMeVersionVC: PVBaseNavigationVC {
     
     
     lazy var logoIV: UIImageView = {
-        let iv = UIImageView.init(image: UIImage.init(named: ""))
+        let iv = UIImageView.init(image: UIImage.init(named: "me_logo"))
         return iv
     }()
     lazy var versionLabel: UILabel = {

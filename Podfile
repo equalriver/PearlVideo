@@ -19,17 +19,20 @@ pod 'SVProgressHUD'
 pod 'PYSearch'
 pod 'IQKeyboardManagerSwift'
 pod 'TZImagePickerController'
-#pod 'FSPagerView'
 pod 'pop'
+pod 'lottie-ios'
+
+pod 'AliyunPlayer_iOS/AliyunVodPlayerSDK'
+
+#pod 'FSPagerView'
 #pod 'DZNEmptyDataSet'
 #pod 'KeychainAccess'
 #pod 'FSCalendar'
 #pod 'FCUUID'
 #pod 'SWTableViewCell'
 #pod 'RealmSwift'
-pod 'lottie-ios'
 #pod 'Charts'
-pod 'JPush'
+#pod 'JPush'
 
 
 end

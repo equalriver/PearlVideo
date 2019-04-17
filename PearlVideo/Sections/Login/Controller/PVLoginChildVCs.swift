@@ -10,6 +10,9 @@ import UIKit
 
 //MARK: - 登录
 class PVPhoneLoginVC: PVBaseNavigationVC {
+    
+    var isPasswordLogin = true
+    
 
     lazy var phoneTF: PVBottomLineTextField = {
         let tf = PVBottomLineTextField()
@@ -32,8 +35,8 @@ class PVPhoneLoginVC: PVBaseNavigationVC {
     }()
     lazy var passwordSecureBtn: UIButton = {
         let b = UIButton()
-        b.setImage(UIImage.init(named: ""), for: .normal)
-        b.setImage(UIImage.init(named: ""), for: .selected)
+        b.setImage(UIImage.init(named: "login_闭眼"), for: .normal)
+        b.setImage(UIImage.init(named: "login_睁眼"), for: .selected)
         b.addTarget(self, action: #selector(passwordSecure(sender:)), for: .touchUpInside)
         return b
     }()
@@ -52,7 +55,7 @@ class PVPhoneLoginVC: PVBaseNavigationVC {
         b.titleLabel?.font = kFont_text
         b.setTitle("获取验证码", for: .normal)
         b.setTitleColor(UIColor.white, for: .normal)
-        b.setBackgroundImage(UIImage.init(named: ""), for: .normal)
+        b.setBackgroundImage(UIImage.init(named: "gradient_bg"), for: .normal)
         b.addTarget(self, action: #selector(didClickGetAuthCode(sender:)), for: .touchUpInside)
         b.isHidden = true
         return b
@@ -77,7 +80,7 @@ class PVPhoneLoginVC: PVBaseNavigationVC {
     }()
     lazy var loginBtn: UIButton = {
         let b = UIButton()
-        b.setImage(UIImage.init(named: ""), for: .normal)
+        b.setBackgroundImage(UIImage.init(named: "gradient_bg"), for: .normal)
         b.titleLabel?.font = kFont_text
         b.setTitle("登录", for: .normal)
         b.setTitleColor(UIColor.white, for: .normal)
@@ -234,13 +237,13 @@ class PVRegisterVC: PVBaseNavigationVC {
         b.titleLabel?.font = kFont_text
         b.setTitle("获取验证码", for: .normal)
         b.setTitleColor(UIColor.white, for: .normal)
-        b.setBackgroundImage(UIImage.init(named: ""), for: .normal)
+        b.setBackgroundImage(UIImage.init(named: "gradient_bg"), for: .normal)
         b.addTarget(self, action: #selector(didClickGetAuthCode(sender:)), for: .touchUpInside)
         return b
     }()
     lazy var registerBtn: UIButton = {
         let b = UIButton()
-        b.setImage(UIImage.init(named: ""), for: .normal)
+        b.setBackgroundImage(UIImage.init(named: "gradient_bg"), for: .normal)
         b.titleLabel?.font = kFont_text
         b.setTitle("下一步", for: .normal)
         b.setTitleColor(UIColor.white, for: .normal)
@@ -251,9 +254,10 @@ class PVRegisterVC: PVBaseNavigationVC {
     }()
     lazy var checkboxBtn: UIButton = {
         let b = UIButton()
-        b.setImage(UIImage.init(named: ""), for: .normal)
-        b.setImage(UIImage.init(named: ""), for: .selected)
+        b.setImage(UIImage.init(named: "login_unselected"), for: .normal)
+        b.setImage(UIImage.init(named: "login_selected"), for: .selected)
         b.addTarget(self, action: #selector(checkboxSelected(sender:)), for: .touchUpInside)
+        b.isSelected = true
         return b
     }()
     lazy var bottomLabel: YYLabel = {
@@ -380,7 +384,7 @@ class PVRegisterPsdVC: PVBaseNavigationVC {
     }()
     lazy var confirmBtn: UIButton = {
         let b = UIButton()
-        b.setImage(UIImage.init(named: ""), for: .normal)
+        b.setBackgroundImage(UIImage.init(named: "gradient_bg"), for: .normal)
         b.titleLabel?.font = kFont_text
         b.setTitle("进入", for: .normal)
         b.setTitleColor(UIColor.white, for: .normal)

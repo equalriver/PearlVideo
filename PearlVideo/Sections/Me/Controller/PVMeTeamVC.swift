@@ -59,13 +59,15 @@ class PVMeTeamVC: PVBaseWMPageVC {
     
 
     override func viewDidLoad() {
-        super.viewDidLoad()
-        naviBar.isHidden = true
-        view.backgroundColor = UIColor.white
+        
         titleColorNormal = kColor_subText!
         titleColorSelected = kColor_text!
         menuViewStyle = .line
         progressColor = kColor_pink
+        super.viewDidLoad()
+        
+        naviBar.isHidden = true
+        view.backgroundColor = UIColor.white
         initUI()
         
     }

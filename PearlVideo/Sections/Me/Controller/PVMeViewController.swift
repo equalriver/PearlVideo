@@ -7,13 +7,17 @@ import ObjectMapper
 
 class PVMeViewController: PVBaseWMPageVC {
     
+    
     var isShowMoreList = false {
         didSet{
             UIView.animate(withDuration: 0.3) {
+                self.headerView.height = self.isShowMoreList ? 0 : self.headerViewHeight
                 self.forceLayoutSubviews()
             }
         }
     }
+    
+    let headerViewHeight: CGFloat = 320 * KScreenRatio_6
     
     
     lazy var settingBtn: UIButton = {
@@ -25,7 +29,7 @@ class PVMeViewController: PVBaseWMPageVC {
         let v = UIView()
         v.backgroundColor = UIColor.red
         v.layer.cornerRadius = 2.5
-        v.layer.masksToBounds = true
+//        v.layer.masksToBounds = true
         return v
     }()
     lazy var messageBtn: UIButton = {
@@ -37,7 +41,6 @@ class PVMeViewController: PVBaseWMPageVC {
             make.top.equalToSuperview().offset(-5)
             make.right.equalToSuperview().offset(5)
         })
-        b.isHidden = true
         return b
     }()
     lazy var shareBtn: UIButton = {
@@ -54,27 +57,28 @@ class PVMeViewController: PVBaseWMPageVC {
 
     //life cycle
     override func viewDidLoad() {
-        super.viewDidLoad()
-        isNeedBackButton = false
-//        title = "我的"
-        view.backgroundColor = UIColor.white
+        
         titleColorNormal = kColor_subText!
         titleColorSelected = kColor_text!
         menuViewStyle = .line
-        //FIX ME: layoutSubviews ?
-        menuView?.progressView.layer.contents = UIImage.init(named: "gradient_bg")?.cgImage
+        progressColor = UIColor.init(patternImage: UIImage.init(named: "gradient_bg")!)
+        progressWidth = 35 * KScreenRatio_6
+        super.viewDidLoad()
         
-        naviBar.rightBarButtons = [shareBtn, messageBtn]
+        isNeedBackButton = false
+        view.backgroundColor = UIColor.white
+        naviBar.rightBarButtons = [messageBtn, shareBtn]
         naviBar.leftBarButtons = [settingBtn]
         
         view.addSubview(headerView)
         headerView.snp.makeConstraints { (make) in
-            make.size.equalTo(CGSize.init(width: kScreenWidth, height: 330 * KScreenRatio_6))
+            make.size.equalTo(CGSize.init(width: kScreenWidth, height: headerViewHeight))
             make.top.equalTo(naviBar.snp.bottom)
             make.centerX.equalToSuperview()
         }
+        
     }
-
+   
 
 }
 

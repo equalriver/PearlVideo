@@ -31,6 +31,21 @@ extension UIView: YPJToolable {
 
 extension YPJViewTools where YPJToolType == UIView {
     
+    //MARK: - 添加渐变色层
+    ///添加渐变色层
+    func addGradientLayer(colors: [CGColor], startPoint: CGPoint, endPoint: CGPoint, locations: [NSNumber]?) {
+        let gradientLayer = CAGradientLayer.init()
+        gradientLayer.colors = colors
+        gradientLayer.startPoint = startPoint
+        gradientLayer.endPoint = endPoint
+//        gradientLayer.locations = locations
+        gradientLayer.frame = ypj.frame
+        gradientLayer.mask = ypj.layer
+        ypj.layer.frame = gradientLayer.bounds
+        ypj.superview?.layer.addSublayer(gradientLayer)
+    }
+   
+
     //MARK: - 设置圆角mask
     ///设置圆角mask
     func makeViewRoundingMask(roundedRect: CGRect, corners: UIRectCorner, cornerRadii: CGSize) {

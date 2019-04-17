@@ -107,7 +107,7 @@ class PVHomeNaviBarView: UIView {
 //MARK: - info view
 protocol PVHomeVideoInfoDelegate: NSObjectProtocol {
     ///点击头像
-    func didClickHeader()
+    func didClickHead()
 }
 
 class PVHomeVideoInfoView: UIView {
@@ -120,7 +120,7 @@ class PVHomeVideoInfoView: UIView {
         b.layer.cornerRadius = 20 * KScreenRatio_6
         b.layer.masksToBounds = true
         b.contentMode = .scaleAspectFill
-        b.addTarget(self, action: #selector(didClickHeader), for: .touchUpInside)
+        b.addTarget(self, action: #selector(didClickHead), for: .touchUpInside)
         return b
     }()
     lazy var nameLabel: UILabel = {
@@ -163,8 +163,8 @@ class PVHomeVideoInfoView: UIView {
         fatalError("init(coder:) has not been implemented")
     }
     
-    @objc func didClickHeader() {
-        delegate?.didClickHeader()
+    @objc func didClickHead() {
+        delegate?.didClickHead()
     }
     
 }

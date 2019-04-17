@@ -7,7 +7,7 @@ class PYTabBar: UITabBar {
     public lazy var playBtn: UIButton = {
         let b = UIButton()
         b.adjustsImageWhenHighlighted = false
-        b.setImage(UIImage.init(named: ""), for: .normal)
+        b.setImage(UIImage.init(named: "tab_play"), for: .normal)
         return b
     }()
     
@@ -26,7 +26,7 @@ class PYTabBar: UITabBar {
         guard NSClassFromString("UITabBarButton") != nil else { return }
         for v in subviews {
             if v.isKind(of: NSClassFromString("UITabBarButton")!) {
-                
+               
                 v.frame = CGRect.init(x: CGFloat(index) * kScreenWidth / 5, y: v.origin.y, width: kScreenWidth / 5, height: v.height)
                 index += 1
                 
@@ -35,6 +35,7 @@ class PYTabBar: UITabBar {
                     index += 1
                 }
             }
+            
         }
     }
     
@@ -66,7 +67,7 @@ class PVTabBarController: UITabBarController {
     }()
 
     private lazy var pearlVC: PVBaseRootNaviVC = {
-        let vc = PVBaseRootNaviVC.init(rootViewController: PVPearlVC())
+        let vc = PVBaseRootNaviVC.init(rootViewController: UIViewController())//PVPearlVC
         return vc
     }()
 
@@ -77,16 +78,16 @@ class PVTabBarController: UITabBarController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-                view.backgroundColor = .white
-                tabBar.backgroundColor = UIColor.white
+        view.backgroundColor = .white
+        tabBar.backgroundColor = UIColor.white
         //取消tabBar的透明效果
+        tabBar.isTranslucent = false
         self.setValue(customTabBar, forKey: "tabBar")
         viewControllers = [homeVC, hotVC, pearlVC, userVC]
         for (index, item) in (viewControllers?.enumerated())! {
             item.tabBarItem.title = tabTitles[index]
             item.tabBarItem.image = tabImages[index]
             item.tabBarItem.selectedImage = tabSelectedImages[index]
-
         }
         
     }

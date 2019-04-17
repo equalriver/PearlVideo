@@ -1,10 +1,6 @@
 //
 //  PVUserInfoModel.swift
-//  yjkj-PV-ios
-//
-//  Created by equalriver on 2019/3/6.
-//  Copyright © 2019 equalriver. All rights reserved.
-//
+
 
 import Foundation
 import ObjectMapper

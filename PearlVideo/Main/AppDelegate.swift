@@ -35,7 +35,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     private func resetBadge(_ application: UIApplication) {
         application.applicationIconBadgeNumber = 0
         application.cancelAllLocalNotifications()
-        JPUSHService.resetBadge()
+//        JPUSHService.resetBadge()
     }
     
     func application(_ application: UIApplication, didRegisterForRemoteNotificationsWithDeviceToken deviceToken: Data) {

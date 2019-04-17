@@ -92,14 +92,14 @@ extension PVMeViewController {
     }
     
     override func pageController(_ pageController: WMPageController, preferredFrameFor menuView: WMMenuView) -> CGRect {
-        var y = isShowMoreList ? 0 : 330 * KScreenRatio_containX
-        y += kNavigationBarAndStatusHeight + 20
-        return CGRect.init(x: 0, y: y, width: kScreenWidth, height: 40 * KScreenRatio_containX)
+        var y = isShowMoreList ? 0 : headerViewHeight
+        y += kNavigationBarAndStatusHeight
+        return CGRect.init(x: 0, y: y, width: kScreenWidth, height: 40 * KScreenRatio_6)
     }
     
     override func pageController(_ pageController: WMPageController, preferredFrameForContentView contentView: WMScrollView) -> CGRect {
-        var y = isShowMoreList ? 0 : 330 * KScreenRatio_containX
-        y += kNavigationBarAndStatusHeight + 20 + 40 * KScreenRatio_6
+        var y = isShowMoreList ? 0 : headerViewHeight
+        y += kNavigationBarAndStatusHeight + 40 * KScreenRatio_6
         let h = kScreenHeight - y - kTabBarHeight
         
         return CGRect.init(x: 0, y: y, width: kScreenWidth, height: h)

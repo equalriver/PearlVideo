@@ -7,11 +7,14 @@ import SwiftyJSON
 
 enum Router: URLRequestConvertible {
     
+    ///注册
+    case register(phone: String, msgcode: String)
+    
     ///登录
-    case login(name: String, psd: String)
+    case login(phone: String, psd: String, msgcode: String)
     
     ///获取验证码
-    case getAuthCode(email: String)
+    case getAuthCode(phone: String)
     
     ///忘记密码
     case forgetPsd(email: String, newPsd: String, authCode: String)
@@ -60,16 +63,13 @@ enum Router: URLRequestConvertible {
     
     //我的
     ///用户信息
-    case userInfo()
+    case userInfo(userId: String, skip: Int, count: Int)
     
     ///关于我们
     case about()
     
-    ///用户信息编辑
-    case userInfoEdit(json: Any)
-    
     ///意见反馈
-    case feedback(json: Any)
+//    case feedback(json: Any)
     
     
     
@@ -79,11 +79,14 @@ enum Router: URLRequestConvertible {
         var path: String {
             switch self {
             //
+            case .register:
+                return "signUp"
+                
             case .login:
-                return "/api/common/token/login"
+                return "userLogin"
 
             case .getAuthCode:
-                return "/api/base/getAuthCode"
+                return "sendMsgCode"
                 
             case .forgetPsd:
                 return "/api/base/forgetPsd"
@@ -133,16 +136,13 @@ enum Router: URLRequestConvertible {
                 
             //我的
             case .userInfo:
-                return "/api/base/userInfo"
+                return "getUserCenterInfo"
 
             case .about:
                 return "/api/base/introduction.do"
                 
-            case .userInfoEdit:
-                return "/api/base/editUserInfo"
-                
-            case .feedback:
-                return "/api/base/feedback.do"
+            
+           
             }
           
         }
@@ -151,20 +151,27 @@ enum Router: URLRequestConvertible {
         //MARK: - param
         var param: [String: Any]? = [:]
         
-        var singleParam: Any?
+//        var singleParam: Any?
         
         
         switch self {
         //
-        case .login(let name, let psd):
+        case .register(let phone, let msgcode):
             param = [
-                "username": name,
-                "password": psd
+                "mobile": phone,
+                "msgcode": msgcode
+            ]
+            
+        case .login(let phone, let psd, let msgcode):
+            param = [
+                "mobile": phone,
+                "password": psd,
+                "msgcode": msgcode
             ]
 
-        case .getAuthCode(let email):
+        case .getAuthCode(let phone):
             param = [
-                "email": email
+                "mobile": phone
             ]
             
         case .forgetPsd(let email, let newPsd, let authCode):
@@ -223,22 +230,43 @@ enum Router: URLRequestConvertible {
             
         
         //我的
-        case .userInfo: break
+        case .userInfo(let userId, let skip, let count):
+            param = [
+                "userId": userId,
+                "skip": skip,
+                "count": count
+            ]
             
         case .about: break
             
-        case .userInfoEdit(let json):
-            singleParam = json
             
-        case .feedback(let json):
-            singleParam = json
-
+//        case .feedback(let json):
+//            singleParam = json
         }
+        
+        //make body
+        /*
+         {
+            "action":"userLogin",
+            "object":{
+                "mobile":"13734909492",
+                "password":"123456"
+            }
+         }
+         */
+        param = ["object": param ?? ""]
+        
+        //add path
+        param?["action"] = path
+        
         
         
         //MARK: - setting
         let url = try kBaseURLString.asURL()
-        var urlReq = URLRequest(url: url.appendingPathComponent(path))
+//        var urlReq = URLRequest(url: url.appendingPathComponent(path))
+        var urlReq = URLRequest(url: url)
+        
+        
         //post
         urlReq.httpMethod = HTTPMethod.post.rawValue
         //超时时间
@@ -246,13 +274,13 @@ enum Router: URLRequestConvertible {
         
         //MARK: - add token
         switch self {
-        case .login, .getAuthCode, .forgetPsd, .about:
+        case .login:
             break
 
         default:
-            let token = UserDefaults.standard.string(forKey: "token")
+            let token = UserDefaults.standard.string(forKey: "Authorization")
             if token != nil {
-                if token!.count > 0 { urlReq.setValue(token, forHTTPHeaderField: "token") }
+                if token!.count > 0 { urlReq.setValue(token, forHTTPHeaderField: "Authorization") }
             }
             break
         }
@@ -280,18 +308,18 @@ enum Router: URLRequestConvertible {
 //                urlReq = try JSONEncoding.default.encode(urlReq, withJSONObject: single)
 //            }
 //            break
-        case .userInfoEdit, .feedback:
-            if let single = singleParam {
-                urlReq =  try JSONEncoding.default.encode(urlReq, withJSONObject: single)
-            }
-            break
+//        case .userInfoEdit, .feedback:
+//            if let single = singleParam {
+//                urlReq =  try JSONEncoding.default.encode(urlReq, withJSONObject: single)
+//            }
+//            break
             
         default:
             if let param = param {
                 //                print(param.getJSONStringFromDictionary())
                 do{
-//                    urlReq = try JSONEncoding.default.encode(urlReq, with: param)
-                    urlReq = try URLEncoding.default.encode(urlReq, with: param)
+                    urlReq = try JSONEncoding.default.encode(urlReq, with: param)
+//                    urlReq = try URLEncoding.default.encode(urlReq, with: param)
                     
                 }catch{
                     print(error.localizedDescription)

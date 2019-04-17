@@ -15,7 +15,7 @@
 #import <MJRefresh/MJRefresh.h>
 #import <PYSearch/PYSearch.h>
 #import <TZImagePickerController/TZImagePickerController.h>
-#import <JPush/JPUSHService.h>
+
 
 
 

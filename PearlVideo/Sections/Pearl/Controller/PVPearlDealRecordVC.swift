@@ -11,11 +11,10 @@ class PVPearlDealRecordVC: PVBaseWMPageVC {
     let items = ["买单", "卖单", "交易中", "交易完成"]
     
     override func viewDidLoad() {
-        super.viewDidLoad()
         titleColorNormal = kColor_text!
         titleColorSelected = kColor_pink!
         menuViewStyle = .line
-        
+        super.viewDidLoad()
     }
     
 }
