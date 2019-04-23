@@ -23,7 +23,7 @@ public let speechViewTag = 9300
 public let kCornerRadius: CGFloat = 6
 
 
-//fonts
+//MARK: - fonts
 
 ///18, black
 public let kFont_navi_weight = UIFont.systemFont(ofSize: 18, weight: UIFont.Weight.black)
@@ -59,7 +59,7 @@ public let kFont_text_4 = UIFont.systemFont(ofSize: 10)
 public let kFont_text_4_weight = UIFont.systemFont(ofSize: 10, weight: .semibold)
 
 
-//colors
+//MARK: - colors
 public var kColor_theme = UIColor.init(hexString: "#ffffff") {
     willSet{
         NotificationCenter.default.post(.init(name: .kNotiName_themeColorChange))
@@ -94,7 +94,7 @@ public let kColor_analyze_orange = UIColor.init(hexString: "#ee7b5c")
 
 
 
-//text limit count
+//MARK: - text limit count
 ///签名字数限制
 public let kSigningLimitCount = 32
 
@@ -107,3 +107,17 @@ public let kFeedbackImageLimitCount = 6
 
 ///feedback image count
 public let kFeedBackImageLimitCount = 3
+
+
+//MARK: - 短视频相关
+public let kPreviousCount = 2 //当前播放界面（player实例）之前的界面（player实例）保留个数，应对用户下滑秒开
+public let kNextCount = 2 //当前播放界面（player实例）之后的界面（player实例）预加载的个数，应对用户上滑秒开
+public let kMinPanSpeed: CGFloat = 30.0 //判断滑动的最小速度，小于这个数值，认定用户取消滑动
+public let kPageCount = 10 //分页查询每次查询的个数
+public let kCountLess_mustQurryMoreData = 3 //当前播放的视频，播放资源列表剩余的个数，如果小于这个数，则后台去请求最新的播放资源列表数据
+
+public let defaultVidString = "6e783360c811449d8692b2117acc9212"
+public let kCateID = "872354889"
+
+public let kAnimationTime = 0.26 //滑动一个完整的视频需要的时间 - 秒
+

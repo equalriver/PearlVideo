@@ -6,9 +6,10 @@ import Foundation
 import ObjectMapper
 
 
-class PVBaseModel: Mappable {
+class PVBaseModel: NSObject, Mappable {
     
-    init() {
+    override init() {
+        super.init()
         
     }
     

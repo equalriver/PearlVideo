@@ -10,11 +10,9 @@
 #define BridgingHeader_h
 
 #import <YYKit/YYKit.h>
-#import <WMPageController/WMPageController.h>
 #import <UITableView_FDTemplateLayoutCell/UITableView+FDTemplateLayoutCell.h>
 #import <MJRefresh/MJRefresh.h>
-#import <PYSearch/PYSearch.h>
-#import <TZImagePickerController/TZImagePickerController.h>
+#import <VODUpload/VODUploadSVideoClient.h>
 
 
 

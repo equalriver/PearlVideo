@@ -7,7 +7,7 @@ import SVProgressHUD
 import CFNetwork
 import LocalAuthentication
 import CommonCrypto
-
+import Photos
 
 struct YPJOtherTool {
     

@@ -6,6 +6,8 @@
 //  Copyright © 2019 equalriver. All rights reserved.
 //
 
+import WMPageController
+
 class PVPearlDealRecordVC: PVBaseWMPageVC {
     
     let items = ["买单", "卖单", "交易中", "交易完成"]

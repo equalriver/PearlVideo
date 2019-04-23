@@ -7,7 +7,6 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		3786B35F33F6D11DBE357261 /* Pods_PearlVideo.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D3B3E5C129A02C953A874031 /* Pods_PearlVideo.framework */; };
 		481C599D2252EDD30086F616 /* PVLoginChildVCPro.swift in Sources */ = {isa = PBXBuildFile; fileRef = 481C599C2252EDD30086F616 /* PVLoginChildVCPro.swift */; };
 		481C599F225311110086F616 /* PVForgetPsdVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 481C599E225311110086F616 /* PVForgetPsdVC.swift */; };
 		481C59A1225336D70086F616 /* PVAgreementWebVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 481C59A0225336D70086F616 /* PVAgreementWebVC.swift */; };
@@ -92,6 +91,8 @@
 		481F803B2261E8DF00C20CB1 /* PVPearlMarketChildVCs.swift in Sources */ = {isa = PBXBuildFile; fileRef = 481F803A2261E8DF00C20CB1 /* PVPearlMarketChildVCs.swift */; };
 		481F803D2261EB1200C20CB1 /* PVPearlMarketChildViews.swift in Sources */ = {isa = PBXBuildFile; fileRef = 481F803C2261EB1200C20CB1 /* PVPearlMarketChildViews.swift */; };
 		481F803F2261EB7900C20CB1 /* PVPearlMarketChildPro.swift in Sources */ = {isa = PBXBuildFile; fileRef = 481F803E2261EB7900C20CB1 /* PVPearlMarketChildPro.swift */; };
+		481FD11822697C130028F82C /* PVHomeDelegates.swift in Sources */ = {isa = PBXBuildFile; fileRef = 481FD11722697C130028F82C /* PVHomeDelegates.swift */; };
+		481FD11E2269F47B0028F82C /* PVPlayVideoUploadVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 481FD11D2269F47B0028F82C /* PVPlayVideoUploadVC.swift */; };
 		48200A48225DE00300D19735 /* PVAttentionCommentDetailVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48200A47225DE00300D19735 /* PVAttentionCommentDetailVC.swift */; };
 		48200A4A225DE02700D19735 /* PVAttentionCommentDetailViews.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48200A49225DE02700D19735 /* PVAttentionCommentDetailViews.swift */; };
 		48200A4C225DF22A00D19735 /* PVAttentionCommentDetailPro.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48200A4B225DF22A00D19735 /* PVAttentionCommentDetailPro.swift */; };
@@ -99,6 +100,17 @@
 		48200A50225E0EE600D19735 /* PVHomeReportCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48200A4F225E0EE600D19735 /* PVHomeReportCell.swift */; };
 		48200A52225E130100D19735 /* PVHomeReportDetailVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48200A51225E130100D19735 /* PVHomeReportDetailVC.swift */; };
 		48200A54225E1B5900D19735 /* PVHomeReportDetailPro.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48200A53225E1B5900D19735 /* PVHomeReportDetailPro.swift */; };
+		482138C3226ACA68001691E2 /* PVPlayVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 482138C2226ACA68001691E2 /* PVPlayVC.swift */; };
+		482138CD226AD196001691E2 /* libz.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 482138CC226AD195001691E2 /* libz.tbd */; };
+		482138CF226AD1A2001691E2 /* ImageIO.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 482138CE226AD1A2001691E2 /* ImageIO.framework */; };
+		482138D1226AD1B0001691E2 /* CoreMedia.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 482138D0226AD1B0001691E2 /* CoreMedia.framework */; };
+		482138D3226AD1B8001691E2 /* CoreVideo.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 482138D2226AD1B8001691E2 /* CoreVideo.framework */; };
+		482138D5226AD1C3001691E2 /* VideoToolbox.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 482138D4226AD1C3001691E2 /* VideoToolbox.framework */; };
+		482138D7226AD1CB001691E2 /* MediaPlayer.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 482138D6226AD1CB001691E2 /* MediaPlayer.framework */; };
+		482138D9226AD1D4001691E2 /* OpenAL.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 482138D8226AD1D4001691E2 /* OpenAL.framework */; };
+		482138DB226AD1E1001691E2 /* libc++.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 482138DA226AD1E1001691E2 /* libc++.tbd */; };
+		482138DD226AD1F9001691E2 /* libiconv.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 482138DC226AD1F9001691E2 /* libiconv.tbd */; };
+		482138DE226AD366001691E2 /* Pods_PearlVideo.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D3B3E5C129A02C953A874031 /* Pods_PearlVideo.framework */; };
 		4821C6A322560D4F0030BF4B /* PVMeMessageVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4821C6A222560D4F0030BF4B /* PVMeMessageVC.swift */; };
 		4821C6A52256131A0030BF4B /* PVMeMessageVCChild.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4821C6A42256131A0030BF4B /* PVMeMessageVCChild.swift */; };
 		482290A12264318C00870988 /* PVPearlSendBillVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 482290A02264318C00870988 /* PVPearlSendBillVC.swift */; };
@@ -109,6 +121,8 @@
 		482290AB2264746600870988 /* PVPearlDealRecordChildPro.swift in Sources */ = {isa = PBXBuildFile; fileRef = 482290AA2264746600870988 /* PVPearlDealRecordChildPro.swift */; };
 		482290AD2264792200870988 /* PVPearlOrderDetailVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 482290AC2264792200870988 /* PVPearlOrderDetailVC.swift */; };
 		482290AF22647DDE00870988 /* PVPearlOrderDetailViews.swift in Sources */ = {isa = PBXBuildFile; fileRef = 482290AE22647DDE00870988 /* PVPearlOrderDetailViews.swift */; };
+		48232F55226F110B001ACECC /* PVPlayCameraViewPro.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48232F54226F110B001ACECC /* PVPlayCameraViewPro.swift */; };
+		4824A64F226D5C5100FF7832 /* PVPlayProgressView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4824A64E226D5C5100FF7832 /* PVPlayProgressView.swift */; };
 		48283CD322602F4E00CBE8CD /* PVPearlViews.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48283CD222602F4E00CBE8CD /* PVPearlViews.swift */; };
 		482F3C3A225ADF7600FEC130 /* PVMeMessageVCChildPro.swift in Sources */ = {isa = PBXBuildFile; fileRef = 482F3C39225ADF7600FEC130 /* PVMeMessageVCChildPro.swift */; };
 		482F3C3C225AE43F00FEC130 /* PVMeMessageVCChildView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 482F3C3B225AE43F00FEC130 /* PVMeMessageVCChildView.swift */; };
@@ -116,6 +130,8 @@
 		482F3C40225B5F0900FEC130 /* PVMeInvitationBindingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 482F3C3F225B5F0900FEC130 /* PVMeInvitationBindingView.swift */; };
 		482F3C42225B716800FEC130 /* PVMeTeamVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 482F3C41225B716800FEC130 /* PVMeTeamVC.swift */; };
 		482F3C44225B79B900FEC130 /* PVMeTeamVCPro.swift in Sources */ = {isa = PBXBuildFile; fileRef = 482F3C43225B79B900FEC130 /* PVMeTeamVCPro.swift */; };
+		4830DD5F2268612A00E2B86F /* PVHomePlayContainerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4830DD5E2268612A00E2B86F /* PVHomePlayContainerView.swift */; };
+		4830DD62226863DE00E2B86F /* AlivcQuVideoModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4830DD61226863DE00E2B86F /* AlivcQuVideoModel.swift */; };
 		483657FE225C2EFC00BCB2D9 /* PVMeTeamVCChild.swift in Sources */ = {isa = PBXBuildFile; fileRef = 483657FD225C2EFC00BCB2D9 /* PVMeTeamVCChild.swift */; };
 		48365800225C30B700BCB2D9 /* PVMeTeamVCChildPro.swift in Sources */ = {isa = PBXBuildFile; fileRef = 483657FF225C30B700BCB2D9 /* PVMeTeamVCChildPro.swift */; };
 		48365802225C311C00BCB2D9 /* PVMeTeamVCChildView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48365801225C311C00BCB2D9 /* PVMeTeamVCChildView.swift */; };
@@ -157,6 +173,9 @@
 		484DADE3224F1741002BA454 /* PVLoginPro.swift in Sources */ = {isa = PBXBuildFile; fileRef = 484DAD6C224F1741002BA454 /* PVLoginPro.swift */; };
 		484DADE4224F1741002BA454 /* PVLoginVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 484DAD6E224F1741002BA454 /* PVLoginVC.swift */; };
 		484DAE2D224F6DB4002BA454 /* PVLoginChildVCs.swift in Sources */ = {isa = PBXBuildFile; fileRef = 484DAE2C224F6DB4002BA454 /* PVLoginChildVCs.swift */; };
+		487AFC68226AF36F0064F00A /* alivcffmpeg.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 482138C4226AD068001691E2 /* alivcffmpeg.framework */; };
+		487AFC6A226B14EA0064F00A /* PVPlayPro.swift in Sources */ = {isa = PBXBuildFile; fileRef = 487AFC69226B14EA0064F00A /* PVPlayPro.swift */; };
+		487AFC6C226B2E0E0064F00A /* PVPlayCameraView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 487AFC6B226B2E0E0064F00A /* PVPlayCameraView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -244,6 +263,9 @@
 		481F803A2261E8DF00C20CB1 /* PVPearlMarketChildVCs.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PVPearlMarketChildVCs.swift; sourceTree = "<group>"; };
 		481F803C2261EB1200C20CB1 /* PVPearlMarketChildViews.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PVPearlMarketChildViews.swift; sourceTree = "<group>"; };
 		481F803E2261EB7900C20CB1 /* PVPearlMarketChildPro.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PVPearlMarketChildPro.swift; sourceTree = "<group>"; };
+		481FD11722697C130028F82C /* PVHomeDelegates.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PVHomeDelegates.swift; sourceTree = "<group>"; };
+		481FD11B2269EE8B0028F82C /* VODUpload.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = VODUpload.framework; path = Pods/VODUpload/frameworks/VODUpload.framework; sourceTree = "<group>"; };
+		481FD11D2269F47B0028F82C /* PVPlayVideoUploadVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PVPlayVideoUploadVC.swift; sourceTree = "<group>"; };
 		48200A47225DE00300D19735 /* PVAttentionCommentDetailVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PVAttentionCommentDetailVC.swift; sourceTree = "<group>"; };
 		48200A49225DE02700D19735 /* PVAttentionCommentDetailViews.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PVAttentionCommentDetailViews.swift; sourceTree = "<group>"; };
 		48200A4B225DF22A00D19735 /* PVAttentionCommentDetailPro.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PVAttentionCommentDetailPro.swift; sourceTree = "<group>"; };
@@ -251,6 +273,18 @@
 		48200A4F225E0EE600D19735 /* PVHomeReportCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PVHomeReportCell.swift; sourceTree = "<group>"; };
 		48200A51225E130100D19735 /* PVHomeReportDetailVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PVHomeReportDetailVC.swift; sourceTree = "<group>"; };
 		48200A53225E1B5900D19735 /* PVHomeReportDetailPro.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PVHomeReportDetailPro.swift; sourceTree = "<group>"; };
+		482138C2226ACA68001691E2 /* PVPlayVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PVPlayVC.swift; sourceTree = "<group>"; };
+		482138C4226AD068001691E2 /* alivcffmpeg.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = alivcffmpeg.framework; sourceTree = "<group>"; };
+		482138CC226AD195001691E2 /* libz.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libz.tbd; path = usr/lib/libz.tbd; sourceTree = SDKROOT; };
+		482138CE226AD1A2001691E2 /* ImageIO.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = ImageIO.framework; path = System/Library/Frameworks/ImageIO.framework; sourceTree = SDKROOT; };
+		482138D0226AD1B0001691E2 /* CoreMedia.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreMedia.framework; path = System/Library/Frameworks/CoreMedia.framework; sourceTree = SDKROOT; };
+		482138D2226AD1B8001691E2 /* CoreVideo.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreVideo.framework; path = System/Library/Frameworks/CoreVideo.framework; sourceTree = SDKROOT; };
+		482138D4226AD1C3001691E2 /* VideoToolbox.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = VideoToolbox.framework; path = System/Library/Frameworks/VideoToolbox.framework; sourceTree = SDKROOT; };
+		482138D6226AD1CB001691E2 /* MediaPlayer.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MediaPlayer.framework; path = System/Library/Frameworks/MediaPlayer.framework; sourceTree = SDKROOT; };
+		482138D8226AD1D4001691E2 /* OpenAL.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = OpenAL.framework; path = System/Library/Frameworks/OpenAL.framework; sourceTree = SDKROOT; };
+		482138DA226AD1E1001691E2 /* libc++.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = "libc++.tbd"; path = "usr/lib/libc++.tbd"; sourceTree = SDKROOT; };
+		482138DC226AD1F9001691E2 /* libiconv.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libiconv.tbd; path = usr/lib/libiconv.tbd; sourceTree = SDKROOT; };
+		482138E2226AD4A4001691E2 /* AliyunVideoSDKPro.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AliyunVideoSDKPro.framework; path = Pods/AliyunVideoSDKBasic/frameworks/AliyunVideoSDKPro.framework; sourceTree = "<group>"; };
 		4821C6A222560D4F0030BF4B /* PVMeMessageVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PVMeMessageVC.swift; sourceTree = "<group>"; };
 		4821C6A42256131A0030BF4B /* PVMeMessageVCChild.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PVMeMessageVCChild.swift; sourceTree = "<group>"; };
 		482290A02264318C00870988 /* PVPearlSendBillVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PVPearlSendBillVC.swift; sourceTree = "<group>"; };
@@ -261,6 +295,8 @@
 		482290AA2264746600870988 /* PVPearlDealRecordChildPro.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PVPearlDealRecordChildPro.swift; sourceTree = "<group>"; };
 		482290AC2264792200870988 /* PVPearlOrderDetailVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PVPearlOrderDetailVC.swift; sourceTree = "<group>"; };
 		482290AE22647DDE00870988 /* PVPearlOrderDetailViews.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PVPearlOrderDetailViews.swift; sourceTree = "<group>"; };
+		48232F54226F110B001ACECC /* PVPlayCameraViewPro.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PVPlayCameraViewPro.swift; sourceTree = "<group>"; };
+		4824A64E226D5C5100FF7832 /* PVPlayProgressView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PVPlayProgressView.swift; sourceTree = "<group>"; };
 		48283CD222602F4E00CBE8CD /* PVPearlViews.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PVPearlViews.swift; sourceTree = "<group>"; };
 		482F3C39225ADF7600FEC130 /* PVMeMessageVCChildPro.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PVMeMessageVCChildPro.swift; sourceTree = "<group>"; };
 		482F3C3B225AE43F00FEC130 /* PVMeMessageVCChildView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PVMeMessageVCChildView.swift; sourceTree = "<group>"; };
@@ -268,6 +304,8 @@
 		482F3C3F225B5F0900FEC130 /* PVMeInvitationBindingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PVMeInvitationBindingView.swift; sourceTree = "<group>"; };
 		482F3C41225B716800FEC130 /* PVMeTeamVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PVMeTeamVC.swift; sourceTree = "<group>"; };
 		482F3C43225B79B900FEC130 /* PVMeTeamVCPro.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PVMeTeamVCPro.swift; sourceTree = "<group>"; };
+		4830DD5E2268612A00E2B86F /* PVHomePlayContainerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PVHomePlayContainerView.swift; sourceTree = "<group>"; };
+		4830DD61226863DE00E2B86F /* AlivcQuVideoModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlivcQuVideoModel.swift; sourceTree = "<group>"; };
 		483657FD225C2EFC00BCB2D9 /* PVMeTeamVCChild.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PVMeTeamVCChild.swift; sourceTree = "<group>"; };
 		483657FF225C30B700BCB2D9 /* PVMeTeamVCChildPro.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PVMeTeamVCChildPro.swift; sourceTree = "<group>"; };
 		48365801225C311C00BCB2D9 /* PVMeTeamVCChildView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PVMeTeamVCChildView.swift; sourceTree = "<group>"; };
@@ -312,6 +350,8 @@
 		484DAD6C224F1741002BA454 /* PVLoginPro.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PVLoginPro.swift; sourceTree = "<group>"; };
 		484DAD6E224F1741002BA454 /* PVLoginVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PVLoginVC.swift; sourceTree = "<group>"; };
 		484DAE2C224F6DB4002BA454 /* PVLoginChildVCs.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PVLoginChildVCs.swift; sourceTree = "<group>"; };
+		487AFC69226B14EA0064F00A /* PVPlayPro.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PVPlayPro.swift; sourceTree = "<group>"; };
+		487AFC6B226B2E0E0064F00A /* PVPlayCameraView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PVPlayCameraView.swift; sourceTree = "<group>"; };
 		761B771C9F0CE0F909F03944 /* Pods-PearlVideo.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-PearlVideo.release.xcconfig"; path = "Target Support Files/Pods-PearlVideo/Pods-PearlVideo.release.xcconfig"; sourceTree = "<group>"; };
 		930A2A5820FE0D1607F8150B /* Pods-PearlVideo.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-PearlVideo.debug.xcconfig"; path = "Target Support Files/Pods-PearlVideo/Pods-PearlVideo.debug.xcconfig"; sourceTree = "<group>"; };
 		D3B3E5C129A02C953A874031 /* Pods_PearlVideo.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_PearlVideo.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -322,7 +362,17 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				3786B35F33F6D11DBE357261 /* Pods_PearlVideo.framework in Frameworks */,
+				487AFC68226AF36F0064F00A /* alivcffmpeg.framework in Frameworks */,
+				482138DE226AD366001691E2 /* Pods_PearlVideo.framework in Frameworks */,
+				482138DD226AD1F9001691E2 /* libiconv.tbd in Frameworks */,
+				482138DB226AD1E1001691E2 /* libc++.tbd in Frameworks */,
+				482138D9226AD1D4001691E2 /* OpenAL.framework in Frameworks */,
+				482138D7226AD1CB001691E2 /* MediaPlayer.framework in Frameworks */,
+				482138D5226AD1C3001691E2 /* VideoToolbox.framework in Frameworks */,
+				482138D3226AD1B8001691E2 /* CoreVideo.framework in Frameworks */,
+				482138D1226AD1B0001691E2 /* CoreMedia.framework in Frameworks */,
+				482138CF226AD1A2001691E2 /* ImageIO.framework in Frameworks */,
+				482138CD226AD196001691E2 /* libz.tbd in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -380,9 +430,18 @@
 			path = images;
 			sourceTree = "<group>";
 		};
+		4830DD60226863C900E2B86F /* Model */ = {
+			isa = PBXGroup;
+			children = (
+				4830DD61226863DE00E2B86F /* AlivcQuVideoModel.swift */,
+			);
+			path = Model;
+			sourceTree = "<group>";
+		};
 		484DACFB224F10B4002BA454 = {
 			isa = PBXGroup;
 			children = (
+				482138E2226AD4A4001691E2 /* AliyunVideoSDKPro.framework */,
 				484DAD06224F10B4002BA454 /* PearlVideo */,
 				484DAD05224F10B4002BA454 /* Products */,
 				7457E57789A11B4EB0CD7ED1 /* Pods */,
@@ -473,6 +532,7 @@
 		484DAD20224F1254002BA454 /* Vendor */ = {
 			isa = PBXGroup;
 			children = (
+				482138C4226AD068001691E2 /* alivcffmpeg.framework */,
 			);
 			path = Vendor;
 			sourceTree = "<group>";
@@ -643,6 +703,7 @@
 		484DAD73224F1741002BA454 /* Home */ = {
 			isa = PBXGroup;
 			children = (
+				4830DD60226863C900E2B86F /* Model */,
 				484DAD74224F1741002BA454 /* Protocol */,
 				484DAD77224F1741002BA454 /* Controller */,
 				484DAD7A224F1741002BA454 /* View */,
@@ -654,6 +715,7 @@
 			isa = PBXGroup;
 			children = (
 				481F20EA225F350800331CCF /* PVHomePro.swift */,
+				481FD11722697C130028F82C /* PVHomeDelegates.swift */,
 				481F20EC225F416F00331CCF /* PVHomeCommentPro.swift */,
 				48200A53225E1B5900D19735 /* PVHomeReportDetailPro.swift */,
 			);
@@ -674,6 +736,7 @@
 			isa = PBXGroup;
 			children = (
 				481F20E8225F270600331CCF /* PVHomeViews.swift */,
+				4830DD5E2268612A00E2B86F /* PVHomePlayContainerView.swift */,
 				48200A4F225E0EE600D19735 /* PVHomeReportCell.swift */,
 			);
 			path = View;
@@ -692,6 +755,8 @@
 		484DADB5224F1741002BA454 /* Protocol */ = {
 			isa = PBXGroup;
 			children = (
+				487AFC69226B14EA0064F00A /* PVPlayPro.swift */,
+				48232F54226F110B001ACECC /* PVPlayCameraViewPro.swift */,
 			);
 			path = Protocol;
 			sourceTree = "<group>";
@@ -699,6 +764,8 @@
 		484DADB7224F1741002BA454 /* Controller */ = {
 			isa = PBXGroup;
 			children = (
+				481FD11D2269F47B0028F82C /* PVPlayVideoUploadVC.swift */,
+				482138C2226ACA68001691E2 /* PVPlayVC.swift */,
 			);
 			path = Controller;
 			sourceTree = "<group>";
@@ -706,6 +773,8 @@
 		484DADB9224F1741002BA454 /* View */ = {
 			isa = PBXGroup;
 			children = (
+				487AFC6B226B2E0E0064F00A /* PVPlayCameraView.swift */,
+				4824A64E226D5C5100FF7832 /* PVPlayProgressView.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -804,6 +873,16 @@
 		6DFCBF0E62A631F5DD4B9CC2 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				482138DC226AD1F9001691E2 /* libiconv.tbd */,
+				482138DA226AD1E1001691E2 /* libc++.tbd */,
+				482138D8226AD1D4001691E2 /* OpenAL.framework */,
+				482138D6226AD1CB001691E2 /* MediaPlayer.framework */,
+				482138D4226AD1C3001691E2 /* VideoToolbox.framework */,
+				482138D2226AD1B8001691E2 /* CoreVideo.framework */,
+				482138D0226AD1B0001691E2 /* CoreMedia.framework */,
+				482138CE226AD1A2001691E2 /* ImageIO.framework */,
+				482138CC226AD195001691E2 /* libz.tbd */,
+				481FD11B2269EE8B0028F82C /* VODUpload.framework */,
 				D3B3E5C129A02C953A874031 /* Pods_PearlVideo.framework */,
 			);
 			name = Frameworks;
@@ -986,14 +1065,18 @@
 			inputPaths = (
 				"${PODS_ROOT}/Target Support Files/Pods-PearlVideo/Pods-PearlVideo-frameworks.sh",
 				"${BUILT_PRODUCTS_DIR}/Alamofire/Alamofire.framework",
+				"${PODS_ROOT}/AlivcConan/AlivcConan.framework",
+				"${BUILT_PRODUCTS_DIR}/AliyunOSSiOS/AliyunOSSiOS.framework",
 				"${PODS_ROOT}/AliyunPlayer_iOS/AliyunPlayerSDK.framework",
 				"${PODS_ROOT}/AliyunPlayer_iOS/AliThirdparty.framework",
 				"${PODS_ROOT}/AliyunPlayer_iOS/AliyunVodPlayerSDK.framework",
+				"${PODS_ROOT}/AliyunVideoSDKBasic/frameworks/AliyunVideoSDKPro.framework",
 				"${BUILT_PRODUCTS_DIR}/IQKeyboardManagerSwift/IQKeyboardManagerSwift.framework",
 				"${BUILT_PRODUCTS_DIR}/Kingfisher/Kingfisher.framework",
 				"${BUILT_PRODUCTS_DIR}/MJRefresh/MJRefresh.framework",
 				"${BUILT_PRODUCTS_DIR}/ObjectMapper/ObjectMapper.framework",
 				"${BUILT_PRODUCTS_DIR}/PYSearch/PYSearch.framework",
+				"${PODS_ROOT}/QuCore-ThirdParty/frameworks/alivcffmpeg.framework",
 				"${BUILT_PRODUCTS_DIR}/SVProgressHUD/SVProgressHUD.framework",
 				"${BUILT_PRODUCTS_DIR}/SnapKit/SnapKit.framework",
 				"${BUILT_PRODUCTS_DIR}/SwiftyJSON/SwiftyJSON.framework",
@@ -1010,14 +1093,18 @@
 			);
 			outputPaths = (
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Alamofire.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/AlivcConan.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/AliyunOSSiOS.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/AliyunPlayerSDK.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/AliThirdparty.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/AliyunVodPlayerSDK.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/AliyunVideoSDKPro.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/IQKeyboardManagerSwift.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Kingfisher.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/MJRefresh.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/ObjectMapper.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/PYSearch.framework",
+				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/alivcffmpeg.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SVProgressHUD.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SnapKit.framework",
 				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SwiftyJSON.framework",
@@ -1051,6 +1138,7 @@
 				481C59A9225342220086F616 /* PVMeHeaderView.swift in Sources */,
 				481C599F225311110086F616 /* PVForgetPsdVC.swift in Sources */,
 				481C59AF225363AF0086F616 /* PVMeProductionCell.swift in Sources */,
+				481FD11822697C130028F82C /* PVHomeDelegates.swift in Sources */,
 				481F80392261DCE600C20CB1 /* PVPearlMarketVC.swift in Sources */,
 				481F80372261D0B600C20CB1 /* PVPearlShellLevelVC.swift in Sources */,
 				481C59AD2253621F0086F616 /* PVMeVCChild.swift in Sources */,
@@ -1081,6 +1169,7 @@
 				48283CD322602F4E00CBE8CD /* PVPearlViews.swift in Sources */,
 				48200A54225E1B5900D19735 /* PVHomeReportDetailPro.swift in Sources */,
 				482290AB2264746600870988 /* PVPearlDealRecordChildPro.swift in Sources */,
+				4824A64F226D5C5100FF7832 /* PVPlayProgressView.swift in Sources */,
 				48365808225C8C4700BCB2D9 /* PVAttentionDetailViews.swift in Sources */,
 				482290AF22647DDE00870988 /* PVPearlOrderDetailViews.swift in Sources */,
 				481D665A2254CEA000B59929 /* PVMeSettingVCChildPro.swift in Sources */,
@@ -1092,9 +1181,12 @@
 				481D6652225450E900B59929 /* PVDatePickerView.swift in Sources */,
 				48200A50225E0EE600D19735 /* PVHomeReportCell.swift in Sources */,
 				481C599D2252EDD30086F616 /* PVLoginChildVCPro.swift in Sources */,
+				48232F55226F110B001ACECC /* PVPlayCameraViewPro.swift in Sources */,
+				487AFC6C226B2E0E0064F00A /* PVPlayCameraView.swift in Sources */,
 				4821C6A322560D4F0030BF4B /* PVMeMessageVC.swift in Sources */,
 				481C59B522537F6B0086F616 /* PVMeAttentionCell.swift in Sources */,
 				482F3C40225B5F0900FEC130 /* PVMeInvitationBindingView.swift in Sources */,
+				4830DD5F2268612A00E2B86F /* PVHomePlayContainerView.swift in Sources */,
 				484DADE2224F1741002BA454 /* EipApplicationModel.swift in Sources */,
 				481C59B922538C4B0086F616 /* PVMeUserinfoEditVC.swift in Sources */,
 				481F803B2261E8DF00C20CB1 /* PVPearlMarketChildVCs.swift in Sources */,
@@ -1118,6 +1210,8 @@
 				48365806225C853800BCB2D9 /* PVAttentionDetailVC.swift in Sources */,
 				481F20E9225F270600331CCF /* PVHomeViews.swift in Sources */,
 				484DADC6224F1741002BA454 /* PVBaseViewController.swift in Sources */,
+				487AFC6A226B14EA0064F00A /* PVPlayPro.swift in Sources */,
+				482138C3226ACA68001691E2 /* PVPlayVC.swift in Sources */,
 				48200A52225E130100D19735 /* PVHomeReportDetailVC.swift in Sources */,
 				484DAD38224F140F002BA454 /* PVRefresh.swift in Sources */,
 				484DAD08224F10B4002BA454 /* AppDelegate.swift in Sources */,
@@ -1126,6 +1220,7 @@
 				48200A4A225DE02700D19735 /* PVAttentionCommentDetailViews.swift in Sources */,
 				4821C6A52256131A0030BF4B /* PVMeMessageVCChild.swift in Sources */,
 				481F8031226190D500C20CB1 /* PVPearlPlantDetailVC.swift in Sources */,
+				481FD11E2269F47B0028F82C /* PVPlayVideoUploadVC.swift in Sources */,
 				483657FE225C2EFC00BCB2D9 /* PVMeTeamVCChild.swift in Sources */,
 				484DAE2D224F6DB4002BA454 /* PVLoginChildVCs.swift in Sources */,
 				481C59AB22535CFB0086F616 /* PVMePro.swift in Sources */,
@@ -1143,6 +1238,7 @@
 				481C59B72253882B0086F616 /* PVMeFansVC.swift in Sources */,
 				481C59BB22538E570086F616 /* PVMeUserinfoEditCell.swift in Sources */,
 				484DADCD224F1741002BA454 /* PVMeViewController.swift in Sources */,
+				4830DD62226863DE00E2B86F /* AlivcQuVideoModel.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1283,6 +1379,13 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = 5D56L9247R;
+				ENABLE_BITCODE = NO;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/Pods/VODUpload/frameworks",
+					"$(PROJECT_DIR)/PearlVideo/Vendor",
+					"$(PROJECT_DIR)/Pods/AliyunVideoSDKBasic/frameworks",
+				);
 				INFOPLIST_FILE = PearlVideo/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -1304,6 +1407,13 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = 5D56L9247R;
+				ENABLE_BITCODE = NO;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(PROJECT_DIR)/Pods/VODUpload/frameworks",
+					"$(PROJECT_DIR)/PearlVideo/Vendor",
+					"$(PROJECT_DIR)/Pods/AliyunVideoSDKBasic/frameworks",
+				);
 				INFOPLIST_FILE = PearlVideo/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = (

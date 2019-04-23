@@ -108,6 +108,7 @@ class PVHomeNaviBarView: UIView {
 protocol PVHomeVideoInfoDelegate: NSObjectProtocol {
     ///点击头像
     func didClickHead()
+    func didSelectedAttention(sender: UIButton)
 }
 
 class PVHomeVideoInfoView: UIView {
@@ -129,6 +130,13 @@ class PVHomeVideoInfoView: UIView {
         l.textColor = UIColor.white
         return l
     }()
+    lazy var attentionBtn: UIButton = {
+        let b = UIButton()
+        b.setImage(UIImage.init(named: "home_关注"), for: .normal)
+        b.setImage(UIImage.init(named: "home_已关注"), for: .selected)
+        b.addTarget(self, action: #selector(attention(sender:)), for: .touchUpInside)
+        return b
+    }()
     lazy var detailLabel: UILabel = {
         let l = UILabel()
         l.font = kFont_text
@@ -139,13 +147,12 @@ class PVHomeVideoInfoView: UIView {
     
     override init(frame: CGRect) {
         super.init(frame: frame)
-        backgroundColor = UIColor.clear
         addSubview(headerBtn)
         addSubview(nameLabel)
+        addSubview(attentionBtn)
         addSubview(detailLabel)
         headerBtn.snp.makeConstraints { (make) in
-            make.left.equalToSuperview().offset(10 * KScreenRatio_6)
-            make.bottom.equalTo(detailLabel.snp.top).offset(-15 * KScreenRatio_6)
+            make.top.left.equalToSuperview().offset(10 * KScreenRatio_6)
             make.size.equalTo(CGSize.init(width: 20 * KScreenRatio_6, height: 20 * KScreenRatio_6))
         }
         nameLabel.snp.makeConstraints { (make) in
@@ -155,7 +162,7 @@ class PVHomeVideoInfoView: UIView {
         detailLabel.snp.makeConstraints { (make) in
             make.left.equalTo(headerBtn)
             make.right.equalToSuperview().offset(-20)
-            make.top.equalToSuperview().offset(550 * KScreenRatio_6)
+            make.top.equalTo(headerBtn.snp.bottom).offset(15 * KScreenRatio_6)
         }
     }
     
@@ -163,8 +170,29 @@ class PVHomeVideoInfoView: UIView {
         fatalError("init(coder:) has not been implemented")
     }
     
+    override func layoutSubviews() {
+        super.layoutSubviews()
+        if nameLabel.width > 0 {
+            attentionBtn.snp.remakeConstraints { (make) in
+                make.left.equalTo(nameLabel.snp.right).offset(15 * KScreenRatio_6)
+                make.centerY.equalTo(nameLabel)
+            }
+        }
+    }
+    
+    public func clearData() {
+        headerBtn.setImage(nil, for: .normal)
+        nameLabel.text = nil
+        detailLabel.text = nil
+        attentionBtn.isSelected = false
+    }
+    
     @objc func didClickHead() {
         delegate?.didClickHead()
+    }
+    
+    @objc func attention(sender: UIButton) {
+        delegate?.didSelectedAttention(sender: sender)
     }
     
 }

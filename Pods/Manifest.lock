@@ -1,8 +1,15 @@
 PODS:
   - Alamofire (4.8.1)
+  - AlivcConan (0.9.0):
+    - AlivcConan/AlivcConan (= 0.9.0)
+  - AlivcConan/AlivcConan (0.9.0)
+  - AliyunOSSiOS (2.10.7)
   - AliyunPlayer_iOS/AliyunPlayerSDK (3.4.9)
   - AliyunPlayer_iOS/AliyunVodPlayerSDK (3.4.9):
     - AliyunPlayer_iOS/AliyunPlayerSDK
+  - AliyunVideoSDKBasic (3.8.0):
+    - QuCore-ThirdParty
+    - VODUpload
   - IQKeyboardManagerSwift (6.2.0)
   - Kingfisher (4.10.1)
   - lottie-ios (2.5.3)
@@ -10,12 +17,15 @@ PODS:
   - ObjectMapper (3.4.2)
   - pop (1.0.12)
   - PYSearch (0.9.1)
+  - QuCore-ThirdParty (3.8.0)
   - SnapKit (4.2.0)
   - SVProgressHUD (2.2.5)
   - SwiftyJSON (4.2.0)
   - Toast-Swift (4.0.1)
   - TZImagePickerController (3.2.0)
   - "UITableView+FDTemplateLayoutCell (1.6)"
+  - VODUpload (1.5.0):
+    - AliyunOSSiOS
   - WMPageController (2.5.2)
   - YYKit (1.0.9):
     - YYKit/no-arc (= 1.0.9)
@@ -23,7 +33,10 @@ PODS:
 
 DEPENDENCIES:
   - Alamofire
+  - AlivcConan
+  - AliyunOSSiOS
   - AliyunPlayer_iOS/AliyunVodPlayerSDK
+  - AliyunVideoSDKBasic
   - IQKeyboardManagerSwift
   - Kingfisher
   - lottie-ios
@@ -31,19 +44,24 @@ DEPENDENCIES:
   - ObjectMapper
   - pop
   - PYSearch
+  - QuCore-ThirdParty
   - SnapKit
   - SVProgressHUD
   - SwiftyJSON
   - Toast-Swift
   - TZImagePickerController
   - "UITableView+FDTemplateLayoutCell"
+  - VODUpload
   - WMPageController
   - YYKit
 
 SPEC REPOS:
   https://github.com/cocoapods/specs.git:
     - Alamofire
+    - AlivcConan
+    - AliyunOSSiOS
     - AliyunPlayer_iOS
+    - AliyunVideoSDKBasic
     - IQKeyboardManagerSwift
     - Kingfisher
     - lottie-ios
@@ -51,18 +69,23 @@ SPEC REPOS:
     - ObjectMapper
     - pop
     - PYSearch
+    - QuCore-ThirdParty
     - SnapKit
     - SVProgressHUD
     - SwiftyJSON
     - Toast-Swift
     - TZImagePickerController
     - "UITableView+FDTemplateLayoutCell"
+    - VODUpload
     - WMPageController
     - YYKit
 
 SPEC CHECKSUMS:
   Alamofire: 16ce2c353fb72865124ddae8a57c5942388f4f11
+  AlivcConan: 57758f7918c8c718dbb9b9bbe298fdc6724191ac
+  AliyunOSSiOS: 602b6a4e70e62a5f0a6431c20496343141d7e66f
   AliyunPlayer_iOS: 5704f564e0c041668138a604ebff31ecb13fe7d3
+  AliyunVideoSDKBasic: b160d0c838bce5a10b3fa22468a3f16f850b40c1
   IQKeyboardManagerSwift: b07ccf9d8cafe993dcd6cb794eb4ba34611a0c4e
   Kingfisher: c148cd7b47ebde9989f6bc7c27dcaa79d81279a0
   lottie-ios: a50d5c0160425cd4b01b852bb9578963e6d92d31
@@ -70,15 +93,17 @@ SPEC CHECKSUMS:
   ObjectMapper: 0d4402610f4e468903ae64629eec4784531e5c51
   pop: d582054913807fd11fd50bfe6a539d91c7e1a55a
   PYSearch: 76dee18eea3309b60921a5d6a69390a63a5dda15
+  QuCore-ThirdParty: 4856aa9d5b642fc6ae9375c5c8f9c760f5051142
   SnapKit: fe8a619752f3f27075cc9a90244d75c6c3f27e2a
   SVProgressHUD: 1428aafac632c1f86f62aa4243ec12008d7a51d6
   SwiftyJSON: c4bcba26dd9ec7a027fc8eade48e2c911f229e96
   Toast-Swift: e42a638589a2f95036b4bb7626cfbdde7daf0393
   TZImagePickerController: 7850b158d025065b162a1a963d445040b828abc9
   "UITableView+FDTemplateLayoutCell": 5c949b4a5059c404b442926c0e80f81d10a2d66f
+  VODUpload: 95fefc3b9d75067247fa87369933a86cb4bd21f3
   WMPageController: 0c7624d2b48e4f1ab92371688cf6744ed701575d
   YYKit: 7cda43304a8dc3696c449041e2cb3107b4e236e7
 
-PODFILE CHECKSUM: 9f391a261b90196c63e0ee99315290a1e3fb38fa
+PODFILE CHECKSUM: c2cbf7087901eddd588c2c6954d9b92263be28b9
 
 COCOAPODS: 1.6.0.beta.1

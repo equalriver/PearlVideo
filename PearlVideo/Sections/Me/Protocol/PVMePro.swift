@@ -6,6 +6,7 @@
 //  Copyright © 2019 equalriver. All rights reserved.
 //
 
+import WMPageController
 
 //MARK: - actions
 extension PVMeViewController {

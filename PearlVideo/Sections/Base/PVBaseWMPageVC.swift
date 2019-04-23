@@ -3,6 +3,7 @@
 
 
 import UIKit
+import WMPageController
 
 class PVBaseWMPageVC: WMPageController {
     
