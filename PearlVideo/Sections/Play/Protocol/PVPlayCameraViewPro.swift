@@ -8,6 +8,15 @@
 
 extension PVPlayCameraView {
     
+    //刷新进度条的进度
+    public func recordingPercent(percent: CGFloat) {
+        progressView.updateProgress(progress: percent)
+        if percent == 0 {
+            progressView.reset()
+            hide = true
+        }
+    }
+    
     //闪光灯
     @objc func flashAction(sender: UIButton) {
         sender.isSelected = !sender.isSelected
@@ -52,7 +61,13 @@ extension PVPlayCameraView {
     }
     
     func endRecord() {
-        
+        startTime = 0
+        delegate?.didPauseRecord()
+        progressView.isShowBlink = false
+        deleteBtn.isEnabled = true
+        if progressView.videoCount > 0 {
+            deleteBtn.isHidden = false
+        }
     }
     
 }

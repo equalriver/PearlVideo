@@ -21,11 +21,27 @@ class PVPlayCameraView: UIView {
     
     weak public var delegate: PVPlayCameraDelegate?
     
+    public var hide = false {
+        willSet{
+            topView.isHidden = newValue
+            deleteBtn.isHidden = newValue
+            finishButton.isHidden = newValue
+        }
+    }
+    
     //最大时间
-    var maxDuration: CGFloat = 0
+    var maxDuration: CGFloat = 0 {
+        didSet{
+            progressView.maxDuration = maxDuration
+        }
+    }
     
     //最小时间
-    var minDuration: CGFloat = 0
+    var minDuration: CGFloat = 0 {
+        didSet{
+            progressView.minDuration = minDuration
+        }
+    }
     
     //准确的视频个数
     var realVideoCount = 0
