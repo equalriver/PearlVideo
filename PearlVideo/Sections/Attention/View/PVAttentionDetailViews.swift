@@ -233,7 +233,7 @@ class PVAttentionDetailCommentCell: PVBaseTableCell {
         let iv = UIImageView()
         iv.contentMode = .scaleAspectFill
         let rect = CGRect.init(x: 0, y: 0, width: 40 * KScreenRatio_6, height: 40 * KScreenRatio_6)
-        iv.ypj.makeViewRoundingMask(roundedRect: rect, corners: UIRectCorner.allCorners, cornerRadii: CGSize.init(width: rect.height / 2, height: rect.height / 2))
+        iv.ypj.addCornerShape(rect: rect, cornerRadius: rect.height / 2)
         return iv
     }()
     lazy var nameLabel: UILabel = {
@@ -268,7 +268,7 @@ class PVAttentionDetailCommentCell: PVBaseTableCell {
         let v = UIView()
         v.backgroundColor = kColor_background
         let rect = CGRect.init(x: 0, y: 0, width: 230 * KScreenRatio_6, height: 30 * KScreenRatio_6)
-        v.ypj.makeViewRoundingMask(roundedRect: rect, corners: UIRectCorner.allCorners, cornerRadii: CGSize.init(width: 5, height: 5))
+        v.ypj.addCornerShape(rect: rect, cornerRadius: 5)
         v.isHidden = true
         return v
     }()

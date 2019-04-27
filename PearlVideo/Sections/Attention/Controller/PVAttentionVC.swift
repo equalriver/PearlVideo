@@ -35,14 +35,10 @@ class PVAttentionVC: PVBaseNavigationVC {
         }
     }
     
-//    override func viewWillAppear(_ animated: Bool) {
-//        super.viewWillAppear(animated)
-//        YPJOtherTool.ypj.loginValidate(currentVC: self) { (isFinish) in
-//            if isFinish {
-//
-//            }
-//        }
-//    }
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        view.stateUnlogin(title: "登录可同步关注", img: nil)
+    }
  
 
 }

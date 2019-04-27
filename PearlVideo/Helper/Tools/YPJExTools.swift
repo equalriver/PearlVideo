@@ -59,7 +59,7 @@ extension YPJViewTools where YPJToolType == UIView {
     
     //MARK: - 添加圆角sublayer层
     ///添加圆角sublayer层
-    func addCornerShape(rect: CGRect, cornerRadius: CGFloat, fillColor: UIColor) {
+    func addCornerShape(rect: CGRect, cornerRadius: CGFloat, fillColor: UIColor = UIColor.clear) {
         let p = UIBezierPath()
         
         let sl = CAShapeLayer()
@@ -360,7 +360,7 @@ extension YPJImageTools where YPJToolType == UIImage {
     
     //MARK: - 异步绘制圆角
     ///异步绘制圆角
-    public func asyncDrawCornerRadius(roundedRect: CGRect, cornerRadius: CGFloat, fillColor: UIColor, callback: @escaping (_ img: UIImage) -> Void) {
+    public func asyncDrawCornerRadius(roundedRect: CGRect, cornerRadius: CGFloat, fillColor: UIColor, callback: @escaping (_ img: UIImage?) -> Void) {
         
         DispatchQueue.global().async {
             // 1.利用绘图，建立上下文 - 内存中开辟一个地址，跟屏幕无关!
@@ -401,10 +401,8 @@ extension YPJImageTools where YPJToolType == UIImage {
             // 7.关闭上下文
             UIGraphicsEndImageContext()
             
-            if result != nil {
-                DispatchQueue.main.async {
-                    callback(result!)
-                }
+            DispatchQueue.main.async {
+                callback(result)
             }
         }
     }

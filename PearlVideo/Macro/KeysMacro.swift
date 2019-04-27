@@ -15,7 +15,10 @@ public let kLastInputIP = "kLastInputIP"
 public let kLastInputAccount = "kLastInputAccount"
 
 ///base url
-public let kBaseURLString = "http://192.168.0.137:8080/api/"
+public let kBaseURLString = UserDefaults.standard.string(forKey: kLocalIP) ?? "http://192.168.0.137:8080/api/"
+
+///local text ip
+public let kLocalIP = "kLocalIP"
 
 ///获取app version url  k: ["results"][0]["version"]
 public let kAppVersionURL = "http://itunes.apple.com/lookup?id=你的AppStoreid"
@@ -29,8 +32,8 @@ public let kPVMsgJSName_none = ""
 ///极光推送 key
 public let kJPushKey = ""
 
-///是否登录IM
-public let kIsLoginIM = "kIsLoginIM"
+///key chain service
+public let kKeyChainService = "com.lzmingsi.PearlVideo.keyChainService"
 
 
 //AES

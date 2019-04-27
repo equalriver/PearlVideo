@@ -8,7 +8,7 @@ import SwiftyJSON
 enum Router: URLRequestConvertible {
     
     ///注册
-    case register(phone: String, msgcode: String)
+    case register(phone: String, msgcode: String, inviteCode: String)
     
     ///登录
     case login(phone: String, psd: String, msgcode: String)
@@ -20,7 +20,7 @@ enum Router: URLRequestConvertible {
     case forgetPsd(email: String, newPsd: String, authCode: String)
     
     ///修改密码
-    case changePsd(oldPsd: String, newPsd: String)
+    case changePsd(userId: String, phone: String, psd: String)
     
     ///退出登录
     case loginOut()
@@ -78,7 +78,7 @@ enum Router: URLRequestConvertible {
         
         var path: String {
             switch self {
-            //
+            //login
             case .register:
                 return "signUp"
                 
@@ -89,7 +89,7 @@ enum Router: URLRequestConvertible {
                 return "sendMsgCode"
                 
             case .forgetPsd:
-                return "/api/base/forgetPsd"
+                return "retrievePassword"
                 
             case .changePsd:
                 return "/api/base/changePsd.do"
@@ -156,10 +156,11 @@ enum Router: URLRequestConvertible {
         
         switch self {
         //
-        case .register(let phone, let msgcode):
+        case .register(let phone, let msgcode, let inviteCode):
             param = [
                 "mobile": phone,
-                "msgcode": msgcode
+                "msgcode": msgcode,
+                "inviteCode": inviteCode
             ]
             
         case .login(let phone, let psd, let msgcode):
@@ -181,10 +182,11 @@ enum Router: URLRequestConvertible {
                 "authCode": authCode
             ]
 
-        case .changePsd(let oldPsd, let newPsd):
+        case .changePsd(let userId, let mobile, let password):
             param = [
-                "oldPsd": oldPsd,
-                "newPsd": newPsd
+                "userId": userId,
+                "mobile": mobile,
+                "password": password
             ]
         
         case .loginOut: break

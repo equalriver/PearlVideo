@@ -86,7 +86,7 @@ class PVPhoneLoginVC: PVBaseNavigationVC {
         b.setTitleColor(UIColor.white, for: .normal)
         b.layer.cornerRadius = 20 * KScreenRatio_6
         b.layer.masksToBounds = true
-        b.addTarget(self, action: #selector(login), for: .touchUpInside)
+        b.addTarget(self, action: #selector(login(sender:)), for: .touchUpInside)
         return b
     }()
     lazy var bottomLabel_1: UILabel = {
@@ -214,6 +214,10 @@ class PVPhoneLoginVC: PVBaseNavigationVC {
 //MARK: - 注册
 class PVRegisterVC: PVBaseNavigationVC {
     
+    //是否选中用户协议和隐私政策
+    var isSelectedClause = true
+    
+    
     lazy var phoneTF: PVBottomLineTextField = {
         let tf = PVBottomLineTextField()
         tf.font = kFont_text
@@ -221,6 +225,7 @@ class PVRegisterVC: PVBaseNavigationVC {
         tf.textColor = kColor_text
         tf.clearButtonMode = .whileEditing
         tf.keyboardType = .numbersAndPunctuation
+        tf.delegate = self
         return tf
     }()
     lazy var authCodeTF: PVBottomLineTextField = {
@@ -230,6 +235,7 @@ class PVRegisterVC: PVBaseNavigationVC {
         tf.textColor = kColor_text
         tf.clearButtonMode = .whileEditing
         tf.keyboardType = .numbersAndPunctuation
+        tf.delegate = self
         return tf
     }()
     lazy var getAuthCodeBtn: UIButton = {
@@ -249,7 +255,7 @@ class PVRegisterVC: PVBaseNavigationVC {
         b.setTitleColor(UIColor.white, for: .normal)
         b.layer.cornerRadius = 20 * KScreenRatio_6
         b.layer.masksToBounds = true
-        b.addTarget(self, action: #selector(register), for: .touchUpInside)
+        b.addTarget(self, action: #selector(register(sender:)), for: .touchUpInside)
         return b
     }()
     lazy var checkboxBtn: UIButton = {

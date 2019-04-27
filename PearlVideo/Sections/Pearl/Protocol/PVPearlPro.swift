@@ -13,6 +13,13 @@ extension PVPearlVC {
 
 //MARK: - header view delegate
 extension PVPearlVC: PVPearlHeaderDelegate {
+    //升级贝壳
+    func didSelectedLevelUp() {
+        YPJOtherTool.ypj.showAlert(title: nil, message: "升级x贝壳LVxx需消耗xx珍珠", style: .alert, isNeedCancel: true) { (ac) in
+            
+        }
+    }
+    
     //珍珠明细
     func didSelectedPearlDetail() {
         

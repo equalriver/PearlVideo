@@ -67,7 +67,7 @@ class PVTabBarController: UITabBarController {
     }()
 
     private lazy var pearlVC: PVBaseRootNaviVC = {
-        let vc = PVBaseRootNaviVC.init(rootViewController: UIViewController())//PVPearlVC
+        let vc = PVBaseRootNaviVC.init(rootViewController: PVPearlVC())
         return vc
     }()
 
@@ -95,7 +95,8 @@ class PVTabBarController: UITabBarController {
     
     @objc func didSelectedPlay() {
         if let vc = self.selectedViewController {
-            
+            let playVC = PVPlayVC()
+            vc.present(playVC, animated: true, completion: nil)
         }
     }
 

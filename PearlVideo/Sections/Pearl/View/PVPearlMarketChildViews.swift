@@ -29,7 +29,7 @@ class PVPearlMarketBuyCollectionCell: UICollectionViewCell {
     override init(frame: CGRect) {
         super.init(frame: frame)
         contentView.backgroundColor = kColor_background
-        contentView.ypj.makeViewRoundingMask(roundedRect: CGRect.init(origin: .zero, size: frame.size), corners: UIRectCorner.allCorners, cornerRadii: CGSize.init(width: 5, height: 5))
+        contentView.ypj.addCornerShape(rect: CGRect.init(origin: .zero, size: frame.size), cornerRadius: 5)
         contentView.addSubview(numberLabel)
         contentView.addSubview(nameLabel)
         numberLabel.snp.makeConstraints { (make) in
@@ -67,7 +67,8 @@ class PVPearlMarketBuyCell: PVBaseTableCell {
     
     lazy var iconIV: UIImageView = {
         let iv = UIImageView()
-        iv.ypj.makeViewRoundingMask(roundedRect: CGRect.init(x: 0, y: 0, width: 23 * KScreenRatio_6, height: 23 * KScreenRatio_6), corners: UIRectCorner.allCorners, cornerRadii: CGSize.init(width: 23 * KScreenRatio_6, height: 23 * KScreenRatio_6))
+        let rect = CGRect.init(x: 0, y: 0, width: 23 * KScreenRatio_6, height: 23 * KScreenRatio_6)
+        iv.ypj.addCornerShape(rect: rect, cornerRadius: rect.height / 2)
         return iv
     }()
     lazy var nameLabel: UILabel = {
@@ -101,7 +102,9 @@ class PVPearlMarketBuyCell: PVBaseTableCell {
         b.setTitleColor(kColor_pink, for: .normal)
         b.layer.borderColor = kColor_pink!.cgColor
         b.layer.borderWidth = 1
-        b.ypj.makeViewRoundingMask(roundedRect: CGRect.init(x: 0, y: 0, width: 60 * KScreenRatio_6, height: 25 * KScreenRatio_6), corners: UIRectCorner.allCorners, cornerRadii: CGSize.init(width: 5, height: 5))
+        let rect = CGRect.init(x: 0, y: 0, width: 60 * KScreenRatio_6, height: 25 * KScreenRatio_6)
+        b.ypj.addCornerShape(rect: rect, cornerRadius: 5)
+ 
         b.addTarget(self, action: #selector(didSelectedBuy), for: .touchUpInside)
         return b
     }()

@@ -38,7 +38,7 @@ class PVMeTeamCell: PVBaseTableCell {
         }
         //addShape
         let rect = CGRect.init(x: 0, y: 0, width: 40 * KScreenRatio_6, height: 40 * KScreenRatio_6)
-        iconIV.ypj.makeViewRoundingMask(roundedRect: rect, corners: UIRectCorner.allCorners, cornerRadii: CGSize.init(width: rect.height / 2, height: rect.height / 2))
+        iconIV.ypj.addCornerShape(rect: rect, cornerRadius: rect.height / 2)
     }
     
     required init?(coder aDecoder: NSCoder) {

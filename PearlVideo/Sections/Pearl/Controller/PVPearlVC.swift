@@ -8,6 +8,7 @@
 
 import UIKit
 
+
 class PVPearlVC: PVBaseNavigationVC {
     
     
@@ -53,5 +54,9 @@ class PVPearlVC: PVBaseNavigationVC {
         }
     }
     
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        view.stateUnlogin(title: "登录可喂养珍珠", img: nil)
+    }
 
 }

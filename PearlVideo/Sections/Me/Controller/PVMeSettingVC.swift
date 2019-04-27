@@ -87,14 +87,16 @@ extension PVMeSettingVC: UITableViewDataSource, UITableViewDelegate {
             img += items_3[indexPath.row]
             title = items_3[indexPath.row]
             if indexPath.row == 0 {//清理缓存
+                let s = YPJOtherTool.ypj.getLocalFilesSize(path: NSSearchPathForDirectoriesInDomains(.cachesDirectory, .userDomainMask, true).first ?? "")
+                detail = s > 0 ? "\(s)M" : nil
                 KingfisherManager.shared.cache.calculateDiskCacheSize { (size) in
-                    let m = size / 1024 * 1024
+                    let m = Double(size) / 1024.0 * 1024.0 + s
                     detail = "\(m)M"
                 }
             }
             if indexPath.row == 2 {//检测更新
                 isShowBadge = true
-                detail = ""
+                detail = nil
             }
         }
         let cell = PVMeSettingCell.init(img: img, title: title, detail: detail, showBadge: isShowBadge)

@@ -8,6 +8,7 @@ import CFNetwork
 import LocalAuthentication
 import CommonCrypto
 import Photos
+import Security
 
 struct YPJOtherTool {
     
@@ -18,6 +19,37 @@ struct YPJOtherTool {
 
 //MARK: -
 extension YPJOtherTool {
+    
+    //MARK: - 获取key chain中的uuid
+    ///获取key chain中的uuid
+    func getUUIDWithkeyChain() -> String {
+        guard let uid = YYKeychain.getPasswordForService(kKeyChainService, account: "uuid") else {
+            let uuid = UUID.init().uuidString
+            let isSuccess = YYKeychain.setPassword(uuid, forService: kKeyChainService, account: "uuid")
+            if isSuccess == false { print("*********** 设置uuid失败 **********") }
+            return uuid
+        }
+        return uid
+    }
+    
+    
+    //MARK: - 获取文件大小(返回M)
+    ///获取文件大小(返回M)
+    func getLocalFilesSize(path: String) -> Double {
+        let isContainFile = FileManager.default.fileExists(atPath: path)
+        if isContainFile == false { return 0 }
+        guard let subPaths = FileManager.default.subpaths(atPath: path) else { return 0}
+        var size: Double = 0
+        for v in subPaths {
+            let fileAbsolutePath = path + v
+            if FileManager.default.fileExists(atPath: fileAbsolutePath) {
+                guard let dic = try? FileManager.default.attributesOfItem(atPath: fileAbsolutePath) else { continue }
+                guard let s = dic[.size] as? Double else { continue }
+                size += s
+            }
+        }
+        return size / (1024.0 * 1024.0)
+    }
     
     //MARK: - AES128加密
     ///AES128加密

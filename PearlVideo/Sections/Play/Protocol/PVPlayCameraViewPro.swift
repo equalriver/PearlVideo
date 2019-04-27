@@ -17,6 +17,12 @@ extension PVPlayCameraView {
         }
     }
     
+    //重制录制按钮
+    public func resetRecordButtonUI() {
+        recordBtn.isSelected = false
+        recordBtn.transform = .identity
+    }
+    
     //闪光灯
     @objc func flashAction(sender: UIButton) {
         sender.isSelected = !sender.isSelected

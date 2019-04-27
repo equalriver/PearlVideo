@@ -30,7 +30,8 @@ class PVPearlOrderDetailItemView: UIView {
         l.font = kFont_text_2
         l.textColor = kColor_text
         l.backgroundColor = kColor_background
-        l.ypj.makeViewRoundingMask(roundedRect: CGRect.init(x: 0, y: 0, width: 230 * KScreenRatio_6, height: 25 * KScreenRatio_6), corners: UIRectCorner.allCorners, cornerRadii: CGSize.init(width: 5, height: 5))
+        let rect = CGRect.init(x: 0, y: 0, width: 230 * KScreenRatio_6, height: 25 * KScreenRatio_6)
+        l.ypj.addCornerShape(rect: rect, cornerRadius: 5)
         return l
     }()
     lazy var actionBtn: UIButton = {
@@ -88,7 +89,8 @@ class PVPearlOrderDetailPayCell: PVBaseTableCell {
     lazy var contentBgView: UIView = {
         let v = UIView()
         v.backgroundColor = UIColor.white
-        v.ypj.makeViewRoundingMask(roundedRect: CGRect.init(x: 0, y: 0, width: 360 * KScreenRatio_6, height: 125 * KScreenRatio_6), corners: UIRectCorner.allCorners, cornerRadii: CGSize.init(width: 5, height: 5))
+        let rect = CGRect.init(x: 0, y: 0, width: 360 * KScreenRatio_6, height: 125 * KScreenRatio_6)
+        v.ypj.addCornerShape(rect: rect, cornerRadius: 5)
         return v
     }()
     lazy var titleLabel: UILabel = {
@@ -227,7 +229,8 @@ class PVPearlOrderDetailBuyerCell: PVBaseTableCell {
     lazy var contentBgView: UIView = {
         let v = UIView()
         v.backgroundColor = UIColor.white
-        v.ypj.makeViewRoundingMask(roundedRect: CGRect.init(x: 0, y: 0, width: 360 * KScreenRatio_6, height: 145 * KScreenRatio_6), corners: UIRectCorner.allCorners, cornerRadii: CGSize.init(width: 5, height: 5))
+        let rect = CGRect.init(x: 0, y: 0, width: 360 * KScreenRatio_6, height: 145 * KScreenRatio_6)
+        v.ypj.addCornerShape(rect: rect, cornerRadius: 5)
         return v
     }()
     lazy var titleLabel: UILabel = {
@@ -318,7 +321,8 @@ class PVPearlOrderDetailSellerCell: PVBaseTableCell {
     lazy var contentBgView: UIView = {
         let v = UIView()
         v.backgroundColor = UIColor.white
-        v.ypj.makeViewRoundingMask(roundedRect: CGRect.init(x: 0, y: 0, width: 360 * KScreenRatio_6, height: 200 * KScreenRatio_6), corners: UIRectCorner.allCorners, cornerRadii: CGSize.init(width: 5, height: 5))
+        let rect = CGRect.init(x: 0, y: 0, width: 360 * KScreenRatio_6, height: 200 * KScreenRatio_6)
+        v.ypj.addCornerShape(rect: rect, cornerRadius: 5)
         return v
     }()
     lazy var titleLabel: UILabel = {
@@ -421,7 +425,8 @@ class PVPearlOrderDetailScreenShotCell: PVBaseTableCell {
     lazy var contentBgView: UIView = {
         let v = UIView()
         v.backgroundColor = UIColor.white
-        v.ypj.makeViewRoundingMask(roundedRect: CGRect.init(x: 0, y: 0, width: 360 * KScreenRatio_6, height: 200 * KScreenRatio_6), corners: UIRectCorner.allCorners, cornerRadii: CGSize.init(width: 5, height: 5))
+        let rect = CGRect.init(x: 0, y: 0, width: 360 * KScreenRatio_6, height: 200 * KScreenRatio_6)
+        v.ypj.addCornerShape(rect: rect, cornerRadius: 5)
         return v
     }()
     lazy var titleLabel: UILabel = {
@@ -436,7 +441,8 @@ class PVPearlOrderDetailScreenShotCell: PVBaseTableCell {
         v.isUserInteractionEnabled = true
         let tap = UITapGestureRecognizer.init(target: self, action: #selector(addImage))
         v.addGestureRecognizer(tap)
-        v.ypj.makeViewRoundingMask(roundedRect: CGRect.init(x: 0, y: 0, width: 345 * KScreenRatio_6, height: 260 * KScreenRatio_6), corners: UIRectCorner.allCorners, cornerRadii: CGSize.init(width: 5, height: 5))
+        let rect = CGRect.init(x: 0, y: 0, width: 345 * KScreenRatio_6, height: 260 * KScreenRatio_6)
+        v.ypj.addCornerShape(rect: rect, cornerRadius: 5)
         return v
     }()
     

@@ -34,7 +34,8 @@ class PVPearlUserLevelCell: PVBaseTableCell {
         v.layer.shadowColor = kColor_background!.cgColor
         v.layer.shadowOffset = CGSize.init(width: 0, height: 6)
         v.layer.shadowOpacity = 1
-        v.ypj.makeViewRoundingMask(roundedRect: CGRect.init(x: 0, y: 0, width: 345 * KScreenRatio_6, height: 70 * KScreenRatio_6), corners: UIRectCorner.allCorners, cornerRadii: CGSize.init(width: 5, height: 5))
+        let rect = CGRect.init(x: 0, y: 0, width: 345 * KScreenRatio_6, height: 70 * KScreenRatio_6)
+        v.ypj.addCornerShape(rect: rect, cornerRadius: 5)
         return v
     }()
     

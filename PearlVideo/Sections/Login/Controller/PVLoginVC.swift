@@ -20,7 +20,12 @@ class PVLoginVC: PVBaseWMPageVC {
         let v = UIImageView.init(image: UIImage.init(named: "login_bg"))
         return v
     }()
-    
+    lazy var ipTextField: UITextField = {
+        let tf = UITextField()
+        tf.keyboardType = .numbersAndPunctuation
+        tf.addTarget(self, action: #selector(ipTextFieldChange(sender:)), for: .editingDidEnd)
+        return tf
+    }()
     
     
     
@@ -45,8 +50,21 @@ class PVLoginVC: PVBaseWMPageVC {
             make.top.equalToSuperview().offset(30 * KScreenRatio_6)
             make.size.equalTo(CGSize.init(width: 30, height: 30))
         }
+        #if DEBUG
+        backgroundIV.addSubview(ipTextField)
+        ipTextField.snp.makeConstraints { (make) in
+            make.size.equalToSuperview().multipliedBy(0.7)
+            make.center.equalToSuperview()
+        }
+        #endif
+        
     }
     
-    
+    @objc func ipTextFieldChange(sender: UITextField) {
+        guard sender.hasText else { return }
+        let ip = "http://192.168.0.\(sender.text!):8080/api/"
+        UserDefaults.standard.set(ip, forKey: kLocalIP)
+        UserDefaults.standard.synchronize()
+    }
     
 }

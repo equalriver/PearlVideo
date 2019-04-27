@@ -13,7 +13,8 @@ extension PVMeViewController {
     
     override func leftButtonsAction(sender: UIButton) {
         //setting
-        
+        let vc = PVMeSettingVC()
+        navigationController?.pushViewController(vc, animated: true)
     }
     
     override func rightButtonsAction(sender: UIButton) {

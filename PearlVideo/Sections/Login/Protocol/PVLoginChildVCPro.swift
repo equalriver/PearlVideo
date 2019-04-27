@@ -79,8 +79,42 @@ extension PVPhoneLoginVC {
     }
     
     //登录
-    @objc func login() {
+    @objc func login(sender: UIButton) {
+        guard phoneTF.hasText else {
+            view.makeToast("请输入手机号")
+            return
+        }
+        guard phoneTF.text!.ypj.isPhoneNumber else {
+            view.makeToast("手机号输入不正确")
+            return
+        }
+        var psd = ""
+        var code = ""
+        if isPasswordLogin {
+            guard passwordTF.hasText else {
+                view.makeToast("请输入密码")
+                return
+            }
+            psd = passwordTF.text!
+        }
+        else {
+            guard authCodeTF.hasText else {
+                view.makeToast("请输入验证码")
+                return
+            }
+            code = authCodeTF.text!
+        }
         
+        sender.isEnabled = false
+        PVNetworkTool.Request(router: .login(phone: phoneTF.text!, psd: psd, msgcode: code), success: { (resp) in
+            sender.isEnabled = true
+            
+            self.dismiss(animated: true, completion: nil)
+            
+        }) { (e) in
+            sender.isEnabled = true
+            self.view.makeToast(e.localizedDescription)
+        }
     }
     
     //用户协议
@@ -111,10 +145,12 @@ extension PVRegisterVC {
             view.makeToast("手机号输入不正确")
             return
         }
+        sender.isEnabled = false
         PVNetworkTool.Request(router: .getAuthCode(phone: phoneTF.text!), success: { (resp) in
             auth()
             
         }) { (e) in
+            sender.isEnabled = true
             self.view.makeToast(e.localizedDescription)
         }
         
@@ -142,13 +178,36 @@ extension PVRegisterVC {
         
     }
     
-    @objc func register() {
-        
+    @objc func register(sender: UIButton) {
+        guard phoneTF.hasText else {
+            view.makeToast("请输入手机号")
+            return
+        }
+        guard phoneTF.text!.ypj.isPhoneNumber else {
+            view.makeToast("手机号输入不正确")
+            return
+        }
+        guard authCodeTF.hasText else {
+            view.makeToast("请输入验证码")
+            return
+        }
+        sender.isEnabled = false
+        PVNetworkTool.Request(router: .register(phone: phoneTF.text!, msgcode: authCodeTF.text!, inviteCode: ""), success: { (resp) in
+            sender.isEnabled = true
+            
+            let vc = PVRegisterPsdVC.init(phone: self.phoneTF.text!)
+            self.navigationController?.pushViewController(vc, animated: true)
+            
+        }) { (e) in
+            sender.isEnabled = true
+            self.view.makeToast(e.localizedDescription)
+        }
     }
     
     @objc func checkboxSelected(sender: UIButton) {
         sender.isSelected = !sender.isSelected
-        if sender.isSelected {}
+        isSelectedClause = sender.isSelected
+        registerBtn.isEnabled = phoneTF.hasText && authCodeTF.hasText && isSelectedClause
     }
     
     //用户协议
@@ -163,6 +222,13 @@ extension PVRegisterVC {
         navigationController?.pushViewController(vc, animated: true)
     }
     
+}
+
+extension PVRegisterVC: UITextFieldDelegate {
+    
+    func textFieldDidEndEditing(_ textField: UITextField) {
+        registerBtn.isEnabled = phoneTF.hasText && authCodeTF.hasText && isSelectedClause
+    }
 }
 
 //MARK: - 注册设置密码
@@ -182,7 +248,13 @@ extension PVRegisterPsdVC {
             return
         }
         sender.isEnabled = false
-        
+        PVNetworkTool.Request(router: .changePsd(userId: "", phone: phone, psd: psdTF_1.text!), success: { (resp) in
+            sender.isEnabled = true
+            
+        }) { (e) in
+            sender.isEnabled = true
+            self.view.makeToast(e.localizedDescription)
+        }
     }
     
 }

@@ -26,10 +26,12 @@ extension PVLoginVC {
     
     override func pageController(_ pageController: WMPageController, viewControllerAt index: Int) -> UIViewController {
         if index == 0 {//登录
-            
+            let vc = PVPhoneLoginVC()
+            return vc
         }
         if index == 1 {//注册
-            
+            let vc = PVRegisterVC()
+            return vc
         }
        
         return UIViewController()

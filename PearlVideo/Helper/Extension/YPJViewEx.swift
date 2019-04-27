@@ -10,13 +10,13 @@ extension UIView {
     //emptyButtonTag  errorButtonTag  loadingImageViewTag  unloginButtonTag
     
     ///未登录
-    public func stateUnlogin() {
-        
+    public func stateUnlogin(title: String, img: UIImage?) {
+        guard UserDefaults.standard.value(forKey: "token") == nil else { return }
         if self.isKind(of: UIScrollView.self) { (self as! UIScrollView).isScrollEnabled = false }
         
         removeTagView()
         
-        createUnloginView()
+        createUnloginView(title: title, img: img)
     }
     
     
@@ -73,7 +73,7 @@ extension UIView {
     }
     
     //创建未登录 view
-    private func createUnloginView() {
+    private func createUnloginView(title: String, img: UIImage?) {
         let v = UIView()
         v.backgroundColor = self.backgroundColor
         v.tag = unloginButtonTag
@@ -82,7 +82,7 @@ extension UIView {
             make.size.centerX.centerY.equalToSuperview()
         }
         
-        let imgIV = UIImageView.init(image: UIImage.init(named: "state_unlogin"))
+        let imgIV = UIImageView.init(image: img ?? UIImage.init(named: "state_unlogin"))
         v.addSubview(imgIV)
         imgIV.snp.makeConstraints { (make) in
             make.centerX.equalTo(v)
@@ -92,7 +92,7 @@ extension UIView {
         let l = UILabel()
         l.font = kFont_text
         l.textColor = kColor_subText
-        l.text = "登录可同步关注"
+        l.text = title
         l.textAlignment = .center
         v.addSubview(l)
         l.snp.makeConstraints { (make) in

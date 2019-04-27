@@ -84,6 +84,7 @@ class PVPlayVC: PVBaseNavigationVC {
         return r
     }()
     
+    //MARK: life cycle
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = UIColor.black
@@ -105,7 +106,7 @@ class PVPlayVC: PVBaseNavigationVC {
                 self?.view.makeToast("当前使用手机网络,请注意流量消耗")
                 
             default:
-                self?.loadData()
+                break
             }
         }
         

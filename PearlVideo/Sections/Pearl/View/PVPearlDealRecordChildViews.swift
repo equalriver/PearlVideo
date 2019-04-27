@@ -19,7 +19,8 @@ class PVPearlDealRecordBuyCell: PVBaseTableCell {
     
     lazy var iconIV: UIImageView = {
         let v = UIImageView()
-        v.ypj.makeViewRoundingMask(roundedRect: CGRect.init(x: 0, y: 0, width: 45 * KScreenRatio_6, height: 45 * KScreenRatio_6), corners: UIRectCorner.allCorners, cornerRadii: CGSize.init(width: 22.5 * KScreenRatio_6, height: 22.5 * KScreenRatio_6))
+        let rect = CGRect.init(x: 0, y: 0, width: 45 * KScreenRatio_6, height: 45 * KScreenRatio_6)
+        v.ypj.addCornerShape(rect: rect, cornerRadius: rect.height / 2)
         let tap = UITapGestureRecognizer.init(target: self, action: #selector(headerAction))
         v.addGestureRecognizer(tap)
         v.isUserInteractionEnabled = true
@@ -37,7 +38,8 @@ class PVPearlDealRecordBuyCell: PVBaseTableCell {
         l.textColor = UIColor.white
         l.textAlignment = .center
         l.backgroundColor = kColor_pink
-        l.ypj.makeViewRoundingMask(roundedRect: CGRect.init(x: 0, y: 0, width: 25, height: 13), corners: UIRectCorner.allCorners, cornerRadii: CGSize.init(width: 2, height: 2))
+        let rect = CGRect.init(x: 0, y: 0, width: 25, height: 13)
+        l.ypj.addCornerShape(rect: rect, cornerRadius: 2)
         return l
     }()
     lazy var billCodeLabel: UILabel = {

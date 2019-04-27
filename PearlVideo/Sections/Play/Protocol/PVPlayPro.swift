@@ -11,10 +11,6 @@ import AliyunVideoSDKPro
 //MARK: - action
 extension PVPlayVC {
     
-    func loadData() {
-        
-    }
-    
     //清除之前生成的录制路径
     func clearLocalRecordCache() {
         try? FileManager.default.removeItem(atPath: outputPath)
@@ -65,11 +61,36 @@ extension PVPlayVC {
     
     //进入后台
     @objc func appWillResignActive(sender: Notification) {
-        
+        if recorder.isRecording {
+            recorder.stopRecording()
+            stopPreview()
+            isSuspend = true
+            cameraView.resetRecordButtonUI()
+            cameraView.recordAction(sender: cameraView.recordBtn)
+        }
+        if recorder.cameraPosition == .back {
+            recorder.switchTorch(with: .off)
+            cameraView.flashButton.isSelected = false
+        }
     }
     
     //进入前台
     @objc func appDidBecomeActive(sender: Notification) {
+        if recorder.isRecording {
+            recorder.stopRecording()
+            stopPreview()
+            isSuspend = true
+            cameraView.resetRecordButtonUI()
+            cameraView.recordAction(sender: cameraView.recordBtn)
+        }
+        if isSuspend {
+            isSuspend = false
+            startPreview()
+        }
+        cameraView.hide = false
+        cameraView.resetRecordButtonUI()
+        cameraView.isRecording = false
+        cameraView.realVideoCount = clipManager.partCount
         
     }
     
@@ -87,6 +108,8 @@ extension PVPlayVC {
                 cameraView.flashButton.isSelected = false
             }
             isPreviewing = true
+            cameraView.resetRecordButtonUI()
+            
         }
     }
     
@@ -126,8 +149,28 @@ extension PVPlayVC: AliyunIRecorderDelegate {
     func recorderDidFinishRecording() {
         stopPreview()
         if isSuspend == false {
-            
+            if cameraView.isRecording {
+                cameraView.recordAction(sender: cameraView.recordBtn)
+            }
+            cameraView.hide = false
         }
+    }
+    
+    //当录至最大时长时回调
+    func recorderDidStopWithMaxDuration() {
+        cameraView.finishButton.isEnabled = recorder.cameraPosition == .back
+        cameraView.progressView.videoCount += 1
+        cameraView.progressView.isShowBlink = false
+        recorder.finishRecording()
+        
+    }
+    
+    //录制异常
+    func recoderError(_ error: Error!) {
+        cameraView.hide = false
+        cameraView.resetRecordButtonUI()
+        cameraView.isRecording = false
+        cameraView.realVideoCount = clipManager.partCount
     }
     
 }
@@ -145,8 +188,7 @@ extension PVPlayVC: PVPlayCameraDelegate {
         else {
             cameraView.hide = false
             cameraView.progressView.videoCount -= 1
-            cameraView.recordBtn.transform = .identity
-            cameraView.recordBtn.isSelected = false
+            cameraView.resetRecordButtonUI()
             cameraView.isRecording = false
             cameraView.realVideoCount = clipManager.partCount
         }
