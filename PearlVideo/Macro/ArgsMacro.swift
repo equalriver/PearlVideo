@@ -34,23 +34,23 @@ public let kFont_naviBtn_weight = UIFont.systemFont(ofSize: 17, weight: UIFont.W
 ///18, semibold
 public let kFont_btn_weight = UIFont.systemFont(ofSize: 18, weight: .semibold)
 
-///16
-public let kFont_text = UIFont.systemFont(ofSize: 16)
+///15
+public let kFont_text = UIFont.systemFont(ofSize: 15)
 
-///16, semibold
-public let kFont_text_weight = UIFont.systemFont(ofSize: 16, weight: .semibold)
+///15, semibold
+public let kFont_text_weight = UIFont.systemFont(ofSize: 15, weight: .semibold)
 
-///14
-public let kFont_text_2 = UIFont.systemFont(ofSize: 14)
+///13
+public let kFont_text_2 = UIFont.systemFont(ofSize: 13)
 
-///14, semibold
-public let kFont_text_2_weight = UIFont.systemFont(ofSize: 14, weight: .semibold)
+///13, semibold
+public let kFont_text_2_weight = UIFont.systemFont(ofSize: 13, weight: .semibold)
 
-///12
-public let kFont_text_3 = UIFont.systemFont(ofSize: 12)
+///11
+public let kFont_text_3 = UIFont.systemFont(ofSize: 11)
 
-///12, semibold
-public let kFont_text_3_weight = UIFont.systemFont(ofSize: 12, weight: .semibold)
+///11, semibold
+public let kFont_text_3_weight = UIFont.systemFont(ofSize: 11, weight: .semibold)
 
 ///10
 public let kFont_text_4 = UIFont.systemFont(ofSize: 10)

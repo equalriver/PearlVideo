@@ -21,6 +21,7 @@ class PVPhoneLoginVC: PVBaseNavigationVC {
         tf.textColor = kColor_text
         tf.clearButtonMode = .whileEditing
         tf.keyboardType = .numbersAndPunctuation
+        tf.delegate = self
         return tf
     }()
     lazy var passwordTF: PVBottomLineTextField = {
@@ -31,6 +32,7 @@ class PVPhoneLoginVC: PVBaseNavigationVC {
         tf.clearButtonMode = .whileEditing
         tf.keyboardType = .numbersAndPunctuation
         tf.isSecureTextEntry = true
+        tf.delegate = self
         return tf
     }()
     lazy var passwordSecureBtn: UIButton = {
@@ -47,6 +49,7 @@ class PVPhoneLoginVC: PVBaseNavigationVC {
         tf.textColor = kColor_text
         tf.clearButtonMode = .whileEditing
         tf.keyboardType = .numbersAndPunctuation
+        tf.delegate = self
         tf.isHidden = true
         return tf
     }()
@@ -55,6 +58,8 @@ class PVPhoneLoginVC: PVBaseNavigationVC {
         b.titleLabel?.font = kFont_text
         b.setTitle("获取验证码", for: .normal)
         b.setTitleColor(UIColor.white, for: .normal)
+        b.layer.cornerRadius = 15 * KScreenRatio_6
+        b.layer.masksToBounds = true
         b.setBackgroundImage(UIImage.init(named: "gradient_bg"), for: .normal)
         b.addTarget(self, action: #selector(didClickGetAuthCode(sender:)), for: .touchUpInside)
         b.isHidden = true
@@ -72,6 +77,7 @@ class PVPhoneLoginVC: PVBaseNavigationVC {
     }()
     lazy var forgetPsdBtn: UIButton = {
         let b = UIButton()
+        b.titleLabel?.font = kFont_text
         b.contentHorizontalAlignment = .right
         b.setTitle("忘记密码？", for: .normal)
         b.setTitleColor(UIColor.init(hexString: "#355EDB"), for: .normal)
@@ -86,6 +92,7 @@ class PVPhoneLoginVC: PVBaseNavigationVC {
         b.setTitleColor(UIColor.white, for: .normal)
         b.layer.cornerRadius = 20 * KScreenRatio_6
         b.layer.masksToBounds = true
+        b.isEnabled = false
         b.addTarget(self, action: #selector(login(sender:)), for: .touchUpInside)
         return b
     }()
@@ -94,7 +101,7 @@ class PVPhoneLoginVC: PVBaseNavigationVC {
         l.textAlignment = .center
         l.textColor = kColor_subText
         l.font = kFont_text_2
-        l.text = "点击登录代表你已阅读并同意"
+        l.text = " 点击登录代表你已阅读并同意"
         return l
     }()
     lazy var bottomLabel_2: UILabel = {
@@ -106,6 +113,7 @@ class PVPhoneLoginVC: PVBaseNavigationVC {
     }()
     lazy var agreementBtn: UIButton = {
         let b = UIButton()
+        b.titleLabel?.font = kFont_text_2
         b.setTitle("《用户协议》", for: .normal)
         b.setTitleColor(UIColor.init(hexString: "#E11379"), for: .normal)
         b.addTarget(self, action: #selector(didSelectedAgreement), for: .touchUpInside)
@@ -113,6 +121,7 @@ class PVPhoneLoginVC: PVBaseNavigationVC {
     }()
     lazy var privacyBtn: UIButton = {
         let b = UIButton()
+        b.titleLabel?.font = kFont_text_2
         b.setTitle("《隐私政策》", for: .normal)
         b.setTitleColor(UIColor.init(hexString: "#E11379"), for: .normal)
         b.addTarget(self, action: #selector(didSelectedPrivacy), for: .touchUpInside)
@@ -123,6 +132,12 @@ class PVPhoneLoginVC: PVBaseNavigationVC {
         t.schedule(deadline: .now(), repeating: 1)
         return t
     }()
+    
+    
+    override func loadView() {
+        super.loadView()
+        view = UIScrollView.init(frame: UIScreen.main.bounds)
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -175,35 +190,34 @@ class PVPhoneLoginVC: PVBaseNavigationVC {
         loginTypeBtn.snp.makeConstraints { (make) in
             make.left.equalTo(phoneTF)
             make.top.equalTo(passwordTF.snp.bottom).offset(30 * KScreenRatio_6)
-            make.size.equalTo(CGSize.init(width: 80 * KScreenRatio_6, height: 30 * KScreenRatio_6))
+            make.size.equalTo(CGSize.init(width: 100 * KScreenRatio_6, height: 30 * KScreenRatio_6))
         }
         forgetPsdBtn.snp.makeConstraints { (make) in
             make.size.centerY.equalTo(loginTypeBtn)
-            make.right.equalToSuperview().offset(-20 * KScreenRatio_6)
+            make.right.equalTo(loginBtn)
         }
         loginBtn.snp.makeConstraints { (make) in
             make.size.equalTo(CGSize.init(width: 330 * KScreenRatio_6, height: 40 * KScreenRatio_6))
             make.centerX.equalToSuperview()
             make.top.equalTo(loginTypeBtn.snp.bottom).offset(30 * KScreenRatio_6)
         }
+        bottomLabel_1.snp.makeConstraints { (make) in
+            make.width.centerX.equalToSuperview()
+            make.top.equalTo(loginBtn.snp.bottom).offset(90 * KScreenRatio_6)
+        }
         agreementBtn.snp.makeConstraints { (make) in
-            make.size.equalTo(CGSize.init(width: 70 * KScreenRatio_6, height: 20 * KScreenRatio_6))
+            make.size.equalTo(CGSize.init(width: 80 * KScreenRatio_6, height: 20 * KScreenRatio_6))
             make.left.equalToSuperview().offset(100 * KScreenRatio_6)
-            make.bottom.equalToSuperview().offset(-30 * KScreenRatio_6)
+            make.top.equalTo(bottomLabel_1.snp.bottom).offset(2)
         }
         bottomLabel_2.snp.makeConstraints { (make) in
             make.centerY.height.equalTo(agreementBtn)
-            make.left.equalTo(agreementBtn.snp.right).offset(5)
+            make.left.equalTo(agreementBtn.snp.right).offset(2)
         }
         privacyBtn.snp.makeConstraints { (make) in
             make.size.centerY.equalTo(agreementBtn)
-            make.left.equalTo(bottomLabel_2.snp.right).offset(5)
+            make.left.equalTo(bottomLabel_2.snp.right).offset(2)
         }
-        bottomLabel_1.snp.makeConstraints { (make) in
-            make.width.centerX.equalToSuperview()
-            make.bottom.equalTo(agreementBtn.snp.top).offset(-2)
-        }
-        
     }
     
     
@@ -238,12 +252,24 @@ class PVRegisterVC: PVBaseNavigationVC {
         tf.delegate = self
         return tf
     }()
+    lazy var inviteTF: PVBottomLineTextField = {
+        let tf = PVBottomLineTextField()
+        tf.font = kFont_text
+        tf.placeholder = "请输入邀请码"
+        tf.textColor = kColor_text
+        tf.clearButtonMode = .whileEditing
+        tf.keyboardType = .numbersAndPunctuation
+        tf.delegate = self
+        return tf
+    }()
     lazy var getAuthCodeBtn: UIButton = {
         let b = UIButton()
         b.titleLabel?.font = kFont_text
         b.setTitle("获取验证码", for: .normal)
         b.setTitleColor(UIColor.white, for: .normal)
         b.setBackgroundImage(UIImage.init(named: "gradient_bg"), for: .normal)
+        b.layer.cornerRadius = 15 * KScreenRatio_6
+        b.layer.masksToBounds = true
         b.addTarget(self, action: #selector(didClickGetAuthCode(sender:)), for: .touchUpInside)
         return b
     }()
@@ -255,6 +281,7 @@ class PVRegisterVC: PVBaseNavigationVC {
         b.setTitleColor(UIColor.white, for: .normal)
         b.layer.cornerRadius = 20 * KScreenRatio_6
         b.layer.masksToBounds = true
+        b.isEnabled = false
         b.addTarget(self, action: #selector(register(sender:)), for: .touchUpInside)
         return b
     }()
@@ -300,6 +327,10 @@ class PVRegisterVC: PVBaseNavigationVC {
     }()
     
     //life cycle
+    override func loadView() {
+        view = UIScrollView.init(frame: UIScreen.main.bounds)
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         initUI()
@@ -315,6 +346,7 @@ class PVRegisterVC: PVBaseNavigationVC {
     func initUI() {
         view.addSubview(phoneTF)
         view.addSubview(authCodeTF)
+        view.addSubview(inviteTF)
         view.addSubview(getAuthCodeBtn)
         view.addSubview(registerBtn)
         view.addSubview(checkboxBtn)
@@ -329,6 +361,10 @@ class PVRegisterVC: PVBaseNavigationVC {
             make.top.equalTo(phoneTF.snp.bottom).offset(40 * KScreenRatio_6)
             make.width.equalTo(170 * KScreenRatio_6)
         }
+        inviteTF.snp.makeConstraints { (make) in
+            make.size.left.equalTo(phoneTF)
+            make.top.equalTo(authCodeTF.snp.bottom).offset(40 * KScreenRatio_6)
+        }
         getAuthCodeBtn.snp.makeConstraints { (make) in
             make.size.equalTo(CGSize.init(width: 130 * KScreenRatio_6, height: 30 * KScreenRatio_6))
             make.centerY.equalTo(authCodeTF)
@@ -337,17 +373,17 @@ class PVRegisterVC: PVBaseNavigationVC {
         registerBtn.snp.makeConstraints { (make) in
             make.size.equalTo(CGSize.init(width: 330 * KScreenRatio_6, height: 40 * KScreenRatio_6))
             make.centerX.equalToSuperview()
-            make.top.equalTo(getAuthCodeBtn.snp.bottom).offset(30 * KScreenRatio_6)
+            make.top.equalTo(inviteTF.snp.bottom).offset(30 * KScreenRatio_6)
         }
         checkboxBtn.snp.makeConstraints { (make) in
-            make.size.equalTo(CGSize.init(width: 30 * KScreenRatio_6, height: 30 * KScreenRatio_6))
+            make.size.equalTo(CGSize.init(width: 35 * KScreenRatio_6, height: 35 * KScreenRatio_6))
             make.left.equalToSuperview().offset(30 * KScreenRatio_6)
-            make.bottom.equalToSuperview().offset(-30 * KScreenRatio_6)
+            make.top.equalTo(registerBtn.snp.bottom).offset(80 * KScreenRatio_6)
         }
         bottomLabel.snp.makeConstraints { (make) in
             make.centerY.height.equalTo(checkboxBtn)
-            make.right.equalToSuperview()
-            make.left.equalTo(checkboxBtn.snp.right).offset(5)
+//            make.right.equalToSuperview()
+            make.left.equalTo(checkboxBtn.snp.right).offset(2)
         }
     }
     
@@ -396,6 +432,7 @@ class PVRegisterPsdVC: PVBaseNavigationVC {
         b.setTitleColor(UIColor.white, for: .normal)
         b.layer.cornerRadius = 20 * KScreenRatio_6
         b.layer.masksToBounds = true
+        b.isEnabled = false
         b.addTarget(self, action: #selector(confirmAction(sender:)), for: .touchUpInside)
         return b
     }()

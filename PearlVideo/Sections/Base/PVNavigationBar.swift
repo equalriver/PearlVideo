@@ -14,12 +14,10 @@ class PVNavigationBar: UIView {
     
     weak public var delegate: PVNavigationButtonDelegate?
     
-    ///导航背景色
-    public var naviBackgroundColor = kColor_theme {
-        willSet{
+    override var backgroundColor: UIColor? {
+        didSet{
             for v in self.subviews {
-                v.backgroundColor = newValue
-                backgroundColor = newValue
+                v.backgroundColor = backgroundColor
             }
         }
     }
@@ -29,7 +27,6 @@ class PVNavigationBar: UIView {
         willSet{
             if titleView.isKind(of: UILabel.self) {
                 let label = titleView as! UILabel
-                label.backgroundColor = naviBackgroundColor
                 label.text = newValue
             }
         }
@@ -65,7 +62,7 @@ class PVNavigationBar: UIView {
         let v = UILabel.init()
         v.backgroundColor = .clear
         v.font = kFont_btn_weight
-        v.textColor = kColor_naviText
+        v.textColor = kColor_text
         v.textAlignment = .center
         return v
     }()

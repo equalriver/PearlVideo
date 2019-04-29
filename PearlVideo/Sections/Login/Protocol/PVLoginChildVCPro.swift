@@ -46,6 +46,12 @@ extension PVPhoneLoginVC {
     @objc func didSelectedLoginType(sender: UIButton) {
         sender.isSelected = !sender.isSelected
         isPasswordLogin = !sender.isSelected
+        if isPasswordLogin {
+            loginBtn.isEnabled = phoneTF.hasText && passwordTF.hasText
+        }
+        else {
+            loginBtn.isEnabled = phoneTF.hasText && authCodeTF.hasText
+        }
         if sender.isSelected == false {//切换到密码登录
             UIView.animate(withDuration: 0.5, animations: {
                 self.authCodeTF.alpha = 0
@@ -131,6 +137,21 @@ extension PVPhoneLoginVC {
     
 }
 
+extension PVPhoneLoginVC: UITextFieldDelegate {
+    
+    func textFieldShouldEndEditing(_ textField: UITextField) -> Bool {
+        if isPasswordLogin {
+            loginBtn.isEnabled = phoneTF.hasText && passwordTF.hasText
+        }
+        else {
+            loginBtn.isEnabled = phoneTF.hasText && authCodeTF.hasText
+        }
+        
+        return true
+    }
+    
+}
+
 
 //MARK: - 注册
 extension PVRegisterVC {
@@ -192,7 +213,7 @@ extension PVRegisterVC {
             return
         }
         sender.isEnabled = false
-        PVNetworkTool.Request(router: .register(phone: phoneTF.text!, msgcode: authCodeTF.text!, inviteCode: ""), success: { (resp) in
+        PVNetworkTool.Request(router: .register(phone: phoneTF.text!, msgcode: authCodeTF.text!, inviteCode: inviteTF.text ?? ""), success: { (resp) in
             sender.isEnabled = true
             
             let vc = PVRegisterPsdVC.init(phone: self.phoneTF.text!)
@@ -226,9 +247,11 @@ extension PVRegisterVC {
 
 extension PVRegisterVC: UITextFieldDelegate {
     
-    func textFieldDidEndEditing(_ textField: UITextField) {
+    func textFieldShouldEndEditing(_ textField: UITextField) -> Bool {
         registerBtn.isEnabled = phoneTF.hasText && authCodeTF.hasText && isSelectedClause
+        return true
     }
+    
 }
 
 //MARK: - 注册设置密码

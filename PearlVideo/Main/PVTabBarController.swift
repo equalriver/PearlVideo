@@ -11,6 +11,7 @@ class PYTabBar: UITabBar {
         return b
     }()
     
+    
     override init(frame: CGRect) {
         super.init(frame: frame)
         addSubview(playBtn)
@@ -24,7 +25,10 @@ class PYTabBar: UITabBar {
         super.layoutSubviews()
         var index = 0
         guard NSClassFromString("UITabBarButton") != nil else { return }
-        for v in subviews {
+        let arr = subviews.sorted { (v1, v2) -> Bool in
+            return v1.origin.x < v2.origin.x
+        }
+        for v in arr {
             if v.isKind(of: NSClassFromString("UITabBarButton")!) {
                
                 v.frame = CGRect.init(x: CGFloat(index) * kScreenWidth / 5, y: v.origin.y, width: kScreenWidth / 5, height: v.height)
@@ -35,8 +39,8 @@ class PYTabBar: UITabBar {
                     index += 1
                 }
             }
-            
         }
+        
     }
     
 }
@@ -76,12 +80,11 @@ class PVTabBarController: UITabBarController {
         return vc
     }()
     
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .white
-        tabBar.backgroundColor = UIColor.white
-        //取消tabBar的透明效果
-        tabBar.isTranslucent = false
+        
         self.setValue(customTabBar, forKey: "tabBar")
         viewControllers = [homeVC, hotVC, pearlVC, userVC]
         for (index, item) in (viewControllers?.enumerated())! {
@@ -89,7 +92,11 @@ class PVTabBarController: UITabBarController {
             item.tabBarItem.image = tabImages[index]
             item.tabBarItem.selectedImage = tabSelectedImages[index]
         }
-        
+        if customTabBar.items != nil {
+            for v in customTabBar.items! {
+                v.setTitleTextAttributes([NSAttributedString.Key.font: UIFont.systemFont(ofSize: 12 * KScreenRatio_6), .foregroundColor: UIColor.init(patternImage: UIImage.init(named: "gradient_bg")!)], for: UIControl.State.selected)
+            }
+        }
     }
     
     

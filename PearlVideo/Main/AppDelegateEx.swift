@@ -36,7 +36,7 @@ extension AppDelegate {
         isProduction = false
         #else
         isProduction = true
-        JMessage.setLogOFF()
+//        JMessage.setLogOFF()
         #endif
         
         //toast
@@ -47,7 +47,8 @@ extension AppDelegate {
         IQKeyboardManager.shared.shouldResignOnTouchOutside = true
         
         
-        
+        UserDefaults.standard.set(nil, forKey: kLocalIP)
+        UserDefaults.standard.synchronize()
         /*
         //JPush
         let entity = JPUSHRegisterEntity.init()
@@ -66,9 +67,9 @@ extension AppDelegate {
         UILabel.appearance().backgroundColor = .white
         UITextField.appearance().tintColor = kColor_subText
         UITextField.appearance().clearButtonMode = .whileEditing
-        
-        UITabBarItem.appearance().setTitleTextAttributes([NSAttributedString.Key.font: UIFont.systemFont(ofSize: 12 * KScreenRatio_6),
-                                                          NSAttributedString.Key.foregroundColor: UIColor.init(patternImage: UIImage.init(named: "gradient_bg")!)], for: UIControl.State.selected)
+       
+        //patternImage导致第三方输入法崩溃
+//        UITabBarItem.appearance().setTitleTextAttributes([NSAttributedString.Key.font: UIFont.systemFont(ofSize: 12 * KScreenRatio_6), .foregroundColor: UIColor.init(patternImage: UIImage.init(named: "gradient_bg")!)], for: UIControl.State.selected)
         UITabBarItem.appearance().setTitleTextAttributes([NSAttributedString.Key.font: UIFont.systemFont(ofSize: 12 * KScreenRatio_6),
                                                           NSAttributedString.Key.foregroundColor: kColor_subText!], for: UIControl.State.normal)
         

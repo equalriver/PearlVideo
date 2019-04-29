@@ -14,12 +14,7 @@ class PVPearlVC: PVBaseNavigationVC {
     
     lazy var ruleBtn: UIButton = {
         let b = UIButton()
-        b.setBackgroundImage(UIImage.init(named: "gradient_bg"), for: .normal)
-        b.titleLabel?.font = kFont_text_3
-        b.setTitle("规则", for: .normal)
-        b.setTitleColor(UIColor.white, for: .normal)
-        b.layer.cornerRadius = 12.5
-        b.layer.masksToBounds = true
+        b.setImage(UIImage.init(named: "pearl_规则"), for: .normal)
         return b
     }()
     lazy var headerView: PVPearlHeaderView = {
@@ -28,7 +23,7 @@ class PVPearlVC: PVBaseNavigationVC {
         return v
     }()
     lazy var sectionHeaderView: PVPearlSectionHeaderView = {
-        let v = PVPearlSectionHeaderView.init(frame: CGRect.init(x: 0, y: 0, width: kScreenWidth, height: 120 * KScreenRatio_6))
+        let v = PVPearlSectionHeaderView.init(frame: CGRect.init(x: 0, y: 0, width: kScreenWidth, height: 170 * KScreenRatio_6))
         v.delegate = self
         return v
     }()
@@ -38,25 +33,42 @@ class PVPearlVC: PVBaseNavigationVC {
         tb.separatorStyle = .none
         tb.dataSource = self
         tb.delegate = self
-        tb.tableHeaderView = headerView
         return tb
     }()
 
+    override init(nibName nibNameOrNil: String?, bundle nibBundleOrNil: Bundle?) {
+        super.init(nibName: nibNameOrNil, bundle: nibBundleOrNil)
+        title = "贝壳喂养"
+    }
+    
+    required init?(coder aDecoder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-        title = "贝壳喂养"
+        
         naviBar.backgroundColor = UIColor.init(hexString: "#DAEEF4")
-        naviBar.leftBarButtons = [ruleBtn]
+        isNeedBackButton = false
+        naviBar.rightBarButtons = [ruleBtn]
         view.addSubview(tableView)
         tableView.snp.makeConstraints { (make) in
             make.top.equalTo(naviBar.snp.bottom)
             make.width.centerX.bottom.equalToSuperview()
         }
+        
     }
     
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
-        view.stateUnlogin(title: "登录可喂养珍珠", img: nil)
+    override func viewDidLayoutSubviews() {
+        super.viewDidLayoutSubviews()
+        if tableView.width > 0 {
+            tableView.tableHeaderView = headerView
+        }
     }
+    
+//    override func viewWillAppear(_ animated: Bool) {
+//        super.viewWillAppear(animated)
+//        view.stateUnlogin(title: "登录可喂养珍珠", img: nil)
+//    }
 
 }

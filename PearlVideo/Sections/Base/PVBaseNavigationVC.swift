@@ -20,10 +20,6 @@ class PVBaseNavigationVC: PVBaseViewController {
     //MARK: - life cycle
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-        //导航背景色
-        naviBar.naviBackgroundColor = kColor_theme!
-        
         view.addSubview(naviBar)
         naviBar.delegate = self
         

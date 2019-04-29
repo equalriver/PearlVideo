@@ -24,6 +24,7 @@ class PVForgetPsdVC: PVBaseNavigationVC {
         tf.textColor = kColor_text
         tf.clearButtonMode = .whileEditing
         tf.keyboardType = .numbersAndPunctuation
+        tf.delegate = self
         return tf
     }()
     lazy var authCodeTF: PVBottomLineTextField = {
@@ -33,6 +34,7 @@ class PVForgetPsdVC: PVBaseNavigationVC {
         tf.textColor = kColor_text
         tf.clearButtonMode = .whileEditing
         tf.keyboardType = .numbersAndPunctuation
+        tf.delegate = self
         return tf
     }()
     lazy var getAuthCodeBtn: UIButton = {
@@ -40,6 +42,8 @@ class PVForgetPsdVC: PVBaseNavigationVC {
         b.titleLabel?.font = kFont_text
         b.setTitle("获取验证码", for: .normal)
         b.setTitleColor(UIColor.white, for: .normal)
+        b.layer.cornerRadius = 15 * KScreenRatio_6
+        b.layer.masksToBounds = true
         b.setBackgroundImage(UIImage.init(named: "gradient_bg"), for: .normal)
         b.addTarget(self, action: #selector(didClickGetAuthCode(sender:)), for: .touchUpInside)
         return b
@@ -52,7 +56,8 @@ class PVForgetPsdVC: PVBaseNavigationVC {
         b.setTitleColor(UIColor.white, for: .normal)
         b.layer.cornerRadius = 20 * KScreenRatio_6
         b.layer.masksToBounds = true
-        b.addTarget(self, action: #selector(nextAction), for: .touchUpInside)
+        b.isEnabled = false
+        b.addTarget(self, action: #selector(nextAction(sender:)), for: .touchUpInside)
         return b
     }()
     lazy var timer: DispatchSourceTimer = {
@@ -129,12 +134,22 @@ class PVForgetPsdVC: PVBaseNavigationVC {
         self.timer.resume()
     }
     
-    @objc func nextAction() {
+    @objc func nextAction(sender: UIButton) {
+        
+        sender.isEnabled = false
         
     }
 
 }
 
+extension PVForgetPsdVC: UITextFieldDelegate {
+    
+    func textFieldShouldEndEditing(_ textField: UITextField) -> Bool {
+        nextBtn.isEnabled = phoneTF.hasText && authCodeTF.hasText
+        return true
+    }
+   
+}
 
 //MARK: -
 class PVPasswordChangeVC: PVBaseNavigationVC {

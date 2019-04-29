@@ -18,15 +18,18 @@ class PVLoginVC: PVBaseWMPageVC {
     }()
     lazy var backgroundIV: UIImageView = {
         let v = UIImageView.init(image: UIImage.init(named: "login_bg"))
+        v.isUserInteractionEnabled = true
         return v
     }()
     lazy var ipTextField: UITextField = {
         let tf = UITextField()
+        tf.backgroundColor = UIColor.white
+        tf.textColor = kColor_text
         tf.keyboardType = .numbersAndPunctuation
+        tf.placeholder = "ip:  "
         tf.addTarget(self, action: #selector(ipTextFieldChange(sender:)), for: .editingDidEnd)
         return tf
     }()
-    
     
     
     override func viewDidLoad() {
@@ -53,7 +56,7 @@ class PVLoginVC: PVBaseWMPageVC {
         #if DEBUG
         backgroundIV.addSubview(ipTextField)
         ipTextField.snp.makeConstraints { (make) in
-            make.size.equalToSuperview().multipliedBy(0.7)
+            make.size.equalTo(CGSize.init(width: 100, height: 30))
             make.center.equalToSuperview()
         }
         #endif

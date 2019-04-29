@@ -68,11 +68,11 @@ class PVPearlSectionHeaderView: UIView {
         l.textAlignment = .right
         return l
     }()
-    lazy var sepView_1: UIView = {
-        let v = UIView()
-        v.backgroundColor = kColor_background
-        return v
-    }()
+//    lazy var sepView_1: UIView = {
+//        let v = UIView()
+//        v.backgroundColor = kColor_background
+//        return v
+//    }()
     lazy var sepView_2: UIView = {
         let v = UIView()
         v.backgroundColor = kColor_pink
@@ -95,7 +95,7 @@ class PVPearlSectionHeaderView: UIView {
         addSubview(marketBtn)
         addSubview(taskLabel)
         addSubview(leftDayLabel)
-        addSubview(sepView_1)
+//        addSubview(sepView_1)
         addSubview(sepView_2)
         addSubview(sepView_3)
         iconIV.snp.makeConstraints { (make) in
@@ -121,15 +121,10 @@ class PVPearlSectionHeaderView: UIView {
             make.top.equalToSuperview().offset(20 * KScreenRatio_6)
             make.right.equalToSuperview().offset(-20 * KScreenRatio_6)
         }
-        sepView_1.snp.makeConstraints { (make) in
-            make.size.equalTo(CGSize.init(width: kScreenWidth, height: 10 * KScreenRatio_6))
-            make.centerX.equalToSuperview()
-            make.top.equalTo(todayPearlLabel.snp.bottom).offset(20 * KScreenRatio_6)
-        }
         sepView_2.snp.makeConstraints { (make) in
             make.size.equalTo(CGSize.init(width: 3, height: 20 * KScreenRatio_6))
             make.left.equalTo(iconIV)
-            make.top.equalTo(sepView_1.snp.bottom).offset(20 * KScreenRatio_6)
+            make.top.equalTo(todayPearlLabel.snp.bottom).offset(20 * KScreenRatio_6)
         }
         sepView_3.snp.makeConstraints { (make) in
             make.size.equalTo(CGSize.init(width: kScreenWidth, height: 0.5))
@@ -221,6 +216,82 @@ class PVPearlCell: PVBaseTableCell {
     
     @objc func taskAction(sender: UIButton) {
         delegate?.didSelectedTask(cell: self, sender: sender)
+    }
+    
+}
+
+
+class PVPearlRuleCell: PVBaseTableCell {
+    
+    
+    lazy var circleIV: UIImageView = {
+        let v = UIImageView.init(image: UIImage.init(named: "pearl_circle"))
+        return v
+    }()
+    lazy var sepView_1: UIView = {
+        let v = UIView()
+        v.backgroundColor = UIColor.init(hexString: "#F089BC")
+        return v
+    }()
+    lazy var sepView_2: UIView = {
+        let v = UIView()
+        v.backgroundColor = UIColor.init(hexString: "#F089BC")
+        return v
+    }()
+    lazy var shadowBgView: UIView = {
+        let v = UIView()
+        v.layer.shadowColor = kColor_background!.cgColor
+        v.layer.shadowOpacity = 1
+        v.layer.shadowOffset = CGSize.init(width: 0, height: 10)
+        v.layer.shadowRadius = 5
+        v.backgroundColor = UIColor.white
+        return v
+    }()
+    lazy var contentLabel: UILabel = {
+        let l = UILabel()
+        l.font = kFont_text_2
+        l.textColor = kColor_text
+        l.numberOfLines = 0
+        return l
+    }()
+    
+    override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
+        super.init(style: style, reuseIdentifier: reuseIdentifier)
+        contentView.addSubview(circleIV)
+        contentView.addSubview(sepView_1)
+        contentView.addSubview(sepView_2)
+        contentView.addSubview(shadowBgView)
+        shadowBgView.addSubview(contentLabel)
+        sepView_1.snp.makeConstraints { (make) in
+            make.width.equalTo(1)
+            make.left.equalToSuperview().offset(25 * KScreenRatio_6)
+            make.top.equalToSuperview()
+        }
+        circleIV.snp.makeConstraints { (make) in
+            make.size.equalTo(CGSize.init(width: 15 * KScreenRatio_6, height: 15 * KScreenRatio_6))
+            make.centerX.equalTo(sepView_1)
+            make.top.equalTo(sepView_1.snp.bottom).offset(5)
+        }
+        sepView_2.snp.makeConstraints { (make) in
+            make.width.centerX.equalTo(sepView_1)
+            make.top.equalTo(circleIV.snp.bottom).offset(5)
+            make.bottom.equalToSuperview()
+        }
+        shadowBgView.snp.makeConstraints { (make) in
+            make.left.equalTo(sepView_1.snp.right).offset(10)
+            make.top.equalToSuperview().offset(5)
+            make.bottom.equalToSuperview().offset(-10)
+            make.right.equalToSuperview().offset(-20 * KScreenRatio_6)
+        }
+        contentLabel.snp.makeConstraints { (make) in
+            make.left.top.equalToSuperview().offset(15 * KScreenRatio_6)
+            make.right.equalToSuperview().offset(-30 * KScreenRatio_6)
+            make.bottom.equalToSuperview().offset(-15 * KScreenRatio_6)
+        }
+    }
+    
+    required init?(coder aDecoder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
     }
     
 }
