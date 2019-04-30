@@ -25,7 +25,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         appSetup(options: launchOptions)
         //从远程通知打开app
         if let _ = launchOptions?[.remoteNotification] {
-            resetBadge(application)
+//            resetBadge(application)
         }
         
         

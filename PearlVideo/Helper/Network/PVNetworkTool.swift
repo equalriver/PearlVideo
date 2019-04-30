@@ -17,9 +17,10 @@ class PVNetworkTool: SessionManager {
         let config = URLSessionConfiguration.default
         config.timeoutIntervalForRequest = 15
         config.timeoutIntervalForResource = 15
+        config.httpAdditionalHeaders = SessionManager.defaultHTTPHeaders
         //        config.httpAdditionalHeaders = ["content-Type": "application/json"]
+        let manager = SessionManager(configuration: config)
         
-        let manager = Alamofire.SessionManager(configuration: config)
         return manager
         
     }()
@@ -38,6 +39,7 @@ class PVNetworkTool: SessionManager {
                     return
                 }
             }
+            
             //检查是否使用代理
             if YPJOtherTool.ypj.getProxyStatus() == true {
                 DispatchQueue.main.async {
@@ -56,7 +58,6 @@ class PVNetworkTool: SessionManager {
                 })
                 
             }
-            
             
             PVNetworkTool.shared.request(router).validate().responseJSON { (resp) in
                 
