@@ -16,7 +16,7 @@ extension DataRequest {
         do {
             let json = try JSON(data: data)
             
-            if json["errorCode"].stringValue == "0" {
+            if json["code"].stringValue == "S" {
                 return .success
             }
             else {

@@ -9,9 +9,6 @@ class PVBaseWMPageVC: WMPageController {
     
     public let naviBar = PVNavigationBar.init(frame: CGRect.init(x: 0, y: 0, width: kScreenWidth, height: CGFloat(kNavigationBarAndStatusHeight)))
     
-    
-    public var isNeedBackButton = false 
-    
     override var title: String? {
         willSet{
             if newValue != nil { naviBar.naviTitle = newValue! }
@@ -21,39 +18,18 @@ class PVBaseWMPageVC: WMPageController {
     //MARK: - life cycle
     override func viewDidLoad() {
         super.viewDidLoad()
-        view.backgroundColor = UIColor.white
+        view.backgroundColor = kColor_deepBackground
         
         view.addSubview(naviBar)
         naviBar.delegate = self
-        
+        //在naviBar中设置由于naviBar未布局完成，导致button不可用
+        if naviBar.isNeedBackButton { naviBar.leftBarButtons = [naviBar.backBtn] }
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         navigationController?.navigationBar.isHidden = true
-        
         naviBar.naviTitle = title ?? ""
-        if isNeedBackButton == true {
-            
-            for v in naviBar.subviews {
-                if v.tag == naviBackButtonTag {
-                    v.isHidden = false
-                    return
-                }
-            }
-            
-            //添加默认返回按钮
-            let b = UIButton.init()
-            b.tag = naviBackButtonTag
-            //            b.setImage(#imageLiteral(resourceName: "bxb_返回_黑"), for: .normal)
-            naviBar.leftBarButtons = [b]
-            
-        }
-        else{
-            for v in naviBar.subviews {
-                if v.tag == naviBackButtonTag { v.isHidden = true }
-            }
-        }
         view.bringSubviewToFront(naviBar)
     }
     

@@ -190,10 +190,10 @@ class PVMePasswordChangeVC: PVBaseNavigationVC {
 //MARK: - 意见反馈
 class PVMeFeedbackVC: PVBaseNavigationVC {
     
-    let addImg = UIImage.init(named: "setting_add")!
+    let addImg = UIImage.init(named: "setting_背景图")!
     var imgs: [UIImage]!
-    var content: String?
-    var contact: String?
+    var content = ""
+    var contact = ""
     
     var selectedImageIndex = 0
     
@@ -245,6 +245,13 @@ class PVMeFeedbackVC: PVBaseNavigationVC {
         imgs = [addImg]
         naviBar.rightBarButtons = [commitBtn]
         initUI()
+        NotificationCenter.default.addObserver(self, selector: #selector(keyboardShowAction(noti:)), name: UIApplication.keyboardWillShowNotification, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(keyboardHideAction(noti:)), name: UIApplication.keyboardWillHideNotification, object: nil)
+        
+    }
+    
+    deinit {
+        NotificationCenter.default.removeObserver(self)
     }
     
     func initUI() {
@@ -263,9 +270,9 @@ class PVMeFeedbackVC: PVBaseNavigationVC {
         }
         imgCollectionView.snp.makeConstraints { (make) in
             make.left.equalToSuperview().offset(20 * KScreenRatio_6)
-            make.top.equalTo(imgTitleLabel.snp.bottom).offset(15 * KScreenRatio_6)
-            make.height.equalTo(70 * KScreenRatio_6)
-            make.right.equalToSuperview().offset(-20 * KScreenRatio_6)
+            make.top.equalTo(imgTitleLabel.snp.bottom).offset(10 * KScreenRatio_6)
+            make.height.equalTo(90 * KScreenRatio_6)
+            make.width.equalTo(kScreenWidth - 40 * KScreenRatio_6)
         }
         contactView.snp.makeConstraints { (make) in
             make.top.equalTo(imgCollectionView.snp.bottom).offset(15 * KScreenRatio_6)

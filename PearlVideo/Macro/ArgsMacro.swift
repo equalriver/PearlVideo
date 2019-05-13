@@ -60,7 +60,7 @@ public let kFont_text_4_weight = UIFont.systemFont(ofSize: 10, weight: .semibold
 
 
 //MARK: - colors
-public var kColor_theme = UIColor.init(hexString: "#ffffff") {
+public var kColor_theme = UIColor.init(hexString: "#15151D") {
     willSet{
         NotificationCenter.default.post(.init(name: .kNotiName_themeColorChange))
     }
@@ -70,15 +70,17 @@ public let kColor_border = UIColor.init(hexString: "#dddddd")
 
 public let kColor_dark = UIColor.init(hexString: "#000000")
 
-public let kColor_text = UIColor.init(hexString: "#333333")
+public let kColor_text = UIColor.init(hexString: "#CCCCCC")
 
-public let kColor_subText = UIColor.init(hexString: "#666666")
+public let kColor_subText = UIColor.init(hexString: "#999999")
 
-public let kColor_background = UIColor.init(hexString: "#efefef")
+public let kColor_background = UIColor.init(hexString: "#15151D")
 
-public let kColor_highBackground = UIColor.init(hexString: "#dddddd")
+public let kColor_deepBackground = UIColor.init(hexString: "#0F0F17")
 
-public let kColor_pink = UIColor.init(hexString: "#e11379")
+public let kColor_pink = UIColor.init(hexString: "#F43C60")
+
+public let kColor_yellow = UIColor.init(hexString: "#FFC525")
 
 public let kColor_blue = UIColor.init(hexString: "#55b6ed")
 

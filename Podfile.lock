@@ -10,6 +10,7 @@ PODS:
   - AliyunVideoSDKBasic (3.8.0):
     - QuCore-ThirdParty
     - VODUpload
+  - FSPagerView (0.8.2)
   - IQKeyboardManagerSwift (6.2.0)
   - Kingfisher (4.10.1)
   - lottie-ios (2.5.3)
@@ -37,6 +38,7 @@ DEPENDENCIES:
   - AliyunOSSiOS
   - AliyunPlayer_iOS/AliyunVodPlayerSDK
   - AliyunVideoSDKBasic
+  - FSPagerView
   - IQKeyboardManagerSwift
   - Kingfisher
   - lottie-ios
@@ -62,6 +64,7 @@ SPEC REPOS:
     - AliyunOSSiOS
     - AliyunPlayer_iOS
     - AliyunVideoSDKBasic
+    - FSPagerView
     - IQKeyboardManagerSwift
     - Kingfisher
     - lottie-ios
@@ -86,6 +89,7 @@ SPEC CHECKSUMS:
   AliyunOSSiOS: 602b6a4e70e62a5f0a6431c20496343141d7e66f
   AliyunPlayer_iOS: 5704f564e0c041668138a604ebff31ecb13fe7d3
   AliyunVideoSDKBasic: b160d0c838bce5a10b3fa22468a3f16f850b40c1
+  FSPagerView: 816a18842306973cc7cc6df8a5332272f7815c30
   IQKeyboardManagerSwift: b07ccf9d8cafe993dcd6cb794eb4ba34611a0c4e
   Kingfisher: c148cd7b47ebde9989f6bc7c27dcaa79d81279a0
   lottie-ios: a50d5c0160425cd4b01b852bb9578963e6d92d31
@@ -104,6 +108,6 @@ SPEC CHECKSUMS:
   WMPageController: 0c7624d2b48e4f1ab92371688cf6744ed701575d
   YYKit: 7cda43304a8dc3696c449041e2cb3107b4e236e7
 
-PODFILE CHECKSUM: c2cbf7087901eddd588c2c6954d9b92263be28b9
+PODFILE CHECKSUM: 59f6708b39f17404be297e626782fd7439c9d084
 
 COCOAPODS: 1.6.0.beta.1

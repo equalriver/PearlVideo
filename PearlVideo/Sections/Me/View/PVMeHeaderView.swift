@@ -9,124 +9,95 @@
 import UIKit
 
 protocol PVMeHeaderViewDelegate: NSObjectProtocol {
-    func didSelectedInvitation()
-    func didSelectedTeam()
+    func didSelectedSetting()
     func didSelectedEdit()
+
 }
 
 class PVMeHeaderView: UIView {
 
     weak public var delegate: PVMeHeaderViewDelegate?
     
-    lazy var iconIV: UIImageView = {
+    lazy var backgroundImageIV: UIImageView = {
+        let v = UIImageView.init(image: UIImage.init(named: "me_bg"))
+        return v
+    }()
+    lazy var settingBtn: UIButton = {
+        let b = UIButton()
+        b.setImage(UIImage.init(named: "me_设置"), for: .normal)
+        b.addBlock(for: .touchUpInside, block: {[weak self] (btn) in
+            self?.delegate?.didSelectedSetting()
+        })
+        return b
+    }()
+    lazy var borderContentView: UIView = {
+        let v = UIView()
+        v.backgroundColor = kColor_background
+        return v
+    }()
+    lazy var avatarIV: UIImageView = {
         let iv = UIImageView.init(image: UIImage.init(named: "me_placeholder"))
-        iv.layer.cornerRadius = 55 * KScreenRatio_6
+        iv.layer.cornerRadius = 45 * KScreenRatio_6
 //        iv.layer.masksToBounds = true
         return iv
     }()
+    lazy var authIV: UIImageView = {
+        let v = UIImageView.init(image: UIImage.init(named: "me_auth"))
+        return v
+    }()
     lazy var nameLabel: UILabel = {
         let l = UILabel()
-        l.font = UIFont.systemFont(ofSize: 24 * KScreenRatio_6, weight: .semibold)
-        l.textColor = UIColor.black
-        l.text = "登录/注册"
+        l.font = kFont_text
+        l.textColor = UIColor.white
         return l
     }()
     lazy var genderIV: UIImageView = {
         let iv = UIImageView()
         return iv
     }()
-    lazy var locationIV: UIImageView = {
-        let iv = UIImageView()
-        iv.image = UIImage.init(named: "me_location")
-        iv.isHidden = true
-        return iv
-    }()
-    lazy var locationLabel: UILabel = {
+    lazy var fansLabel: UILabel = {
         let l = UILabel()
-        l.font = kFont_text_3
-        l.textColor = kColor_subText
-        l.text = "点击登录，获得经验值"
-        return l
-    }()
-    lazy var ageLabel: UILabel = {
-        let l = UILabel()
-        l.backgroundColor = kColor_background
-        l.textColor = UIColor.white
-        l.textAlignment = .center
-        l.font = kFont_text_3
-        l.layer.cornerRadius = 4
-        l.layer.masksToBounds = true
-        l.isHidden = true
-        return l
-    }()
-    lazy var descriptionLabel: UILabel = {
-        let l = UILabel()
-        l.numberOfLines = 0
-        l.font = kFont_text_3
+        l.font = kFont_text
         l.textColor = kColor_subText
         return l
-    }()
-    lazy var invitationCodeBtn: UIButton = {
-        let b = UIButton()
-        b.titleLabel?.font = kFont_text_2
-        b.setBackgroundImage(UIImage.init(named: "gradient_bg"), for: .normal)
-        b.setTitle("我的邀请码", for: .normal)
-        b.setTitleColor(UIColor.white, for: .normal)
-        b.layer.cornerRadius = 4
-        b.layer.masksToBounds = true
-        b.addBlock(for: .touchUpInside, block: {[weak self] (btn) in
-            self?.delegate?.didSelectedInvitation()
-        })
-        return b
-    }()
-    lazy var teamBtn: UIButton = {
-        let b = UIButton()
-        b.titleLabel?.font = kFont_text_2
-        b.setTitle("团队", for: .normal)
-        b.setTitleColor(kColor_text, for: .normal)
-        b.layer.cornerRadius = 5
-        b.layer.masksToBounds = true
-        b.layer.borderColor = kColor_text!.cgColor
-        b.layer.borderWidth = 0.5
-        b.backgroundColor = UIColor.white
-        b.addBlock(for: .touchUpInside, block: {[weak self] (btn) in
-            self?.delegate?.didSelectedTeam()
-        })
-        return b
     }()
     lazy var editBtn: UIButton = {
         let b = UIButton()
-        b.setImage(UIImage.init(named: "me_编辑"), for: .normal)
-        b.layer.cornerRadius = 5
-        b.layer.masksToBounds = true
-        b.layer.borderColor = kColor_text!.cgColor
-        b.layer.borderWidth = 0.5
-        b.backgroundColor = UIColor.white
+        b.titleLabel?.font = kFont_text
+        b.setTitle("登录/注册", for: .normal)
+        b.setTitleColor(UIColor.white, for: .normal)
+        b.layer.borderColor = UIColor.white.cgColor
+        b.layer.borderWidth = 1
+        b.layer.cornerRadius = 15 * KScreenRatio_6
+        b.backgroundColor = kColor_background
         b.addBlock(for: .touchUpInside, block: {[weak self] (btn) in
             self?.delegate?.didSelectedEdit()
         })
         return b
     }()
-    lazy var hotCountItem: PVMeHeaderViewItem = {
-        let v = PVMeHeaderViewItem.init(name: "关注")
-        return v
+    lazy var starIV: UIImageView = {
+        return UIImageView()
     }()
-    lazy var fansCountItem: PVMeHeaderViewItem = {
-        let v = PVMeHeaderViewItem.init(name: "粉丝")
-        return v
+    lazy var introLabel: UILabel = {
+        let l = UILabel()
+        l.font = kFont_text_2
+        l.textColor = kColor_subText
+        l.numberOfLines = 2
+        return l
     }()
-    lazy var praiseCountItem: PVMeHeaderViewItem = {
-        let v = PVMeHeaderViewItem.init(name: "获赞")
-        return v
-    }()
-    lazy var shadowView: UIView = {
-        let v = UIView()
-        v.layer.shadowColor = UIColor.init(hexString: "#843EB0")!.cgColor
-        v.layer.shadowRadius = 1.5
-        v.layer.shadowOpacity = 0.5
-        v.layer.shadowOffset = CGSize.init(width: 0, height: -1)
-        v.backgroundColor = kColor_background
-        return v
+    lazy var titlesCV: UICollectionView = {
+        let l = UICollectionViewFlowLayout()
+        l.itemSize = CGSize.init(width: kScreenWidth / 3, height: 70 * KScreenRatio_6)
+        l.scrollDirection = .horizontal
+        l.minimumLineSpacing = 0
+        l.minimumInteritemSpacing = 0
+        let c = UICollectionView.init(frame: .zero, collectionViewLayout: l)
+        c.backgroundColor = kColor_background
+        c.isScrollEnabled = false
+        c.dataSource = self
+        c.delegate = self
+        c.register(PVMeTitlesCell.self, forCellWithReuseIdentifier: "PVMeTitlesCell")
+        return c
     }()
     
     
@@ -138,128 +109,158 @@ class PVMeHeaderView: UIView {
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
+
+    override func layoutSubviews() {
+        super.layoutSubviews()
+        if borderContentView.width > 0 {
+            borderContentView.ypj.makeViewRoundingMask(roundedRect: borderContentView.bounds, corners: [UIRectCorner.topLeft, UIRectCorner.topRight], cornerRadii: CGSize.init(width: 10 * KScreenRatio_6, height: 10 * KScreenRatio_6))
+        }
+    }
     
     func initUI() {
-        addSubview(iconIV)
-        addSubview(nameLabel)
-        addSubview(genderIV)
-        addSubview(locationIV)
-        addSubview(locationLabel)
-        addSubview(ageLabel)
-        addSubview(descriptionLabel)
-        addSubview(invitationCodeBtn)
-        addSubview(teamBtn)
-        addSubview(editBtn)
-        addSubview(hotCountItem)
-        addSubview(fansCountItem)
-        addSubview(praiseCountItem)
-        addSubview(shadowView)
-        iconIV.snp.makeConstraints { (make) in
-            make.size.equalTo(CGSize.init(width: 110 * KScreenRatio_6, height: 110 * KScreenRatio_6))
-            make.left.top.equalToSuperview().offset(15 * KScreenRatio_6)
+        addSubview(backgroundImageIV)
+        addSubview(settingBtn)
+        addSubview(borderContentView)
+        addSubview(avatarIV)
+        borderContentView.addSubview(authIV)
+        borderContentView.addSubview(nameLabel)
+        borderContentView.addSubview(genderIV)
+        borderContentView.addSubview(fansLabel)
+        borderContentView.addSubview(editBtn)
+        borderContentView.addSubview(starIV)
+        borderContentView.addSubview(introLabel)
+        borderContentView.addSubview(titlesCV)
+        backgroundImageIV.snp.makeConstraints { (make) in
+            make.width.top.centerX.equalToSuperview()
+            make.height.equalTo(240 * KScreenRatio_6)
+        }
+        settingBtn.snp.makeConstraints { (make) in
+            make.size.equalTo(CGSize.init(width: 30 * KScreenRatio_6, height: 30 * KScreenRatio_6))
+            make.top.equalToSuperview().offset(30 * KScreenRatio_6)
+            make.right.equalToSuperview().offset(-15 * KScreenRatio_6)
+        }
+        borderContentView.snp.makeConstraints { (make) in
+            make.bottom.centerX.width.equalToSuperview()
+            make.top.equalTo(backgroundImageIV.snp.bottom)
+        }
+        avatarIV.snp.makeConstraints { (make) in
+            make.size.equalTo(CGSize.init(width: 90 * KScreenRatio_6, height: 90 * KScreenRatio_6))
+            make.left.equalTo(borderContentView).offset(10 * KScreenRatio_6)
+            make.top.equalTo(borderContentView).offset(-45 * KScreenRatio_6)
+        }
+        authIV.snp.makeConstraints { (make) in
+            make.size.equalTo(CGSize.init(width: 20, height: 20))
+            make.right.equalTo(avatarIV).offset(-17 * KScreenRatio_6)
+            make.bottom.equalTo(avatarIV).offset(2)
         }
         nameLabel.snp.makeConstraints { (make) in
-            make.top.equalTo(iconIV).offset(15 * KScreenRatio_6)
-            make.left.equalTo(iconIV.snp.right).offset(15 * KScreenRatio_6)
-            make.width.equalTo(110 * KScreenRatio_6)
+            make.left.equalTo(avatarIV.snp.right).offset(10 * KScreenRatio_6)
+            make.top.equalTo(avatarIV).offset(25 * KScreenRatio_6)
         }
         genderIV.snp.makeConstraints { (make) in
+            make.size.equalTo(CGSize.init(width: 25 * KScreenRatio_6, height: 25 * KScreenRatio_6))
             make.centerY.equalTo(nameLabel)
-            make.left.equalTo(nameLabel.snp.right).offset(15 * KScreenRatio_6)
-            make.size.equalTo(CGSize.init(width: 20 * KScreenRatio_6, height: 20 * KScreenRatio_6))
+            make.left.equalTo(nameLabel.snp.right).offset(3)
         }
-        locationIV.snp.makeConstraints { (make) in
+        fansLabel.snp.makeConstraints { (make) in
             make.left.equalTo(nameLabel)
-            make.top.equalTo(nameLabel.snp.bottom).offset(10 * KScreenRatio_6)
-            make.size.equalTo(CGSize.init(width: 20 * KScreenRatio_6, height: 20 * KScreenRatio_6))
-        }
-        locationLabel.snp.makeConstraints { (make) in
-            make.centerY.equalTo(locationIV)
-            make.left.equalTo(locationIV.isHidden ? locationIV : locationIV.snp.right).offset(2)
-            make.width.equalTo(140 * KScreenRatio_6)
-        }
-        ageLabel.snp.makeConstraints { (make) in
-            make.size.equalTo(CGSize.init(width: 50, height: 20))
-            make.centerY.equalTo(locationIV)
-            make.left.equalTo(locationLabel.snp.right).offset(20 * KScreenRatio_6)
-        }
-        descriptionLabel.snp.makeConstraints { (make) in
-            make.left.equalTo(nameLabel).offset(3)
-            make.top.equalTo(locationIV.snp.bottom).offset(15 * KScreenRatio_6)
-            make.right.equalToSuperview().offset(-20 * KScreenRatio_6)
-            make.height.equalTo(20)
-        }
-        invitationCodeBtn.snp.makeConstraints { (make) in
-            make.size.equalTo(CGSize.init(width: 80 * KScreenRatio_6, height: 30 * KScreenRatio_6))
-            make.left.equalTo(nameLabel).offset(5)
-            make.top.equalTo(descriptionLabel.snp.bottom).offset(15 * KScreenRatio_6)
-        }
-        teamBtn.snp.makeConstraints { (make) in
-            make.size.equalTo(CGSize.init(width: 45 * KScreenRatio_6, height: 30 * KScreenRatio_6))
-            make.centerY.equalTo(invitationCodeBtn)
-            make.left.equalTo(invitationCodeBtn.snp.right).offset(10)
+            make.top.equalTo(nameLabel.snp.bottom).offset(15 * KScreenRatio_6)
+            make.right.equalToSuperview().offset(-15 * KScreenRatio_6)
         }
         editBtn.snp.makeConstraints { (make) in
-            make.size.equalTo(CGSize.init(width: 45 * KScreenRatio_6, height: 30 * KScreenRatio_6))
-            make.centerY.equalTo(invitationCodeBtn)
-            make.left.equalTo(teamBtn.snp.right).offset(10)
+            make.size.equalTo(CGSize.init(width: 145 * KScreenRatio_6, height: 30 * KScreenRatio_6))
+            make.left.equalTo(nameLabel)
+            make.top.equalTo(fansLabel.snp.bottom).offset(7)
         }
-        hotCountItem.snp.makeConstraints { (make) in
-            make.size.equalTo(CGSize.init(width: 60 * KScreenRatio_6, height: 60 * KScreenRatio_6))
-            make.left.equalToSuperview().offset(20 * KScreenRatio_6)
-            make.top.equalTo(invitationCodeBtn.snp.bottom).offset(40 * KScreenRatio_6)
+        starIV.snp.makeConstraints { (make) in
+            make.size.equalTo(CGSize.init(width: 50 * KScreenRatio_6, height: 30 * KScreenRatio_6))
+            make.centerY.equalTo(editBtn)
+            make.left.equalTo(editBtn.snp.right).offset(10 * KScreenRatio_6)
         }
-        fansCountItem.snp.makeConstraints { (make) in
-            make.size.equalTo(CGSize.init(width: 60 * KScreenRatio_6, height: 60 * KScreenRatio_6))
-            make.left.equalTo(hotCountItem.snp.right).offset(60 * KScreenRatio_6)
-            make.centerY.equalTo(hotCountItem)
+        introLabel.snp.makeConstraints { (make) in
+            make.left.equalToSuperview().offset(15 * KScreenRatio_6)
+            make.top.equalTo(avatarIV.snp.bottom).offset(30 * KScreenRatio_6)
+            make.right.equalToSuperview().offset(-15 * KScreenRatio_6)
         }
-        praiseCountItem.snp.makeConstraints { (make) in
-            make.size.equalTo(CGSize.init(width: 60 * KScreenRatio_6, height: 60 * KScreenRatio_6))
-            make.left.equalTo(fansCountItem.snp.right).offset(60 * KScreenRatio_6)
-            make.centerY.equalTo(hotCountItem)
-        }
-        shadowView.snp.makeConstraints { (make) in
-            make.size.equalTo(CGSize.init(width: kScreenWidth, height: 1))
-            make.bottom.centerX.equalToSuperview()
+        titlesCV.snp.makeConstraints { (make) in
+            make.width.centerX.bottom.equalToSuperview()
+            make.height.equalTo(70 * KScreenRatio_6)
         }
     }
 }
 
+extension PVMeHeaderView: UICollectionViewDelegate, UICollectionViewDataSource {
+    
+    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+        return 3
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "PVMeTitlesCell", for: indexPath) as! PVMeTitlesCell
+        switch indexPath.item {
+        case 0:
+            
+            break
+            
+        case 1:
+            
+            break
+            
+        case 2:
+            
+            break
+            
+        default:
+            break
+        }
+        return cell
+    }
+}
 
-class PVMeHeaderViewItem: UIView {
+//MARK: - titles collection cell
+class PVMeTitlesCell: UICollectionViewCell {
     
-    public var count = "" {
-        willSet{
-            countLabel.text = newValue
+    lazy var numberLabel: UILabel = {
+        let l = UILabel()
+        l.font = kFont_text
+        l.textColor = UIColor.white
+        l.backgroundColor = kColor_background
+        l.textAlignment = .center
+        return l
+    }()
+    lazy var nameBtn: UIButton = {
+        let b = UIButton()
+        b.titleLabel?.font = kFont_text
+        b.setTitleColor(kColor_text, for: .normal)
+        return b
+    }()
+    
+    override init(frame: CGRect) {
+        super.init(frame: frame)
+        backgroundColor = kColor_background
+        contentView.backgroundColor = kColor_background
+        contentView.addSubview(numberLabel)
+        contentView.addSubview(nameBtn)
+        numberLabel.snp.makeConstraints { (make) in
+            make.width.centerX.equalToSuperview()
+            make.top.equalToSuperview().offset(20 * KScreenRatio_6)
+        }
+        nameBtn.snp.makeConstraints { (make) in
+            make.top.equalTo(numberLabel.snp.bottom).offset(10 * KScreenRatio_6)
+            make.width.centerX.equalToSuperview()
         }
     }
     
-    lazy var nameLabel: UILabel = {
-        let l = UILabel()
-        l.font = kFont_text_3
-        l.textColor = kColor_subText
-        return l
-    }()
-    lazy var countLabel: UILabel = {
-        let l = UILabel()
-        l.font = kFont_btn_weight
-        l.textColor = kColor_text
-        l.text = "0"
-        return l
-    }()
-    
-    required convenience init(name: String) {
-        self.init()
-        backgroundColor = UIColor.white
-        nameLabel.text = name
-        addSubview(nameLabel)
-        addSubview(countLabel)
-        countLabel.snp.makeConstraints { (make) in
-            make.top.width.centerX.equalToSuperview()
-        }
-        nameLabel.snp.makeConstraints { (make) in
-            make.width.centerX.bottom.equalToSuperview()
-        }
+    required init?(coder aDecoder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
     }
+    
+    override func prepareForReuse() {
+        super.prepareForReuse()
+        numberLabel.text = nil
+        numberLabel.textColor = UIColor.white
+        nameBtn.setTitle(nil, for: .normal)
+        nameBtn.setImage(nil, for: .normal)
+    }
+    
 }

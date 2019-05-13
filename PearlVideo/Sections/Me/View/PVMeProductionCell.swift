@@ -17,7 +17,7 @@ class PVMeProductionCell: UICollectionViewCell {
     }()
     lazy var praiseBtn: UIButton = {
         let b = UIButton()
-        b.setImage(UIImage.init(named: "me_点赞"), for: .normal)
+        b.setImage(UIImage.init(named: "me_like"), for: .normal)
         b.titleLabel?.font = kFont_text_3
         b.setTitleColor(UIColor.white, for: .normal)
         return b

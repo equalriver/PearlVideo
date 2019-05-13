@@ -7,6 +7,9 @@ import SwiftyJSON
 
 enum Router: URLRequestConvertible {
     
+    ///游客模式登录
+    case visitorLogin(deviceId: String)
+    
     ///注册
     case register(phone: String, msgcode: String, inviteCode: String)
     
@@ -24,6 +27,42 @@ enum Router: URLRequestConvertible {
     
     ///退出登录
     case loginOut()
+    
+    
+    //首页
+    ///首页
+    case homePage()
+    
+    ///首页视频列表
+    case homeVideoList(page: Int)
+    
+    ///会员等级详情
+    case userLevelDetail()
+    
+    ///活跃度详情
+    case activenessDetail(page: Int, count: Int)
+    
+    ///平安果详情
+    case fruitDetail(page: Int, count: Int)
+    
+    ///商学院视频列表
+    case schoolVideoList(page: Int, count: Int)
+    
+    ///商学院新手指南
+    case schoolUserGuide(page: Int, count: Int)
+    
+    ///我的团队信息
+    case teamInfo()
+    
+    ///全部团队成员列表
+    case teamAllList(page: Int, count: Int)
+    
+    ///未实名认证团队成员列表
+    case teamNotAuthList(page: Int, count: Int)
+    
+    ///实名认证团队成员列表
+    case teamAuthList(page: Int, count: Int)
+    
     
     
     //message
@@ -79,6 +118,9 @@ enum Router: URLRequestConvertible {
         var path: String {
             switch self {
             //login
+            case .visitorLogin:
+                return "visit"
+                
             case .register:
                 return "signUp"
                 
@@ -96,6 +138,41 @@ enum Router: URLRequestConvertible {
                 
             case .loginOut:
                 return "/api/common/token/logout"
+                
+            //home
+            case .homePage:
+                return "GetCarousel"
+                
+            case .homeVideoList:
+                return "GetFollowVideoList"
+                
+            case .userLevelDetail:
+                return "getUserLevel"
+                
+            case .activenessDetail:
+                return "LivenessDetail"
+                
+            case .fruitDetail:
+                return "PearlDetail"
+                
+            case .schoolVideoList:
+                return "GetSchoolVideo"
+                
+            case .schoolUserGuide:
+                return "GetCommercialBeginnerGuide"
+                
+            case .teamInfo:
+                return "GetUserTeamInfo"
+                
+            case .teamAllList:
+                return "GetUserTeamAll"
+                
+            case .teamNotAuthList:
+                return "NotRealNameAuthentication"
+                
+            case .teamAuthList:
+                return "RealNameAuthentication"
+                
                 
                 
             //message
@@ -149,13 +226,18 @@ enum Router: URLRequestConvertible {
         
         
         //MARK: - param
-        var param: [String: Any]? = [:]
+        var param: [String: Any]?
         
 //        var singleParam: Any?
         
         
         switch self {
         //
+        case .visitorLogin(let deviceId):
+            param = [
+                "deviceId": deviceId
+            ]
+            
         case .register(let phone, let msgcode, let inviteCode):
             param = [
                 "mobile": phone,
@@ -190,6 +272,62 @@ enum Router: URLRequestConvertible {
             ]
         
         case .loginOut: break
+            
+            
+        //home
+        case .homePage: break
+            
+        case .homeVideoList(let page):
+            param = [
+                "next": page
+            ]
+            
+        case .userLevelDetail: break
+            
+        case .activenessDetail(let page, let count):
+            param = [
+                "skip": page,
+                "count": count
+            ]
+            
+        case .fruitDetail(let page, let count):
+            param = [
+                "skip": page,
+                "count": count
+            ]
+            
+        case .schoolVideoList(let page, let count):
+            param = [
+                "skip": page,
+                "count": count
+            ]
+            
+        case .schoolUserGuide(let page, let count):
+            param = [
+                "skip": page,
+                "count": count
+            ]
+            
+        case .teamInfo: break
+            
+        case .teamAllList(let page, let count):
+            param = [
+                "skip": page,
+                "count": count
+            ]
+            
+        case .teamNotAuthList(let page, let count):
+            param = [
+                "skip": page,
+                "count": count
+            ]
+            
+        case .teamAuthList(let page, let count):
+            param = [
+                "skip": page,
+                "count": count
+            ]
+            
             
         
         //message
@@ -246,18 +384,8 @@ enum Router: URLRequestConvertible {
 //            singleParam = json
         }
         
-        //make body
-        /*
-         {
-            "action":"userLogin",
-            "object":{
-                "mobile":"13734909492",
-                "password":"123456"
-            }
-         }
-         */
-        param = ["object": param ?? ""]
-        
+        if param != nil { param = ["object": param!] }
+        else { param = [String: Any]() }
         //add path
         param?["action"] = path
         
@@ -276,13 +404,13 @@ enum Router: URLRequestConvertible {
         
         //MARK: - add token
         switch self {
-        case .login:
+        case .login, .visitorLogin, .register:
             break
 
         default:
-            let token = UserDefaults.standard.string(forKey: "Authorization")
+            let token = UserDefaults.standard.string(forKey: kToken) ?? UserDefaults.standard.string(forKey: kVisitorToken)
             if token != nil {
-                if token!.count > 0 { urlReq.setValue(token, forHTTPHeaderField: "Authorization") }
+                if token!.count > 0 { urlReq.setValue("Bearer " + token!, forHTTPHeaderField: "Authorization") }
             }
             break
         }

@@ -8,6 +8,7 @@
 
 import UIKit
 
+
 class PVUserInfoVC: PVBaseWMPageVC {
 
     var isShowMoreList = false {
@@ -32,7 +33,7 @@ class PVUserInfoVC: PVBaseWMPageVC {
     
     
     override func viewDidLoad() {
-        
+  shareBtn.kf.base
         titleColorNormal = kColor_subText!
         titleColorSelected = kColor_text!
         progressColor = UIColor.init(patternImage: UIImage.init(named: "gradient_bg")!)

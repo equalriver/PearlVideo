@@ -5,7 +5,7 @@
 //  Created by equalriver on 2019/4/9.
 //  Copyright © 2019 equalriver. All rights reserved.
 //
-
+import MJRefresh
 
 //MARK: - action
 extension PVAttentionDetailVC {

@@ -49,7 +49,7 @@ class PVPearlVC: PVBaseNavigationVC {
         super.viewDidLoad()
         
         naviBar.backgroundColor = UIColor.init(hexString: "#DAEEF4")
-        isNeedBackButton = false
+        naviBar.isNeedBackButton = false
         naviBar.rightBarButtons = [ruleBtn]
         view.addSubview(tableView)
         tableView.snp.makeConstraints { (make) in

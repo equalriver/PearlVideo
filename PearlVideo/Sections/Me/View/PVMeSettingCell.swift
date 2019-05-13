@@ -37,13 +37,15 @@ class PVMeSettingCell: PVBaseTableCell {
         return l
     }()
     
-    required convenience init(img: String, title: String, detail: String? = nil, showBadge: Bool = false) {
+    required convenience init(img: String, title: String, detail: String?, showBadge: Bool) {
         self.init(style: .default, reuseIdentifier: nil)
-        initUI()
+        
         iconIV.image = UIImage.init(named: img)
         titleLabel.text = title
         contentLabel.text = detail
         badgeView.isHidden = !showBadge
+        
+        initUI()
     }
     
     func initUI() {
@@ -70,16 +72,10 @@ class PVMeSettingCell: PVBaseTableCell {
             make.right.equalTo(arrowIV.snp.left).offset(-10 * KScreenRatio_6)
             make.centerY.equalToSuperview()
         }
-    }
-    
-    override func layoutSubviews() {
-        super.layoutSubviews()
-        if titleLabel.width > 0 {
-            badgeView.snp.remakeConstraints { (make) in
-                make.top.equalTo(titleLabel).offset(-5)
-                make.right.equalTo(titleLabel).offset(5)
-                make.size.equalTo(CGSize.init(width: 5, height: 5))
-            }
+        badgeView.snp.makeConstraints { (make) in
+            make.top.equalTo(titleLabel).offset(-5)
+            make.right.equalTo(titleLabel).offset(5)
+            make.size.equalTo(CGSize.init(width: 5, height: 5))
         }
     }
 

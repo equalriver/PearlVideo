@@ -30,7 +30,34 @@ class PVNetworkTool: SessionManager {
         
         DispatchQueue.global().async {
             //check login
-            if UserDefaults.standard.string(forKey: "token") == nil {
+            
+            if UserDefaults.standard.string(forKey: kVisitorToken) == nil {
+                
+                let uuid = YPJOtherTool.ypj.getUUIDWithkeyChain()
+                
+                PVNetworkTool.shared.request(Router.visitorLogin(deviceId: uuid)).validate().responseJSON(completionHandler: { (resp) in
+                    
+                    switch resp.result {
+                        
+                    case .success(let value):
+                        
+                        let json = JSON(value)
+                        if let token = json["result"]["token"].string {
+                            UserDefaults.standard.setValue(token, forKey: kVisitorToken)
+                            UserDefaults.standard.synchronize()
+                            PVNetworkTool.Request(router: router, success: success, failure: failure)
+                        }
+  
+                    case .failure(let error):
+                        print(error.localizedDescription)
+                        return
+                    }
+                   
+                })
+                return
+            }
+            /*
+            if UserDefaults.standard.string(forKey: kToken) == nil {
                 switch router {
                 case .login, .forgetPsd, .getAuthCode:
                     break
@@ -39,7 +66,7 @@ class PVNetworkTool: SessionManager {
                     return
                 }
             }
-            
+            */
             //检查是否使用代理
             if YPJOtherTool.ypj.getProxyStatus() == true {
                 DispatchQueue.main.async {
@@ -74,7 +101,7 @@ class PVNetworkTool: SessionManager {
                         if r.statusCode == 401 {
                             if let vc = YPJOtherTool.ypj.currentViewController() {
                                 guard vc.isKind(of: PVLoginVC.self) == false else { return }
-                                UserDefaults.standard.set(nil, forKey: "token")
+                                UserDefaults.standard.set(nil, forKey: kToken)
                                 UserDefaults.standard.synchronize()
                                 YPJOtherTool.ypj.loginValidate(currentVC: vc, isLogin: { (isFinished) in
                                     

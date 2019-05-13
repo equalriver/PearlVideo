@@ -1,7 +1,7 @@
 //
 //  PVRefresh.swift
 
-
+import MJRefresh
 import Foundation
 
 class PVRefresh: NSObject {
@@ -10,7 +10,7 @@ class PVRefresh: NSObject {
         let headerRef = MJRefreshNormalHeader.init {
             
             //check login
-            if UserDefaults.standard.string(forKey: "token") != nil && YPJOtherTool.ypj.checkNetwork() == true {
+            if UserDefaults.standard.string(forKey: kToken) != nil && YPJOtherTool.ypj.checkNetwork() == true {
                 handle()
             }
             if scrollView.mj_header != nil { scrollView.mj_header.endRefreshing() }
@@ -43,7 +43,7 @@ class PVRefresh: NSObject {
         let footerRef = MJRefreshBackNormalFooter.init {
             
             //check login
-            if UserDefaults.standard.string(forKey: "token") != nil && YPJOtherTool.ypj.checkNetwork() == true {
+            if UserDefaults.standard.string(forKey: kToken) != nil && YPJOtherTool.ypj.checkNetwork() == true {
                 handle()
             }
             if scrollView.mj_footer != nil { scrollView.mj_footer.endRefreshing() }

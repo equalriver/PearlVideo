@@ -13,7 +13,7 @@ class PVMeSettingVC: PVBaseNavigationVC {
     
     let items_1 = ["实名认证", "修改密码"]
     let items_2 = ["用户协议", "隐私政策", "意见反馈"]
-    let items_3 = ["清理缓存", "关于我们", "检测更新", "退出登录"]
+    let items_3 = ["清理缓存", "关于我们", "检测更新", UserDefaults.standard.value(forKey: kToken) == nil ? "登录" : "退出登录"]
     
     lazy var tableView: UITableView = {
         let tb = UITableView.init(frame: .zero, style: .plain)
@@ -84,14 +84,14 @@ extension PVMeSettingVC: UITableViewDataSource, UITableViewDelegate {
             title = items_2[indexPath.row]
         }
         if indexPath.section == 2 {
-            img += items_3[indexPath.row]
+            img += items_3[indexPath.row] == "登录" ? "退出登录" : items_3[indexPath.row]
             title = items_3[indexPath.row]
             if indexPath.row == 0 {//清理缓存
                 let s = YPJOtherTool.ypj.getLocalFilesSize(path: NSSearchPathForDirectoriesInDomains(.cachesDirectory, .userDomainMask, true).first ?? "")
-                detail = s > 0 ? "\(s)M" : nil
+                detail = s > 1 ? String.init(format: "%.1f", s) + "M" : nil
                 KingfisherManager.shared.cache.calculateDiskCacheSize { (size) in
                     let m = Double(size) / 1024.0 * 1024.0 + s
-                    detail = "\(m)M"
+                    detail = m > 1 ? String.init(format: "%.1f", m) + "M" : nil
                 }
             }
             if indexPath.row == 2 {//检测更新
@@ -110,14 +110,28 @@ extension PVMeSettingVC: UITableViewDataSource, UITableViewDelegate {
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        func loginValidate(_ handler: () -> Void) {
+            guard let _ = UserDefaults.standard.value(forKey: kToken) else {
+//                YPJOtherTool.ypj.loginValidate(currentVC: self) { (isFinish) in
+//                    if isFinish { self.loadData() }
+//                }
+                view.makeToast("未登录")
+                return
+            }
+            handler()
+        }
         if indexPath.section == 0 {
             if indexPath.row == 0 {//实名认证
-                let vc = PVMeNameValidateVC()
-                navigationController?.pushViewController(vc, animated: true)
+                loginValidate {
+                    let vc = PVMeNameValidateVC()
+                    navigationController?.pushViewController(vc, animated: true)
+                }
             }
             if indexPath.row == 1 {//修改密码
-                let vc = PVMePasswordChangeVC()
-                navigationController?.pushViewController(vc, animated: true)
+                loginValidate {
+                    let vc = PVMePasswordChangeVC()
+                    navigationController?.pushViewController(vc, animated: true)
+                }
             }
         }
         if indexPath.section == 1 {
@@ -146,6 +160,7 @@ extension PVMeSettingVC: UITableViewDataSource, UITableViewDelegate {
                 let cache = KingfisherManager.shared.cache
                 cache.cleanExpiredDiskCache()
                 cache.clearDiskCache {
+                    YPJOtherTool.ypj.removeCache()
                     self.view.makeToast("清理完毕")
                     tableView.reloadRow(at: indexPath, with: .none)
                 }
@@ -161,9 +176,16 @@ extension PVMeSettingVC: UITableViewDataSource, UITableViewDelegate {
                 break
                 
             case 3: //退出登录
+                guard let _ = UserDefaults.standard.value(forKey: kToken) else {
+                    YPJOtherTool.ypj.loginValidate(currentVC: self) { (isFinish) in
+                        if isFinish { self.tableView.reloadData() }
+                    }
+                    return
+                }
                 YPJOtherTool.ypj.showAlert(title: nil, message: "确定退出登录吗？", style: .alert, isNeedCancel: true) { (ac) in
-                    UserDefaults.standard.set(nil, forKey: "token")
+                    UserDefaults.standard.set(nil, forKey: kToken)
                     UserDefaults.standard.synchronize()
+                    NotificationCenter.default.post(name: .kNotiName_refreshMeVC, object: nil)
                     self.navigationController?.popToRootViewController(animated: true)
                 }
                 break

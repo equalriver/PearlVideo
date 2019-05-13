@@ -21,6 +21,7 @@ pod 'IQKeyboardManagerSwift'
 pod 'TZImagePickerController'
 pod 'pop'
 pod 'lottie-ios'
+pod 'FSPagerView'
 
 #短视频相关
 pod 'AliyunPlayer_iOS/AliyunVodPlayerSDK'
@@ -30,7 +31,7 @@ pod 'VODUpload'
 pod 'AliyunOSSiOS'
 pod 'AlivcConan'
 
-#pod 'FSPagerView'
+
 #pod 'DZNEmptyDataSet'
 #pod 'KeychainAccess'
 #pod 'FSCalendar'

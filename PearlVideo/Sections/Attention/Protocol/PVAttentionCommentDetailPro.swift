@@ -5,7 +5,7 @@
 //  Created by equalriver on 2019/4/10.
 //  Copyright © 2019 equalriver. All rights reserved.
 //
-
+import UITableView_FDTemplateLayoutCell
 
 //MARK: - aciton
 extension PVAttentionCommentDetailVC {

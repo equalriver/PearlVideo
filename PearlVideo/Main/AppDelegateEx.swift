@@ -41,6 +41,12 @@ extension AppDelegate {
         
         //toast
         ToastManager.shared.position = .center
+        ToastManager.shared.isQueueEnabled = true
+        var style = ToastStyle.init()
+        style.backgroundColor = UIColor.white
+        style.titleColor = UIColor.black
+        style.messageColor = UIColor.black
+        ToastManager.shared.style = style
         
         //keyboard
         IQKeyboardManager.shared.enable = true
@@ -71,7 +77,9 @@ extension AppDelegate {
         //patternImage导致第三方输入法崩溃
 //        UITabBarItem.appearance().setTitleTextAttributes([NSAttributedString.Key.font: UIFont.systemFont(ofSize: 12 * KScreenRatio_6), .foregroundColor: UIColor.init(patternImage: UIImage.init(named: "gradient_bg")!)], for: UIControl.State.selected)
         UITabBarItem.appearance().setTitleTextAttributes([NSAttributedString.Key.font: UIFont.systemFont(ofSize: 12 * KScreenRatio_6),
-                                                          NSAttributedString.Key.foregroundColor: kColor_subText!], for: UIControl.State.normal)
+                                                          .foregroundColor: kColor_border!], for: .normal)
+        UITabBarItem.appearance().setTitleTextAttributes([.font: UIFont.systemFont(ofSize: 12 * KScreenRatio_6),
+                                                          .foregroundColor: kColor_border!], for: .selected)
         
         
     }

@@ -10,13 +10,13 @@ extension UIView {
     //emptyButtonTag  errorButtonTag  loadingImageViewTag  unloginButtonTag
     
     ///未登录
-    public func stateUnlogin(title: String, img: UIImage?) {
-        guard UserDefaults.standard.value(forKey: "token") == nil else { return }
+    public func stateUnlogin(title: String, img: UIImage?, callback: (() -> Void)?) {
+        guard UserDefaults.standard.value(forKey: kToken) == nil else { return }
         if self.isKind(of: UIScrollView.self) { (self as! UIScrollView).isScrollEnabled = false }
         
         removeTagView()
         
-        createUnloginView(title: title, img: img)
+        createUnloginView(title: title, img: img, callback: callback)
     }
     
     
@@ -42,7 +42,7 @@ extension UIView {
     ///无数据
     public func stateEmpty(title: String?, img: UIImage?, buttonTitle: String?, handle: (() -> Void)?) {
         
-        if self.isKind(of: UIScrollView.self) { (self as! UIScrollView).isScrollEnabled = true }
+        if self.isKind(of: UIScrollView.self) { (self as! UIScrollView).isScrollEnabled = false }
         
         removeTagView()
         
@@ -73,7 +73,7 @@ extension UIView {
     }
     
     //创建未登录 view
-    private func createUnloginView(title: String, img: UIImage?) {
+    private func createUnloginView(title: String, img: UIImage?, callback: (() -> Void)?) {
         let v = UIView()
         v.backgroundColor = self.backgroundColor
         v.tag = unloginButtonTag
@@ -112,6 +112,7 @@ extension UIView {
                 YPJOtherTool.ypj.loginValidate(currentVC: vc, isLogin: {[weak self] (isLogin) in
                     if isLogin {
                         self?.stateNormal()
+                        callback?()
                     }
                 })
             }
@@ -139,7 +140,7 @@ extension UIView {
         let imgIV = UIImageView.init(image: img)
         v.addSubview(imgIV)
         imgIV.snp.makeConstraints { (make) in
-            make.centerX.equalTo(v)
+            make.centerX.equalToSuperview()
             make.centerY.equalTo(v).multipliedBy(0.6)
         }
         
@@ -150,7 +151,7 @@ extension UIView {
         titleLabel.textAlignment = .center
         v.addSubview(titleLabel)
         titleLabel.snp.makeConstraints { (make) in
-            make.width.centerX.equalTo(v)
+            make.width.centerX.equalToSuperview()
             make.top.equalTo(imgIV.snp.bottom).offset(20 * KScreenRatio_6)
             make.height.equalTo(20 * KScreenRatio_6)
         }
@@ -158,7 +159,7 @@ extension UIView {
         if btnTitle != nil {
             let stateEmptyBtn = UIButton()
             stateEmptyBtn.backgroundColor = kColor_theme
-            stateEmptyBtn.titleLabel?.font = kFont_text_3_weight
+            stateEmptyBtn.titleLabel?.font = kFont_text_weight
             stateEmptyBtn.setTitle(btnTitle, for: .normal)
             stateEmptyBtn.setTitleColor(UIColor.white, for: .normal)
             stateEmptyBtn.layer.cornerRadius = kCornerRadius

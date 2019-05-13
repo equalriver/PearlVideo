@@ -8,17 +8,23 @@ protocol PVMeProductionDelegate: NSObjectProtocol {
 }
 
 //MARK: - 作品
-class PVMeProductionVC: PVBaseViewController {
+class PVMeProductionVC: UIViewController {
     
     weak public var delegate: PVMeProductionDelegate?
     
     var isShowMoreView = false
     
+    var isLoadingMore = false
+    
+    let threshold:   CGFloat = 0.7
+    let itemPerPage: CGFloat = 10   //每页条数
+    var currentPage: CGFloat = 0
+    
     lazy var collectionView: UICollectionView = {
         let l = UICollectionViewFlowLayout()
-        l.itemSize = CGSize.init(width: 120 * KScreenRatio_6, height: 160 * KScreenRatio_6)
-        l.minimumInteritemSpacing = 3
-        l.minimumLineSpacing = 3
+        l.itemSize = CGSize.init(width: 122 * KScreenRatio_6, height: 160 * KScreenRatio_6)
+        l.minimumInteritemSpacing = 2
+        l.minimumLineSpacing = 2
         l.sectionInset = .zero
         l.scrollDirection = .vertical
         let cv = UICollectionView.init(frame: .zero, collectionViewLayout: l)

@@ -22,7 +22,7 @@ class PVMeMessageVC: PVBaseWMPageVC {
         menuViewStyle = .line
         super.viewDidLoad()
         
-        isNeedBackButton = false
+        naviBar.isNeedBackButton = false
         title = "消息"
         view.backgroundColor = UIColor.white
         

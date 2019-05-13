@@ -8,6 +8,7 @@
 
 import AVKit
 
+
 class PVPlayVideoUploadVC: PVBaseNavigationVC {
     
     lazy var avPlayerVC: AVPlayerViewController = {

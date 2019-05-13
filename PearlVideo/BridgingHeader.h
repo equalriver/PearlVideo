@@ -10,8 +10,6 @@
 #define BridgingHeader_h
 
 #import <YYKit/YYKit.h>
-#import <UITableView_FDTemplateLayoutCell/UITableView+FDTemplateLayoutCell.h>
-#import <MJRefresh/MJRefresh.h>
 #import <VODUpload/VODUploadSVideoClient.h>
 
 
@@ -19,3 +17,4 @@
 
 
 #endif /* BridgingHeader_h */
+

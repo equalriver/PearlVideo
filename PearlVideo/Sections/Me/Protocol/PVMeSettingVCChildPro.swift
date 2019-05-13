@@ -106,11 +106,37 @@ extension PVMePasswordChangeVC: UITextFieldDelegate {
 //MARK: - 意见反馈
 extension PVMeFeedbackVC {
     
+    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
+        view.endEditing(true)
+    }
+    
     override func rightButtonsAction(sender: UIButton) {
         let uploadImages = imgs.drop { (obj) -> Bool in
             return obj != addImg
         }
         
+    }
+    
+    @objc func keyboardShowAction(noti: Notification) {
+        guard let info = noti.userInfo else { return }
+        guard let duration = info[UIApplication.keyboardAnimationDurationUserInfoKey] as? TimeInterval else { return }
+        guard let keyboardFrame = info[UIApplication.keyboardFrameEndUserInfoKey] as? CGRect else { return }
+        if contactView.contentTV.isFirstResponder  {
+            let y = keyboardFrame.origin.y - contactView.origin.y - contactView.contentTV.origin.y - contactView.contentTV.height
+            UIView.animate(withDuration: duration) {
+                self.view.centerY = kScreenHeight / 2 + y
+            }
+        }
+    }
+    
+    @objc func keyboardHideAction(noti: Notification) {
+        guard let info = noti.userInfo else { return }
+        guard let duration = info[UIApplication.keyboardAnimationDurationUserInfoKey] as? TimeInterval else { return }
+        if contactView.contentTV.isFirstResponder {
+            UIView.animate(withDuration: duration) {
+                self.view.center = CGPoint.init(x: kScreenWidth / 2, y: kScreenHeight / 2)
+            }
+        }
     }
     
 }
@@ -120,12 +146,12 @@ extension PVMeFeedbackVC: YYTextViewDelegate {
     func textViewDidChange(_ textView: YYTextView) {
         guard textView.superview != nil else { return }
         if textView.superview! == contactView {//问题建议
-            content = textView.text
+            content = textView.text ?? ""
         }
         else {//邮箱/手机号/QQ
-            contact = textView.text
+            contact = textView.text ?? ""
         }
-        if content != nil && contact != nil {
+        if content.count > 0 && contact.count > 0 {
             commitBtn.isEnabled = true
         }
         else {
@@ -144,7 +170,8 @@ extension PVMeFeedbackVC: UICollectionViewDataSource, UICollectionViewDelegate {
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "PVMeFeedbackCell", for: indexPath) as! PVMeFeedbackCell
         cell.delegate = self
-        
+        cell.imgIV.image = imgs[indexPath.item]
+        cell.deleteBtn.isHidden = imgs[indexPath.item] == addImg
         return cell
     }
     
@@ -153,7 +180,7 @@ extension PVMeFeedbackVC: UICollectionViewDataSource, UICollectionViewDelegate {
         YPJOtherTool.ypj.getPhotosAuth(target: self) {
             self.selectedImageIndex = indexPath.item
             let picker = UIImagePickerController()
-            picker.allowsEditing = true
+            picker.allowsEditing = false
             picker.sourceType = .photoLibrary
             picker.delegate = self
             self.present(picker, animated: true, completion: nil)
@@ -167,7 +194,7 @@ extension PVMeFeedbackVC: UIImagePickerControllerDelegate, UINavigationControlle
     
     func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
         
-        if let resultImage = info[.editedImage] as? UIImage {
+        if let resultImage = info[UIImagePickerController.InfoKey.originalImage] as? UIImage {
             
             guard let imgData = resultImage.ypj.compressImage(maxLength: 512 * 1024) else { return }
             guard let img = UIImage.init(data: imgData) else { return }
@@ -186,7 +213,7 @@ extension PVMeFeedbackVC: UIImagePickerControllerDelegate, UINavigationControlle
             }
             imgCollectionView.reloadData()
         }
-        
+        picker.dismiss(animated: true, completion: nil)
     }
     
     func imagePickerControllerDidCancel(_ picker: UIImagePickerController) {
@@ -198,12 +225,16 @@ extension PVMeFeedbackVC: UIImagePickerControllerDelegate, UINavigationControlle
 }
 
 extension PVMeFeedbackVC: PVMeFeedbackImageDelegate {
-    
+    //删除照片
     func didSeletedDelete(cell: UICollectionViewCell) {
         if let indexPath = imgCollectionView.indexPath(for: cell) {
             if imgs.count > indexPath.item {
                 imgs.remove(at: indexPath.item)
                 imgCollectionView.deleteItems(at: [indexPath])
+            }
+            if imgs.contains(addImg) == false {
+                imgs.append(addImg)
+                imgCollectionView.reloadData()
             }
         }
     }

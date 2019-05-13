@@ -21,6 +21,22 @@ class PVNavigationBar: UIView {
             }
         }
     }
+    ///默认显示返回
+    public var isNeedBackButton = true {
+        didSet{
+            backBtn.isHidden = !isNeedBackButton
+        }
+    }
+    
+    //title view
+    public lazy var titleView: UIView = {
+        let v = UILabel.init()
+        v.backgroundColor = .clear
+        v.font = kFont_btn_weight
+        v.textColor = UIColor.white
+        v.textAlignment = .center
+        return v
+    }()
     
     //title
     public var naviTitle = "" {
@@ -33,7 +49,7 @@ class PVNavigationBar: UIView {
     }
     
     //title color
-    public var naviTitleColor = kColor_text! {
+    public var naviTitleColor = UIColor.white {
         willSet{
             if titleView.isKind(of: UILabel.self) {
                 let label = titleView as! UILabel
@@ -57,17 +73,15 @@ class PVNavigationBar: UIView {
         }
     }
     
-    ///title view
-    private lazy var titleView: UIView = {
-        let v = UILabel.init()
-        v.backgroundColor = .clear
-        v.font = kFont_btn_weight
-        v.textColor = kColor_text
-        v.textAlignment = .center
-        return v
+    //返回按钮
+    public lazy var backBtn: UIButton = {
+        let b = UIButton.init(frame: CGRect.init(x: 0, y: 0, width: navigationBarButtonWidth, height: navigationBarButtonHeight))
+        b.tag = naviBackButtonTag
+        b.setImage(UIImage.init(named: "back_arrow"), for: .normal)
+        return b
     }()
     
-    ///leftBarButtons stack view
+    //leftBarButtons stack view
     private lazy var leftBtnBgView: UIStackView = {
         let v = UIStackView()
         v.axis = .horizontal
@@ -75,7 +89,7 @@ class PVNavigationBar: UIView {
         v.distribution = .equalSpacing
         return v
     }()
-    ///rightBarButtons stack view
+    //rightBarButtons stack view
     private lazy var rightBtnBgView: UIStackView = {
         let v = UIStackView()
         v.axis = .horizontal
@@ -91,7 +105,6 @@ class PVNavigationBar: UIView {
                 make.width.equalTo((CGFloat)(newValue.count) * (navigationBarButtonWidth + 5))
             }
             for item in newValue {
-//                item.size = CGSize.init(width: navigationBarButtonWidth, height: navigationBarButtonHeight)
                 item.titleLabel?.font = kFont_naviBtn_weight
                 item.tag = item.tag == naviBackButtonTag ? naviBackButtonTag : newValue.index(of: item)!
                 
@@ -132,8 +145,11 @@ class PVNavigationBar: UIView {
     //MARK: - init
     override init(frame: CGRect) {
         super.init(frame: frame)
-        
-        backgroundColor = kColor_theme
+        backgroundColor = kColor_deepBackground
+        initUI()
+    }
+    
+    func initUI() {
         addSubview(naviBottomLine)
         addSubview(titleView)
         addSubview(leftBtnBgView)
@@ -157,7 +173,6 @@ class PVNavigationBar: UIView {
             make.height.equalTo(navigationBarButtonHeight)
             make.width.equalTo(navigationBarButtonWidth)
         }
-        
     }
     
     required init?(coder aDecoder: NSCoder) {

@@ -41,7 +41,7 @@ extension YPJOtherTool {
         guard let subPaths = FileManager.default.subpaths(atPath: path) else { return 0}
         var size: Double = 0
         for v in subPaths {
-            let fileAbsolutePath = path + v
+            let fileAbsolutePath = path + "/" + v
             if FileManager.default.fileExists(atPath: fileAbsolutePath) {
                 guard let dic = try? FileManager.default.attributesOfItem(atPath: fileAbsolutePath) else { continue }
                 guard let s = dic[.size] as? Double else { continue }
@@ -49,6 +49,22 @@ extension YPJOtherTool {
             }
         }
         return size / (1024.0 * 1024.0)
+    }
+    
+    //MARK: - 清除缓存
+    ///清除缓存
+    func removeCache() {
+        guard let path = NSSearchPathForDirectoriesInDomains(.cachesDirectory, .userDomainMask, true).first else { return }
+        let isContainFile = FileManager.default.fileExists(atPath: path)
+        if isContainFile == false { return }
+        guard let files = FileManager.default.subpaths(atPath: path) else { return }
+        
+        for v in files {
+            let fileAbsolutePath = path + "/" + v
+            if FileManager.default.fileExists(atPath: fileAbsolutePath) {
+               try? FileManager.default.removeItem(atPath: fileAbsolutePath)
+            }
+        }
     }
     
     //MARK: - AES128加密
@@ -139,7 +155,7 @@ extension YPJOtherTool {
         }
         
         let cancel = UIAlertAction.init(title: isNeedCancel == true ? "取消" : "好", style: .cancel) { (act) in
-            handle?(act)
+            if isNeedCancel == false { handle?(act) }
         }
         
         alert.addAction(cancel)
@@ -231,7 +247,7 @@ extension YPJOtherTool {
         default:
             break
         }
-        guard UserDefaults.standard.string(forKey: "token") != nil else {
+        guard UserDefaults.standard.string(forKey: kToken) != nil else {
             
             let vc = PVBaseRootNaviVC.init(rootViewController: PVLoginVC())
             currentVC.present(vc, animated: true, completion: nil)
@@ -248,7 +264,7 @@ extension YPJOtherTool {
      public func uploadCrashLogFile() {
      
      let path = NSHomeDirectory() + "/Documents/error.txt"
-     guard let token = UserDefaults.standard.string(forKey: "token") else { return }
+     guard let token = UserDefaults.standard.string(forKey: kToken) else { return }
      do {
      let data = try Data.init(contentsOf: URL.init(fileURLWithPath: path))
      PVNetworkTool.upLoadFileRequest(fileName: token, data: data, filePath: path, router: .uploadLogFile(), success: { (resp) in
@@ -399,10 +415,10 @@ extension YPJOtherTool {
         guard let infoDic = Bundle.main.infoDictionary else { return false }
         guard let currentVersion: String = infoDic["CFBundleShortVersionString"] as? String else { return false }
         
-        let version = UserDefaults.standard.string(forKey: "PV_app_version") ?? ""
+        let version = UserDefaults.standard.string(forKey: kAppVersion) ?? ""
         
         if version == "" || version != currentVersion {
-            UserDefaults.standard.set(currentVersion, forKey: "PV_app_version")
+            UserDefaults.standard.set(currentVersion, forKey: kAppVersion)
             UserDefaults.standard.synchronize()
             return true
         }

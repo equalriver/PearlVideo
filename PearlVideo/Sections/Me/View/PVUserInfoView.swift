@@ -70,18 +70,6 @@ class PVUserInfoView: UIView {
         return b
     }()
 
-    lazy var hotCountItem: PVMeHeaderViewItem = {
-        let v = PVMeHeaderViewItem.init(name: "关注")
-        return v
-    }()
-    lazy var fansCountItem: PVMeHeaderViewItem = {
-        let v = PVMeHeaderViewItem.init(name: "粉丝")
-        return v
-    }()
-    lazy var praiseCountItem: PVMeHeaderViewItem = {
-        let v = PVMeHeaderViewItem.init(name: "获赞")
-        return v
-    }()
     lazy var shadowView: UIView = {
         let v = UIView()
         v.layer.shadowColor = UIColor.init(hexString: "#843EB0")!.cgColor
@@ -110,9 +98,7 @@ class PVUserInfoView: UIView {
         addSubview(ageLabel)
         addSubview(descriptionLabel)
         addSubview(attentionBtn)
-        addSubview(hotCountItem)
-        addSubview(fansCountItem)
-        addSubview(praiseCountItem)
+       
         addSubview(shadowView)
         iconIV.snp.makeConstraints { (make) in
             make.size.equalTo(CGSize.init(width: 110 * KScreenRatio_6, height: 110 * KScreenRatio_6))
@@ -152,21 +138,6 @@ class PVUserInfoView: UIView {
             make.size.equalTo(CGSize.init(width: 80 * KScreenRatio_6, height: 30 * KScreenRatio_6))
             make.left.equalTo(nameLabel).offset(5)
             make.top.equalTo(descriptionLabel.snp.bottom).offset(15 * KScreenRatio_6)
-        }
-        hotCountItem.snp.makeConstraints { (make) in
-            make.size.equalTo(CGSize.init(width: 60 * KScreenRatio_6, height: 60 * KScreenRatio_6))
-            make.left.equalToSuperview().offset(20 * KScreenRatio_6)
-            make.top.equalTo(iconIV.snp.bottom).offset(60 * KScreenRatio_6)
-        }
-        fansCountItem.snp.makeConstraints { (make) in
-            make.size.equalTo(CGSize.init(width: 60 * KScreenRatio_6, height: 60 * KScreenRatio_6))
-            make.left.equalTo(hotCountItem.snp.right).offset(60 * KScreenRatio_6)
-            make.centerY.equalTo(hotCountItem)
-        }
-        praiseCountItem.snp.makeConstraints { (make) in
-            make.size.equalTo(CGSize.init(width: 60 * KScreenRatio_6, height: 60 * KScreenRatio_6))
-            make.left.equalTo(fansCountItem.snp.right).offset(60 * KScreenRatio_6)
-            make.centerY.equalTo(hotCountItem)
         }
         shadowView.snp.makeConstraints { (make) in
             make.size.equalTo(CGSize.init(width: kScreenWidth, height: 1))

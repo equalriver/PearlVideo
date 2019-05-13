@@ -30,9 +30,10 @@ class PYTabBar: UITabBar {
         }
         for v in arr {
             if v.isKind(of: NSClassFromString("UITabBarButton")!) {
-               
+                
                 v.frame = CGRect.init(x: CGFloat(index) * kScreenWidth / 5, y: v.origin.y, width: kScreenWidth / 5, height: v.height)
                 index += 1
+                for obj in v.subviews { obj.backgroundColor = kColor_deepBackground }
                 
                 if index == 2 {
                     playBtn.frame = CGRect.init(x: CGFloat(index) * kScreenWidth / 5, y: v.origin.y, width: kScreenWidth / 5, height: v.height)
@@ -50,15 +51,16 @@ class PVTabBarController: UITabBarController {
     private lazy var customTabBar: PYTabBar = {
         let tb = PYTabBar.init()
         tb.isTranslucent = false
+        tb.barTintColor = kColor_deepBackground
         tb.playBtn.addTarget(self, action: #selector(didSelectedPlay), for: .touchUpInside)
         return tb
     }()
     
-    private let tabTitles = ["首页", "关注", "珍珠", "我的"]
+    private let tabTitles = ["首页", "活动中心", "交换中心", "我的"]
     
-    private let tabImages = [UIImage.init(named: "tab_首页"), UIImage.init(named: "tab_关注"), UIImage.init(named: "tab_珍珠"), UIImage.init(named: "tab_我的")]
+    private let tabImages = [UIImage.init(named: "tab_首页"), UIImage.init(named: "tab_活动中心"), UIImage.init(named: "tab_交换"), UIImage.init(named: "tab_我的")]
     
-    private let tabSelectedImages = [UIImage.init(named: "tab_首页_s"), UIImage.init(named: "tab_关注_s"), UIImage.init(named: "tab_珍珠_s"), UIImage.init(named: "tab_我的_s")]
+    private let tabSelectedImages = [UIImage.init(named: "tab_首页_s"), UIImage.init(named: "tab_活动中心_s"), UIImage.init(named: "tab_交换_s"), UIImage.init(named: "tab_我的_s")]
     
     private lazy var homeVC: PVBaseRootNaviVC = {
         let vc = PVBaseRootNaviVC.init(rootViewController: PVHomeVC())
@@ -83,7 +85,7 @@ class PVTabBarController: UITabBarController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        view.backgroundColor = .white
+        view.backgroundColor = kColor_deepBackground
         
         self.setValue(customTabBar, forKey: "tabBar")
         viewControllers = [homeVC, hotVC, pearlVC, userVC]
@@ -92,11 +94,7 @@ class PVTabBarController: UITabBarController {
             item.tabBarItem.image = tabImages[index]
             item.tabBarItem.selectedImage = tabSelectedImages[index]
         }
-        if customTabBar.items != nil {
-            for v in customTabBar.items! {
-                v.setTitleTextAttributes([NSAttributedString.Key.font: UIFont.systemFont(ofSize: 12 * KScreenRatio_6), .foregroundColor: UIColor.init(patternImage: UIImage.init(named: "gradient_bg")!)], for: UIControl.State.selected)
-            }
-        }
+        
     }
     
     
