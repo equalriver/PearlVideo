@@ -9,7 +9,6 @@
 import FSPagerView
 
 protocol PVHomeHeaderDelegate: NSObjectProtocol {
-    func didSelectedMessage()
     func didSelectedBanner(index: Int)
     func didSelectedTitlesItem(index: Int)
     func didSelectedActionItem(index: Int)
@@ -31,12 +30,7 @@ class PVHomeHeaderView: UIView {
     let actionImgs = ["home_任务", "home_组队", "home_团队", "home_商学院"]
     let actionTitles = ["任务", "组队", "团队", "商学院"]
     
-    lazy var msgBtn: UIButton = {
-        let b = UIButton()
-        b.setImage(UIImage.init(named: "home_msg"), for: .normal)
-        b.addTarget(self, action: #selector(messageAction), for: .touchUpInside)
-        return b
-    }()
+    
     lazy var bannerView: FSPagerView = {
         let v = FSPagerView.init(frame: .zero)
         v.isInfinite = true
@@ -94,7 +88,6 @@ class PVHomeHeaderView: UIView {
         addSubview(noticeBannerView)
         addSubview(titlesCV)
         addSubview(actionItemsCV)
-        addSubview(msgBtn)
         bannerView.snp.makeConstraints { (make) in
             make.top.width.centerX.equalToSuperview()
             make.height.equalTo(200 * KScreenRatio_6)
@@ -102,11 +95,6 @@ class PVHomeHeaderView: UIView {
         bannerPageControl.snp.makeConstraints { (make) in
             make.height.equalTo(30 * KScreenRatio_6)
             make.width.bottom.centerX.equalTo(bannerView)
-        }
-        msgBtn.snp.makeConstraints { (make) in
-            make.size.equalTo(CGSize.init(width: 30, height: 30))
-            make.right.equalToSuperview().offset(-15 * KScreenRatio_6)
-            make.top.equalToSuperview().offset(30 * KScreenRatio_6)
         }
         noticeBannerView.snp.makeConstraints { (make) in
             make.width.centerX.equalToSuperview()
@@ -126,10 +114,6 @@ class PVHomeHeaderView: UIView {
     
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
-    }
-    
-    @objc func messageAction() {
-        delegate?.didSelectedMessage()
     }
     
 }

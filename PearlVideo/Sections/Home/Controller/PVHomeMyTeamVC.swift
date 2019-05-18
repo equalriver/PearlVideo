@@ -8,6 +8,12 @@
 
 class PVHomeMyTeamVC: PVBaseWMPageVC {
     
+    public var data: PVHomeTeamModel! {
+        didSet{
+            headerView.data = data
+        }
+    }
+    
     lazy var inviteBtn: UIButton = {
         let b = UIButton()
         b.titleLabel?.font = kFont_text
@@ -15,7 +21,11 @@ class PVHomeMyTeamVC: PVBaseWMPageVC {
         b.setTitleColor(kColor_yellow, for: .normal)
         return b
     }()
-    
+    lazy var headerView: PVHomeMyTeamHeaderView = {
+        let v = PVHomeMyTeamHeaderView.init(frame: CGRect.init(x: 0, y: kNavigationBarAndStatusHeight, width: kScreenWidth, height: 220 * KScreenRatio_6))
+        v.backgroundColor = kColor_deepBackground
+        return v
+    }()
     
     override func viewDidLoad() {
         
@@ -28,13 +38,21 @@ class PVHomeMyTeamVC: PVBaseWMPageVC {
         super.viewDidLoad()
         title = "我的团队"
         naviBar.rightBarButtons = [inviteBtn]
-        
+        view.backgroundColor = kColor_deepBackground
+        menuView?.backgroundColor = kColor_background
+        scrollView?.backgroundColor = kColor_deepBackground
+        view.addSubview(headerView)
+        loadData()
     }
     
 }
 
 //MARK: - 全部队员
-class PVHomeMyTeamAllVC: UIViewController {
+class PVHomeMyTeamAllVC: PVBaseViewController {
+    
+    var dataArr = Array<PVHomeTeamList>()
+    
+    var page = 0
     
     lazy var tableView: UITableView = {
         let tb = UITableView.init(frame: .zero, style: .plain)
@@ -51,12 +69,18 @@ class PVHomeMyTeamAllVC: UIViewController {
         tableView.snp.makeConstraints { (make) in
             make.size.centerY.centerX.equalToSuperview()
         }
+        setRefresh()
+        loadData(page: 0)
     }
     
 }
 
 //MARK: - 实名队员
-class PVHomeMyTeamAuthVC: UIViewController {
+class PVHomeMyTeamAuthVC: PVBaseViewController {
+    
+    var dataArr = Array<PVHomeTeamList>()
+    
+    var page = 0
     
     lazy var tableView: UITableView = {
         let tb = UITableView.init(frame: .zero, style: .plain)
@@ -73,12 +97,18 @@ class PVHomeMyTeamAuthVC: UIViewController {
         tableView.snp.makeConstraints { (make) in
             make.size.centerY.centerX.equalToSuperview()
         }
+        setRefresh()
+        loadData(page: 0)
     }
     
 }
 
 //MARK: - 未实名队员
-class PVHomeMyTeamNotAuthVC: UIViewController {
+class PVHomeMyTeamNotAuthVC: PVBaseViewController {
+    
+    var dataArr = Array<PVHomeTeamList>()
+    
+    var page = 0
     
     lazy var tableView: UITableView = {
         let tb = UITableView.init(frame: .zero, style: .plain)
@@ -95,6 +125,8 @@ class PVHomeMyTeamNotAuthVC: UIViewController {
         tableView.snp.makeConstraints { (make) in
             make.size.centerY.centerX.equalToSuperview()
         }
+        setRefresh()
+        loadData(page: 0)
     }
     
 }

@@ -12,7 +12,6 @@ class PVMeProductionCell: UICollectionViewCell {
     
     lazy var imgIV: UIImageView = {
         let v = UIImageView()
-        v.contentMode = .scaleAspectFill
         return v
     }()
     lazy var praiseBtn: UIButton = {

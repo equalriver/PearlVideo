@@ -9,59 +9,43 @@
             shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "PearlVideo/Sections/Me/Protocol/PVMeVCChildPro.swift"
-            timestampString = "578314578.197594"
+            filePath = "PearlVideo/Sections/Login/Controller/PVForgetPsdVC.swift"
+            timestampString = "579616996.83415"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "48"
-            endingLineNumber = "48"
-            landmarkName = "unknown"
-            landmarkType = "0">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "PearlVideo/Sections/Login/Protocol/PVLoginChildVCPro.swift"
-            timestampString = "579434447.983215"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "163"
-            endingLineNumber = "163"
-            landmarkName = "confirmAction(sender:)"
+            startingLineNumber = "282"
+            endingLineNumber = "282"
+            landmarkName = "nextAction(sender:)"
             landmarkType = "7">
             <Locations>
                <Location
                   shouldBeEnabled = "Yes"
                   ignoreCount = "0"
                   continueAfterRunningActions = "No"
-                  symbolName = "PearlVideo.PVRegisterPsdVC.confirmAction(sender: __C.UIButton) -&gt; ()"
+                  symbolName = "PearlVideo.PVForgetPsdVC.nextAction(sender: __C.UIButton) -&gt; ()"
                   moduleName = "PearlVideo"
                   usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/equalriver/Desktop/PearlVideo/PearlVideo/Sections/Login/Protocol/PVLoginChildVCPro.swift"
-                  timestampString = "579434448.330367"
+                  urlString = "file:///Users/equalriver/Desktop/PearlVideo/PearlVideo/Sections/Login/Controller/PVForgetPsdVC.swift"
+                  timestampString = "579876246.6224819"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "163"
-                  endingLineNumber = "163"
-                  offsetFromSymbolStart = "1012">
+                  startingLineNumber = "282"
+                  endingLineNumber = "282"
+                  offsetFromSymbolStart = "2792">
                </Location>
                <Location
                   shouldBeEnabled = "Yes"
                   ignoreCount = "0"
                   continueAfterRunningActions = "No"
-                  symbolName = "closure #1 (SwiftyJSON.JSON) -&gt; () in PearlVideo.PVRegisterPsdVC.confirmAction(sender: __C.UIButton) -&gt; ()"
+                  symbolName = "closure #1 (SwiftyJSON.JSON) -&gt; () in PearlVideo.PVForgetPsdVC.nextAction(sender: __C.UIButton) -&gt; ()"
                   moduleName = "PearlVideo"
                   usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/equalriver/Desktop/PearlVideo/PearlVideo/Sections/Login/Protocol/PVLoginChildVCPro.swift"
-                  timestampString = "579434448.332765"
+                  urlString = "file:///Users/equalriver/Desktop/PearlVideo/PearlVideo/Sections/Login/Controller/PVForgetPsdVC.swift"
+                  timestampString = "579876246.6250269"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "164"
-                  endingLineNumber = "164"
+                  startingLineNumber = "283"
+                  endingLineNumber = "283"
                   offsetFromSymbolStart = "32">
                </Location>
             </Locations>
@@ -73,109 +57,13 @@
             shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "PearlVideo/Sections/Login/Protocol/PVLoginChildVCPro.swift"
-            timestampString = "579434447.9839081"
+            filePath = "PearlVideo/Sections/Login/Controller/PVForgetPsdVC.swift"
+            timestampString = "579616996.834213"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "69"
-            endingLineNumber = "69"
-            landmarkName = "register(sender:)"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "PearlVideo/Sections/Home/Protocol/PVHomeVCChildPro.swift"
-            timestampString = "579434447.984198"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "110"
-            endingLineNumber = "110"
-            landmarkName = "loadData(page:)"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "PearlVideo/Sections/Login/Protocol/PVLoginPro.swift"
-            timestampString = "579434447.9844"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "116"
-            endingLineNumber = "116"
-            landmarkName = "login(sender:)"
-            landmarkType = "7">
-            <Locations>
-               <Location
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "PearlVideo.PVLoginVC.login(sender: __C.UIButton) -&gt; ()"
-                  moduleName = "PearlVideo"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/equalriver/Desktop/PearlVideo/PearlVideo/Sections/Login/Protocol/PVLoginPro.swift"
-                  timestampString = "579434448.347369"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "116"
-                  endingLineNumber = "116"
-                  offsetFromSymbolStart = "2516">
-               </Location>
-               <Location
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "closure #1 (SwiftyJSON.JSON) -&gt; () in PearlVideo.PVLoginVC.login(sender: __C.UIButton) -&gt; ()"
-                  moduleName = "PearlVideo"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/equalriver/Desktop/PearlVideo/PearlVideo/Sections/Login/Protocol/PVLoginPro.swift"
-                  timestampString = "579434448.3495671"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "117"
-                  endingLineNumber = "117"
-                  offsetFromSymbolStart = "40">
-               </Location>
-            </Locations>
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "PearlVideo/Sections/Login/Protocol/PVLoginPro.swift"
-            timestampString = "579434447.984592"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "117"
-            endingLineNumber = "117"
-            landmarkName = "login(sender:)"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "PearlVideo/Sections/Home/Controller/PVHomeRecommendVC.swift"
-            timestampString = "579434447.984653"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "62"
-            endingLineNumber = "62"
-            landmarkName = "loadData(page:)"
+            startingLineNumber = "283"
+            endingLineNumber = "283"
+            landmarkName = "nextAction(sender:)"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
@@ -186,11 +74,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "PearlVideo/Sections/Login/Protocol/PVLoginChildVCPro.swift"
-            timestampString = "579436463.835291"
+            timestampString = "579531235.448259"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "164"
-            endingLineNumber = "164"
+            startingLineNumber = "173"
+            endingLineNumber = "173"
             landmarkName = "confirmAction(sender:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -201,13 +89,39 @@
             shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "PearlVideo/Sections/Login/Protocol/PVLoginChildVCPro.swift"
-            timestampString = "579439933.022714"
+            filePath = "PearlVideo/Sections/Home/Controller/PVHomeRecommendVC.swift"
+            timestampString = "579876246.329311"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "71"
-            endingLineNumber = "71"
-            landmarkName = "register(sender:)"
+            startingLineNumber = "56"
+            endingLineNumber = "56"
+            landmarkName = "viewWillAppear(_:)"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.ExceptionBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            scope = "0"
+            stopOnStyle = "0">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "PearlVideo/Sections/Play/Protocol/PVPlayPro.swift"
+            timestampString = "579771491.920807"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "189"
+            endingLineNumber = "189"
+            landmarkName = "didStartRecord()"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
@@ -217,13 +131,13 @@
             shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "PearlVideo/Sections/Login/Controller/PVForgetPsdVC.swift"
-            timestampString = "579442893.638377"
+            filePath = "PearlVideo/Sections/Home/Protocol/PVHomePlayDelegates.swift"
+            timestampString = "579876246.32939"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "257"
-            endingLineNumber = "257"
-            landmarkName = "nextAction(sender:)"
+            startingLineNumber = "37"
+            endingLineNumber = "37"
+            landmarkName = "collectionView(_:didSelectItemAt:)"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
@@ -233,13 +147,29 @@
             shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "PearlVideo/Sections/Login/Controller/PVForgetPsdVC.swift"
-            timestampString = "579442894.481944"
+            filePath = "PearlVideo/Sections/Home/Protocol/PVHomePlayDelegates.swift"
+            timestampString = "579876246.329699"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "258"
-            endingLineNumber = "258"
-            landmarkName = "nextAction(sender:)"
+            startingLineNumber = "97"
+            endingLineNumber = "97"
+            landmarkName = "onTimeExpiredError(with:)"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "PearlVideo/Sections/Home/Protocol/PVHomePlayDelegates.swift"
+            timestampString = "579876246.3299021"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "102"
+            endingLineNumber = "102"
+            landmarkName = "vodPlayerPlaybackAddressExpired(withVideoId:quality:videoDefinition:)"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>

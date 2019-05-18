@@ -36,17 +36,6 @@ extension PVUserInfoVC: PVUserInfoViewDelegate {
     
 }
 
-
-//MARK: - page controller delegate
-extension PVUserInfoVC: PVMeProductionDelegate {
-    
-    func listViewShow(isShow: Bool) {
-        isShowMoreList = isShow
-    }
-    
-}
-
-
 //MARK: - page controller delegate
 extension PVUserInfoVC {
     
@@ -60,14 +49,10 @@ extension PVUserInfoVC {
     
     override func pageController(_ pageController: WMPageController, viewControllerAt index: Int) -> UIViewController {
         if index == 0 {//作品
-            let vc = PVMeProductionVC()
-            vc.delegate = self
-            return vc
+            
         }
         if index == 1 {//喜欢
-            let vc = PVMeLikeVC()
-            vc.delegate = self
-            return vc
+            
         }
         
         return UIViewController()

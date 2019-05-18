@@ -10,6 +10,9 @@ class PVBaseViewController: UIViewController {
     
     public var isNeedReloadData = false
 
+    override var preferredStatusBarStyle: UIStatusBarStyle {
+        return .lightContent
+    }
     
     override func viewDidLoad() {
         super.viewDidLoad()

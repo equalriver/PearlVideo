@@ -385,7 +385,7 @@ class PVPearlHeaderFeedAlert: UIView {
         tf.keyboardType = .numbersAndPunctuation
         tf.layer.borderColor = UIColor.init(hexString: "#6AE15A")!.cgColor
         tf.layer.borderWidth = 1
-        tf.delegate = self
+        
         return tf
     }()
     lazy var cancelBtn: UIButton = {
@@ -518,23 +518,4 @@ class PVPearlHeaderFeedAlert: UIView {
     
 }
 
-extension PVPearlHeaderFeedAlert: UITextFieldDelegate {
-    
-    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
-        textField.resignFirstResponder()
-        return true
-    }
-    
-    func textFieldShouldEndEditing(_ textField: UITextField) -> Bool {
-        guard textField.hasText else { return true }
-        if textField.text!.ypj.isAllNumber {
-            feedCount = Int(textField.text!) ?? feedCount
-        }
-        return true
-    }
-    
-    func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
-        print(string)
-        return string.ypj.isAllNumber
-    }
-}
+

@@ -5,23 +5,25 @@
 //  Created by equalriver on 2019/5/9.
 //  Copyright © 2019 equalriver. All rights reserved.
 //
+import MJRefresh
+import ObjectMapper
 
 protocol PVHomeRecommendDelegate: NSObjectProtocol {
-    func listViewShow(isShow: Bool)
+    func didBeginHeaderRefresh(sender: UIScrollView?)
 }
 
-class PVHomeRecommendVC: UIViewController {
-    
+class PVHomeRecommendVC: PVBaseViewController {
+
     weak public var delegate: PVHomeRecommendDelegate?
     
-    public var isShowMoreView = false
-
     private var isLoadingMore = false
     
     let threshold:   CGFloat = 0.7
-    let itemPerPage: CGFloat = 10   //每页条数
-    var currentPage: CGFloat = 0
-    var skip = 1
+    let itemPerPage = 10   //每页条数
+    var currentPage = 0
+    
+    var dataArr = Array<PVHomeVideoModel>()
+    
     
     lazy var collectionView: UICollectionView = {
         let l = UICollectionViewFlowLayout()
@@ -33,7 +35,6 @@ class PVHomeRecommendVC: UIViewController {
         v.backgroundColor = kColor_background
         v.dataSource = self
         v.delegate = self
-//        v.showsVerticalScrollIndicator = false
         v.register(PVHomeVideoCell.self, forCellWithReuseIdentifier: "PVHomeVideoCell")
         return v
     }()
@@ -44,29 +45,49 @@ class PVHomeRecommendVC: UIViewController {
         collectionView.snp.makeConstraints { (make) in
             make.size.centerY.centerX.equalToSuperview()
         }
-        loadData(page: skip)
+        loadData(page: currentPage)
+        setRefresh()
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         if UserDefaults.standard.value(forKey: kToken) == nil {
             collectionView.stateUnlogin(title: "登录", img: nil) {
-                self.loadData(page: self.skip)
+                self.loadData(page: self.currentPage)
             }
         }
     }
     
     func loadData(page: Int) {
         isLoadingMore = true
-        PVNetworkTool.Request(router: .homeVideoList(page: skip), success: { (resp) in
+        PVNetworkTool.Request(router: .homeRecommendVideoList(page: page), success: { (resp) in
             
-            self.isLoadingMore = false
+            if let d = Mapper<PVHomeVideoModel>().mapArray(JSONObject: resp["result"]["videoList"].arrayObject) {
+                if page == 0 {
+                    self.dataArr = d
+                }
+                else {
+                    self.dataArr += d
+                }
+                self.collectionView.reloadData()
+            }
+            DispatchQueue.main.asyncAfter(deadline: .now() + 0.2, execute: {
+                self.isLoadingMore = false
+            })
             
         }) { (e) in
-            self.skip = self.skip > 1 ? self.skip - 10 : 1
             self.currentPage = self.currentPage > 0 ? self.currentPage - 1 : 0
             self.isLoadingMore = false
         }
+    }
+    
+    func setRefresh() {
+        let headerRef = MJRefreshHeader.init {[weak self] in
+            self?.currentPage = 0
+            self?.loadData(page: 0)
+            self?.delegate?.didBeginHeaderRefresh(sender: self?.collectionView)
+        }
+        collectionView.mj_header = headerRef
     }
     
 }
@@ -74,31 +95,14 @@ class PVHomeRecommendVC: UIViewController {
 extension PVHomeRecommendVC: UICollectionViewDataSource, UICollectionViewDelegate {
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return 10
+        return dataArr.count
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "PVHomeVideoCell", for: indexPath) as! PVHomeVideoCell
-        cell.nameLabel.text = "sadadadad"
+        guard dataArr.count > indexPath.item else { return cell}
+        cell.data = dataArr[indexPath.item]
         return cell
-    }
-    
-    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        
-    }
-    
-    func scrollViewWillEndDragging(_ scrollView: UIScrollView, withVelocity velocity: CGPoint, targetContentOffset: UnsafeMutablePointer<CGPoint>) {
-    
-        //上拉
-        if velocity.y > 0 && isShowMoreView == false {
-            self.delegate?.listViewShow(isShow: true)
-            isShowMoreView = true
-        }
-        //下拉
-        if velocity.y < 0 && isShowMoreView == true && scrollView.contentOffset.y <= 0 {
-            self.delegate?.listViewShow(isShow: false)
-            isShowMoreView = false
-        }
     }
     
     func scrollViewDidEndDragging(_ scrollView: UIScrollView, willDecelerate decelerate: Bool) {
@@ -107,19 +111,22 @@ extension PVHomeRecommendVC: UICollectionViewDataSource, UICollectionViewDelegat
             let total = scrollView.contentSize.height
             let ratio = current / total
             
-            let needRead = itemPerPage * threshold + currentPage * itemPerPage
+            let needRead = CGFloat(itemPerPage) * threshold + CGFloat(currentPage * itemPerPage)
             let totalItem = itemPerPage * (currentPage + 1)
-            let newThreshold = needRead / totalItem
+            let newThreshold = needRead / CGFloat(totalItem)
            
             if ratio >= newThreshold {
                 currentPage += 1
-                skip += 10
                 isLoadingMore = true
-                loadData(page: skip)
+                loadData(page: currentPage)
                 print("Request page \(currentPage) from server.")
             }
         }
     }
     
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        let vc = PVHomePlayVC.init(type: 1, videoId: dataArr[indexPath.item].videoId, videoIndex: indexPath.item)
+        navigationController?.pushViewController(vc, animated: true)
+    }
    
 }

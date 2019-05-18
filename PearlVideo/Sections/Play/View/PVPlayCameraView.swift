@@ -71,7 +71,7 @@ class PVPlayCameraView: UIView {
     lazy var progressView: PVPlayProgressView = {
         let v = PVPlayProgressView.init(frame: .zero)
         v.isShowBlink = false
-        v.isShowNoticePoint = false
+        v.isShowNoticePoint = true
         v.backgroundColor = UIColor.init(white: 0, alpha: 0.01)
         return v
     }()
@@ -115,6 +115,7 @@ class PVPlayCameraView: UIView {
     }()
     lazy var deleteBtn: UIButton = {
         let b = UIButton()
+        b.isHidden = true
         b.isExclusiveTouch = true
         b.setImage(UIImage.init(named: "play_删除"), for: .normal)
         b.addTarget(self, action: #selector(deleteAction), for: .touchUpInside)
@@ -139,7 +140,7 @@ class PVPlayCameraView: UIView {
         topView.addSubview(switchBtn)
         addSubview(deleteBtn)
         addSubview(progressView)
-        progressView.addSubview(recordBtn)
+        addSubview(recordBtn)
         addSubview(finishButton)
         previewView.snp.makeConstraints { (make) in
             make.size.centerX.centerY.equalToSuperview()
@@ -162,21 +163,21 @@ class PVPlayCameraView: UIView {
             make.size.bottom.equalTo(backButton)
         }
         progressView.snp.makeConstraints { (make) in
+            make.size.equalTo(CGSize.init(width: kScreenWidth, height: 5))
+            make.centerX.top.equalToSuperview()
+        }
+        recordBtn.snp.makeConstraints { (make) in
             make.size.equalTo(CGSize.init(width: 90 * KScreenRatio_6, height: 90 * KScreenRatio_6))
             make.centerX.equalToSuperview()
             make.bottom.equalToSuperview().offset(-kTabBarHeight)
         }
-        recordBtn.snp.makeConstraints { (make) in
-            make.size.equalTo(CGSize.init(width: 80 * KScreenRatio_6, height: 80 * KScreenRatio_6))
-            make.center.equalToSuperview()
-        }
         deleteBtn.snp.makeConstraints { (make) in
-            make.right.equalTo(progressView.snp.left).offset(-50 * KScreenRatio_6)
-            make.centerY.equalTo(progressView)
+            make.right.equalTo(recordBtn.snp.left).offset(-50 * KScreenRatio_6)
+            make.centerY.equalTo(recordBtn)
         }
         finishButton.snp.makeConstraints { (make) in
-            make.left.equalTo(progressView.snp.right).offset(50 * KScreenRatio_6)
-            make.centerY.equalTo(progressView)
+            make.left.equalTo(recordBtn.snp.right).offset(50 * KScreenRatio_6)
+            make.centerY.equalTo(recordBtn)
         }
     }
     

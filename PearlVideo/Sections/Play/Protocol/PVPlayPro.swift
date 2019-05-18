@@ -204,6 +204,7 @@ extension PVPlayVC: PVPlayCameraDelegate {
     
     //回删
     func didSelectedDelete() {
+        startPreview()
         clipManager.deletePart()
         cameraView.progressView.videoCount -= 1
         cameraView.recordingPercent(percent: clipManager.duration)
@@ -218,6 +219,11 @@ extension PVPlayVC: PVPlayCameraDelegate {
         guard clipManager.partCount > 0 else { return }
         recorder.finishRecording()
         cameraView.hide = false
+        if let output_Path = recorder.outputPath {
+            let url = URL.init(fileURLWithPath: output_Path)
+            let vc = PVPlayVideoUploadVC.init(url: url)
+            navigationController?.pushViewController(vc, animated: true)
+        }
     }
     
     //切换摄像头

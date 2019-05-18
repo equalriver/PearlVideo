@@ -10,7 +10,7 @@
 #define BridgingHeader_h
 
 #import <YYKit/YYKit.h>
-#import <VODUpload/VODUploadSVideoClient.h>
+#import <VODUpload/VODUploadClient.h>
 
 
 

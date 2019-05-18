@@ -87,7 +87,7 @@ extension PVPearlSendBillVC: UITableViewDelegate, UITableViewDataSource {
         if indexPath.section == 1 {
             let cell = PVPearlSendBillCell.init(style: .default, reuseIdentifier: nil)
             cell.titleLabel.text = items[indexPath.row]
-            cell.detailTF.delegate = self
+            
             cell.detailTF.tag = indexPath.row
             if indexPath.row == 0 {//当前价格
                 cell.detailTF.isUserInteractionEnabled = false
@@ -112,7 +112,7 @@ extension PVPearlSendBillVC: UITableViewDelegate, UITableViewDataSource {
         if indexPath.section == 2 {
             let cell = PVPearlSendBillCell.init(style: .default, reuseIdentifier: nil)
             cell.titleLabel.text = "收款账号"
-            cell.detailTF.delegate = self
+            
             cell.detailTF.tag = 20
         }
         return UITableViewCell()
@@ -120,37 +120,3 @@ extension PVPearlSendBillVC: UITableViewDelegate, UITableViewDataSource {
     
 }
 
-extension PVPearlSendBillVC: UITextFieldDelegate {
-    
-    func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
-        switch textField.tag {
-        case 1: //单价
-            price = string
-            break
-            
-        case 2: //珍珠数量
-            count = string
-            break
-            
-        case 3: //总金额
-            
-            break
-            
-        case 20: //收款账号
-            account = string
-            break
-            
-        default: break
-        
-        }
-        if price.count > 0 && count.count > 0 && account.count > 0 {
-            releaseBtn.isEnabled = true
-        }
-        else {
-            releaseBtn.isEnabled = false
-        }
-        
-        return true
-    }
-    
-}

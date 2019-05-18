@@ -13,7 +13,8 @@ extension PVPlayCameraView {
         progressView.updateProgress(progress: percent)
         if percent == 0 {
             progressView.reset()
-            hide = true
+            deleteBtn.isHidden = true
+            finishButton.isHidden = true
         }
     }
     
@@ -45,6 +46,7 @@ extension PVPlayCameraView {
             sender.transform = .identity
         }
         else {
+            progressView.videoCount += 1
             sender.transform = CGAffineTransform.init(scaleX: 1.3, y: 1.3)
             delegate?.didStartRecord()
         }

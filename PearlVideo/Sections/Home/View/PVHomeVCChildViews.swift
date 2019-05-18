@@ -9,6 +9,14 @@
 //MARK: - 会员等级
 class PVHomeUserLevelHeaderView: UIView {
     
+    public var data: PVHomeUserLevelModel! {
+        didSet{
+            levelLabel.text = data.level
+            xpLabel.text = "经验值：\(data.expToal)"
+            noticeLabel.text = "距下次升级还差\(data.differExpNum)点经验"
+        }
+    }
+    
     lazy var levelLabel: UILabel = {
         let l = UILabel()
         l.font = UIFont.systemFont(ofSize: 30 * KScreenRatio_6, weight: UIFont.Weight.semibold)
@@ -69,6 +77,18 @@ class PVHomeUserLevelHeaderView: UIView {
 }
 
 class PVHomeUserLevelCell: PVBaseTableCell {
+    
+    public var data: PVHomeUserLevelList! {
+        didSet{
+            let s = "会员等级 \(data.name)"
+            let att = NSMutableAttributedString.init(string: s)
+            att.addAttributes([.font: kFont_text, .foregroundColor: UIColor.white], range: NSMakeRange(0, 5))
+            att.addAttributes([.font: kFont_btn_weight, .foregroundColor: UIColor.white], range: NSMakeRange(5, s.count - 5))
+            levelLabel.attributedText = att
+            detailLabel.text = data.expDes
+            chargeLabel.text = data.feeDes
+        }
+    }
     
     lazy var backgroundBgView: UIView = {
         let v = UIView()
@@ -175,6 +195,22 @@ class PVHomeActivenessHeaderView: UIView {
 
 class PVHomeActivenessCell: PVBaseTableCell {
     
+    public var activenessData: PVHomeActivenessList! {
+        didSet{
+            titleLabel.text = activenessData.title
+            dateLabel.text = activenessData.createAt
+            detailLabel.text = "\(activenessData.liveness)"
+        }
+    }
+    
+    public var fruitData: PVHomeFruitList! {
+        didSet{
+            titleLabel.text = fruitData.title
+            dateLabel.text = fruitData.createAt
+            detailLabel.text = "\(fruitData.pearlCost)"
+        }
+    }
+    
     lazy var titleLabel: UILabel = {
         let l = UILabel()
         l.font = kFont_text
@@ -236,6 +272,14 @@ class PVHomeActivenessCell: PVBaseTableCell {
 //视频区
 class PVHomeSchoolVideoCell: PVBaseTableCell {
     
+    public var data: PVHomeSchoolVideoList! {
+        didSet{
+            imgIV.kf.setImage(with: URL.init(string: data.coverUrl))
+            titleLabel.text = data.title
+            timeLabel.text = data.createAt
+        }
+    }
+    
     lazy var imgIV: UIImageView = {
         let iv = UIImageView()
         let rect = CGRect.init(x: 0, y: 0, width: 120 * KScreenRatio_6, height: 70 * KScreenRatio_6)
@@ -291,6 +335,13 @@ class PVHomeSchoolVideoCell: PVBaseTableCell {
 
 //新手指南
 class PVHomeSchoolGuideCell: PVBaseTableCell {
+    
+    public var data: PVHomeSchoolGuideList! {
+        didSet{
+            titleLabel.text = data.title
+            dateLabel.text = data.createAt
+        }
+    }
     
     lazy var titleLabel: UILabel = {
         let l = UILabel()

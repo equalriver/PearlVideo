@@ -21,24 +21,6 @@ extension PVMeNameValidateVC {
     }
 }
 
-extension PVMeNameValidateVC: UITextFieldDelegate {
-    func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
-        if textField.tag == 0 {//姓名
-            name = textField.text
-        }
-        if textField.tag == 1 {//电话
-            if string.ypj.isAllNumber == false { return false }
-            phone = textField.text
-        }
-        if textField.tag == 2 {//身份证
-            if string.ypj.isAllNumber == false { return false }
-            idCard = textField.text
-        }
-        if name != nil && phone != nil && idCard != nil && checkBtn.isSelected { confirmBtn.isEnabled = true }
-        
-        return true
-    }
-}
 
 extension PVMeNameValidateVC: UITableViewDelegate, UITableViewDataSource{
     
@@ -51,7 +33,7 @@ extension PVMeNameValidateVC: UITableViewDelegate, UITableViewDataSource{
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = PVMeNameValidateCell.init(title: titles[indexPath.row], tag: indexPath.row, textField: self)
+        let cell = PVMeNameValidateCell.init(title: titles[indexPath.row], tag: indexPath.row)
         
         return cell
     }
@@ -64,13 +46,14 @@ extension PVMePasswordChangeVC {
     
     @objc func didClickGetAuthCode(sender: UIButton) {
         sender.isEnabled = false
-        var t = 59
+        var t = 60
         
         self.timer.setEventHandler {
             if t <= 1 {
                 self.timer.suspend()
                 DispatchQueue.main.async {
                     sender.setTitle("获取验证码", for: .normal)
+                    sender.backgroundColor = kColor_pink
                     sender.isEnabled = true
                 }
             }
@@ -78,11 +61,13 @@ extension PVMePasswordChangeVC {
                 t -= 1
                 DispatchQueue.main.async {
                     sender.setTitle("已发送(\(t))", for: .normal)
+                    sender.backgroundColor = UIColor.gray
                     sender.isEnabled = false
                 }
             }
         }
         self.timer.resume()
+        authCodeTF.becomeFirstResponder()
     }
     
     @objc func nextAction() {
@@ -91,15 +76,6 @@ extension PVMePasswordChangeVC {
     
 }
 
-extension PVMePasswordChangeVC: UITextFieldDelegate {
-    
-    func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
-        if string.ypj.isAllNumber == false { return false }
-        if phoneTF.hasText && authCodeTF.hasText { nextBtn.isEnabled = true }
-        return true
-    }
-    
-}
 
 
 

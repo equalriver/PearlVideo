@@ -103,9 +103,7 @@ class PVNetworkTool: SessionManager {
                                 guard vc.isKind(of: PVLoginVC.self) == false else { return }
                                 UserDefaults.standard.set(nil, forKey: kToken)
                                 UserDefaults.standard.synchronize()
-                                YPJOtherTool.ypj.loginValidate(currentVC: vc, isLogin: { (isFinished) in
-                                    
-                                })
+                                YPJOtherTool.ypj.loginValidate(currentVC: vc, isLogin: nil)
                                 return
                             }
                         }
@@ -122,8 +120,18 @@ class PVNetworkTool: SessionManager {
                     DispatchQueue.main.async { success(json) }
                     
                 case .failure(let error):
-                    
+                    //超时重连
+//                    if error.localizedDescription.contains("The request timed out.") {
+//                        print(error.localizedDescription)
+//                        if YYReachability.init().status == .none { return }
+//                        DispatchQueue.global().asyncAfter(deadline: .now() + 10, execute: {
+//                            PVNetworkTool.Request(router: router, success: success, failure: failure)
+//                        })
+//                    }
                     DispatchQueue.main.async {
+                        if error.localizedDescription.contains("The request timed out.") {
+                            SVProgressHUD.showInfo(withStatus: "连接超时")
+                        }
                         print(error.localizedDescription)
                         failure(error)
                     }

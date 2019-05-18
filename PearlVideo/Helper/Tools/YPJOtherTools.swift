@@ -33,9 +33,9 @@ extension YPJOtherTool {
     }
     
     
-    //MARK: - 获取文件大小(返回M)
-    ///获取文件大小(返回M)
-    func getLocalFilesSize(path: String) -> Double {
+    //MARK: - 获取文件夹大小(返回M)
+    ///获取文件夹大小(返回M)
+    func getLocalFolderSize(path: String) -> Double {
         let isContainFile = FileManager.default.fileExists(atPath: path)
         if isContainFile == false { return 0 }
         guard let subPaths = FileManager.default.subpaths(atPath: path) else { return 0}
@@ -248,8 +248,9 @@ extension YPJOtherTool {
             break
         }
         guard UserDefaults.standard.string(forKey: kToken) != nil else {
-            
-            let vc = PVBaseRootNaviVC.init(rootViewController: PVLoginVC())
+            let lvc = PVLoginVC()
+            lvc.loginCallback = isLogin
+            let vc = PVBaseRootNaviVC.init(rootViewController: lvc)
             currentVC.present(vc, animated: true, completion: nil)
             isLogin?(false)
             return

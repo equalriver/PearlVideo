@@ -8,7 +8,7 @@
 
 import UIKit
 
-class PVAttentionCommentDetailVC: UIViewController {
+class PVAttentionCommentDetailVC: PVBaseViewController {
     
     lazy var naviTitleLabel: UILabel = {
         let l = UILabel()

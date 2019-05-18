@@ -5,13 +5,58 @@
 //  Created by equalriver on 2019/4/11.
 //  Copyright © 2019 equalriver. All rights reserved.
 //
-
+import ObjectMapper
 import AliyunVodPlayerSDK
 
 //MARK: - action
 extension PVHomePlayVC {
+    //获取点播STS
+    func getSTS() {
+        PVNetworkTool.Request(router: .getVideoSTS(), success: { (resp) in
+            if let accessKeyId = resp["result"]["accessKeyId"].string {
+                self.accessKeyId = accessKeyId
+            }
+            if let accessKeySecret = resp["result"]["accessKeySecret"].string {
+                self.accessKeySecret = accessKeySecret
+            }
+            if let securityToken = resp["result"]["securityToken"].string {
+                self.securityToken = securityToken
+            }
+            self.loadData()
+            
+        }) { (e) in
+            
+        }
+    }
     
+    func loadData() {
+        PVNetworkTool.Request(router: .videoList(type: type, videoIndex: videoIndex, videoId: videoId), success: { (resp) in
+            if let d = Mapper<PVVideoPlayModel>().mapArray(JSONObject: resp["result"]["videoList"].arrayObject) {
+                if self.page == 0 { self.dataArr = d }
+                else { self.dataArr += d }
+                self.collectionView.reloadData()
+            }
+            if let nextPos = resp["result"]["nextPos"].int {
+                self.videoIndex = nextPos
+            }
+            
+        }) { (e) in
+            
+        }
+    }
     
+    @objc func backAction(sender: UIButton) {
+        navigationController?.popViewController(animated: true)
+    }
+    
+    //第一次进入的图片预加载,保证只执行一次
+    func doQuerryImageWhenFirstEnter() {
+        if isHaveQuerryImageWhenFirstEnter == true || videoList.count == 0 { return }
+        isHaveQuerryImageWhenFirstEnter = true
+        for v in videoList {
+            tryQuerryImageWithModel(videoModel: v)
+        }
+    }
     
 }
 
@@ -58,24 +103,24 @@ extension PVHomePlayVC {
     }
  
     //取消滑动,各view归位
-    func cancelPan() {
-        guard currentPlayContainer != nil else { return }
-        
-        UIView.animate(withDuration: kAnimationTime) {
-            self.currentPlayContainer!.frame = CGRect.init(x: 0, y: 0, width: kScreenWidth, height: playViewHeight)
-            if let preView = self.previousViewToView(containerView: self.currentPlayContainer!) {
-                preView.frame = CGRect.init(x: 0, y: -1 * playViewHeight - 1, width: kScreenWidth, height: playViewHeight)
-            }
-            if let nextView = self.nextViewToView(containerView: self.currentPlayContainer!) {
-                nextView.frame = CGRect.init(x: 0, y: playViewHeight + 1, width: kScreenWidth, height: playViewHeight)
-            }
-        }
-    }
+//    func cancelPan() {
+//        guard currentPlayContainer != nil else { return }
+//
+//        UIView.animate(withDuration: kAnimationTime) {
+//            self.currentPlayContainer!.frame = CGRect.init(x: 0, y: 0, width: kScreenWidth, height: kScreenHeight)
+//            if let preView = self.previousViewToView(containerView: self.currentPlayContainer!) {
+//                preView.frame = CGRect.init(x: 0, y: -1 * kScreenHeight - 1, width: kScreenWidth, height: kScreenHeight)
+//            }
+//            if let nextView = self.nextViewToView(containerView: self.currentPlayContainer!) {
+//                nextView.frame = CGRect.init(x: 0, y: kScreenHeight + 1, width: kScreenWidth, height: kScreenHeight)
+//            }
+//        }
+//    }
   
     //view向上移动一屏
     func animtaionUpView(containerView: PVHomePlayContainerView, completion: ((Bool) -> Void)?) {
         var f = containerView.frame
-        f.origin.y = -1 * playViewHeight - 1
+        f.origin.y = -1 * kScreenHeight - 1
         UIView.animate(withDuration: kAnimationTime, animations: {
             containerView.frame = f
             
@@ -95,7 +140,7 @@ extension PVHomePlayVC {
     //view向下移动一屏
     func animationDownView(containerView: PVHomePlayContainerView, completion: ((Bool) -> Void)?) {
         var f = containerView.frame
-        f.origin.y = playViewHeight + 1
+        f.origin.y = kScreenHeight + 1
         UIView.animate(withDuration: kAnimationTime, animations: {
             containerView.frame = f
             
@@ -156,7 +201,7 @@ extension PVHomePlayVC {
         }
         self.videoList += dataArr
         //用户滑动过快的时候等待请求下来再去管理预加载资源
-        managePreloadingSourceWhenPlayNext()
+//        managePreloadingSourceWhenPlayNext()
     }
 
     //清空之前的数据，重新加载
@@ -170,6 +215,7 @@ extension PVHomePlayVC {
 //MARK: - play manager
 extension PVHomePlayVC {
     //播放上一个视频
+    /*
     func playPrevious() {
         guard currentPlayContainer != nil else { return }
         let previousView = previousViewToView(containerView: currentPlayContainer!)
@@ -177,47 +223,21 @@ extension PVHomePlayVC {
             animationDownView(containerView: currentPlayContainer!, completion: nil)
             stopPlayCurrent(currentPlayContainView: currentPlayContainer!, changeToPlay: previousView!)
             currentPlayContainer = previousView
-            
+            managePreloadingSourceWhenPlayPrevious()
+        }
+        else {
+            cancelPan()
+            if videoList.count > 0 {
+                if let currentModelIndex = currentPlayContainer!.videoModel?.index(ofAccessibilityElement: videoList) {
+                    if currentModelIndex == 0 { reloadData() }
+                }
+            }
+            else {
+                reloadData()
+            }
         }
     }
-    
-
-    
-//    [self stopPlayCurrent:self.currentPlayContainer changeToPlay:previousView];
-//    self.currentPlayContainer = previousView;
-//
-//    [self managePreloadingSourceWhenPlayPrevious];
-//
-//    }else{
-//    [self cancelPan];
-//    if (self.videoList.count > 0) {
-//    NSInteger currentModelIndex = [self.videoList indexOfObject:self.currentPlayContainer.videoModel];
-//    if (currentModelIndex == 0 && !_isOnlyPlayStableVideo) {
-//    UIWindow *window = [UIApplication sharedApplication].keyWindow;
-//    if (window) {
-//    self.refreshHud = [MBProgressHUD showMessage:@"刷新中..." alwaysInView:window];
-//    }else{
-//    self.refreshHud = [MBProgressHUD showMessage:@"刷新中..." alwaysInView:self.view];
-//    }
-//
-//    [self reloadData];
-//    }else if(currentModelIndex == 0 &&_isOnlyPlayStableVideo){
-//    [MBProgressHUD showMessage:@"无更多视频" inView:self.view];
-//    }else{
-//    NSAssert(false, @"往下滑动逻辑处理有漏洞");
-//    }
-//    }else{
-//    //视频列表为空，可能之前无网络，这里添加下拉刷新的逻辑
-//    if (!_isOnlyPlayStableVideo) {
-//    UIWindow *window = [UIApplication sharedApplication].keyWindow;
-//    if (window) {
-//    self.refreshHud = [MBProgressHUD showMessage:@"刷新中..." alwaysInView:window];
-//    }else{
-//    self.refreshHud = [MBProgressHUD showMessage:@"刷新中..." alwaysInView:self.view];
-//    }
-//    [self reloadData];
-//    }
-  
+    */
     
     //准备播放视频
     func prepareWithPlayer(player: AliyunVodPlayer, model: AlivcQuVideoModel) {
@@ -225,7 +245,7 @@ extension PVHomePlayVC {
         player.prepare(withVid: model.videoId, accessKeyId: accessKeyId, accessKeySecret: accessKeySecret, securityToken: securityToken)
         if accessKeyId == nil || accessKeySecret == nil || securityToken == nil { print("sts异常") }
     }
-    
+    /*
     //向上滑动的时候管理预加载资源
     func managePreloadingSourceWhenPlayNext() {
         //1.出现上划的情况
@@ -258,7 +278,7 @@ extension PVHomePlayVC {
                 
                 //调整在视图中的位置
                 var f = firstView.frame
-                f.origin.y = playViewHeight + 1
+                f.origin.y = kScreenHeight + 1
                 firstView.frame = f
             }
             else {
@@ -269,6 +289,7 @@ extension PVHomePlayVC {
             }
         }
     }
+    
     
     //向下滑动的时候管理预加载资源
     func managePreloadingSourceWhenPlayPrevious() {
@@ -301,12 +322,12 @@ extension PVHomePlayVC {
                 
                 //调整在视图中的位置
                 var f = lastView.frame
-                f.origin.y = -1 * playViewHeight - 1
+                f.origin.y = -1 * kScreenHeight - 1
                 lastView.frame = f
             }
         }
     }
-
+    */
     
     //准备播放下一个视频的清除数据工作
     func clearWhenContainView(conView: PVHomePlayContainerView, newModel: AlivcQuVideoModel) {
@@ -363,6 +384,89 @@ extension PVHomePlayVC {
         return f
     }
     
+    @objc func tapAction(sender: UITapGestureRecognizer) {
+        guard let player = currentPlayContainer?.vodPlayer else { return }
+        switch player.playerState() {
+        case .play:
+            player.pause()
+            break
+            
+        case .stop:
+            player.replay()
+            break
+            
+        case .pause:
+            player.resume()
+            break
+            
+        default:
+//            prepareWithPlayer(player: player, model: currentPlayContainer!.videoModel!)
+            break
+        }
+    }
+    
+    @objc func panAction(sender: UIPanGestureRecognizer) {
+        let s = sender.velocity(in: view)
+        let translation = sender.translation(in: view)
+        switch sender.state {
+        case .changed:
+//            changedToCommitTranslation(translation: translation)
+            break
+            
+        case .ended:
+            if abs(s.y) < kMinPanSpeed && abs(translation.y) < kScreenHeight / 2 {
+//                cancelPan()
+            }
+            else {
+                
+            }
+            break
+            
+        default:
+            break
+        }
+    }
+    /*
+    //手势改变中的处理，主要是view的位置变化  当前播放的视图变化
+    func changedToCommitTranslation(translation: CGPoint) {
+        guard currentPlayContainer != nil else { return }
+        var currentFrame = currentPlayContainer!.frame
+        currentFrame.origin.y = translation.y
+        currentPlayContainer!.frame = newFrameWithHandleFrame(frame: currentFrame)
+        
+        guard let previousView = previousViewToView(containerView: currentPlayContainer!) else { return }
+        var previousFrame = previousView.frame
+        previousFrame.origin.y = kScreenHeight * -1 + translation.y
+        previousView.frame = newFrameWithHandleFrame(frame: previousFrame)
+        
+        guard let nextView = nextViewToView(containerView: currentPlayContainer!) else { return }
+        var nextFrame = nextView.frame
+        nextFrame.origin.y = kScreenHeight + translation.y
+        nextView.frame = newFrameWithHandleFrame(frame: nextFrame)
+    }
+    
+    //手势结束的时候处理,判断滑动方向，播放上一个视频或者下一个视频
+    func endToCommitTranslation(translation: CGPoint) {
+        let absX = abs(translation.x)
+        let absY = abs(translation.y)
+        // 设置滑动有效距离
+        if max(absX, absY) < 10 {
+            cancelPan()
+            return
+        }
+        if absX > absY {
+            cancelPan()
+        }
+        else {
+            if translation.y < 0 {//向上滑动
+            
+            }
+            else {//向下滑动
+                
+            }
+        }
+    }
+    */
 }
 
 //MARK: - public method

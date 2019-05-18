@@ -33,6 +33,7 @@ class PVRegisterVC: PVBaseNavigationVC {
         tf.layer.borderColor = UIColor.white.cgColor
         tf.layer.borderWidth = 1
         tf.delegate = self
+        tf.addTarget(self, action: #selector(textFieldChange(sender:)), for: .editingChanged)
         return tf
     }()
     lazy var authCodeTF: UITextField = {
@@ -48,6 +49,10 @@ class PVRegisterVC: PVBaseNavigationVC {
         tf.layer.borderColor = UIColor.white.cgColor
         tf.layer.borderWidth = 1
         tf.delegate = self
+        tf.addTarget(self, action: #selector(textFieldChange(sender:)), for: .editingChanged)
+        if #available(iOS 12.0, *) {
+            tf.textContentType = UITextContentType.oneTimeCode
+        }
         return tf
     }()
     lazy var getAuthCodeBtn: UIButton = {
@@ -73,6 +78,7 @@ class PVRegisterVC: PVBaseNavigationVC {
         tf.layer.borderColor = UIColor.white.cgColor
         tf.layer.borderWidth = 1
         tf.delegate = self
+        tf.addTarget(self, action: #selector(textFieldChange(sender:)), for: .editingChanged)
         return tf
     }()
     lazy var registerBtn: UIButton = {
@@ -203,7 +209,7 @@ class PVRegisterVC: PVBaseNavigationVC {
         }
         checkboxBtn.snp.makeConstraints { (make) in
             make.size.equalTo(CGSize.init(width: 35 * KScreenRatio_6, height: 35 * KScreenRatio_6))
-            make.left.equalToSuperview().offset(50 * KScreenRatio_6)
+            make.left.equalToSuperview().offset(35 * KScreenRatio_6)
             make.top.equalTo(registerBtn.snp.bottom).offset(100 * KScreenRatio_6)
         }
         bottomLabel.snp.makeConstraints { (make) in
@@ -232,11 +238,11 @@ class PVRegisterPsdVC: PVBaseNavigationVC {
         return l
     }()
     lazy var psdTF_1: UIView = {
-        let v = makeItemView(tag: 0, delegate: self)
+        let v = makeItemView(tag: 0)
         return v
     }()
     lazy var psdTF_2: UIView = {
-        let v = makeItemView(tag: 1, delegate: self)
+        let v = makeItemView(tag: 1)
         return v
     }()
     lazy var confirmBtn: UIButton = {
@@ -264,7 +270,7 @@ class PVRegisterPsdVC: PVBaseNavigationVC {
         
     }
     
-    func makeItemView(tag: Int, delegate: UITextFieldDelegate) -> UIView {
+    func makeItemView(tag: Int) -> UIView {
         let v = UIView()
         v.backgroundColor = kColor_deepBackground
         v.layer.borderColor = UIColor.white.cgColor
@@ -280,7 +286,7 @@ class PVRegisterPsdVC: PVBaseNavigationVC {
         tf.keyboardType = .numbersAndPunctuation
         tf.clearButtonMode = .whileEditing
         tf.textAlignment = .center
-        tf.delegate = delegate
+        tf.addTarget(self, action: #selector(textFieldChange(sender:)), for: .editingChanged)
         tf.isSecureTextEntry = true
         v.addSubview(tf)
         
@@ -315,9 +321,9 @@ class PVRegisterPsdVC: PVBaseNavigationVC {
             make.top.equalTo(naviBar.snp.bottom).offset(20 * KScreenRatio_6)
         }
         psdTF_1.snp.makeConstraints { (make) in
-            make.left.equalToSuperview().offset(20 * KScreenRatio_6)
+            make.centerX.equalToSuperview()
             make.top.equalTo(titleLabel.snp.bottom).offset(40 * KScreenRatio_6)
-            make.size.equalTo(CGSize.init(width: 295 * KScreenRatio_6, height: 30 * KScreenRatio_6))
+            make.size.equalTo(CGSize.init(width: 295 * KScreenRatio_6, height: 40 * KScreenRatio_6))
         }
         psdTF_2.snp.makeConstraints { (make) in
             make.left.equalToSuperview().offset(20 * KScreenRatio_6)

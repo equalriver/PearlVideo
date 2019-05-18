@@ -10,6 +10,8 @@ import UIKit
 
 class PVLoginVC: PVBaseViewController {
 
+    public var loginCallback: ((_ isLogin: Bool) -> Void)?
+    
     var isPasswordLogin = true
     
     lazy var dismissBtn: UIButton = {
@@ -43,7 +45,10 @@ class PVLoginVC: PVBaseViewController {
         tf.layer.cornerRadius = 20 * KScreenRatio_6
         tf.layer.borderColor = UIColor.white.cgColor
         tf.layer.borderWidth = 1
-        tf.delegate = self
+        tf.addTarget(self, action: #selector(textFieldChange(sender:)), for: .editingChanged)
+        if #available(iOS 10.0, *) {
+            tf.textContentType = UITextContentType.telephoneNumber
+        }
         return tf
     }()
     lazy var passwordTF: UITextField = {
@@ -59,9 +64,10 @@ class PVLoginVC: PVBaseViewController {
         tf.layer.cornerRadius = 20 * KScreenRatio_6
         tf.layer.borderColor = UIColor.white.cgColor
         tf.layer.borderWidth = 1
-        tf.delegate = self
+        tf.addTarget(self, action: #selector(textFieldChange(sender:)), for: .editingChanged)
         return tf
     }()
+    
     lazy var authCodeTF: UITextField = {
         let tf = UITextField()
         tf.backgroundColor = kColor_deepBackground
@@ -74,7 +80,10 @@ class PVLoginVC: PVBaseViewController {
         tf.layer.cornerRadius = 20 * KScreenRatio_6
         tf.layer.borderColor = UIColor.white.cgColor
         tf.layer.borderWidth = 1
-        tf.delegate = self
+        tf.addTarget(self, action: #selector(textFieldChange(sender:)), for: .editingChanged)
+        if #available(iOS 12.0, *) {
+            tf.textContentType = UITextContentType.oneTimeCode
+        }
         return tf
     }()
     lazy var getAuthCodeBtn: UIButton = {
@@ -242,7 +251,7 @@ class PVLoginVC: PVBaseViewController {
         }
         privacyTapLabel.snp.makeConstraints { (make) in
             make.centerX.equalToSuperview()
-            make.bottom.equalToSuperview().offset(-30 - kIphoneXBottomInsetHeight * KScreenRatio_6)
+            make.bottom.equalToSuperview().offset(-30 - kIphoneXLatterInsetHeight * KScreenRatio_6)
             make.height.equalTo(20)
         }
         privacyLabel.snp.makeConstraints { (make) in

@@ -9,7 +9,7 @@ public let kNavigationBarAndStatusHeight: CGFloat = UINavigationController().nav
 
 public let isIphoneXLatter = UIScreen.main.bounds.size.height >= 812 ? true : false
 
-public let kIphoneXBottomInsetHeight: CGFloat = UIScreen.main.bounds.size.height >= 812 ? 20 : 0
+public let kIphoneXLatterInsetHeight: CGFloat = UIScreen.main.bounds.size.height >= 812 ? 20 : 0
 
 public let kScreenWidth = UIScreen.main.bounds.size.width
 

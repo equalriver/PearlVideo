@@ -33,45 +33,68 @@ enum Router: URLRequestConvertible {
     ///首页
     case homePage()
     
-    ///首页视频列表
-    case homeVideoList(page: Int)
+    ///首页推荐视频列表
+    case homeRecommendVideoList(page: Int)
+    
+    ///首页关注视频列表
+    case homeAttentionVideoList(page: Int)
     
     ///会员等级详情
     case userLevelDetail()
     
     ///活跃度详情
-    case activenessDetail(page: Int, count: Int)
+    case activenessDetail(page: Int)
     
     ///平安果详情
-    case fruitDetail(page: Int, count: Int)
+    case fruitDetail(page: Int)
     
     ///商学院视频列表
-    case schoolVideoList(page: Int, count: Int)
+    case schoolVideoList(page: Int)
     
     ///商学院新手指南
-    case schoolUserGuide(page: Int, count: Int)
+    case schoolUserGuide(page: Int)
+    
+    ///我的任务
+    case myTask(page: Int)
+    
+    ///任务书卷
+    case taskAll(page: Int)
+    
+    ///历史任务
+    case historyTask(page: Int)
     
     ///我的团队信息
     case teamInfo()
     
     ///全部团队成员列表
-    case teamAllList(page: Int, count: Int)
+    case teamAllList(page: Int)
     
     ///未实名认证团队成员列表
-    case teamNotAuthList(page: Int, count: Int)
+    case teamNotAuthList(page: Int)
     
     ///实名认证团队成员列表
-    case teamAuthList(page: Int, count: Int)
+    case teamAuthList(page: Int)
+
+    ///消息列表category：NOTICEMESSAGE(通知)，COMMENTMESSAGE（评论），FOLLOWMESSAGE（关注），THUMBUPMESSAGE（点赞）
+    case messsageList(page: Int, category: String)
+    
+    ///获取消息状态
+    case messageBadgeState()
+    
+    ///更新消息状态category：NOTICEMESSAGE(通知)，COMMENTMESSAGE（评论），FOLLOWMESSAGE（关注），THUMBUPMESSAGE（点赞）
+    case refreshMessageBadgeState(category: String)
     
     
     
-    //message
-    ///消息列表
-    case messsageList()
+    //video
+    ///获取上传地址和凭证
+    case getUploadAuthAndAddress(description: String, fileName: String)
     
-    ///待办事项列表
-    case toDoList()
+    ///获取播放STS
+    case getVideoSTS()
     
+    ///所有视频播放列表 1: 推荐, 2: 关注, 3: 我的作品, 4: 我的喜欢视频, 5: 私密视频
+    case videoList(type: Int, videoIndex: Int, videoId: String)
     
     //application
     ///获取应用列表
@@ -102,7 +125,7 @@ enum Router: URLRequestConvertible {
     
     //我的
     ///用户信息
-    case userInfo(userId: String, skip: Int, count: Int)
+    case userInfo(userId: String, page: Int)
     
     ///关于我们
     case about()
@@ -112,9 +135,10 @@ enum Router: URLRequestConvertible {
     
     
     
-    //MARK: -
+    
     func asURLRequest() throws -> URLRequest {
         
+        //MARK: - path
         var path: String {
             switch self {
             //login
@@ -143,7 +167,10 @@ enum Router: URLRequestConvertible {
             case .homePage:
                 return "GetCarousel"
                 
-            case .homeVideoList:
+            case .homeRecommendVideoList:
+                return "GetRecommendVideoList"
+                
+            case .homeAttentionVideoList:
                 return "GetFollowVideoList"
                 
             case .userLevelDetail:
@@ -161,6 +188,15 @@ enum Router: URLRequestConvertible {
             case .schoolUserGuide:
                 return "GetCommercialBeginnerGuide"
                 
+            case .myTask:
+                return "getMyReel"
+                
+            case .taskAll:
+                return "getReel"
+                
+            case .historyTask:
+                return "getPastReel"
+                
             case .teamInfo:
                 return "GetUserTeamInfo"
                 
@@ -172,15 +208,27 @@ enum Router: URLRequestConvertible {
                 
             case .teamAuthList:
                 return "RealNameAuthentication"
-                
-                
-                
-            //message
+
             case .messsageList:
-                return "/api/base/receivedMsg.do"
+                return "getMessage"
                 
-            case .toDoList:
-                return "/api/base/getToDoList.do"
+            case .messageBadgeState:
+                return "GetMessageStatus"
+                
+            case .refreshMessageBadgeState:
+                return "ChangeMessageStatus"
+                
+                
+                
+            //video
+            case .getUploadAuthAndAddress:
+                return "CreateUploadVideo"
+                
+            case .getVideoSTS:
+                return "GetVideoPlaySts"
+                
+            case .videoList:
+                return "GetVideoList"
                 
                 
             //application
@@ -277,68 +325,104 @@ enum Router: URLRequestConvertible {
         //home
         case .homePage: break
             
-        case .homeVideoList(let page):
+        case .homeRecommendVideoList(let page):
+            param = [
+                "next": page
+            ]
+            
+        case .homeAttentionVideoList(let page):
             param = [
                 "next": page
             ]
             
         case .userLevelDetail: break
             
-        case .activenessDetail(let page, let count):
+        case .activenessDetail(let page):
             param = [
-                "skip": page,
-                "count": count
+                "skip": page
             ]
             
-        case .fruitDetail(let page, let count):
+        case .fruitDetail(let page):
             param = [
-                "skip": page,
-                "count": count
+                "skip": page
             ]
             
-        case .schoolVideoList(let page, let count):
+        case .schoolVideoList(let page):
             param = [
-                "skip": page,
-                "count": count
+                "skip": page
             ]
             
-        case .schoolUserGuide(let page, let count):
+        case .schoolUserGuide(let page):
             param = [
-                "skip": page,
-                "count": count
+                "skip": page
             ]
+            
+        case .myTask(let page):
+            param = [
+                "skip": page
+            ]
+            
+        case .taskAll(let page):
+            param = [
+                "skip": page
+            ]
+            
+        case .historyTask(let page):
+            param = [
+                "skip": page
+            ]
+            
             
         case .teamInfo: break
             
-        case .teamAllList(let page, let count):
+        case .teamAllList(let page):
             param = [
-                "skip": page,
-                "count": count
+                "skip": page
             ]
             
-        case .teamNotAuthList(let page, let count):
+        case .teamNotAuthList(let page):
             param = [
-                "skip": page,
-                "count": count
+                "skip": page
             ]
             
-        case .teamAuthList(let page, let count):
+        case .teamAuthList(let page):
             param = [
-                "skip": page,
-                "count": count
+                "skip": page
             ]
             
+        case .messsageList(let page, let category):
+            param = [
+                "skip": page,
+                "category": category
+            ]
             
+        case .messageBadgeState: break
+            
+        case .refreshMessageBadgeState(let category):
+            param = [
+                "category": category
+            ]
         
-        //message
-        case .messsageList:
+            
+        //video
+        case .getUploadAuthAndAddress(let description, let fileName):
             param = [
-                "isRead": false
+                "title": description,
+                "fileName": fileName,
+                "description": ""
             ]
             
-        case .toDoList: break
+        case .getVideoSTS: break
             
-        
+        case .videoList(let type, let videoIndex, let videoId):
+            param = [
+                "type": type,
+                "nextPos": videoIndex,
+                "videoId": videoId
+            ]
+            
+            
+            
         //application
         case .getApplicationList: break
             
@@ -370,11 +454,10 @@ enum Router: URLRequestConvertible {
             
         
         //我的
-        case .userInfo(let userId, let skip, let count):
+        case .userInfo(let userId, let page):
             param = [
                 "userId": userId,
-                "skip": skip,
-                "count": count
+                "skip": page
             ]
             
         case .about: break
@@ -404,8 +487,8 @@ enum Router: URLRequestConvertible {
         
         //MARK: - add token
         switch self {
-        case .login, .visitorLogin, .register:
-            break
+//        case .login, .visitorLogin, .register:
+//            break
 
         default:
             let token = UserDefaults.standard.string(forKey: kToken) ?? UserDefaults.standard.string(forKey: kVisitorToken)

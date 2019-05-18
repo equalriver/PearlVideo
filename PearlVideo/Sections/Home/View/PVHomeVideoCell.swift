@@ -8,6 +8,15 @@
 
 class PVHomeVideoCell: UICollectionViewCell {
     
+    public var data: PVHomeVideoModel! {
+        didSet{
+            imgIV.kf.setImage(with: URL.init(string: data.coverUrl))
+            avatarIV.kf.setImage(with: URL.init(string: data.avatarUrl))
+            nameLabel.text = data.nickname
+            likeBtn.setTitle(" \(data.commentCount)", for: .normal)
+        }
+    }
+    
     lazy var imgIV: UIImageView = {
         let v = UIImageView()
         return v

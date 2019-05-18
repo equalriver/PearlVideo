@@ -10,6 +10,9 @@ public let kVisitorToken = "visitor_token"
 ///登录用户token
 public let kToken = "kToken"
 
+///user id
+public let kUserId = "kUserId"
+
 ///客户数据路径
 public let kClientDataFilePath = NSHomeDirectory() + "/Documents/xxxx.plist"
 
@@ -20,7 +23,7 @@ public let kLastInputIP = "kLastInputIP"
 public let kLastInputAccount = "kLastInputAccount"
 
 ///base url
-public let kBaseURLString = UserDefaults.standard.string(forKey: kLocalIP) ?? "http://192.168.0.114:8080/api/"
+public let kBaseURLString = UserDefaults.standard.string(forKey: kLocalIP) ?? "http://192.168.0.116:8080/api/"
 
 ///local text ip
 public let kLocalIP = "kLocalIP"
@@ -47,6 +50,11 @@ public let kAppVersion = "PV_app_version"
 public let kInitVector = "16-Bytes--String"
 public let kAES_KEY = "kPVPsd"
 
+
+//点播STS
+public let kAccessKeyId = "kAccessKeyId"
+public let kAccessKeySecret = "kAccessKeySecret"
+public let kSecurityToken = "kSecurityToken"
 
 //MARK: - noti
 extension Notification.Name {

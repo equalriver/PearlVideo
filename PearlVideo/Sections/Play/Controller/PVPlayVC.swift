@@ -8,7 +8,7 @@
 
 import AliyunVideoSDKPro
 
-class PVPlayVC: PVBaseNavigationVC {
+class PVPlayVC: PVBaseViewController {
     
     let recordMaxTime: CGFloat = 10 //视频最大时长
     let recordMinTime: CGFloat = 2 //视频最小时长

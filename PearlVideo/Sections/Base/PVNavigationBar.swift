@@ -123,12 +123,14 @@ class PVNavigationBar: UIView {
     
     public var rightBarButtons = Array<UIButton>.init(){
         willSet {
-            rightBtnBgView.snp.updateConstraints { (make) in
-                make.width.equalTo((CGFloat)(newValue.count) * (navigationBarButtonWidth + 5))
-            }
+            var totalWidth: CGFloat = 0
+            
             for item in newValue {
                 item.titleLabel?.font = kFont_naviBtn_weight
                 item.tag = newValue.index(of: item)!
+                if let text = item.titleLabel?.text {
+                    totalWidth += text.ypj.getStringWidth(font: kFont_naviBtn_weight, height: navigationBarButtonHeight)
+                }
                 
                 if rightBtnBgView.arrangedSubviews.contains(item) {
                     rightBtnBgView.removeArrangedSubview(item)
@@ -138,6 +140,10 @@ class PVNavigationBar: UIView {
                     rightBtnBgView.addArrangedSubview(item)
                     item.addTarget(self, action: #selector(didClickRightBarButton(sender:)), for: .touchUpInside)
                 }
+            }
+            totalWidth = totalWidth > navigationBarButtonWidth + 5 ? totalWidth : navigationBarButtonWidth + 5
+            rightBtnBgView.snp.updateConstraints { (make) in
+                make.width.equalTo((CGFloat)(newValue.count) * 5 + totalWidth)
             }
         }
     }

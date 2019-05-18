@@ -4,15 +4,13 @@
 import UIKit
 
 protocol PVMeProductionDelegate: NSObjectProtocol {
-    func listViewShow(isShow: Bool)
+    func didBeginHeaderRefresh(sender: UIScrollView?)
 }
 
 //MARK: - 作品
-class PVMeProductionVC: UIViewController {
+class PVMeProductionVC: PVBaseViewController {
     
     weak public var delegate: PVMeProductionDelegate?
-    
-    var isShowMoreView = false
     
     var isLoadingMore = false
     
@@ -22,7 +20,7 @@ class PVMeProductionVC: UIViewController {
     
     lazy var collectionView: UICollectionView = {
         let l = UICollectionViewFlowLayout()
-        l.itemSize = CGSize.init(width: 122 * KScreenRatio_6, height: 160 * KScreenRatio_6)
+        l.itemSize = CGSize.init(width: 123 * KScreenRatio_6, height: 160 * KScreenRatio_6)
         l.minimumInteritemSpacing = 2
         l.minimumLineSpacing = 2
         l.sectionInset = .zero
@@ -30,7 +28,7 @@ class PVMeProductionVC: UIViewController {
         let cv = UICollectionView.init(frame: .zero, collectionViewLayout: l)
         cv.dataSource = self
         cv.delegate = self
-        cv.backgroundColor = UIColor.white
+        cv.backgroundColor = kColor_deepBackground
         cv.register(PVMeProductionCell.self, forCellWithReuseIdentifier: "PVMeProductionCell")
         return cv
     }()
@@ -41,7 +39,7 @@ class PVMeProductionVC: UIViewController {
         collectionView.snp.makeConstraints { (make) in
             make.size.centerY.centerX.equalToSuperview()
         }
-        
+        setRefresh()
     }
 
 }
@@ -51,7 +49,6 @@ class PVMeLikeVC: PVBaseViewController {
     
     weak public var delegate: PVMeProductionDelegate?
     
-    var isShowMoreView = false
     
     lazy var collectionView: UICollectionView = {
         let l = UICollectionViewFlowLayout()

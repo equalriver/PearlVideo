@@ -9,17 +9,32 @@
 import UIKit
 import AliyunVodPlayerSDK
 
-//视频高度
-let playViewHeight = kScreenHeight - kTabBarHeight
 
 class PVHomePlayVC: PVBaseViewController {
-    
-    
+
     var accessKeyId: String?
     
     var accessKeySecret: String?
     
     var securityToken: String?
+    
+    var videoId = ""
+    
+    var videoIndex = 0
+    
+    var page = 0
+    
+    /*
+     type = 1 = 推荐
+     type = 2 = 关注
+     type = 3 = 我的作品
+     type = 4 = 我的喜欢视频
+     type = 5 = 私密视频
+     */
+    var type = 0
+    
+    var dataArr = Array<PVVideoPlayModel>()
+    
     
     //播放数据源列表
     var videoList = [AlivcQuVideoModel]()
@@ -28,7 +43,7 @@ class PVHomePlayVC: PVBaseViewController {
     var playContainerList = [PVHomePlayContainerView]()
     
     //当前正在播放的容器视图
-    var currentPlayContainer: PVHomePlayContainerView?
+    var currentPlayContainer: PVHomePlayCell?
     
     //是否加载过图片
     var isHaveQuerryImageWhenFirstEnter = false
@@ -58,17 +73,48 @@ class PVHomePlayVC: PVBaseViewController {
         let r = YYReachability.init()
         return r
     }()
-    lazy var naviBarView: PVHomeNaviBarView = {
-        let v = PVHomeNaviBarView.init(frame: CGRect.init(x: 0, y: 0, width: kScreenWidth, height: CGFloat(kNavigationBarAndStatusHeight)))
-        v.delegate = self
+    lazy var allContainView: PVHomePlayMaskView = {
+        let v = PVHomePlayMaskView.init(frame: CGRect.init(x: 0, y: 0, width: kScreenWidth, height: kScreenHeight))
         return v
     }()
+    lazy var backBtn: UIButton = {
+        let b = UIButton()
+        b.setImage(UIImage.init(named: "back_arrow"), for: .normal)
+        b.addTarget(self, action: #selector(backAction(sender:)), for: .touchUpInside)
+        return b
+    }()
+    lazy var collectionView: UICollectionView = {
+        let l = UICollectionViewFlowLayout()
+        l.itemSize = CGSize.init(width: kScreenWidth, height: kScreenHeight)
+        l.scrollDirection = .vertical
+        l.minimumLineSpacing = 0
+        l.minimumInteritemSpacing = 0
+        let cv = UICollectionView.init(frame: UIScreen.main.bounds, collectionViewLayout: l)
+        cv.backgroundColor = kColor_deepBackground
+        cv.isPagingEnabled = true
+        cv.delegate = self
+        cv.dataSource = self
+        cv.register(PVHomePlayCell.self, forCellWithReuseIdentifier: "PVHomePlayCell")
+        return cv
+    }()
+    
+    public required convenience init(type: Int, videoId: String, videoIndex: Int) {
+        self.init()
+        self.type = type
+        self.videoId = videoId
+        self.videoIndex = videoIndex
+        initUI()
+    }
     
     //MARK: - life cycle
     override func viewDidLoad() {
         super.viewDidLoad()
-        initUI()
-       
+        //禁用自动息屏
+        UIApplication.shared.isIdleTimerDisabled = true
+//        initPlayConfig()
+        initDownloadConfig()
+        addNotification()
+        getSTS()
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -112,9 +158,14 @@ class PVHomePlayVC: PVBaseViewController {
 
     //MARK: - UI
     func initUI() {
-        view.addSubview(naviBarView)
-
-       
+        view.addSubview(collectionView)
+//        view.addSubview(allContainView)
+        view.addSubview(backBtn)
+        backBtn.snp.makeConstraints { (make) in
+            make.size.equalTo(CGSize.init(width: 30, height: 30))
+            make.left.equalToSuperview().offset(15 * KScreenRatio_6)
+            make.top.equalToSuperview().offset(kIphoneXLatterInsetHeight + 20)
+        }
     }
 
     //初始化播放器,播放器的容器view等
@@ -133,7 +184,7 @@ class PVHomePlayVC: PVBaseViewController {
             
             let conView = PVHomePlayContainerView.init(vodPlayer: player)
             var conFrame = conView.frame
-            conFrame.origin.y = CGFloat(i) * playViewHeight + 1
+            conFrame.origin.y = CGFloat(i) * kScreenHeight + 1
             conView.frame = newFrameWithHandleFrame(frame: conFrame)
             view.addSubview(conView)
             conView.bringSubviewToFront(conView.coverImageView)
@@ -203,35 +254,26 @@ class PVHomePlayVC: PVBaseViewController {
         //2.调整资源的位置
         for (k, v) in playContainerList.enumerated() {
             var f = v.frame
-            if k < indexInPlayConViewList { f.origin.y = -1 * playViewHeight - 1 }
+            if k < indexInPlayConViewList { f.origin.y = -1 * kScreenHeight - 1 }
             else if k == indexInPlayConViewList { f.origin.y = 0 }
-            else { f.origin.y = playViewHeight + 1 }
+            else { f.origin.y = kScreenHeight + 1 }
             v.frame = f
         }
         
         //3.处理要播放的视频
         if conView != nil {
-            currentPlayContainer = conView
+//            currentPlayContainer = conView
             //显示第一个视频的封面
             if model.firstFrameUrl != nil && model.coverImage == nil {
                 currentPlayContainer?.coverImageView.kf.setImage(with: URL.init(string: model.firstFrameUrl!), placeholder: nil, options: nil, progressBlock: nil, completionHandler: { (img, error, cacheType, url) in
                     if error == nil && img != nil {
-                        self.currentPlayContainer?.setCoverImage(coverImage: img!)
+//                        self.currentPlayContainer?.setCoverImage(coverImage: img!)
                         self.currentPlayContainer?.coverImageView.isHidden = self.currentPlayContainer?.playerState == .play || self.currentPlayContainer?.playerState == .pause
                     }
                 })
             }
             conView?.isHavePrepared = true
             prepareWithPlayer(player: conView!.vodPlayer, model: model)
-        }
-    }
-
-    //第一次进入的图片预加载,保证只执行一次
-    func doQuerryImageWhenFirstEnter() {
-        if isHaveQuerryImageWhenFirstEnter == true || videoList.count == 0 { return }
-        isHaveQuerryImageWhenFirstEnter = true
-        for v in videoList {
-            tryQuerryImageWithModel(videoModel: v)
         }
     }
     
@@ -253,7 +295,17 @@ class PVHomePlayVC: PVBaseViewController {
         }
     }
 
-    
+    //添加手势
+    func addGesture() {
+        let tapGesture = UITapGestureRecognizer()
+        tapGesture.numberOfTapsRequired = 1
+        tapGesture.addTarget(self, action: #selector(tapAction(sender:)))
+        allContainView.gestureView.addGestureRecognizer(tapGesture)
+        
+        let panGesture = UIPanGestureRecognizer.init()
+        panGesture.addTarget(self, action: #selector(panAction(sender:)))
+        allContainView.gestureView.addGestureRecognizer(panGesture)
+    }
     
     
 }

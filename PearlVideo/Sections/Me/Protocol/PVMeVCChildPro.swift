@@ -1,40 +1,38 @@
 //
 
 
+
+import MJRefresh
+
+
 //MARK: - 作品
 extension PVMeProductionVC {
+    
+    func setRefresh() {
+        let headerRef = MJRefreshHeader.init {[weak self] in
+            self?.delegate?.didBeginHeaderRefresh(sender: self?.collectionView)
+        }
+        collectionView.mj_header = headerRef
+        
+    }
+    
     func loadData(page: Int) {
         isLoadingMore = true
         
     }
-    
     
 }
 
 extension PVMeProductionVC: UICollectionViewDelegate, UICollectionViewDataSource {
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return 10
+        return 20
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "PVMeProductionCell", for: indexPath) as! PVMeProductionCell
-        
+        cell.imgIV.image = UIImage.init(color: UIColor.gray)
         return cell
-    }
-    
-    func scrollViewWillEndDragging(_ scrollView: UIScrollView, withVelocity velocity: CGPoint, targetContentOffset: UnsafeMutablePointer<CGPoint>) {
-        
-        //上拉
-        if velocity.y > 0 && isShowMoreView == false {
-            self.delegate?.listViewShow(isShow: true)
-            isShowMoreView = true
-        }
-        //下拉
-        if velocity.y < 0 && isShowMoreView == true && scrollView.contentOffset.y <= 0 {
-            self.delegate?.listViewShow(isShow: false)
-            isShowMoreView = false
-        }
     }
     
     func scrollViewDidEndDragging(_ scrollView: UIScrollView, willDecelerate decelerate: Bool) {
@@ -71,17 +69,8 @@ extension PVMeLikeVC: UICollectionViewDataSource, UICollectionViewDelegate {
         return cell
     }
     
-    func scrollViewWillEndDragging(_ scrollView: UIScrollView, withVelocity velocity: CGPoint, targetContentOffset: UnsafeMutablePointer<CGPoint>) {
-        //上拉
-        if velocity.y > 1 && isShowMoreView == false {
-            self.delegate?.listViewShow(isShow: true)
-            isShowMoreView = true
-        }
-        //下拉
-        if velocity.y < -1 && isShowMoreView == true && scrollView.contentOffset.y <= 0 {
-            self.delegate?.listViewShow(isShow: false)
-            isShowMoreView = false
-        }
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        
     }
     
 }

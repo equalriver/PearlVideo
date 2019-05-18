@@ -7,6 +7,7 @@
 //
 
 import WMPageController
+import ObjectMapper
 
 extension PVHomeMyTeamVC {
     //邀请好友
@@ -14,10 +15,23 @@ extension PVHomeMyTeamVC {
         
     }
     
+    func loadData() {
+        PVNetworkTool.Request(router: .teamInfo(), success: { (resp) in
+            if let d = Mapper<PVHomeTeamModel>().map(JSONObject: resp["result"].object) {
+                self.data = d
+            }
+            
+        }) { (e) in
+            
+        }
+    }
 }
 
 //page controller delegate
 extension PVHomeMyTeamVC {
+    override func numbersOfChildControllers(in pageController: WMPageController) -> Int {
+        return 3
+    }
     
     override func pageController(_ pageController: WMPageController, titleAt index: Int) -> String {
         return ["全部队员", "实名队员", "未实名队员"][index]
@@ -50,10 +64,40 @@ extension PVHomeMyTeamVC {
 
 
 //MARK: - 全部队员
+extension PVHomeMyTeamAllVC {
+    
+    func setRefresh() {
+        PVRefresh.headerRefresh(scrollView: tableView) {[weak self] in
+            self?.page = 0
+            self?.loadData(page: 0)
+        }
+        PVRefresh.footerRefresh(scrollView: tableView) {[weak self] in
+            self?.page += 1
+            self?.loadData(page: self?.page ?? 0)
+        }
+    }
+    
+    func loadData(page: Int) {
+        PVNetworkTool.Request(router: .teamAllList(page: page * 10), success: { (resp) in
+            self.tableView.mj_footer.endRefreshing()
+            if let d = Mapper<PVHomeTeamList>().mapArray(JSONObject: resp["result"]["userTeamList"].arrayObject) {
+                if page == 0 { self.dataArr = d }
+                else { self.dataArr += d }
+                self.tableView.reloadData()
+            }
+            
+        }) { (e) in
+            self.page = self.page > 0 ? self.page - 1 : 0
+            self.tableView.mj_footer.endRefreshing()
+        }
+    }
+    
+}
+
 extension PVHomeMyTeamAllVC: UITableViewDelegate, UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return 0
+        return dataArr.count
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
@@ -65,17 +109,48 @@ extension PVHomeMyTeamAllVC: UITableViewDelegate, UITableViewDataSource {
         if cell == nil {
             cell = PVHomeMyTeamListCell.init(style: .default, reuseIdentifier: "PVHomeMyTeamListCell")
         }
-        
+        guard dataArr.count > indexPath.row else { return cell! }
+        cell?.data = dataArr[indexPath.row]
         return cell!
     }
     
 }
 
 //MARK: - 实名队员
+extension PVHomeMyTeamAuthVC {
+    
+    func setRefresh() {
+        PVRefresh.headerRefresh(scrollView: tableView) {[weak self] in
+            self?.page = 0
+            self?.loadData(page: 0)
+        }
+        PVRefresh.footerRefresh(scrollView: tableView) {[weak self] in
+            self?.page += 1
+            self?.loadData(page: self?.page ?? 0)
+        }
+    }
+    
+    func loadData(page: Int) {
+        PVNetworkTool.Request(router: .teamAuthList(page: page * 10), success: { (resp) in
+            self.tableView.mj_footer.endRefreshing()
+            if let d = Mapper<PVHomeTeamList>().mapArray(JSONObject: resp["result"]["realNameAuthenticationList"].arrayObject) {
+                if page == 0 { self.dataArr = d }
+                else { self.dataArr += d }
+                self.tableView.reloadData()
+            }
+            
+        }) { (e) in
+            self.page = self.page > 0 ? self.page - 1 : 0
+            self.tableView.mj_footer.endRefreshing()
+        }
+    }
+    
+}
+
 extension PVHomeMyTeamAuthVC: UITableViewDelegate, UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return 0
+        return dataArr.count
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
@@ -87,18 +162,49 @@ extension PVHomeMyTeamAuthVC: UITableViewDelegate, UITableViewDataSource {
         if cell == nil {
             cell = PVHomeMyTeamListCell.init(style: .default, reuseIdentifier: "PVHomeMyTeamListCell")
         }
+        guard dataArr.count > indexPath.row else { return cell! }
+        cell?.data = dataArr[indexPath.row]
         cell?.statusIV.isHidden = true
-        
         return cell!
     }
     
 }
 
 //MARK: - 未实名队员
+extension PVHomeMyTeamNotAuthVC {
+    
+    func setRefresh() {
+        PVRefresh.headerRefresh(scrollView: tableView) {[weak self] in
+            self?.page = 0
+            self?.loadData(page: 0)
+        }
+        PVRefresh.footerRefresh(scrollView: tableView) {[weak self] in
+            self?.page += 1
+            self?.loadData(page: self?.page ?? 0)
+        }
+    }
+    
+    func loadData(page: Int) {
+        PVNetworkTool.Request(router: .teamNotAuthList(page: page * 10), success: { (resp) in
+            self.tableView.mj_footer.endRefreshing()
+            if let d = Mapper<PVHomeTeamList>().mapArray(JSONObject: resp["result"]["NotRealNameAuthentication"].arrayObject) {
+                if page == 0 { self.dataArr = d }
+                else { self.dataArr += d }
+                self.tableView.reloadData()
+            }
+            
+        }) { (e) in
+            self.page = self.page > 0 ? self.page - 1 : 0
+            self.tableView.mj_footer.endRefreshing()
+        }
+    }
+    
+}
+
 extension PVHomeMyTeamNotAuthVC: UITableViewDelegate, UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return 0
+        return dataArr.count
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
@@ -110,8 +216,9 @@ extension PVHomeMyTeamNotAuthVC: UITableViewDelegate, UITableViewDataSource {
         if cell == nil {
             cell = PVHomeMyTeamListCell.init(style: .default, reuseIdentifier: "PVHomeMyTeamListCell")
         }
+        guard dataArr.count > indexPath.row else { return cell! }
+        cell?.data = dataArr[indexPath.row]
         cell?.statusIV.isHidden = true
-        
         return cell!
     }
     

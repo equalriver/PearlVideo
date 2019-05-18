@@ -9,6 +9,14 @@
 //MARK: - info
 class PVHomeMyTeamHeaderView: UIView {
     
+    public var data = PVHomeTeamModel() {
+        didSet{
+            avatarIV.kf.setImage(with: URL.init(string: data.avatarImageUrl))
+            infoLabel.text = "我的推荐人: \(data.name)"
+            infoCV.reloadData()
+        }
+    }
+    
     lazy var infoCV: UICollectionView = {
         let l = UICollectionViewFlowLayout()
         l.itemSize = CGSize.init(width: kScreenWidth / 4, height: 70 * KScreenRatio_6)
@@ -77,12 +85,35 @@ class PVHomeMyTeamHeaderView: UIView {
 extension PVHomeMyTeamHeaderView: UICollectionViewDelegate, UICollectionViewDataSource {
     
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return 0
+        return 4
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "PVHomeMyTeamInfoCell", for: indexPath) as! PVHomeMyTeamInfoCell
-        
+        switch indexPath.item {
+        case 0: //团队人员
+            cell.titleLabel.text = "团队人员"
+            cell.detailLabel.text = "\(data.userTeamCount)"
+            break
+            
+        case 1: //团队总活跃度
+            cell.titleLabel.text = "团队总活跃度"
+            cell.detailLabel.text = "\(data.userTeamLivenessCount)"
+            break
+            
+        case 2: //小区活跃度
+            cell.titleLabel.text = "小区活跃度"
+            cell.detailLabel.text = "\(data.smallLivenessCount)"
+            break
+            
+        case 3: //大区活跃度
+            cell.titleLabel.text = "大区活跃度"
+            cell.detailLabel.text = "\(data.bigLivenessCount)"
+            break
+            
+        default:
+            break
+        }
         return cell
     }
     
@@ -136,6 +167,17 @@ class PVHomeMyTeamInfoCell: UICollectionViewCell {
 //MARK: - 队员列表cell
 class PVHomeMyTeamListCell: PVBaseTableCell {
     
+    public var data: PVHomeTeamList! {
+        didSet{
+            avatarIV.kf.setImage(with: URL.init(string: data.avatarImageUrl))
+            activenessDetailLabel.text = "\(data.livenessCount)"
+            countDetailLabel.text = "\(data.total)"
+            teamActivenessDetailLabel.text = "\(data.teamLienessCount)"
+            if data.type != 0 {
+                statusIV.image = data.type == 1 ? UIImage.init(named: "home_已实名") : UIImage.init(named: "home_未实名")
+            }
+        }
+    }
     
     lazy var avatarIV: UIImageView = {
         let v = UIImageView()

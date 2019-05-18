@@ -100,7 +100,7 @@ protocol PVMeTeamAuthPopoverDelegate: NSObjectProtocol {
     func didSelectedPopoverItem(index: Int)
 }
 
-class PVMeTeamAuthPopoverVC: UIViewController {
+class PVMeTeamAuthPopoverVC: PVBaseViewController {
     
     weak public var delegate: PVMeTeamAuthPopoverDelegate?
     

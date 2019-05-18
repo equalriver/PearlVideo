@@ -6,6 +6,10 @@ import UIKit
 
 class PVBaseRootNaviVC: UINavigationController {
     
+    override var preferredStatusBarStyle: UIStatusBarStyle {
+        return .lightContent
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         self.navigationBar.isHidden = true

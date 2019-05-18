@@ -11,7 +11,7 @@ import Kingfisher
 
 class PVMeSettingVC: PVBaseNavigationVC {
     
-    let items_1 = ["实名认证", "修改密码"]
+    let items_1 = ["实名认证", "修改密码", "交易密码"]
     let items_2 = ["用户协议", "隐私政策", "意见反馈"]
     let items_3 = ["清理缓存", "关于我们", "检测更新", UserDefaults.standard.value(forKey: kToken) == nil ? "登录" : "退出登录"]
     
@@ -36,8 +36,6 @@ class PVMeSettingVC: PVBaseNavigationVC {
         }
         
     }
-    
-
 
 
 }
@@ -87,7 +85,7 @@ extension PVMeSettingVC: UITableViewDataSource, UITableViewDelegate {
             img += items_3[indexPath.row] == "登录" ? "退出登录" : items_3[indexPath.row]
             title = items_3[indexPath.row]
             if indexPath.row == 0 {//清理缓存
-                let s = YPJOtherTool.ypj.getLocalFilesSize(path: NSSearchPathForDirectoriesInDomains(.cachesDirectory, .userDomainMask, true).first ?? "")
+                let s = YPJOtherTool.ypj.getLocalFolderSize(path: NSSearchPathForDirectoriesInDomains(.cachesDirectory, .userDomainMask, true).first ?? "")
                 detail = s > 1 ? String.init(format: "%.1f", s) + "M" : nil
                 KingfisherManager.shared.cache.calculateDiskCacheSize { (size) in
                     let m = Double(size) / 1024.0 * 1024.0 + s
@@ -112,9 +110,7 @@ extension PVMeSettingVC: UITableViewDataSource, UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         func loginValidate(_ handler: () -> Void) {
             guard let _ = UserDefaults.standard.value(forKey: kToken) else {
-//                YPJOtherTool.ypj.loginValidate(currentVC: self) { (isFinish) in
-//                    if isFinish { self.loadData() }
-//                }
+
                 view.makeToast("未登录")
                 return
             }
@@ -177,8 +173,8 @@ extension PVMeSettingVC: UITableViewDataSource, UITableViewDelegate {
                 
             case 3: //退出登录
                 guard let _ = UserDefaults.standard.value(forKey: kToken) else {
-                    YPJOtherTool.ypj.loginValidate(currentVC: self) { (isFinish) in
-                        if isFinish { self.tableView.reloadData() }
+                    YPJOtherTool.ypj.loginValidate(currentVC: self) {[weak self] (isFinish) in
+                        if isFinish { self?.tableView.reloadData() }
                     }
                     return
                 }

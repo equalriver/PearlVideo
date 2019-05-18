@@ -7,12 +7,21 @@
 //
 
 import AVKit
-
+import SVProgressHUD
 
 class PVPlayVideoUploadVC: PVBaseNavigationVC {
     
+    
+    private var url: URL!
+    
+    private var uploadAuth: String?
+    
+    private var uploadAddress: String?
+    
+    
     lazy var avPlayerVC: AVPlayerViewController = {
         let vc = AVPlayerViewController.init()
+        vc.videoGravity = .resizeAspectFill
         return vc
     }()
     lazy var countLabel: UILabel = {
@@ -27,17 +36,17 @@ class PVPlayVideoUploadVC: PVBaseNavigationVC {
         let v = YYTextView()
         v.textContainerInset = UIEdgeInsets.init(top: 13, left: 8, bottom: 13, right: 8)
         v.font = kFont_text
-        v.textColor = kColor_text
+        v.textColor = UIColor.white
         v.placeholderTextColor = kColor_subText
         v.placeholderText = "写下此刻的想法"
         v.backgroundColor = kColor_background
-        v.layer.cornerRadius = 5
         v.delegate = self
         return v
     }()
     lazy var uplaodBtn: UIButton = {
         let b = UIButton()
-        b.setBackgroundImage(UIImage.init(named: "gradient_bg"), for: .normal)
+        b.backgroundColor = kColor_pink
+        b.layer.cornerRadius = 20 * KScreenRatio_6
         b.titleLabel?.font = kFont_text
         b.setTitle("上传", for: .normal)
         b.setTitleColor(UIColor.white, for: .normal)
@@ -46,14 +55,19 @@ class PVPlayVideoUploadVC: PVBaseNavigationVC {
     }()
     
     //上传
-    lazy var uploadManager: VODUploadSVideoClient = {
-        let c = VODUploadSVideoClient.init()
-        c.delegate = self
+    lazy var uploadManager: VODUploadClient = {
+        let c = VODUploadClient.init()
+        c.init(listener)
         return c
+    }()
+    lazy var listener: VODUploadListener = {
+        let l = VODUploadListener.init()
+        return l
     }()
     
     public required convenience init(url: URL) {
         self.init()
+        self.url = url
         let avPlayer = AVPlayer.init(url: url)
         avPlayerVC.player = avPlayer
         addChild(avPlayerVC)
@@ -86,11 +100,114 @@ class PVPlayVideoUploadVC: PVBaseNavigationVC {
     override func viewDidLoad() {
         super.viewDidLoad()
         title = "视频上传"
+        setupUploadListener()
+    }
+    
+    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
+        view.endEditing(true)
+    }
+    
+    //设置上传回调
+    func setupUploadListener() {
+        //开始上传回调
+        listener.started = {[weak self] (fileInfo) in
+            // fileInfo 上传文件信息
+            self?.uploadManager.setUploadAuthAndAddress(fileInfo, uploadAuth: self?.uploadAuth, uploadAddress: self?.uploadAddress)
+        }
+        
+        //token过期回调
+        listener.expire = {[weak self] in
+            self?.uploadManager.resume(withAuth: self?.uploadAuth)
+        }
+        
+        //上传完成回调
+        listener.finish = {[weak self] (fileInfo, result) in
+            // fileInfo 上传文件信息
+            // result 上传结果信息
+            if let info = fileInfo {
+                if info.state == .success {
+                    SVProgressHUD.showSuccess(withStatus: "上传成功")
+                    DispatchQueue.main.asyncAfter(deadline: .now() + 2, execute: {
+                        self?.navigationController?.dismiss(animated: true, completion: nil)
+                    })
+                }
+                if info.state == .failure {
+                    SVProgressHUD.dismiss()
+                    self?.uploadManager.stop()
+                    self?.uplaodBtn.isEnabled = true
+                }
+            }
+        }
+        
+        //上传失败回调
+        listener.failure = {[weak self] (fileInfo, code, message) in
+            // fileInfo 上传文件信息
+            // code 错误码
+            // message 错误描述
+            self?.uplaodBtn.isEnabled = true
+            SVProgressHUD.showError(withStatus: message)
+        
+        }
         
     }
     
     @objc func upload(sender: UIButton) {
+        guard contentTV.hasText else {
+            view.makeToast("请写一些此刻的想法")
+            return
+        }
+        guard let path = url.path.components(separatedBy: "/").last else { return }
+        sender.isEnabled = false
+        SVProgressHUD.show()
+        PVNetworkTool.Request(router: .getUploadAuthAndAddress(description: contentTV.text, fileName: path), success: { (resp) in
+            if let auth = resp["result"]["uploadAuth"].string {
+                self.uploadAuth = auth
+            }
+            if let address = resp["result"]["uploadAddress"].string {
+                self.uploadAddress = address
+            }
+            self.uploadManager.start()
+            
+        }) { (e) in
+            SVProgressHUD.dismiss()
+            sender.isEnabled = true
+        }
         
+    }
+    
+    //获取视频第一帧图片
+    func getVideoPreviewImage(url: URL) -> UIImage? {
+        let asset = AVURLAsset.init(url: url)
+        let assetGen = AVAssetImageGenerator.init(asset: asset)
+        assetGen.appliesPreferredTrackTransform = true
+        let time = CMTimeMakeWithSeconds(0.0, preferredTimescale: 600)
+        var actualTime = CMTime.init()
+        do {
+            let image = try assetGen.copyCGImage(at: time, actualTime: &actualTime)
+            let videoImg = UIImage.init(cgImage: image)
+            
+            return videoImg
+            
+        } catch {
+            print(error.localizedDescription)
+        }
+        return nil
+    }
+    
+    func getVideoFileSize(url: URL) -> Int? {
+        if let fileSize = try? FileManager.default.attributesOfItem(atPath: url.path) {
+            let size = fileSize[.size] as? Int
+            return size
+        }
+        return nil
+    }
+    
+    func getVideoTime(url: URL) -> Double {
+        let asset = AVURLAsset.init(url: url)
+        let time = asset.duration
+        let t = Double(time.value / Int64(time.timescale))
+        let seconds = ceil(t)
+        return seconds
     }
     
 }
@@ -120,36 +237,4 @@ extension PVPlayVideoUploadVC: YYTextViewDelegate {
     }
 }
 
-extension PVPlayVideoUploadVC: VODUploadSVideoClientDelegate {
-    //上传成功
-    func uploadSuccess(with result: VodSVideoUploadResult!) {
-        
-    }
-    
-    //上传失败
-    func uploadFailed(withCode code: String!, message: String!) {
-        
-    }
-    
-    //上传进度
-    func uploadProgress(withUploadedSize uploadedSize: Int64, totalSize: Int64) {
-        
-    }
-    
-    //token过期
-    func uploadTokenExpired() {
-        
-    }
-    
-    //上传开始重试
-    func uploadRetry() {
-        
-    }
-    
-    //上传结束重试，继续上传
-    func uploadRetryResume() {
-        
-    }
-    
-    
-}
+

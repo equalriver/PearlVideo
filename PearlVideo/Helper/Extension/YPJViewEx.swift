@@ -12,7 +12,7 @@ extension UIView {
     ///未登录
     public func stateUnlogin(title: String, img: UIImage?, callback: (() -> Void)?) {
         guard UserDefaults.standard.value(forKey: kToken) == nil else { return }
-        if self.isKind(of: UIScrollView.self) { (self as! UIScrollView).isScrollEnabled = false }
+//        if self.isKind(of: UIScrollView.self) { (self as! UIScrollView).isScrollEnabled = false }
         
         removeTagView()
         
@@ -137,7 +137,7 @@ extension UIView {
             make.size.centerX.centerY.equalTo(self)
         }
         
-        let imgIV = UIImageView.init(image: img)
+        let imgIV = UIImageView.init(image: img ?? UIImage.init(named: "state_empty"))
         v.addSubview(imgIV)
         imgIV.snp.makeConstraints { (make) in
             make.centerX.equalToSuperview()

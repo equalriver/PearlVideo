@@ -24,12 +24,11 @@ class PVMeNameValidateCell: PVBaseTableCell {
         return tf
     }()
     
-    required convenience init(title: String, tag: Int, textField delegate: UITextFieldDelegate) {
+    required convenience init(title: String, tag: Int) {
         self.init(style: .default, reuseIdentifier: nil)
         titleLabel.text = title
         detailTF.placeholder = "请输入" + title
         detailTF.tag = tag
-        detailTF.delegate = delegate
         contentView.addSubview(titleLabel)
         contentView.addSubview(detailTF)
         titleLabel.snp.makeConstraints { (make) in

@@ -14,7 +14,7 @@ class PVBaseTableCell: UITableViewCell {
     
     lazy var separatorView: UIView = {
         let v = UIView()
-        v.backgroundColor = kColor_naviBottomSepView
+        v.backgroundColor = kColor_deepBackground
         return v
     }()
     

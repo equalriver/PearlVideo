@@ -9,7 +9,6 @@
 import UIKit
 
 protocol PVMeHeaderViewDelegate: NSObjectProtocol {
-    func didSelectedSetting()
     func didSelectedEdit()
 
 }
@@ -21,14 +20,6 @@ class PVMeHeaderView: UIView {
     lazy var backgroundImageIV: UIImageView = {
         let v = UIImageView.init(image: UIImage.init(named: "me_bg"))
         return v
-    }()
-    lazy var settingBtn: UIButton = {
-        let b = UIButton()
-        b.setImage(UIImage.init(named: "me_设置"), for: .normal)
-        b.addBlock(for: .touchUpInside, block: {[weak self] (btn) in
-            self?.delegate?.didSelectedSetting()
-        })
-        return b
     }()
     lazy var borderContentView: UIView = {
         let v = UIView()
@@ -119,7 +110,6 @@ class PVMeHeaderView: UIView {
     
     func initUI() {
         addSubview(backgroundImageIV)
-        addSubview(settingBtn)
         addSubview(borderContentView)
         addSubview(avatarIV)
         borderContentView.addSubview(authIV)
@@ -133,11 +123,6 @@ class PVMeHeaderView: UIView {
         backgroundImageIV.snp.makeConstraints { (make) in
             make.width.top.centerX.equalToSuperview()
             make.height.equalTo(240 * KScreenRatio_6)
-        }
-        settingBtn.snp.makeConstraints { (make) in
-            make.size.equalTo(CGSize.init(width: 30 * KScreenRatio_6, height: 30 * KScreenRatio_6))
-            make.top.equalToSuperview().offset(30 * KScreenRatio_6)
-            make.right.equalToSuperview().offset(-15 * KScreenRatio_6)
         }
         borderContentView.snp.makeConstraints { (make) in
             make.bottom.centerX.width.equalToSuperview()

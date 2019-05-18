@@ -30,13 +30,14 @@ extension PVRegisterVC {
         }
         
         func auth() {
-            var t = 59
+            var t = 60
             
             self.timer.setEventHandler {
                 if t <= 1 {
                     self.timer.suspend()
                     DispatchQueue.main.async {
                         sender.setTitle("获取验证码", for: .normal)
+                        sender.backgroundColor = kColor_pink
                         sender.isEnabled = true
                     }
                 }
@@ -44,11 +45,13 @@ extension PVRegisterVC {
                     t -= 1
                     DispatchQueue.main.async {
                         sender.setTitle("已发送(\(t))", for: .normal)
+                        sender.backgroundColor = UIColor.gray
                         sender.isEnabled = false
                     }
                 }
             }
             self.timer.resume()
+            authCodeTF.becomeFirstResponder()
         }
         
     }
@@ -69,7 +72,13 @@ extension PVRegisterVC {
         sender.isEnabled = false
         PVNetworkTool.Request(router: .register(phone: phoneTF.text!, msgcode: authCodeTF.text!, inviteCode: inviteTF.text ?? ""), success: { (resp) in
             sender.isEnabled = true
-            
+            if let token = resp["result"]["token"].string {
+                UserDefaults.standard.set(token, forKey: kToken)
+            }
+            if let userId = resp["result"]["userId"].string {
+                UserDefaults.standard.set(userId, forKey: kUserId)
+            }
+            UserDefaults.standard.synchronize()
             let vc = PVRegisterPsdVC.init(phone: self.phoneTF.text!)
             self.navigationController?.pushViewController(vc, animated: true)
             
@@ -121,6 +130,11 @@ extension PVRegisterVC {
         
     }
     
+    @objc func textFieldChange(sender: UITextField) {
+        registerBtn.isEnabled = phoneTF.hasText && authCodeTF.hasText && inviteTF.hasText && isSelectedClause
+        registerBtn.backgroundColor = registerBtn.isEnabled ? kColor_pink : UIColor.gray
+    }
+    
 }
 
 extension PVRegisterVC: UITextFieldDelegate {
@@ -132,12 +146,6 @@ extension PVRegisterVC: UITextFieldDelegate {
     
     func textFieldShouldBeginEditing(_ textField: UITextField) -> Bool {
         currentTextFieldRect = textField.frame
-        return true
-    }
-    
-    func textFieldShouldEndEditing(_ textField: UITextField) -> Bool {
-        registerBtn.isEnabled = phoneTF.hasText && authCodeTF.hasText && inviteTF.hasText && isSelectedClause
-        registerBtn.backgroundColor = registerBtn.isEnabled ? kColor_pink : UIColor.gray
         return true
     }
     
@@ -160,7 +168,8 @@ extension PVRegisterPsdVC {
             return
         }
         sender.isEnabled = false
-        PVNetworkTool.Request(router: .changePsd(userId: "", phone: phone, psd: psd_1), success: { (resp) in
+        let userId = UserDefaults.standard.string(forKey: kUserId) ?? ""
+        PVNetworkTool.Request(router: .changePsd(userId: userId, phone: phone, psd: psd_1), success: { (resp) in
             sender.isEnabled = true
             
         }) { (e) in
@@ -169,22 +178,13 @@ extension PVRegisterPsdVC {
         }
     }
     
+    @objc func textFieldChange(sender: UITextField) {
+        if sender.tag == 0 { psd_1 = sender.text ?? "" }
+        else { psd_2 = sender.text ?? "" }
+        confirmBtn.isEnabled = psd_1.count > 0 && psd_2.count > 0
+        confirmBtn.backgroundColor = confirmBtn.isEnabled ? kColor_pink : UIColor.gray
+    }
+    
 }
 
-extension PVRegisterPsdVC: UITextFieldDelegate {
-    
-    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
-        textField.resignFirstResponder()
-        return true
-    }
-    
-    func textFieldShouldEndEditing(_ textField: UITextField) -> Bool {
-        guard textField.hasText else { return true }
-        if textField.tag == 0 { psd_1 = textField.text! }
-        else { psd_2 = textField.text! }
-        confirmBtn.isEnabled = psd_1.count > 0 && psd_1 == psd_2
-        confirmBtn.backgroundColor = confirmBtn.isEnabled ? kColor_pink : UIColor.gray
-        return true
-    }
-    
-}
+

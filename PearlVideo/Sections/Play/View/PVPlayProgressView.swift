@@ -14,7 +14,7 @@ class PVPlayProgressView: UIView {
                 pointArray.append(progress)
             }
             else {
-                pointArray.removeLast()
+                if pointArray.count > 0 { pointArray.removeLast() }
             }
             videoCount = videoCount < 0 ? 0 : videoCount
             selectedIndex = -1
@@ -39,7 +39,7 @@ class PVPlayProgressView: UIView {
     
     public var pointArray = [CGFloat]()
     
-    public var progressColor = UIColor.green
+    public var progressColor = kColor_pink!
     
     public var selectedColor = UIColor.red
     
@@ -55,25 +55,11 @@ class PVPlayProgressView: UIView {
     
     private var timer: Timer?
     
-    lazy var path: UIBezierPath = {
-        let p = UIBezierPath()
-        return p
-    }()
-    lazy var shapeLayer: CAShapeLayer = {
-        let s = CAShapeLayer.init()
-        s.fillColor = UIColor.clear.cgColor
-        s.lineCap = .round
-        s.lineWidth = 5
-        s.strokeColor = UIColor.green.cgColor
-        s.strokeStart = 0
-        s.strokeEnd = 0
-        return s
-    }()
     
     
     override init(frame: CGRect) {
         super.init(frame: frame)
-        layer.addSublayer(shapeLayer)
+       
         
     }
     
@@ -86,57 +72,11 @@ class PVPlayProgressView: UIView {
         timer = nil
     }
     
-    override func draw(_ rect: CGRect) {
-        let angle = CGFloat.pi * 1.5
-        
-        for i in 0..<videoCount {
-            if i == selectedIndex {
-                shapeLayer.strokeColor = selectedColor.cgColor
-            }
-            else {
-                shapeLayer.strokeColor = progressColor.cgColor
-            }
-            if pointArray.count >= videoCount {
-                let sp = pointArray[i]
-                let a1 = sp / maxDuration * 2 * CGFloat.pi + angle
-                let a2 = progress / maxDuration * 2 * CGFloat.pi + angle
-                path.addArc(withCenter: center, radius: bounds.width / 2, startAngle: a1, endAngle: a2, clockwise: true)
-                path.addArc(withCenter: center, radius: bounds.width / 2, startAngle: a2, endAngle: angle, clockwise: true)
-                path.stroke()
-            }
-        }
-        for i in 0..<pointArray.count {
-            let p = pointArray[i]
-            shapeLayer.strokeColor = separatorColor.cgColor
-            let a1 = (p / maxDuration + 0.75 - 2.0 / 360.0) * 2 * CGFloat.pi
-            let a2 = (p / maxDuration + 0.75) * 2 * CGFloat.pi
-            path.addArc(withCenter: center, radius: bounds.width / 2, startAngle: a1, endAngle: a2, clockwise: true)
-            path.stroke()
-        }
-        if isShowNoticePoint && isShowNotice() {
-            shapeLayer.strokeColor = noticeColor.cgColor
-            let a1 = minDuration / maxDuration * 2 * CGFloat.pi + angle
-            let a2 = (minDuration / maxDuration + 0.75 + 2.0 / 360.0) * 2 * CGFloat.pi
-            path.addArc(withCenter: center, radius: bounds.width / 2, startAngle: a1, endAngle: a2, clockwise: true)
-            path.stroke()
-        }
-        isShowBlink ? times += 1 : (times = 1)
-        if isShowBlink && times > 0 && times % 2 == 1 {
-            let a = endAngle()
-            let a1 = a + 1.0 / 360 * 2 * CGFloat.pi
-            let a2 = a + 8.0 / 360 * 2 * CGFloat.pi
-            shapeLayer.strokeColor = UIColor.green.cgColor
-            path.addArc(withCenter: center, radius: bounds.width / 2, startAngle: a1, endAngle: a2, clockwise: true)
-            path.stroke()
-        }
-        shapeLayer.path = path.cgPath
-    }
-    /*
+    
     override func draw(_ rect: CGRect) {
         guard superview != nil else { return }
         guard let context = UIGraphicsGetCurrentContext() else { return }
-        context.setLineWidth(kScreenWidth)
-        context.setLineCap(.round)
+        context.setLineWidth(height * UIScreen.main.scale)
         
         for i in 0..<videoCount {
             if i == selectedIndex {
@@ -145,14 +85,13 @@ class PVPlayProgressView: UIView {
             else {
                 context.setStrokeColor(progressColor.cgColor)
             }
-            if pointArray.count >= videoCount {
-                let sp = pointArray[i]
-                var x = sp / maxDuration * superview!.width
-                context.move(to: CGPoint.init(x: x, y: 0))
-                x = progress / maxDuration * superview!.width
-                context.addLine(to: CGPoint.init(x: x, y: 0))
-                context.strokePath()
-            }
+            let sp = pointArray[i]
+            var x = sp / maxDuration * superview!.width
+            context.move(to: CGPoint.init(x: x, y: 0))
+            x = progress / maxDuration * superview!.width
+            context.addLine(to: CGPoint.init(x: x, y: 0))
+            context.strokePath()
+        
         }
         for i in 0..<pointArray.count {
             let p = pointArray[i]
@@ -177,7 +116,7 @@ class PVPlayProgressView: UIView {
             context.strokePath()
         }
     }
-    */
+    
     
     public func updateProgress(progress: CGFloat) {
         self.progress = progress
@@ -203,6 +142,9 @@ class PVPlayProgressView: UIView {
         return progress / maxDuration * CGFloat.pi * 2 + CGFloat.pi * 1.5
     }
     
+    private func endPointX() -> CGFloat {
+        return progress / maxDuration * width
+    }
 
     
     

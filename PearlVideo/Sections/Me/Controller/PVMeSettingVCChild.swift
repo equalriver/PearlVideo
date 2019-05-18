@@ -103,7 +103,7 @@ class PVMePasswordChangeVC: PVBaseNavigationVC {
         tf.textColor = kColor_text
         tf.clearButtonMode = .whileEditing
         tf.keyboardType = .numbersAndPunctuation
-        tf.delegate = self
+        
         return tf
     }()
     lazy var authCodeTF: PVBottomLineTextField = {
@@ -113,7 +113,9 @@ class PVMePasswordChangeVC: PVBaseNavigationVC {
         tf.textColor = kColor_text
         tf.clearButtonMode = .whileEditing
         tf.keyboardType = .numbersAndPunctuation
-        tf.delegate = self
+        if #available(iOS 12.0, *) {
+            tf.textContentType = UITextContentType.oneTimeCode
+        }
         return tf
     }()
     lazy var getAuthCodeBtn: UIButton = {

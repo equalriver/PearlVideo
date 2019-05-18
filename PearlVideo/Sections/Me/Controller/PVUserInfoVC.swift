@@ -33,10 +33,10 @@ class PVUserInfoVC: PVBaseWMPageVC {
     
     
     override func viewDidLoad() {
-  shareBtn.kf.base
+  
         titleColorNormal = kColor_subText!
         titleColorSelected = kColor_text!
-        progressColor = UIColor.init(patternImage: UIImage.init(named: "gradient_bg")!)
+   
         progressWidth = 35 * KScreenRatio_6
         menuViewStyle = .line
         super.viewDidLoad()

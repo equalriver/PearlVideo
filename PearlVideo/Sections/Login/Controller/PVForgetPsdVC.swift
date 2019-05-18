@@ -35,7 +35,7 @@ class PVForgetPsdVC: PVBaseNavigationVC {
         tf.layer.cornerRadius = 20 * KScreenRatio_6
         tf.layer.borderColor = UIColor.white.cgColor
         tf.layer.borderWidth = 1
-        tf.delegate = self
+        tf.addTarget(self, action: #selector(textFieldChange(sender:)), for: .editingChanged)
         return tf
     }()
     lazy var authCodeTF: UITextField = {
@@ -50,7 +50,10 @@ class PVForgetPsdVC: PVBaseNavigationVC {
         tf.layer.cornerRadius = 20 * KScreenRatio_6
         tf.layer.borderColor = UIColor.white.cgColor
         tf.layer.borderWidth = 1
-        tf.delegate = self
+        tf.addTarget(self, action: #selector(textFieldChange(sender:)), for: .editingChanged)
+        if #available(iOS 12.0, *) {
+            tf.textContentType = UITextContentType.oneTimeCode
+        }
         return tf
     }()
     lazy var getAuthCodeBtn: UIButton = {
@@ -64,11 +67,11 @@ class PVForgetPsdVC: PVBaseNavigationVC {
         return b
     }()
     lazy var psdTF_1: UIView = {
-        let v = makeItemView(tag: 11, delegate: self)
+        let v = makeItemView(tag: 11)
         return v
     }()
     lazy var psdTF_2: UIView = {
-        let v = makeItemView(tag: 22, delegate: self)
+        let v = makeItemView(tag: 22)
         return v
     }()
     lazy var nextBtn: UIButton = {
@@ -142,7 +145,7 @@ class PVForgetPsdVC: PVBaseNavigationVC {
 
     }
     
-    func makeItemView(tag: Int, delegate: UITextFieldDelegate) -> UIView {
+    func makeItemView(tag: Int) -> UIView {
         let v = UIView()
         v.backgroundColor = kColor_deepBackground
         v.layer.borderColor = UIColor.white.cgColor
@@ -158,7 +161,7 @@ class PVForgetPsdVC: PVBaseNavigationVC {
         tf.keyboardType = .numbersAndPunctuation
         tf.clearButtonMode = .whileEditing
         tf.textAlignment = .center
-        tf.delegate = delegate
+        tf.addTarget(self, action: #selector(textFieldChange(sender:)), for: .editingChanged)
         tf.isSecureTextEntry = true
         v.addSubview(tf)
         
@@ -183,6 +186,24 @@ class PVForgetPsdVC: PVBaseNavigationVC {
         return v
     }
     
+    @objc func textFieldChange(sender: UITextField) {
+        if sender.hasText {
+            if sender.tag == 11 {
+                psd_1 = sender.text!
+            }
+            if sender.tag == 22 {
+                psd_2 = sender.text!
+            }
+        }
+        if isChangePsdView == false {//下一步页面
+            nextBtn.isEnabled = phoneTF.hasText && authCodeTF.hasText
+        }
+        else {//确认修改页面
+            nextBtn.isEnabled = psd_1.count > 0 && psd_2.count > 0
+        }
+        nextBtn.backgroundColor = nextBtn.isEnabled ? kColor_pink : UIColor.gray
+    }
+    
     @objc func getAuthCode(sender: UIButton) {
         guard phoneTF.hasText else {
             view.makeToast("请输入手机号")
@@ -202,12 +223,13 @@ class PVForgetPsdVC: PVBaseNavigationVC {
         }
         
         func auth() {
-            var t = 59
+            var t = 60
             self.timer.setEventHandler {
                 if t <= 1 {
                     self.timer.suspend()
                     DispatchQueue.main.async {
                         sender.setTitle("获取验证码", for: .normal)
+                        sender.backgroundColor = kColor_pink
                         sender.isEnabled = true
                     }
                 }
@@ -215,11 +237,13 @@ class PVForgetPsdVC: PVBaseNavigationVC {
                     t -= 1
                     DispatchQueue.main.async {
                         sender.setTitle("重新发送(\(t)s)", for: .normal)
+                        sender.backgroundColor = UIColor.gray
                         sender.isEnabled = false
                     }
                 }
             }
             self.timer.resume()
+            authCodeTF.becomeFirstResponder()
         }
     }
     
@@ -254,7 +278,8 @@ class PVForgetPsdVC: PVBaseNavigationVC {
                 return
             }
             sender.isEnabled = false
-            PVNetworkTool.Request(router: .changePsd(userId: "", phone: phoneTF.text!, psd: psd_1), success: { (resp) in
+            let userId = UserDefaults.standard.string(forKey: kUserId) ?? ""
+            PVNetworkTool.Request(router: .changePsd(userId: userId, phone: phoneTF.text!, psd: psd_1), success: { (resp) in
                 sender.isEnabled = true
                 
             }) { (e) in
@@ -299,27 +324,5 @@ class PVForgetPsdVC: PVBaseNavigationVC {
 
 }
 
-extension PVForgetPsdVC: UITextFieldDelegate {
-    
-    func textFieldShouldEndEditing(_ textField: UITextField) -> Bool {
-        if textField.hasText {
-            if textField.tag == 11 {
-                psd_1 = textField.text!
-            }
-            if textField.tag == 22 {
-                psd_2 = textField.text!
-            }
-        }
-        if isChangePsdView == false {//下一步页面
-            nextBtn.isEnabled = phoneTF.hasText && authCodeTF.hasText
-        }
-        else {//确认修改页面
-            nextBtn.isEnabled = psd_1.count > 0 && psd_1 == psd_2
-        }
-        nextBtn.backgroundColor = nextBtn.isEnabled ? kColor_pink : UIColor.gray
-        return true
-    }
-   
-}
 
 

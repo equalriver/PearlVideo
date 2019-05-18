@@ -7,36 +7,28 @@
 //
 
 import WMPageController
+import MJRefresh
 
 //MARK: - actions
 extension PVMeViewController {
     
+    override func rightButtonsAction(sender: UIButton) {
+        UserDefaults.standard.set(nil, forKey: kToken)
+        UserDefaults.standard.synchronize()
+        YPJOtherTool.ypj.loginValidate(currentVC: self, isLogin: nil)
+    }
+    
+    func setRefresh() {
+        PVRefresh.headerRefresh(scrollView: contentScrollView) {[weak self] in
+            self?.loadData()
+        }
+        if let header = contentScrollView.mj_header as? MJRefreshNormalHeader {
+            header.arrowView.image = nil
+        }
+    }
+    
     func loadData() {
         
-    }
-    
-    @objc func headerViewPanAction(pan: UIPanGestureRecognizer) {
-        guard let panView = pan.view else { return }
-        if panView == headerView {
-            let velocity_1 = pan.velocity(in: headerView.titlesCV)
-            let velocity_2 = pan.velocity(in: headerView.titlesCV)
-            
-            if velocity_1.y / 1000 > 1 || velocity_2.y / 1000 > 1 {
-                isShowMoreList = false
-            }
-            if velocity_1.y / 1000 < -1 || velocity_2.y / 1000 < -1 {
-                isShowMoreList = true
-            }
-        }
-    }
-    
-    func loginValidate() {
-        guard let _ = UserDefaults.standard.value(forKey: kToken) else {
-            YPJOtherTool.ypj.loginValidate(currentVC: self) { (isFinish) in
-                if isFinish { self.loadData() }
-            }
-            return
-        }
     }
     
     //noti
@@ -44,9 +36,25 @@ extension PVMeViewController {
         loadData()
     }
     
+    //scroll view delegate
+    override func scrollViewDidScroll(_ scrollView: UIScrollView) {
+        super.scrollViewDidScroll(scrollView)
+        
+        if scrollView == contentScrollView {
+            productionVC.collectionView.isScrollEnabled = scrollView.contentOffset.y >= headerViewHeight - kNavigationBarAndStatusHeight - safeInset
+            let alpha: CGFloat = scrollView.contentOffset.y >= headerViewHeight - kNavigationBarAndStatusHeight ? 1.0 : scrollView.contentOffset.y / (headerViewHeight - kNavigationBarAndStatusHeight)
+            effectView.alpha = alpha
+            naviBar.titleView.alpha = alpha
+        }
+        else {
+
+        }
+       
+    }
+ 
+    
+    
 }
-
-
 
 //MARK: - PVMeHeaderViewDelegate
 extension PVMeViewController: PVMeHeaderViewDelegate {
@@ -54,21 +62,23 @@ extension PVMeViewController: PVMeHeaderViewDelegate {
     func didSelectedEdit() {
         
     }
-    
-    func didSelectedSetting() {
-        
-    }
 
 }
 
-//MARK: - Recommend delegate
-//extension PVHomeVC: PVHomeRecommendDelegate {
-//
-//    func listViewShow(isShow: Bool) {
-//        isShowMoreList = isShow
-//    }
-//
-//}
+//MARK: - 作品
+extension PVMeViewController: PVMeProductionDelegate {
+    
+    func didBeginHeaderRefresh(sender: UIScrollView?) {
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.2) {
+            sender?.mj_header.endRefreshing()
+            self.effectView.alpha = 0
+            self.naviBar.titleView.alpha = 0
+            self.contentScrollView.setContentOffset(CGPoint.init(x: 0, y: -20), animated: true)
+        }
+    }
+    
+}
+
 
 //MARK: - page controller delegate
 extension PVMeViewController {
@@ -83,7 +93,7 @@ extension PVMeViewController {
     
     override func pageController(_ pageController: WMPageController, viewControllerAt index: Int) -> UIViewController {
         if index == 0 {//作品
-            
+            return productionVC
         }
         if index == 1 {//喜欢
             
@@ -96,17 +106,12 @@ extension PVMeViewController {
     }
     
     override func pageController(_ pageController: WMPageController, preferredFrameFor menuView: WMMenuView) -> CGRect {
-        var y = isShowMoreList ? 0 : headerViewHeight
-        y += kNavigationBarAndStatusHeight
-        return CGRect.init(x: 0, y: y, width: kScreenWidth, height: 50 * KScreenRatio_6)
+        return CGRect.init(x: 0, y: headerViewHeight, width: kScreenWidth, height: 50 * KScreenRatio_6)
     }
     
     override func pageController(_ pageController: WMPageController, preferredFrameForContentView contentView: WMScrollView) -> CGRect {
-        var y = isShowMoreList ? 0 : headerViewHeight
-        y += 50 * KScreenRatio_6
-        let h = kScreenHeight - y - kTabBarHeight
-        
-        return CGRect.init(x: 0, y: y, width: kScreenWidth, height: h)
+        let h = kScreenHeight - kTabBarHeight - 50 * KScreenRatio_6 - kNavigationBarAndStatusHeight - safeInset
+        return CGRect.init(x: 0, y: headerViewHeight + 50 * KScreenRatio_6, width: kScreenWidth, height: h)
     }
     
     override func menuView(_ menu: WMMenuView!, initialMenuItem: WMMenuItem!, at index: Int) -> WMMenuItem! {

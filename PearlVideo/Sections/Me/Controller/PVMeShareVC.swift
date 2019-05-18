@@ -75,7 +75,7 @@ class PVMeShareVC: PVBaseNavigationVC {
         shareBtn.snp.makeConstraints { (make) in
             make.size.equalTo(CGSize.init(width: 340 * KScreenRatio_6, height: 50 * KScreenRatio_6))
             make.centerX.equalToSuperview()
-            make.bottom.equalToSuperview().offset(-50 * KScreenRatio_6 - kIphoneXBottomInsetHeight)
+            make.bottom.equalToSuperview().offset(-50 * KScreenRatio_6 - kIphoneXLatterInsetHeight)
         }
         copyBtn.snp.makeConstraints { (make) in
             make.size.centerX.equalTo(shareBtn)
