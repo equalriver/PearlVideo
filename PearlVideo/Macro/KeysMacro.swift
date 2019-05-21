@@ -23,7 +23,7 @@ public let kLastInputIP = "kLastInputIP"
 public let kLastInputAccount = "kLastInputAccount"
 
 ///base url
-public let kBaseURLString = UserDefaults.standard.string(forKey: kLocalIP) ?? "http://192.168.0.116:8080/api/"
+public let kBaseURLString = UserDefaults.standard.string(forKey: kLocalIP) ?? "http://192.168.0.180:8080/api/"
 
 ///local text ip
 public let kLocalIP = "kLocalIP"

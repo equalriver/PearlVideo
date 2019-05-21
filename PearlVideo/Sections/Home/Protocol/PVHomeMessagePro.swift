@@ -112,7 +112,10 @@ extension PVHomeMsgNoticeVC {
             self.tableView.mj_footer.endRefreshing()
             if let d = Mapper<PVHomeNoticeMessageList>().mapArray(JSONObject: resp["result"]["noticeList"].arrayObject) {
                 if page == 0 { self.dataArr = d }
-                else { self.dataArr += d }
+                else {
+                    self.dataArr += d
+                    if d.count == 0 { self.page -= 1 }
+                }
                 self.tableView.reloadData()
             }
             
@@ -189,7 +192,10 @@ extension PVHomeMsgCommentVC {
             self.tableView.mj_footer.endRefreshing()
             if let d = Mapper<PVHomeMessageList>().mapArray(JSONObject: resp["result"]["commentMessageList"].arrayObject) {
                 if page == 0 { self.dataArr = d }
-                else { self.dataArr += d }
+                else {
+                    self.dataArr += d
+                    if d.count == 0 { self.page -= 1 }
+                }
                 self.tableView.reloadData()
             }
             
@@ -243,7 +249,10 @@ extension PVHomeMsgLikeVC {
             self.tableView.mj_footer.endRefreshing()
             if let d = Mapper<PVHomeMessageList>().mapArray(JSONObject: resp["result"]["thumbupMessageList"].arrayObject) {
                 if page == 0 { self.dataArr = d }
-                else { self.dataArr += d }
+                else {
+                    self.dataArr += d
+                    if d.count == 0 { self.page -= 1 }
+                }
                 self.tableView.reloadData()
             }
             
@@ -298,7 +307,10 @@ extension PVHomeMsgAttentionVC {
             self.tableView.mj_footer.endRefreshing()
             if let d = Mapper<PVHomeMessageList>().mapArray(JSONObject: resp["result"]["followMessageList"].arrayObject) {
                 if page == 0 { self.dataArr = d }
-                else { self.dataArr += d }
+                else {
+                    self.dataArr += d
+                    if d.count == 0 { self.page -= 1 }
+                }
                 self.tableView.reloadData()
             }
             

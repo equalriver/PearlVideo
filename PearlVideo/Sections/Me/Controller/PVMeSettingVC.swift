@@ -11,9 +11,8 @@ import Kingfisher
 
 class PVMeSettingVC: PVBaseNavigationVC {
     
-    let items_1 = ["实名认证", "修改密码", "交易密码"]
-    let items_2 = ["用户协议", "隐私政策", "意见反馈"]
-    let items_3 = ["清理缓存", "关于我们", "检测更新", UserDefaults.standard.value(forKey: kToken) == nil ? "登录" : "退出登录"]
+    let items_2 = ["实名认证", "修改密码", "交换密码", "收款方式"]
+    let items_3 = ["意见反馈", "关于我们", "清理缓存", "检测更新", UserDefaults.standard.value(forKey: kToken) == nil ? "登录" : "退出登录"]
     
     lazy var tableView: UITableView = {
         let tb = UITableView.init(frame: .zero, style: .plain)
@@ -50,7 +49,7 @@ extension PVMeSettingVC: UITableViewDataSource, UITableViewDelegate {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         switch section {
             
-        case 0: return items_1.count
+        case 0: return 1
             
         case 1: return items_2.count
             
@@ -68,36 +67,47 @@ extension PVMeSettingVC: UITableViewDataSource, UITableViewDelegate {
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        var img = "setting_"
-        var title = ""
+        var img: UIImage?
+        var imgStr = "setting_"
+        var title: String?
         var detail: String?
+        var detailImg = UIImage.init(named: "right_arrow")
         var isShowBadge = false
-        
+        //钱包
         if indexPath.section == 0 {
-            img += items_1[indexPath.row]
-            title = items_1[indexPath.row]
+            img = UIImage.init(named: "setting_钱包")
+            detailImg = UIImage.init(named: "setting_复制")
+            
         }
+        //账号
         if indexPath.section == 1 {
-            img += items_2[indexPath.row]
+            imgStr += items_2[indexPath.row]
+            img = UIImage.init(named: imgStr)
             title = items_2[indexPath.row]
         }
+        //通用
         if indexPath.section == 2 {
-            img += items_3[indexPath.row] == "登录" ? "退出登录" : items_3[indexPath.row]
+            imgStr += items_3[indexPath.row] == "登录" ? "退出登录" : items_3[indexPath.row]
+            img = UIImage.init(named: imgStr)
             title = items_3[indexPath.row]
-            if indexPath.row == 0 {//清理缓存
+            if indexPath.row == 2 {//清理缓存
+                detailImg = nil
                 let s = YPJOtherTool.ypj.getLocalFolderSize(path: NSSearchPathForDirectoriesInDomains(.cachesDirectory, .userDomainMask, true).first ?? "")
                 detail = s > 1 ? String.init(format: "%.1f", s) + "M" : nil
                 KingfisherManager.shared.cache.calculateDiskCacheSize { (size) in
                     let m = Double(size) / 1024.0 * 1024.0 + s
                     detail = m > 1 ? String.init(format: "%.1f", m) + "M" : nil
+                    
                 }
             }
-            if indexPath.row == 2 {//检测更新
+            if indexPath.row == 3 {//检测更新
                 isShowBadge = true
-                detail = nil
+                if let v = YPJOtherTool.ypj.getCurrentVersion {
+                    detail = v + " "
+                }
             }
         }
-        let cell = PVMeSettingCell.init(img: img, title: title, detail: detail, showBadge: isShowBadge)
+        let cell = PVMeSettingCell.init(img: img, title: title, detail: detail, rightImage: detailImg, showBadge: isShowBadge)
         return cell
     }
     
@@ -116,43 +126,49 @@ extension PVMeSettingVC: UITableViewDataSource, UITableViewDelegate {
             }
             handler()
         }
+        //钱包
         if indexPath.section == 0 {
-            if indexPath.row == 0 {//实名认证
-                loginValidate {
-                    let vc = PVMeNameValidateVC()
-                    navigationController?.pushViewController(vc, animated: true)
-                }
-            }
-            if indexPath.row == 1 {//修改密码
-                loginValidate {
-                    let vc = PVMePasswordChangeVC()
-                    navigationController?.pushViewController(vc, animated: true)
-                }
-            }
+            let paste = UIPasteboard.init()
+            //FIX ME
+            paste.string = ""  //复制到粘贴板
+            view.makeToast("复制地址成功")
         }
+        //账号
         if indexPath.section == 1 {
             switch indexPath.row {
-            case 0: //用户协议
-                let vc = PVAgreementWebVC.init(url: "", title: "用户协议")
-                navigationController?.pushViewController(vc, animated: true)
+            case 0: //实名认证
+               
                 break
                 
-            case 1: //隐私政策
-                let vc = PVAgreementWebVC.init(url: "", title: "隐私政策")
-                navigationController?.pushViewController(vc, animated: true)
+            case 1: //修改密码
+                
                 break
                 
-            case 2: //意见反馈
-                let vc = PVMeFeedbackVC()
-                navigationController?.pushViewController(vc, animated: true)
+            case 2: //交换密码
+                
+                break
+                
+            case 3: //收款方式
+                
                 break
                 
             default: break
             }
         }
+        //通用
         if indexPath.section == 2 {
             switch indexPath.row {
-            case 0: //清理缓存
+            case 0: //意见反馈
+                let vc = PVMeFeedbackVC()
+                navigationController?.pushViewController(vc, animated: true)
+                break
+                
+            case 1: //关于我们
+                let vc = PVAgreementWebVC.init(url: "", title: "关于我们")
+                navigationController?.pushViewController(vc, animated: true)
+                break
+                
+            case 2: //清理缓存
                 let cache = KingfisherManager.shared.cache
                 cache.cleanExpiredDiskCache()
                 cache.clearDiskCache {
@@ -162,16 +178,11 @@ extension PVMeSettingVC: UITableViewDataSource, UITableViewDelegate {
                 }
                 break
                 
-            case 1: //关于我们
-                let vc = PVAgreementWebVC.init(url: "", title: "关于我们")
-                navigationController?.pushViewController(vc, animated: true)
-                break
-                
-            case 2: //检测更新
+            case 3: //检测更新
                 
                 break
                 
-            case 3: //退出登录
+            case 4: //退出登录
                 guard let _ = UserDefaults.standard.value(forKey: kToken) else {
                     YPJOtherTool.ypj.loginValidate(currentVC: self) {[weak self] (isFinish) in
                         if isFinish { self?.tableView.reloadData() }

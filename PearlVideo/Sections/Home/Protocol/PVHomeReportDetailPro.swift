@@ -10,10 +10,19 @@
 extension PVHomeReportDetailVC {
     
     @objc func commitAction(sender: UIButton) {
-        let uploadImages = imgs.drop { (obj) -> Bool in
+        sender.isEnabled = false
+        
+        let uploadImages = imgs.filter { (obj) -> Bool in
             return obj != addImg
         }
-        
+        let args = ["videoId": videoId, "type": type, "content": contentTV.text ?? ""]
+        PVNetworkTool.upLoadImageRequest(images: uploadImages, imagesName: "imageUrl", params: args, router: .videoReport(), success: { (resp) in
+            
+            sender.isEnabled = true
+            
+        }) { (e) in
+            sender.isEnabled = true
+        }
     }
     
 }

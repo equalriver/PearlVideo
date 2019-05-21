@@ -14,6 +14,7 @@ class PVHomeTaskVC: PVBaseWMPageVC {
         titleColorNormal = kColor_text!
         titleColorSelected = UIColor.white
         progressWidth = 30 * KScreenRatio_6
+        menuViewStyle = .line
         
         super.viewDidLoad()
         title = "任务书卷"

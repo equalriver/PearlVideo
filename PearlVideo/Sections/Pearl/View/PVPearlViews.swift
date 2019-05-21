@@ -47,7 +47,7 @@ class PVPearlSectionHeaderView: UIView {
     }()
     lazy var marketBtn: UIButton = {
         let b = UIButton()
-        b.setBackgroundImage(UIImage.init(named: "gradient_bg"), for: .normal)
+        
         b.titleLabel?.font = kFont_text_2
         b.setTitle("进入集市", for: .normal)
         b.setTitleColor(UIColor.white, for: .normal)

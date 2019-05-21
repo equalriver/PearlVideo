@@ -24,6 +24,9 @@ class PVHomePlayVC: PVBaseViewController {
     
     var page = 0
     
+    var currentIndex = 0
+    
+    
     /*
      type = 1 = 推荐
      type = 2 = 关注
@@ -37,10 +40,10 @@ class PVHomePlayVC: PVBaseViewController {
     
     
     //播放数据源列表
-    var videoList = [AlivcQuVideoModel]()
+//    var videoList = [AlivcQuVideoModel]()
     
     //播放界面容器视图数组
-    var playContainerList = [PVHomePlayContainerView]()
+//    var playContainerList = [PVHomePlayContainerView]()
     
     //当前正在播放的容器视图
     var currentPlayContainer: PVHomePlayCell?
@@ -73,10 +76,10 @@ class PVHomePlayVC: PVBaseViewController {
         let r = YYReachability.init()
         return r
     }()
-    lazy var allContainView: PVHomePlayMaskView = {
-        let v = PVHomePlayMaskView.init(frame: CGRect.init(x: 0, y: 0, width: kScreenWidth, height: kScreenHeight))
-        return v
-    }()
+//    lazy var allContainView: PVHomePlayMaskView = {
+//        let v = PVHomePlayMaskView.init(frame: CGRect.init(x: 0, y: 0, width: kScreenWidth, height: kScreenHeight))
+//        return v
+//    }()
     lazy var backBtn: UIButton = {
         let b = UIButton()
         b.setImage(UIImage.init(named: "back_arrow"), for: .normal)
@@ -143,12 +146,13 @@ class PVHomePlayVC: PVBaseViewController {
     }
     
     deinit {
-        for v in playContainerList {
-            if v.vodPlayer != nil {
-                v.vodPlayer.release()
-            }
-        }
-        videoList.removeAll()
+//        for v in playContainerList {
+//            if v.vodPlayer != nil {
+//                v.vodPlayer.release()
+//            }
+//        }
+//        videoList.removeAll()
+        currentPlayContainer?.vodPlayer.release()
         if downloadingMediaInfo != nil {
             AliyunVodDownLoadManager.share()?.stopDownloadMedia(downloadingMediaInfo!)
         }
@@ -167,7 +171,7 @@ class PVHomePlayVC: PVBaseViewController {
             make.top.equalToSuperview().offset(kIphoneXLatterInsetHeight + 20)
         }
     }
-
+/*
     //初始化播放器,播放器的容器view等
     func initPlayConfig() {
         let allCount = kNextCount + kPreviousCount + 1
@@ -194,7 +198,7 @@ class PVHomePlayVC: PVBaseViewController {
         UIApplication.shared.isIdleTimerDisabled = true
         localVideosIdString = UserDefaults.standard.string(forKey: "localVideosIdString")
     }
-    
+    */
     func initDownloadConfig() {
         let downloadManager = AliyunVodDownLoadManager.share()
         DispatchQueue.ypj_once(token: self.description) {
@@ -209,7 +213,7 @@ class PVHomePlayVC: PVBaseViewController {
             downloadManager?.downLoadInfoListenerDelegate(self)
         }
     }
-
+/*
     //做一些首次进入关于视频的处理 - 加载封面图 - 播放第一个视频
     func firstHandleWhenHaveVideoListWithStartPlayIndex(startPlayIndex: inout Int) {
         //错误处理
@@ -276,7 +280,7 @@ class PVHomePlayVC: PVBaseViewController {
             prepareWithPlayer(player: conView!.vodPlayer, model: model)
         }
     }
-    
+    */
     //添加通知
     func addNotification() {
         NotificationCenter.default.addObserver(self, selector: #selector(becomeActive), name: UIApplication.didBecomeActiveNotification, object: nil)
@@ -294,7 +298,7 @@ class PVHomePlayVC: PVBaseViewController {
             }
         }
     }
-
+    /*
     //添加手势
     func addGesture() {
         let tapGesture = UITapGestureRecognizer()
@@ -306,6 +310,6 @@ class PVHomePlayVC: PVBaseViewController {
         panGesture.addTarget(self, action: #selector(panAction(sender:)))
         allContainView.gestureView.addGestureRecognizer(panGesture)
     }
-    
+    */
     
 }

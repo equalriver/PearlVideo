@@ -18,7 +18,7 @@ class PVHomeReportCell: PVBaseTableCell {
         return l
     }()
     lazy var arrowIV: UIImageView = {
-        let iv = UIImageView.init(image: UIImage.init(named: "right_arrow_black"))
+        let iv = UIImageView.init(image: UIImage.init(named: "right_arrow"))
         return iv
     }()
     

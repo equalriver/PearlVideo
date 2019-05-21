@@ -62,7 +62,10 @@ extension PVHomeMyTaskVC {
             self.tableView.mj_footer.endRefreshing()
             if let d = Mapper<PVHomeTaskList>().mapArray(JSONObject: resp["result"]["list"].arrayObject) {
                 if page == 0 { self.dataArr = d }
-                else { self.dataArr += d }
+                else {
+                    self.dataArr += d
+                    if d.count == 0 { self.page -= 1 }
+                }
                 self.tableView.reloadData()
             }
             
@@ -115,7 +118,10 @@ extension PVHomeAllTaskVC {
             self.tableView.mj_footer.endRefreshing()
             if let d = Mapper<PVHomeTaskList>().mapArray(JSONObject: resp["result"]["list"].arrayObject) {
                 if page == 0 { self.dataArr = d }
-                else { self.dataArr += d }
+                else {
+                    self.dataArr += d
+                    if d.count == 0 { self.page -= 1 }
+                }
                 self.tableView.reloadData()
             }
             
@@ -204,7 +210,10 @@ extension PVHomeHistoryTaskVC {
             self.tableView.mj_footer.endRefreshing()
             if let d = Mapper<PVHomeTaskList>().mapArray(JSONObject: resp["result"]["list"].arrayObject) {
                 if page == 0 { self.dataArr = d }
-                else { self.dataArr += d }
+                else {
+                    self.dataArr += d
+                    if d.count == 0 { self.page -= 1 }
+                }
                 self.tableView.reloadData()
             }
             

@@ -48,7 +48,7 @@ extension PVHomePlayVC {
     @objc func backAction(sender: UIButton) {
         navigationController?.popViewController(animated: true)
     }
-    
+    /*
     //第一次进入的图片预加载,保证只执行一次
     func doQuerryImageWhenFirstEnter() {
         if isHaveQuerryImageWhenFirstEnter == true || videoList.count == 0 { return }
@@ -57,9 +57,9 @@ extension PVHomePlayVC {
             tryQuerryImageWithModel(videoModel: v)
         }
     }
-    
+    */
 }
-
+/*
 //MARK: - UI config when UP Down
 extension PVHomePlayVC {
     //根据vodPlayer找到存放它的对应的容器视图
@@ -211,7 +211,7 @@ extension PVHomePlayVC {
     
     
 }
-
+*/
 //MARK: - play manager
 extension PVHomePlayVC {
     //播放上一个视频
@@ -327,7 +327,7 @@ extension PVHomePlayVC {
             }
         }
     }
-    */
+    
     
     //准备播放下一个视频的清除数据工作
     func clearWhenContainView(conView: PVHomePlayContainerView, newModel: AlivcQuVideoModel) {
@@ -369,7 +369,7 @@ extension PVHomePlayVC {
         animtaionCurrentView(containerView: nextPlayContainerView, completion: nil)
         
     }
-
+*/
     
     
 }

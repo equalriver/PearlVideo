@@ -156,18 +156,21 @@ class PVPlayVideoUploadVC: PVBaseNavigationVC {
             view.makeToast("请写一些此刻的想法")
             return
         }
-        guard let path = url.path.components(separatedBy: "/").last else { return }
+        guard let p = url.path.components(separatedBy: "/").last else { return }
         sender.isEnabled = false
-        SVProgressHUD.show()
-        PVNetworkTool.Request(router: .getUploadAuthAndAddress(description: contentTV.text, fileName: path), success: { (resp) in
+        SVProgressHUD.show(withStatus: "正在上传...")
+        PVNetworkTool.Request(router: .getUploadAuthAndAddress(description: contentTV.text, fileName: p), success: { (resp) in
             if let auth = resp["result"]["uploadAuth"].string {
                 self.uploadAuth = auth
             }
             if let address = resp["result"]["uploadAddress"].string {
                 self.uploadAddress = address
             }
+            let vodInfo = VodInfo.init()
+            vodInfo.title = self.contentTV.text
+            self.uploadManager.addFile(self.url.path, vodInfo: vodInfo)
             self.uploadManager.start()
-            
+         
         }) { (e) in
             SVProgressHUD.dismiss()
             sender.isEnabled = true

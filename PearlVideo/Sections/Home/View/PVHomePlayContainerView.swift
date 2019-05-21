@@ -9,7 +9,7 @@
 import AliyunVodPlayerSDK
 
 class PVHomePlayContainerView: UIView {
-    
+    /*
     ///user info view delegate
     weak public var userInfoDelegate: PVHomeVideoInfoDelegate?
     
@@ -35,12 +35,12 @@ class PVHomePlayContainerView: UIView {
     public var isHavePrepared = false
     
     //左下角用户信息视图
-    private lazy var userInfoView: PVHomeVideoInfoView = {
-        let v = PVHomeVideoInfoView.init(frame: .zero)
-        v.backgroundColor = UIColor.clear
-        v.delegate = userInfoDelegate
-        return v
-    }()
+//    private lazy var userInfoView: PVHomeVideoInfoView = {
+//        let v = PVHomeVideoInfoView.init(frame: .zero)
+//        v.backgroundColor = UIColor.clear
+//        v.delegate = userInfoDelegate
+//        return v
+//    }()
     
     
     //MARK: - public action
@@ -142,6 +142,7 @@ class PVHomePlayContainerView: UIView {
         userInfoView.detailLabel.text = videoModel?.videoDescription
         
     }
+ */
 }
 
 

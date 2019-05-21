@@ -96,6 +96,22 @@ enum Router: URLRequestConvertible {
     ///所有视频播放列表 1: 推荐, 2: 关注, 3: 我的作品, 4: 我的喜欢视频, 5: 私密视频
     case videoList(type: Int, videoIndex: Int, videoId: String)
     
+    ///视频关注 action: 1关注 2取消
+    case videoAttention(id: String, action: Int)
+    
+    ///视频点赞 action: 1点赞 2取消
+    case videoLike(id: String, action: Int)
+    
+    ///视频评论列表
+    case videoCommentList(videoId: String, page: Int)
+    
+    ///视频举报
+    case videoReport()
+    
+    ///视频评论点赞 action: 1点赞 2取消
+    case videoCommentLike(videoId: String, commentId: Int, action: Int)
+    
+    
     //application
     ///获取应用列表
     case getApplicationList()
@@ -229,6 +245,22 @@ enum Router: URLRequestConvertible {
                 
             case .videoList:
                 return "GetVideoList"
+                
+            case .videoAttention:
+                return "follow"
+                
+            case .videoLike:
+                return "VideoThumbup"
+                
+            case .videoCommentList:
+                return "GetCommentList"
+                
+            case .videoReport:
+                return "Report"
+                
+            case .videoCommentLike:
+                return "CommentThumbup"
+                
                 
                 
             //application
@@ -419,6 +451,33 @@ enum Router: URLRequestConvertible {
                 "type": type,
                 "nextPos": videoIndex,
                 "videoId": videoId
+            ]
+            
+        case .videoAttention(let id, let action):
+            param = [
+                "followeeId": id,
+                "action": action
+            ]
+            
+        case .videoLike(let id, let action):
+            param = [
+                "videoId": id,
+                "action": action
+            ]
+            
+        case .videoCommentList(let videoId, let page):
+            param = [
+                "videoId": videoId,
+                "skip": page
+            ]
+            
+        case .videoReport: break
+            
+        case .videoCommentLike(let videoId, let commentId, let action):
+            param = [
+                "videoId": videoId,
+                "commentId": commentId,
+                "action": action
             ]
             
             

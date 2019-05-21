@@ -13,17 +13,17 @@ import AliyunVodPlayerSDK
 
 protocol PVHomePlayDelegate: NSObjectProtocol {
     ///点击头像
-    func didSelectedAvatar(cell: UICollectionViewCell)
+    func didSelectedAvatar(cell: PVHomePlayCell)
     ///关注
-    func didSelectedAttention(cell: UICollectionViewCell)
+    func didSelectedAttention(sender: UIButton, cell: PVHomePlayCell)
     ///喜欢
-    func didSelectedLike(cell: UICollectionViewCell)
+    func didSelectedLike(sender: UIButton, cell: PVHomePlayCell)
     ///评论
-    func didSelectedComment(cell: UICollectionViewCell)
+    func didSelectedComment(cell: PVHomePlayCell)
     ///分享
-    func didSelectedShare(cell: UICollectionViewCell)
+    func didSelectedShare(cell: PVHomePlayCell)
     ///举报
-    func didSelectedReport(cell: UICollectionViewCell)
+    func didSelectedReport(cell: PVHomePlayCell)
 }
 
 class PVHomePlayCell: UICollectionViewCell {
@@ -39,6 +39,7 @@ class PVHomePlayCell: UICollectionViewCell {
                 return
             }
             attentionBtn.isHidden = false
+            attentionBtn.isSelected = data.IsFollowed
             coverImageView.kf.setImage(with: URL.init(string: data.coverUrl))
             avatarBtn.kf.setImage(with: URL.init(string: data.avatarUrl), for: .normal)
             nameLabel.text = data.nickname
@@ -52,7 +53,7 @@ class PVHomePlayCell: UICollectionViewCell {
     ///在本容器内的播放器的实例对象
     public lazy var vodPlayer: AliyunVodPlayer = {
         let v = AliyunVodPlayer()
-        v.isAutoPlay = true   //是否自动播放
+        v.isAutoPlay = false   //是否自动播放
         v.circlePlay = true    //循环播放控制
         v.displayMode = .fit   //浏览方式
         v.quality = .videoFD   //流畅度
@@ -75,6 +76,7 @@ class PVHomePlayCell: UICollectionViewCell {
     ///容器的封面图片
     public lazy var coverImageView: UIImageView = {
         let v = UIImageView()
+        v.isHidden = true
         return v
     }()
     lazy var playIV: UIImageView = {
@@ -168,6 +170,7 @@ class PVHomePlayCell: UICollectionViewCell {
     
     func initUI() {
         contentView.addSubview(vodPlayer.playerView)
+        contentView.addSubview(coverImageView)
         contentView.addSubview(avatarBtn)
         contentView.addSubview(nameLabel)
         contentView.addSubview(attentionBtn)
@@ -176,7 +179,7 @@ class PVHomePlayCell: UICollectionViewCell {
         contentView.addSubview(commentBtn)
         contentView.addSubview(shareBtn)
         contentView.addSubview(reportBtn)
-        contentView.addSubview(coverImageView)
+        
         avatarBtn.snp.makeConstraints { (make) in
             make.top.equalToSuperview().offset(500 * KScreenRatio_6)
             make.size.equalTo(CGSize.init(width: 45 * KScreenRatio_6, height: 45 * KScreenRatio_6))
@@ -197,11 +200,11 @@ class PVHomePlayCell: UICollectionViewCell {
         }
         commentBtn.snp.makeConstraints { (make) in
             make.centerX.equalTo(likeBtn)
-            make.top.equalTo(likeBtn.snp.bottom).offset(20 * KScreenRatio_6)
+            make.top.equalTo(likeBtn.snp.bottom).offset(30 * KScreenRatio_6)
         }
         shareBtn.snp.makeConstraints { (make) in
             make.centerX.equalTo(likeBtn)
-            make.top.equalTo(commentBtn.snp.bottom).offset(20 * KScreenRatio_6)
+            make.top.equalTo(commentBtn.snp.bottom).offset(30 * KScreenRatio_6)
         }
         reportBtn.snp.makeConstraints { (make) in
             make.centerX.equalTo(likeBtn)
@@ -223,6 +226,7 @@ class PVHomePlayCell: UICollectionViewCell {
         likeBtn.setTitle(nil, for: .normal)
         likeBtn.isSelected = false
         commentBtn.setTitle(nil, for: .normal)
+        vodPlayer.stop()
         vodPlayer.reset()
     }
     
@@ -243,12 +247,12 @@ extension PVHomePlayCell {
     
     //关注
     @objc func attentionAction(sender: UIButton) {
-        delegate?.didSelectedAttention(cell: self)
+        delegate?.didSelectedAttention(sender: sender, cell: self)
     }
     
     //喜欢
     @objc func likeAction(sender: UIButton) {
-        delegate?.didSelectedLike(cell: self)
+        delegate?.didSelectedLike(sender: sender, cell: self)
     }
     
     //评论

@@ -101,7 +101,7 @@ extension UIView {
         }
         
         let b = UIButton()
-        b.setBackgroundImage(UIImage.init(named: "gradient_bg"), for: .normal)
+        b.backgroundColor = kColor_pink
         b.titleLabel?.font = kFont_text
         b.setTitle("登录/注册", for: .normal)
         b.setTitleColor(UIColor.white, for: .normal)
@@ -224,7 +224,7 @@ extension UIView {
         let stateErrorBtn = UIButton()
         stateErrorBtn.layer.cornerRadius = 20
         stateErrorBtn.layer.masksToBounds = true
-        stateErrorBtn.setBackgroundImage(UIImage.init(named: "gradient_bg"), for: .normal)
+        stateErrorBtn.backgroundColor = kColor_pink
         stateErrorBtn.titleLabel?.font = kFont_text
         stateErrorBtn.setTitle("重试", for: .normal)
         stateErrorBtn.setTitleColor(UIColor.white, for: .normal)

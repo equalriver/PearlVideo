@@ -10,6 +10,7 @@ import UIKit
 
 class PVHomeReportVC: PVBaseNavigationVC {
 
+    public var videoId = ""
     
     let items = ["色情低俗", "政治敏感", "违法犯罪", "发布垃圾广告", "造谣传谣", "欺诈欺骗", "侮辱谩骂"]
     
@@ -18,7 +19,7 @@ class PVHomeReportVC: PVBaseNavigationVC {
         tb.separatorStyle = .none
         tb.delegate = self
         tb.dataSource = self
-        tb.backgroundColor = UIColor.white
+        tb.backgroundColor = kColor_deepBackground
         return tb
     }()
     
@@ -52,7 +53,10 @@ extension PVHomeReportVC: UITableViewDelegate, UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        
+        let vc = PVHomeReportDetailVC()
+        vc.type = items[indexPath.row]
+        vc.videoId = videoId
+        navigationController?.pushViewController(vc, animated: true)
     }
     
 }

@@ -430,7 +430,7 @@ extension YPJOtherTool {
     
     //MARK: - 获取当前版本号
     ///获取当前版本号
-    var currentVersion: String? {
+    var getCurrentVersion: String? {
         
         guard let infoDic = Bundle.main.infoDictionary else { return nil }
         let currentVersion = infoDic["CFBundleShortVersionString"] as? String

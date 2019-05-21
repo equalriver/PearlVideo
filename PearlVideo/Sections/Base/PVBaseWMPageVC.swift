@@ -22,8 +22,8 @@ class PVBaseWMPageVC: WMPageController {
     //MARK: - life cycle
     override func viewDidLoad() {
         super.viewDidLoad()
-        view.backgroundColor = kColor_deepBackground
         
+        view.backgroundColor = kColor_deepBackground
         view.addSubview(naviBar)
         naviBar.delegate = self
         //在naviBar中设置由于naviBar未布局完成，导致button不可用

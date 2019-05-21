@@ -47,7 +47,7 @@ class PVMeNameValidateVC: PVBaseNavigationVC {
         b.setTitleColor(UIColor.white, for: .normal)
         b.setTitle("开始认证", for: .normal)
         b.titleLabel?.font = kFont_text
-        b.setBackgroundImage(UIImage.init(named: "gradient_bg"), for: .normal)
+        b.backgroundColor = UIColor.gray
         b.layer.cornerRadius = 20 * KScreenRatio_6
         b.layer.masksToBounds = true
         b.isEnabled = false
@@ -100,7 +100,7 @@ class PVMePasswordChangeVC: PVBaseNavigationVC {
         let tf = PVBottomLineTextField()
         tf.font = kFont_text
         tf.placeholder = "请输入手机号码"
-        tf.textColor = kColor_text
+        tf.textColor = UIColor.white
         tf.clearButtonMode = .whileEditing
         tf.keyboardType = .numbersAndPunctuation
         
@@ -110,7 +110,7 @@ class PVMePasswordChangeVC: PVBaseNavigationVC {
         let tf = PVBottomLineTextField()
         tf.font = kFont_text
         tf.placeholder = "请输入验证码"
-        tf.textColor = kColor_text
+        tf.textColor = UIColor.white
         tf.clearButtonMode = .whileEditing
         tf.keyboardType = .numbersAndPunctuation
         if #available(iOS 12.0, *) {
@@ -121,20 +121,20 @@ class PVMePasswordChangeVC: PVBaseNavigationVC {
     lazy var getAuthCodeBtn: UIButton = {
         let b = UIButton()
         b.titleLabel?.font = kFont_text
-        b.setTitle("获取验证码", for: .normal)
+        b.backgroundColor = kColor_pink
+        b.setTitle("发送验证码", for: .normal)
         b.setTitleColor(UIColor.white, for: .normal)
-        b.setBackgroundImage(UIImage.init(named: "gradient_bg"), for: .normal)
+        b.layer.cornerRadius = 15 * KScreenRatio_6
         b.addTarget(self, action: #selector(didClickGetAuthCode(sender:)), for: .touchUpInside)
         return b
     }()
     lazy var nextBtn: UIButton = {
         let b = UIButton()
-        b.setBackgroundImage(UIImage.init(named: "gradient_bg"), for: .normal)
+        b.backgroundColor = UIColor.gray
         b.titleLabel?.font = kFont_text
         b.setTitle("下一步", for: .normal)
         b.setTitleColor(UIColor.white, for: .normal)
         b.layer.cornerRadius = 20 * KScreenRatio_6
-        b.layer.masksToBounds = true
         b.addTarget(self, action: #selector(nextAction), for: .touchUpInside)
         b.isEnabled = false
         return b
@@ -150,7 +150,7 @@ class PVMePasswordChangeVC: PVBaseNavigationVC {
     override func viewDidLoad() {
         super.viewDidLoad()
         initUI()
-        
+        title = "修改密码"
     }
     
     deinit {
@@ -164,9 +164,9 @@ class PVMePasswordChangeVC: PVBaseNavigationVC {
         view.addSubview(getAuthCodeBtn)
         view.addSubview(nextBtn)
         phoneTF.snp.makeConstraints { (make) in
-            make.left.equalToSuperview().offset(20 * KScreenRatio_6)
+            make.centerX.equalToSuperview()
             make.top.equalTo(naviBar.snp.bottom).offset(40 * KScreenRatio_6)
-            make.size.equalTo(CGSize.init(width: 300 * KScreenRatio_6, height: 30 * KScreenRatio_6))
+            make.size.equalTo(CGSize.init(width: 330 * KScreenRatio_6, height: 30 * KScreenRatio_6))
         }
         authCodeTF.snp.makeConstraints { (make) in
             make.left.height.equalTo(phoneTF)
@@ -302,7 +302,7 @@ class PVMeVersionVC: PVBaseNavigationVC {
         let l = UILabel()
         l.textAlignment = .center
         l.backgroundColor = kColor_background
-        let s = "珍视v" + (YPJOtherTool.ypj.currentVersion ?? "")
+        let s = "珍视v" + (YPJOtherTool.ypj.getCurrentVersion ?? "")
         let att = NSMutableAttributedString.init(string: s)
         att.addAttributes([.font: UIFont.systemFont(ofSize: 25 * KScreenRatio_6, weight: .semibold),
                            .foregroundColor: kColor_text!], range: NSMakeRange(0, 2))

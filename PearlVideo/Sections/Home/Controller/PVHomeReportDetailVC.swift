@@ -10,6 +10,16 @@ import UIKit
 
 class PVHomeReportDetailVC: PVBaseNavigationVC {
     
+    public var videoId = ""
+    
+    public var type = "" {
+        didSet{
+            let att = NSMutableAttributedString.init(string: "举报理由  " + type)
+            att.addAttributes([.font: kFont_text, .foregroundColor: kColor_text!], range: NSMakeRange(0, 6))
+            att.addAttributes([.font: kFont_text, .foregroundColor: UIColor.white], range: NSMakeRange(6, type.count))
+            reasonLabel.attributedText = att
+        }
+    }
     
     let addImg = UIImage.init(named: "setting_add")!
     var imgs: [UIImage]!
@@ -74,8 +84,7 @@ class PVHomeReportDetailVC: PVBaseNavigationVC {
         b.titleLabel?.font = kFont_text
         b.setTitle("提交", for: .normal)
         b.setTitleColor(UIColor.white, for: .normal)
-        b.setBackgroundImage(UIImage.init(color: kColor_subText!), for: .disabled)
-        b.setBackgroundImage(UIImage.init(named: "gradient_bg"), for: .normal)
+        b.backgroundColor = UIColor.gray
         b.isEnabled = false
         b.addTarget(self, action: #selector(commitAction(sender:)), for: .touchUpInside)
         return b

@@ -36,13 +36,13 @@ class PVAttentionDetailNaviBar: UIView {
     }()
     lazy var shareBtn: UIButton = {
         let b = UIButton()
-        b.setImage(UIImage.init(named: "attention_转发"), for: .normal)
+        b.setImage(UIImage.init(named: "video_share"), for: .normal)
         b.addTarget(self, action: #selector(share(sender:)), for: .touchUpInside)
         return b
     }()
     lazy var reportBtn: UIButton = {
         let b = UIButton()
-        b.setImage(UIImage.init(named: "attention_举报"), for: .normal)
+        b.setImage(UIImage.init(named: "video_举报"), for: .normal)
         b.addTarget(self, action: #selector(report(sender:)), for: .touchUpInside)
         return b
     }()
@@ -109,6 +109,7 @@ protocol PVAttentionDetailMainViewDelegate: NSObjectProtocol {
     ///点击头像
     func didClickHeader()
 }
+
 class PVAttentionDetailMainView: UIScrollView {
     
     weak public var pv_delegate: PVAttentionDetailMainViewDelegate?
@@ -276,7 +277,7 @@ class PVAttentionDetailCommentCell: PVBaseTableCell {
         let b = TitleFrontButton()
         b.titleLabel?.font = kFont_text_4
         b.setTitleColor(kColor_subText, for: .normal)
-        b.setImage(UIImage.init(named: "attention_more"), for: .normal)
+        b.setImage(UIImage.init(named: "video_more"), for: .normal)
         b.addTarget(self, action: #selector(moreAction(sender:)), for: .touchUpInside)
         return b
     }()
@@ -369,10 +370,10 @@ class PVAttentionDetailCommentInputView: UIView {
     lazy var inputTV: YYTextView = {
         let tv = YYTextView()
         tv.font = kFont_text
-        tv.textColor = kColor_text
+        tv.textColor = UIColor.white
         tv.placeholderFont = kFont_text
         tv.placeholderText = "输入您的评论"
-        tv.placeholderTextColor = kColor_subText
+        tv.placeholderTextColor = kColor_text
         tv.backgroundColor = kColor_background
         tv.addDoneOnKeyboardWithTarget(self, action: #selector(keyboardDoneAction(sender:)), titleText: "发送")
         return tv

@@ -22,12 +22,33 @@ extension PVHomePlayVC: UICollectionViewDelegate, UICollectionViewDataSource {
         cell.vodPlayer.stop()
         guard dataArr.count > indexPath.item else { return cell }
         cell.vodPlayer.prepare(withVid: dataArr[indexPath.item].videoId, accessKeyId: accessKeyId, accessKeySecret: accessKeySecret, securityToken: securityToken)
-//        cell.data = dataArr[indexPath.item]
+        cell.data = dataArr[indexPath.item]
+        if currentPlayContainer == nil && indexPath.item == 0 {
+            currentPlayContainer = cell
+        }
         return cell
     }
     
     func collectionView(_ collectionView: UICollectionView, willDisplay cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
-        print("willDisplay: ", indexPath.item)
+        print("willDisplay index: ", indexPath.item)
+        if indexPath.item != 0 {
+            let c = cell as? PVHomePlayCell
+            c?.vodPlayer.pause()
+        }
+        else {//第二个滑到第一个item时
+            if let currentIndexPath = collectionView.indexPathForItem(at: collectionView.contentOffset) {
+                if currentIndexPath.item == 0 {
+                    let c = cell as? PVHomePlayCell
+                    c?.vodPlayer.pause()
+                }
+            }
+        }
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, didEndDisplaying cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
+        let c = cell as? PVHomePlayCell
+        c?.vodPlayer.stop()
+        print("didEndDisplaying index: ", indexPath.item)
         currentPlayContainer = collectionView.cellForItem(at: indexPath) as? PVHomePlayCell
     }
     
@@ -40,7 +61,41 @@ extension PVHomePlayVC: UICollectionViewDelegate, UICollectionViewDataSource {
             else {
                 cell.vodPlayer.resume()
             }
-            cell.coverImageView.isHidden = !cell.isPaused
+//            cell.coverImageView.isHidden = !cell.isPaused
+        }
+    }
+    
+    func scrollViewWillBeginDragging(_ scrollView: UIScrollView) {
+        if let indexPath = collectionView.indexPathForItem(at: scrollView.contentOffset) {
+            print("WillBeginDragging index: ", indexPath.item)
+            currentPlayContainer = collectionView.cellForItem(at: indexPath) as? PVHomePlayCell
+            currentPlayContainer?.vodPlayer.pause()
+        }
+    }
+    
+    func scrollViewDidEndDecelerating(_ scrollView: UIScrollView) {
+        if let indexPath = collectionView.indexPathForItem(at: scrollView.contentOffset) {
+            print("DidEndDecelerating index: ", indexPath.item)
+            currentIndex = indexPath.item
+            currentPlayContainer = collectionView.cellForItem(at: indexPath) as? PVHomePlayCell
+            guard currentPlayContainer != nil else { return }
+            let state = currentPlayContainer!.vodPlayer.playerState()
+            switch state {
+            case .prepared:
+                currentPlayContainer?.vodPlayer.start()
+                break
+                
+            case .stop:
+                currentPlayContainer?.vodPlayer.replay()
+                break
+                
+            case .pause:
+                currentPlayContainer?.vodPlayer.resume()
+                break
+                
+            default: break
+            }
+            
         }
     }
     
@@ -49,33 +104,93 @@ extension PVHomePlayVC: UICollectionViewDelegate, UICollectionViewDataSource {
 //MARK: - user interface delegate
 extension PVHomePlayVC: PVHomePlayDelegate {
     //点击头像
-    func didSelectedAvatar(cell: UICollectionViewCell) {
+    func didSelectedAvatar(cell: PVHomePlayCell) {
         
     }
     
     //关注
-    func didSelectedAttention(cell: UICollectionViewCell) {
-        
+    func didSelectedAttention(sender: UIButton, cell: PVHomePlayCell) {
+        sender.isSelected = !sender.isSelected
+        if let indexPath = collectionView.indexPath(for: cell) {
+            guard dataArr.count > indexPath.item else { return }
+            dataArr[indexPath.item].IsFollowed = sender.isSelected
+            let args: [String: Any] = ["indexPath": indexPath, "sender": sender]
+            NSObject.cancelPreviousPerformRequests(withTarget: self, selector: #selector(videoAttention(args:)), object: args)
+            self.perform(#selector(videoAttention(args:)), with: args, afterDelay: 2)
+        }
+    }
+    
+    @objc func videoAttention(args: [String: Any]) {
+        guard let indexPath = args["indexPath"] as? IndexPath else { return }
+        guard let sender = args["sender"] as? UIButton else { return }
+        PVNetworkTool.Request(router: .videoAttention(id: dataArr[indexPath.item].userId, action: sender.isSelected ? 1 : 2), success: { (resp) in
+            print("关注：", self.dataArr[indexPath.item].userId)
+        }) { (e) in
+            
+        }
     }
     
     //点赞
-    func didSelectedLike(cell: UICollectionViewCell) {
-        
+    func didSelectedLike(sender: UIButton, cell: PVHomePlayCell) {
+        sender.isSelected = !sender.isSelected
+        if let indexPath = collectionView.indexPath(for: cell) {
+            guard dataArr.count > indexPath.item else { return }
+            dataArr[indexPath.item].IsThumbuped = sender.isSelected
+            let args: [String: Any] = ["indexPath": indexPath, "sender": sender]
+            NSObject.cancelPreviousPerformRequests(withTarget: self, selector: #selector(videoAttention(args:)), object: args)
+            self.perform(#selector(videoLike(args:)), with: args, afterDelay: 2)
+        }
+    }
+    
+    @objc func videoLike(args: [String: Any]) {
+        guard let indexPath = args["indexPath"] as? IndexPath else { return }
+        guard let sender = args["sender"] as? UIButton else { return }
+        PVNetworkTool.Request(router: .videoAttention(id: dataArr[indexPath.item].videoId, action: sender.isSelected ? 1 : 2), success: { (resp) in
+            print("点赞：", self.dataArr[indexPath.item].userId)
+        }) { (e) in
+            
+        }
     }
     
     //评论
-    func didSelectedComment(cell: UICollectionViewCell) {
-        
+    func didSelectedComment(cell: PVHomePlayCell) {
+        guard let indexPath = collectionView.indexPath(for: cell) else { return }
+        guard dataArr.count > indexPath.item else { return }
+        let v = PVVideoCommentView.init(videoId: dataArr[indexPath.item].videoId, delegate: self)
+        view.addSubview(v)
     }
     
     //分享
-    func didSelectedShare(cell: UICollectionViewCell) {
+    func didSelectedShare(cell: PVHomePlayCell) {
         
     }
     
     //举报
-    func didSelectedReport(cell: UICollectionViewCell) {
+    func didSelectedReport(cell: PVHomePlayCell) {
+        guard let indexPath = collectionView.indexPath(for: cell) else { return }
+        guard dataArr.count > indexPath.item else { return }
+        let vc = PVHomeReportVC()
+        vc.videoId = dataArr[indexPath.item].videoId
+        navigationController?.pushViewController(vc, animated: true)
+    }
+    
+}
+
+//MARK: - comment delegate
+extension PVHomePlayVC: PVVideoCommentDelegate {
+    
+    //点击用户头像
+    func didSelectedUser(id: String) {
         
+    }
+    //评论点赞
+    func didSelectedLike(videoId: String, commentId: Int, action: Int) {
+        PVNetworkTool.Request(router: .videoCommentLike(videoId: videoId, commentId: commentId, action: action), success: { (resp) in
+            
+            
+        }) { (e) in
+            
+        }
     }
     
 }
@@ -84,12 +199,20 @@ extension PVHomePlayVC: PVHomePlayDelegate {
 extension PVHomePlayVC: AliyunVodPlayerDelegate {
     //播放事件回调
     func vodPlayer(_ vodPlayer: AliyunVodPlayer!, onEventCallback event: AliyunVodPlayerEvent) {
-        
+        switch event {
+        case .prepareDone:
+            currentPlayContainer?.vodPlayer.start()
+            break
+            
+            
+        default:
+            break
+        }
     }
     
     //播放出错
     func vodPlayer(_ vodPlayer: AliyunVodPlayer!, playBack errorModel: AliyunPlayerVideoErrorModel!) {
-        print(errorModel)
+        print(errorModel!.errorMsg!)
     }
     
     //鉴权数据过期

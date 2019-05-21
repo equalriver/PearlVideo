@@ -29,7 +29,7 @@ class PVPearlSendBillVC: PVBaseNavigationVC {
         b.titleLabel?.font = kFont_text
         b.setTitle("发布", for: .normal)
         b.setTitleColor(UIColor.white, for: .normal)
-        b.setBackgroundImage(UIImage.init(named: "gradient_bg"), for: .normal)
+        
         b.addTarget(self, action: #selector(didSelectedRelease(sender:)), for: .touchUpInside)
         b.layer.cornerRadius = 20 * KScreenRatio_6
         b.isEnabled = false

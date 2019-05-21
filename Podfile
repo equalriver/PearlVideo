@@ -27,7 +27,7 @@ pod 'FSPagerView'
 pod 'AliyunPlayer_iOS/AliyunVodPlayerSDK'
 pod 'AliyunVideoSDKBasic'
 pod 'QuCore-ThirdParty'
-pod 'VODUpload'
+#pod 'VODUpload'
 pod 'AliyunOSSiOS'
 pod 'AlivcConan'
 

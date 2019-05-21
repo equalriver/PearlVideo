@@ -52,11 +52,11 @@ extension PVHomeMyTeamVC {
     }
     
     override func pageController(_ pageController: WMPageController, preferredFrameFor menuView: WMMenuView) -> CGRect {
-        return CGRect.init(x: 0, y: 220 * KScreenRatio_6 + kNavigationBarAndStatusHeight, width: kScreenWidth, height: 50 * KScreenRatio_6)
+        return CGRect.init(x: 0, y: 150 * KScreenRatio_6 + kNavigationBarAndStatusHeight, width: kScreenWidth, height: 50 * KScreenRatio_6)
     }
     
     override func pageController(_ pageController: WMPageController, preferredFrameForContentView contentView: WMScrollView) -> CGRect {
-        let y = 270 * KScreenRatio_6 + kNavigationBarAndStatusHeight
+        let y = 200 * KScreenRatio_6 + kNavigationBarAndStatusHeight
         return CGRect.init(x: 0, y: y, width: kScreenWidth, height: kScreenHeight - y)
     }
     
@@ -82,7 +82,10 @@ extension PVHomeMyTeamAllVC {
             self.tableView.mj_footer.endRefreshing()
             if let d = Mapper<PVHomeTeamList>().mapArray(JSONObject: resp["result"]["userTeamList"].arrayObject) {
                 if page == 0 { self.dataArr = d }
-                else { self.dataArr += d }
+                else {
+                    self.dataArr += d
+                    if d.count == 0 { self.page -= 1 }
+                }
                 self.tableView.reloadData()
             }
             
@@ -135,7 +138,10 @@ extension PVHomeMyTeamAuthVC {
             self.tableView.mj_footer.endRefreshing()
             if let d = Mapper<PVHomeTeamList>().mapArray(JSONObject: resp["result"]["realNameAuthenticationList"].arrayObject) {
                 if page == 0 { self.dataArr = d }
-                else { self.dataArr += d }
+                else {
+                    self.dataArr += d
+                    if d.count == 0 { self.page -= 1 }
+                }
                 self.tableView.reloadData()
             }
             
@@ -189,7 +195,10 @@ extension PVHomeMyTeamNotAuthVC {
             self.tableView.mj_footer.endRefreshing()
             if let d = Mapper<PVHomeTeamList>().mapArray(JSONObject: resp["result"]["NotRealNameAuthentication"].arrayObject) {
                 if page == 0 { self.dataArr = d }
-                else { self.dataArr += d }
+                else {
+                    self.dataArr += d
+                    if d.count == 0 { self.page -= 1 }
+                }
                 self.tableView.reloadData()
             }
             

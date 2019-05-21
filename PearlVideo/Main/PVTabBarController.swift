@@ -68,7 +68,7 @@ class PVTabBarController: UITabBarController {
     }()
 
     private lazy var hotVC: PVBaseRootNaviVC = {
-        let vc = PVBaseRootNaviVC.init(rootViewController: PVAttentionVC())
+        let vc = PVBaseRootNaviVC.init(rootViewController: UIViewController())
         return vc
     }()
 

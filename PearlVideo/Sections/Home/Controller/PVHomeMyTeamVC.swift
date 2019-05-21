@@ -22,7 +22,7 @@ class PVHomeMyTeamVC: PVBaseWMPageVC {
         return b
     }()
     lazy var headerView: PVHomeMyTeamHeaderView = {
-        let v = PVHomeMyTeamHeaderView.init(frame: CGRect.init(x: 0, y: kNavigationBarAndStatusHeight, width: kScreenWidth, height: 220 * KScreenRatio_6))
+        let v = PVHomeMyTeamHeaderView.init(frame: CGRect.init(x: 0, y: kNavigationBarAndStatusHeight, width: kScreenWidth, height: 150 * KScreenRatio_6))
         v.backgroundColor = kColor_deepBackground
         return v
     }()
@@ -34,12 +34,15 @@ class PVHomeMyTeamVC: PVBaseWMPageVC {
         titleColorNormal = kColor_text!
         titleColorSelected = UIColor.white
         progressWidth = 30 * KScreenRatio_6
+        progressColor = UIColor.white
+        menuViewStyle = .line
+        menuItemWidth = kScreenWidth / 3
         
         super.viewDidLoad()
         title = "我的团队"
         naviBar.rightBarButtons = [inviteBtn]
         view.backgroundColor = kColor_deepBackground
-        menuView?.backgroundColor = kColor_background
+        menuView?.backgroundColor = kColor_deepBackground
         scrollView?.backgroundColor = kColor_deepBackground
         view.addSubview(headerView)
         loadData()

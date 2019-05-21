@@ -44,7 +44,7 @@ class PVPearlHeaderView: UIView {
         let b = ImageTopButton()
         b.setTitle("珍珠明细", for: .normal)
         b.titleLabel?.font = kFont_text_3
-        b.setTitleColor(UIColor.init(patternImage: UIImage.init(named: "gradient_bg")!), for: .normal)
+        
         b.setImage(UIImage.init(named: "pearl_detail_珍珠"), for: .normal)
         b.addTarget(self, action: #selector(pearlDetail), for: .touchUpInside)
         return b
@@ -53,7 +53,7 @@ class PVPearlHeaderView: UIView {
         let b = ImageTopButton()
         b.setTitle("水草明细", for: .normal)
         b.titleLabel?.font = kFont_text_3
-        b.setTitleColor(UIColor.init(patternImage: UIImage.init(named: "gradient_bg")!), for: .normal)
+        
         b.setImage(UIImage.init(named: "pearl_detail_水草"), for: .normal)
         b.addTarget(self, action: #selector(plantDetail), for: .touchUpInside)
         return b
@@ -62,7 +62,7 @@ class PVPearlHeaderView: UIView {
         let b = ImageTopButton()
         b.setTitle("用户等级", for: .normal)
         b.titleLabel?.font = kFont_text_3
-        b.setTitleColor(UIColor.init(patternImage: UIImage.init(named: "gradient_bg")!), for: .normal)
+        
         b.setImage(UIImage.init(named: "pearl_level_用户"), for: .normal)
         b.addTarget(self, action: #selector(userLevel), for: .touchUpInside)
         return b
@@ -70,7 +70,7 @@ class PVPearlHeaderView: UIView {
     lazy var shellLevelBtn: ImageTopButton = {
         let b = ImageTopButton()
         b.titleLabel?.font = kFont_text_3
-        b.setTitleColor(UIColor.init(patternImage: UIImage.init(named: "gradient_bg")!), for: .normal)
+        
         b.setImage(UIImage.init(named: "pearl_level_贝壳"), for: .normal)
         b.addTarget(self, action: #selector(shellLevel), for: .touchUpInside)
         return b

@@ -72,7 +72,10 @@ extension PVHomeActivenessVC {
             self.tableView.mj_footer.endRefreshing()
             if let d = Mapper<PVHomeActivenessModel>().map(JSONObject: resp["result"].object) {
                 if page == 0 { self.data = d }
-                else { self.data.livenessDetailList += d.livenessDetailList }
+                else {
+                    self.data.livenessDetailList += d.livenessDetailList
+                    if d.livenessDetailList.count == 0 { self.page -= 1 }
+                }
                 self.tableView.reloadData()
             }
             
@@ -124,7 +127,10 @@ extension PVHomeFruitVC {
             self.tableView.mj_footer.endRefreshing()
             if let d = Mapper<PVHomeFruitModel>().map(JSONObject: resp["result"].object) {
                 if page == 0 { self.data = d }
-                else { self.data.pearlDetail += d.pearlDetail }
+                else {
+                    self.data.pearlDetail += d.pearlDetail
+                    if d.pearlDetail.count == 0 { self.page -= 1 }
+                }
                 self.tableView.reloadData()
             }
             
@@ -198,7 +204,10 @@ extension PVHomeSchoolVideoVC {
             self.tableView.mj_footer.endRefreshing()
             if let d = Mapper<PVHomeSchoolVideoList>().mapArray(JSONObject: resp["result"]["courseList"].arrayObject) {
                 if page == 0 { self.dataArr = d }
-                else { self.dataArr += d }
+                else {
+                    self.dataArr += d
+                    if d.count == 0 { self.page -= 1 }
+                }
                 self.tableView.reloadData()
             }
             
@@ -250,7 +259,10 @@ extension PVHomeSchoolGuideVC {
             self.tableView.mj_footer.endRefreshing()
             if let d = Mapper<PVHomeSchoolGuideList>().mapArray(JSONObject: resp["result"]["commercialList"].arrayObject) {
                 if page == 0 { self.dataArr = d }
-                else { self.dataArr += d }
+                else {
+                    self.dataArr += d
+                    if d.count == 0 { self.page -= 1 }
+                }
                 self.tableView.reloadData()
             }
             

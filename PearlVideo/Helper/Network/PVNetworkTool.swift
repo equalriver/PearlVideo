@@ -144,9 +144,10 @@ class PVNetworkTool: SessionManager {
     }
     
     //上传图片
-    public class func upLoadImageRequest(images: [UIImage], imageName: String, params: [String : String], router: Router, success : @escaping responseCallback, failure : @escaping errorCallback) {
+    public class func upLoadImageRequest(images: [UIImage], imagesName: String, params: [String : String], router: Router, success : @escaping responseCallback, failure : @escaping errorCallback) {
         
         PVNetworkTool.shared.upload(multipartFormData: { (multipartFormData) in
+        
             for (index, img) in images.enumerated() {
                 if let imgData = img.ypj.compressImage(maxLength: 2048 * 1024){//2M
                     let formatter = DateFormatter()
@@ -155,9 +156,10 @@ class PVNetworkTool: SessionManager {
                     let fileName = str + "logo" + "\(index)" + ".jpg"
                     // 以文件流格式上传
                     // 批量上传与单张上传，后台语言为java或.net等
-                    multipartFormData.append(imgData, withName: imageName, fileName: fileName, mimeType: "image/jpeg")
-                    guard let d = fileName.data(using: String.Encoding.utf8) else { break }
-                    multipartFormData.append(d, withName: "logoName")
+                    multipartFormData.append(imgData, withName: imagesName, fileName: fileName, mimeType: "image/jpeg")
+//                    guard let d = fileName.data(using: String.Encoding.utf8) else { break }
+//                    multipartFormData.append(d, withName: "logoName")
+                    
                     //                    // 单张上传，后台语言为PHP
                     //                    multipartFormData.append(imageData!, withName: "fileupload", fileName: fileName, mimeType: "image/jpeg")
                     //                    // 批量上传，后台语言为PHP。 注意：此处服务器需要知道，前台传入的是一个图片数组
