@@ -8,16 +8,47 @@
 
 import AliyunVodPlayerSDK
 
+protocol PVHomePlayDelegate: NSObjectProtocol {
+    ///点击头像
+    func didSelectedAvatar(data: PVVideoPlayModel)
+    ///关注
+    func didSelectedAttention(sender: UIButton, data: PVVideoPlayModel)
+    ///喜欢
+    func didSelectedLike(sender: UIButton, data: PVVideoPlayModel)
+    ///评论
+    func didSelectedComment(data: PVVideoPlayModel)
+    ///分享
+    func didSelectedShare(data: PVVideoPlayModel)
+    ///举报
+    func didSelectedReport(data: PVVideoPlayModel)
+}
+
 class PVHomePlayContainerView: UIView {
-    /*
-    ///user info view delegate
-    weak public var userInfoDelegate: PVHomeVideoInfoDelegate?
+    
+    weak public var delegate: PVHomePlayDelegate?
     
     ///在本容器内的播放器的实例对象
-    public private(set) var vodPlayer: AliyunVodPlayer!
+    public var vodPlayer: AliyunVodPlayer!
     
-    ///在本容器内的播放器的资源
-    public private(set) var videoModel: AlivcQuVideoModel?
+    public var data: PVVideoPlayModel! {
+        didSet{
+            if data == nil {
+                coverImageView.image = nil
+                attentionBtn.isHidden = true
+                vodPlayer?.reset()
+                return
+            }
+            attentionBtn.isHidden = false
+            attentionBtn.isSelected = data.IsFollowed
+            coverImageView.kf.setImage(with: URL.init(string: data.coverUrl))
+            avatarBtn.kf.setImage(with: URL.init(string: data.avatarUrl), for: .normal)
+            nameLabel.text = data.nickname
+            detailLabel.text = data.title
+            likeBtn.isSelected = data.IsFollowed
+            likeBtn.setTitle("\(data.thumbCount)", for: .normal)
+            commentBtn.setTitle("\(data.commentCount)", for: .normal)
+        }
+    }
     
     ///容器的封面图片
     public private(set) lazy var coverImageView: UIImageView = {
@@ -35,28 +66,167 @@ class PVHomePlayContainerView: UIView {
     public var isHavePrepared = false
     
     //左下角用户信息视图
-//    private lazy var userInfoView: PVHomeVideoInfoView = {
-//        let v = PVHomeVideoInfoView.init(frame: .zero)
-//        v.backgroundColor = UIColor.clear
-//        v.delegate = userInfoDelegate
-//        return v
-//    }()
-    
+    lazy var avatarBtn: UIButton = {
+        let b = UIButton()
+        b.layer.cornerRadius = 22.5 * KScreenRatio_6
+        b.layer.masksToBounds = true
+        b.contentMode = .scaleAspectFill
+        b.addTarget(self, action: #selector(avatarAction(sender:)), for: .touchUpInside)
+        return b
+    }()
+    lazy var nameLabel: UILabel = {
+        let l = UILabel()
+        l.font = kFont_text
+        l.textColor = UIColor.white
+        return l
+    }()
+    lazy var attentionBtn: UIButton = {
+        let b = UIButton()
+        b.setImage(UIImage.init(named: "video_关注"), for: .normal)
+        b.setImage(UIImage.init(named: "video_已关注"), for: .selected)
+        b.addTarget(self, action: #selector(attentionAction(sender:)), for: .touchUpInside)
+        return b
+    }()
+    lazy var detailLabel: UILabel = {
+        let l = UILabel()
+        l.font = kFont_text
+        l.textColor = UIColor.white
+        l.numberOfLines = 2
+        return l
+    }()
+    lazy var likeBtn: ImageTopButton = {
+        let b = ImageTopButton()
+        b.setImage(UIImage.init(named: "video_点赞"), for: .normal)
+        b.setImage(UIImage.init(named: "video_点赞后"), for: .selected)
+        b.titleLabel?.font = kFont_text_2
+        b.setTitleColor(UIColor.white, for: .normal)
+        b.addTarget(self, action: #selector(likeAction(sender:)), for: .touchUpInside)
+        return b
+    }()
+    lazy var commentBtn: ImageTopButton = {
+        let b = ImageTopButton()
+        b.setImage(UIImage.init(named: "video_聊天"), for: .normal)
+        b.titleLabel?.font = kFont_text_2
+        b.setTitleColor(UIColor.white, for: .normal)
+        b.addTarget(self, action: #selector(commentAction(sender:)), for: .touchUpInside)
+        return b
+    }()
+    lazy var shareBtn: ImageTopButton = {
+        let b = ImageTopButton()
+        b.setImage(UIImage.init(named: "video_share"), for: .normal)
+        b.titleLabel?.font = kFont_text_2
+        b.setTitleColor(UIColor.white, for: .normal)
+        b.addTarget(self, action: #selector(shareAction(sender:)), for: .touchUpInside)
+        return b
+    }()
+    lazy var reportBtn: ImageTopButton = {
+        let b = ImageTopButton()
+        b.setImage(UIImage.init(named: "video_举报"), for: .normal)
+        b.titleLabel?.font = kFont_text_2
+        b.setTitleColor(UIColor.white, for: .normal)
+        b.addTarget(self, action: #selector(reportAction(sender:)), for: .touchUpInside)
+        return b
+    }()
+  
     
     //MARK: - public action
     public required convenience init(vodPlayer: AliyunVodPlayer) {
         self.init()
         self.vodPlayer = vodPlayer
-        addSubview(userInfoView)
+        initUI()
+
+    }
+    
+    override func layoutSubviews() {
+        super.layoutSubviews()
+        if nameLabel.width > 0 {
+            attentionBtn.snp.remakeConstraints { (make) in
+                make.left.equalTo(nameLabel.snp.right).offset(15 * KScreenRatio_6)
+                make.centerY.equalTo(nameLabel)
+            }
+        }
+    }
+    
+    func initUI() {
+        vodPlayer.playerView.frame = UIScreen.main.bounds
+        addSubview(vodPlayer.playerView)
         addSubview(coverImageView)
+        addSubview(avatarBtn)
+        addSubview(nameLabel)
+        addSubview(attentionBtn)
+        addSubview(detailLabel)
+        addSubview(likeBtn)
+        addSubview(commentBtn)
+        addSubview(shareBtn)
+        addSubview(reportBtn)
         coverImageView.snp.makeConstraints { (make) in
             make.centerX.centerY.size.equalToSuperview()
         }
-        userInfoView.snp.makeConstraints { (make) in
-            make.left.bottom.equalToSuperview()
-            make.height.equalTo(120 * KScreenRatio_6)
-            make.width.equalTo(kScreenWidth * 0.6)
+        avatarBtn.snp.makeConstraints { (make) in
+            make.top.equalToSuperview().offset(500 * KScreenRatio_6)
+            make.size.equalTo(CGSize.init(width: 45 * KScreenRatio_6, height: 45 * KScreenRatio_6))
+            make.left.equalToSuperview().offset(10)
         }
+        nameLabel.snp.makeConstraints { (make) in
+            make.centerY.equalTo(avatarBtn)
+            make.left.equalTo(avatarBtn.snp.right).offset(10)
+        }
+        detailLabel.snp.makeConstraints { (make) in
+            make.left.equalTo(avatarBtn)
+            make.right.equalToSuperview().offset(-120 * KScreenRatio_6)
+            make.top.equalTo(avatarBtn.snp.bottom).offset(15 * KScreenRatio_6)
+        }
+        likeBtn.snp.makeConstraints { (make) in
+            make.right.equalToSuperview().offset(-10)
+            make.top.equalToSuperview().offset(330 * KScreenRatio_6)
+        }
+        commentBtn.snp.makeConstraints { (make) in
+            make.centerX.equalTo(likeBtn)
+            make.top.equalTo(likeBtn.snp.bottom).offset(30 * KScreenRatio_6)
+        }
+        shareBtn.snp.makeConstraints { (make) in
+            make.centerX.equalTo(likeBtn)
+            make.top.equalTo(commentBtn.snp.bottom).offset(30 * KScreenRatio_6)
+        }
+        reportBtn.snp.makeConstraints { (make) in
+            make.centerX.equalTo(likeBtn)
+            make.top.equalTo(shareBtn.snp.bottom).offset(20 * KScreenRatio_6)
+        }
+        coverImageView.snp.makeConstraints { (make) in
+            make.size.equalToSuperview()
+            make.center.equalToSuperview()
+        }
+       
+    }
+    
+    //点击头像
+    @objc func avatarAction(sender: UIButton) {
+        if data != nil { delegate?.didSelectedAvatar(data: data) }
+    }
+    
+    //关注
+    @objc func attentionAction(sender: UIButton) {
+        if data != nil { delegate?.didSelectedAttention(sender: sender, data: data) }
+    }
+    
+    //喜欢
+    @objc func likeAction(sender: UIButton) {
+        if data != nil { delegate?.didSelectedLike(sender: sender, data: data) }
+    }
+    
+    //评论
+    @objc func commentAction(sender: UIButton) {
+        if data != nil { delegate?.didSelectedComment(data: data) }
+    }
+    
+    //分享
+    @objc func shareAction(sender: UIButton) {
+        if data != nil { delegate?.didSelectedShare(data: data) }
+    }
+    
+    //举报
+    @objc func reportAction(sender: UIButton) {
+        if data != nil { delegate?.didSelectedReport(data: data) }
     }
     
     ///切换视频资源播放的时候，清空之前的封面图的图片
@@ -67,8 +237,8 @@ class PVHomePlayContainerView: UIView {
     ///清空一切信息
     public func clearData() {
         clearImage()
-        setVideoModel(model: nil)
-        userInfoView.clearData()
+        
+        
     }
     
     ///设置封面图片
@@ -94,55 +264,7 @@ class PVHomePlayContainerView: UIView {
         coverImageView.isHidden = false
     }
     
-    ///设置播放的数据源
-    public func setVideoModel(model: AlivcQuVideoModel?) {
-        videoModel = model
-        if model == nil {
-            clearImage()
-            vodPlayer.reset()
-            return
-        }
-        if model?.firstFrameImage != nil {
-            setCoverImage(coverImage: model?.firstFrameImage)
-        }
-        else if model?.firstFrameUrl != nil {
-            guard let url = URL.init(string: model!.firstFrameUrl!) else { return }
-            DispatchQueue.global().async {
-                guard let data = try? Data.init(contentsOf: url) else { return }
-                let img = UIImage.init(data: data)
-                DispatchQueue.main.async {
-                    //异步加载的时候，判断下载的图片是否是当前的模型类，防止弱网环境下的图片错乱
-                    if model == self.videoModel { self.setCoverImage(coverImage: img) }
-                }
-            }
-        }
-        fixUserSize()
-    }
-    
-    
-    //MARK: - private action
-    //根据实际的数据来调整用户信息的一些控件的位置,显示隐藏一些信息
-    private func fixUserSize() {
-        guard videoModel != nil else {
-            userInfoView.isHidden = true
-            return
-        }
-        if videoModel?.belongUserAvatarImage != nil {
-            userInfoView.isHidden = false
-            userInfoView.headerBtn.setImage(videoModel?.belongUserAvatarImage, for: .normal)
-        }
-        else if videoModel?.user.belongUserAvatarUrl != nil {
-            userInfoView.isHidden = false
-            userInfoView.headerBtn.kf.setImage(with: URL.init(string: videoModel!.user.belongUserAvatarUrl!), for: .normal)
-        }
-        else {
-            userInfoView.isHidden = true
-        }
-        userInfoView.nameLabel.text = videoModel?.user.belongUserName
-        userInfoView.detailLabel.text = videoModel?.videoDescription
-        
-    }
- */
+ 
 }
 
 

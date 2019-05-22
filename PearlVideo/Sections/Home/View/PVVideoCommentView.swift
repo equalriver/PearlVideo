@@ -69,7 +69,7 @@ class PVVideoCommentView: UIView {
         setRefresh()
         loadData(page: 0)
         contentView.ypj.viewAnimateComeFromBottom(duration: 0.3) { (isFinish) in
-            if isFinish { self.removeFromSuperview() }
+           
         }
     }
     

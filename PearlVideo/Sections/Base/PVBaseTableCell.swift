@@ -24,8 +24,8 @@ class PVBaseTableCell: UITableViewCell {
     
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
-        backgroundColor = UIColor.white
-        contentView.backgroundColor = UIColor.white
+        backgroundColor = kColor_deepBackground
+        contentView.backgroundColor = kColor_deepBackground
         selectionStyle = .none
         contentView.addSubview(separatorView)
         separatorView.snp.makeConstraints { (make) in

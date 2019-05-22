@@ -8,169 +8,68 @@
 
 import AliyunVodPlayerSDK
 
-//MARK: - uicollection view delegate
-extension PVHomePlayVC: UICollectionViewDelegate, UICollectionViewDataSource {
-    
-    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return dataArr.count
-    }
-    
-    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "PVHomePlayCell", for: indexPath) as! PVHomePlayCell
-        cell.delegate = self
-        cell.vodPlayer.delegate = self
-        cell.vodPlayer.stop()
-        guard dataArr.count > indexPath.item else { return cell }
-        cell.vodPlayer.prepare(withVid: dataArr[indexPath.item].videoId, accessKeyId: accessKeyId, accessKeySecret: accessKeySecret, securityToken: securityToken)
-        cell.data = dataArr[indexPath.item]
-        if currentPlayContainer == nil && indexPath.item == 0 {
-            currentPlayContainer = cell
-        }
-        return cell
-    }
-    
-    func collectionView(_ collectionView: UICollectionView, willDisplay cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
-        print("willDisplay index: ", indexPath.item)
-        if indexPath.item != 0 {
-            let c = cell as? PVHomePlayCell
-            c?.vodPlayer.pause()
-        }
-        else {//第二个滑到第一个item时
-            if let currentIndexPath = collectionView.indexPathForItem(at: collectionView.contentOffset) {
-                if currentIndexPath.item == 0 {
-                    let c = cell as? PVHomePlayCell
-                    c?.vodPlayer.pause()
-                }
-            }
-        }
-    }
-    
-    func collectionView(_ collectionView: UICollectionView, didEndDisplaying cell: UICollectionViewCell, forItemAt indexPath: IndexPath) {
-        let c = cell as? PVHomePlayCell
-        c?.vodPlayer.stop()
-        print("didEndDisplaying index: ", indexPath.item)
-        currentPlayContainer = collectionView.cellForItem(at: indexPath) as? PVHomePlayCell
-    }
-    
-    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        if let cell = collectionView.cellForItem(at: indexPath) as? PVHomePlayCell {
-            cell.isPaused = !cell.isPaused
-            if cell.isPaused {//暂停
-                cell.vodPlayer.pause()
-            }
-            else {
-                cell.vodPlayer.resume()
-            }
-//            cell.coverImageView.isHidden = !cell.isPaused
-        }
-    }
-    
-    func scrollViewWillBeginDragging(_ scrollView: UIScrollView) {
-        if let indexPath = collectionView.indexPathForItem(at: scrollView.contentOffset) {
-            print("WillBeginDragging index: ", indexPath.item)
-            currentPlayContainer = collectionView.cellForItem(at: indexPath) as? PVHomePlayCell
-            currentPlayContainer?.vodPlayer.pause()
-        }
-    }
-    
-    func scrollViewDidEndDecelerating(_ scrollView: UIScrollView) {
-        if let indexPath = collectionView.indexPathForItem(at: scrollView.contentOffset) {
-            print("DidEndDecelerating index: ", indexPath.item)
-            currentIndex = indexPath.item
-            currentPlayContainer = collectionView.cellForItem(at: indexPath) as? PVHomePlayCell
-            guard currentPlayContainer != nil else { return }
-            let state = currentPlayContainer!.vodPlayer.playerState()
-            switch state {
-            case .prepared:
-                currentPlayContainer?.vodPlayer.start()
-                break
-                
-            case .stop:
-                currentPlayContainer?.vodPlayer.replay()
-                break
-                
-            case .pause:
-                currentPlayContainer?.vodPlayer.resume()
-                break
-                
-            default: break
-            }
-            
-        }
-    }
-    
-}
-
 //MARK: - user interface delegate
 extension PVHomePlayVC: PVHomePlayDelegate {
     //点击头像
-    func didSelectedAvatar(cell: PVHomePlayCell) {
+    func didSelectedAvatar(data: PVVideoPlayModel) {
         
     }
     
     //关注
-    func didSelectedAttention(sender: UIButton, cell: PVHomePlayCell) {
+    func didSelectedAttention(sender: UIButton, data: PVVideoPlayModel) {
         sender.isSelected = !sender.isSelected
-        if let indexPath = collectionView.indexPath(for: cell) {
-            guard dataArr.count > indexPath.item else { return }
-            dataArr[indexPath.item].IsFollowed = sender.isSelected
-            let args: [String: Any] = ["indexPath": indexPath, "sender": sender]
-            NSObject.cancelPreviousPerformRequests(withTarget: self, selector: #selector(videoAttention(args:)), object: args)
-            self.perform(#selector(videoAttention(args:)), with: args, afterDelay: 2)
-        }
+        data.IsFollowed = sender.isSelected
+        let args: [String: Any] = ["data": data, "sender": sender]
+        NSObject.cancelPreviousPerformRequests(withTarget: self, selector: #selector(videoAttention(args:)), object: args)
+        self.perform(#selector(videoAttention(args:)), with: args, afterDelay: 2)
+        
     }
     
     @objc func videoAttention(args: [String: Any]) {
-        guard let indexPath = args["indexPath"] as? IndexPath else { return }
+        guard let data = args["data"] as? PVVideoPlayModel else { return }
         guard let sender = args["sender"] as? UIButton else { return }
-        PVNetworkTool.Request(router: .videoAttention(id: dataArr[indexPath.item].userId, action: sender.isSelected ? 1 : 2), success: { (resp) in
-            print("关注：", self.dataArr[indexPath.item].userId)
+        PVNetworkTool.Request(router: .videoAttention(id: data.userId, action: sender.isSelected ? 1 : 2), success: { (resp) in
+            print("关注：", data.userId)
         }) { (e) in
             
         }
     }
     
     //点赞
-    func didSelectedLike(sender: UIButton, cell: PVHomePlayCell) {
+    func didSelectedLike(sender: UIButton, data: PVVideoPlayModel) {
         sender.isSelected = !sender.isSelected
-        if let indexPath = collectionView.indexPath(for: cell) {
-            guard dataArr.count > indexPath.item else { return }
-            dataArr[indexPath.item].IsThumbuped = sender.isSelected
-            let args: [String: Any] = ["indexPath": indexPath, "sender": sender]
-            NSObject.cancelPreviousPerformRequests(withTarget: self, selector: #selector(videoAttention(args:)), object: args)
-            self.perform(#selector(videoLike(args:)), with: args, afterDelay: 2)
-        }
+        data.IsThumbuped = sender.isSelected
+        let args: [String: Any] = ["data": data, "sender": sender]
+        NSObject.cancelPreviousPerformRequests(withTarget: self, selector: #selector(videoAttention(args:)), object: args)
+        self.perform(#selector(videoLike(args:)), with: args, afterDelay: 2)
+        
     }
     
     @objc func videoLike(args: [String: Any]) {
-        guard let indexPath = args["indexPath"] as? IndexPath else { return }
+        guard let data = args["data"] as? PVVideoPlayModel else { return }
         guard let sender = args["sender"] as? UIButton else { return }
-        PVNetworkTool.Request(router: .videoAttention(id: dataArr[indexPath.item].videoId, action: sender.isSelected ? 1 : 2), success: { (resp) in
-            print("点赞：", self.dataArr[indexPath.item].userId)
+        PVNetworkTool.Request(router: .videoAttention(id: data.videoId, action: sender.isSelected ? 1 : 2), success: { (resp) in
+            print("点赞：", data.userId)
         }) { (e) in
             
         }
     }
     
     //评论
-    func didSelectedComment(cell: PVHomePlayCell) {
-        guard let indexPath = collectionView.indexPath(for: cell) else { return }
-        guard dataArr.count > indexPath.item else { return }
-        let v = PVVideoCommentView.init(videoId: dataArr[indexPath.item].videoId, delegate: self)
+    func didSelectedComment(data: PVVideoPlayModel) {
+        let v = PVVideoCommentView.init(videoId: data.videoId, delegate: self)
         view.addSubview(v)
     }
     
     //分享
-    func didSelectedShare(cell: PVHomePlayCell) {
+    func didSelectedShare(data: PVVideoPlayModel) {
         
     }
     
     //举报
-    func didSelectedReport(cell: PVHomePlayCell) {
-        guard let indexPath = collectionView.indexPath(for: cell) else { return }
-        guard dataArr.count > indexPath.item else { return }
+    func didSelectedReport(data: PVVideoPlayModel) {
         let vc = PVHomeReportVC()
-        vc.videoId = dataArr[indexPath.item].videoId
+        vc.videoId = data.videoId
         navigationController?.pushViewController(vc, animated: true)
     }
     
@@ -201,7 +100,36 @@ extension PVHomePlayVC: AliyunVodPlayerDelegate {
     func vodPlayer(_ vodPlayer: AliyunVodPlayer!, onEventCallback event: AliyunVodPlayerEvent) {
         switch event {
         case .prepareDone:
-            currentPlayContainer?.vodPlayer.start()
+            let thisView = containerViewWithVodPlayer(vodPlayer: vodPlayer)
+            if currentPlayContainer != nil {
+                if thisView == currentPlayContainer && isActive {
+                    currentPlayContainer?.vodPlayer.start()
+                }
+            }
+            /*
+            //如果是第一个视频，尝试加载第一次请求的资源的图片
+            if let index = playContainerList.firstIndex(of: currentPlayContainer!) {
+                if index == 0 { doQuerryImageWhenFirstEnter() }
+            }
+            */
+            //设置播放模式
+            if vodPlayer!.videoHeight != 0 {
+                let videoRatio = CGFloat(vodPlayer!.videoWidth) * 1.0 / CGFloat(vodPlayer!.videoHeight) * 1.0
+                let screenRatio = vodPlayer.playerView.frame.size.width / vodPlayer.playerView.frame.size.height
+                if videoRatio > screenRatio {
+                    vodPlayer.displayMode = .fit
+                    thisView?.coverImageView.contentMode = .scaleAspectFit
+                }
+                else {
+                    vodPlayer.displayMode = .fitWithCropping
+                    thisView?.coverImageView.contentMode = .scaleAspectFill
+                }
+            }
+            
+            break
+            
+        case .firstFrame:
+            hideCoverImageWithVodPlayer(vodPlayer: vodPlayer)
             break
             
             
@@ -212,6 +140,9 @@ extension PVHomePlayVC: AliyunVodPlayerDelegate {
     
     //播放出错
     func vodPlayer(_ vodPlayer: AliyunVodPlayer!, playBack errorModel: AliyunPlayerVideoErrorModel!) {
+        if errorModel.errorCode == ALIVC_ERR_AUTH_EXPIRED {
+            getSTS()
+        }
         print(errorModel!.errorMsg!)
     }
     
@@ -223,6 +154,25 @@ extension PVHomePlayVC: AliyunVodPlayerDelegate {
     //播放地址将要过期
     func vodPlayerPlaybackAddressExpired(withVideoId videoId: String!, quality: AliyunVodPlayerVideoQuality, videoDefinition: String!) {
         getSTS()
+    }
+    
+    //播放器状态改变回调
+    func vodPlayer(_ vodPlayer: AliyunVodPlayer!, newPlayerState newState: AliyunVodPlayerState) {
+        guard currentPlayContainer != nil else { return }
+        if vodPlayer == currentPlayContainer?.vodPlayer {
+            //暂停按钮的管理
+            if newState == .pause {
+                allContainView.changeUIToPauseStatusWithCurrentPlayView(playView: currentPlayContainer!)
+            }
+            else {
+                allContainView.changeUIToPlayStatus()
+            }
+            if isActive { savedPlayStatus = newState }
+        }
+        if let containerView = containerViewWithVodPlayer(vodPlayer: vodPlayer) {
+            containerView.playerState = newState
+        }
+        
     }
 }
 

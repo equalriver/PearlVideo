@@ -15,11 +15,12 @@ class PVHomePlayMaskView: UIView {
         return v
     }()
     ///播放图标的容器视图
-    lazy var playImageContainView: UIView = {
-        let v = UIView.init(frame: CGRect.init(x: 0, y: 0, width: 70 * KScreenRatio_6, height: 70 * KScreenRatio_6))
+    lazy var playImageContainView: UIImageView = {
+        let v = UIImageView.init(frame: CGRect.init(x: 0, y: 0, width: 70 * KScreenRatio_6, height: 70 * KScreenRatio_6))
         v.layer.cornerRadius = 35 * KScreenRatio_6
         v.clipsToBounds = true
         v.backgroundColor = UIColor.init(white: 0, alpha: 0.4)
+        v.image = UIImage.init(named: "play_暂停")
         return v
     }()
     
@@ -27,7 +28,6 @@ class PVHomePlayMaskView: UIView {
     override init(frame: CGRect) {
         super.init(frame: frame)
         addSubview(gestureView)
-        
         gestureView.snp.makeConstraints { (make) in
             make.size.centerX.centerY.equalToSuperview()
         }

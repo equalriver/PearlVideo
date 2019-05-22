@@ -22,44 +22,50 @@ extension PVHomePlayVC {
             if let securityToken = resp["result"]["securityToken"].string {
                 self.securityToken = securityToken
             }
-            self.loadData()
+            PVNetworkTool.Request(router: .videoList(type: self.type, videoIndex: self.videoIndex, videoId: self.videoId), success: { (resp) in
+                if let d = Mapper<PVVideoPlayModel>().mapArray(JSONObject: resp["result"]["videoList"].arrayObject) {
+                    if self.page == 0 { self.dataArr = d }
+                    else { self.dataArr += d }
+                    self.firstHandleWhenHavedataArrWithStartPlayIndex(startPlayIndex: &self.playStableVideoStartIndex)
+                    //用户滑动过快的时候等待请求下来再去管理预加载资源
+                    self.managePreloadingSourceWhenPlayNext()
+                    
+                }
+                if let nextPos = resp["result"]["nextPos"].int {
+                    self.videoIndex = nextPos
+                }
+                
+            }) { (e) in
+                
+            }
             
         }) { (e) in
             
         }
     }
     
-    func loadData() {
+    func loadData(page: Int) {
         PVNetworkTool.Request(router: .videoList(type: type, videoIndex: videoIndex, videoId: videoId), success: { (resp) in
-            if let d = Mapper<PVVideoPlayModel>().mapArray(JSONObject: resp["result"]["videoList"].arrayObject) {
-                if self.page == 0 { self.dataArr = d }
+            if let d = Mapper<PVVideoPlayModel>().mapArray(JSONObject: resp["result"]["dataArr"].arrayObject) {
+                if page == 0 { self.dataArr = d }
                 else { self.dataArr += d }
-                self.collectionView.reloadData()
+                
             }
             if let nextPos = resp["result"]["nextPos"].int {
                 self.videoIndex = nextPos
             }
             
         }) { (e) in
-            
+            self.page = self.page > 0 ? self.page - 1 : 0
         }
     }
     
     @objc func backAction(sender: UIButton) {
         navigationController?.popViewController(animated: true)
     }
-    /*
-    //第一次进入的图片预加载,保证只执行一次
-    func doQuerryImageWhenFirstEnter() {
-        if isHaveQuerryImageWhenFirstEnter == true || videoList.count == 0 { return }
-        isHaveQuerryImageWhenFirstEnter = true
-        for v in videoList {
-            tryQuerryImageWithModel(videoModel: v)
-        }
-    }
-    */
+ 
 }
-/*
+
 //MARK: - UI config when UP Down
 extension PVHomePlayVC {
     //根据vodPlayer找到存放它的对应的容器视图
@@ -103,19 +109,19 @@ extension PVHomePlayVC {
     }
  
     //取消滑动,各view归位
-//    func cancelPan() {
-//        guard currentPlayContainer != nil else { return }
-//
-//        UIView.animate(withDuration: kAnimationTime) {
-//            self.currentPlayContainer!.frame = CGRect.init(x: 0, y: 0, width: kScreenWidth, height: kScreenHeight)
-//            if let preView = self.previousViewToView(containerView: self.currentPlayContainer!) {
-//                preView.frame = CGRect.init(x: 0, y: -1 * kScreenHeight - 1, width: kScreenWidth, height: kScreenHeight)
-//            }
-//            if let nextView = self.nextViewToView(containerView: self.currentPlayContainer!) {
-//                nextView.frame = CGRect.init(x: 0, y: kScreenHeight + 1, width: kScreenWidth, height: kScreenHeight)
-//            }
-//        }
-//    }
+    func cancelPan() {
+        guard currentPlayContainer != nil else { return }
+
+        UIView.animate(withDuration: kAnimationTime) {
+            self.currentPlayContainer!.frame = CGRect.init(x: 0, y: 0, width: kScreenWidth, height: kScreenHeight)
+            if let preView = self.previousViewToView(containerView: self.currentPlayContainer!) {
+                preView.frame = CGRect.init(x: 0, y: -1 * kScreenHeight - 1, width: kScreenWidth, height: kScreenHeight)
+            }
+            if let nextView = self.nextViewToView(containerView: self.currentPlayContainer!) {
+                nextView.frame = CGRect.init(x: 0, y: kScreenHeight + 1, width: kScreenWidth, height: kScreenHeight)
+            }
+        }
+    }
   
     //view向上移动一屏
     func animtaionUpView(containerView: PVHomePlayContainerView, completion: ((Bool) -> Void)?) {
@@ -149,77 +155,13 @@ extension PVHomePlayVC {
     
 }
 
-//MARK: - data manager
-extension PVHomePlayVC {
-    //初始化数据
-    func configBaseData() {
-        isHaveQuerryImageWhenFirstEnter = false
-        isHaveQuerryAllVideo = false
-        isActive = true
-        querryOriginalVideolistSuccess {
-            var index = 0
-            self.firstHandleWhenHaveVideoListWithStartPlayIndex(startPlayIndex: &index)
-            DispatchQueue.main.asyncAfter(deadline: .now() + 1.6, execute: {
-                self.doQuerryImageWhenFirstEnter()
-            })
-        }
-    }
-    
-    //请求基本的数据 - accessKeyId - accessKeySecret - securityToken - 第一次的播放数据
-    func querryOriginalVideolistSuccess(success: (() -> Void)?) {
-        
-        //FIX ME: load data
-        self.videoList.removeAll()
-        //赋值
-        for v in self.videoList {
-            self.tryQuerryImageWithModel(videoModel: v)
-        }
-        success?()
-    }
-    
-    //请求播放的视频列表 videoId 开始的视频的id，不包含此视频
-    func querryVideoDataWithStartVideoId(videoId: String, count: Int) {
-        guard accessKeyId != nil && accessKeySecret != nil && securityToken != nil else {
-            configBaseData()
-            return
-        }
-        //FIX ME: load data
-        let dataArr = [AlivcQuVideoModel]() //请求的数据
-        if self.isHaveQuerryAllVideo == true { return }
-        if dataArr.count < count { self.isHaveQuerryAllVideo = true }
-        if let lastModel = self.videoList.last {
-            //这个分支，说明数据已经加载进来了，因为传入的最后一个视频和视频列表里的最后一个视频不相等
-            //有时候滑动过快，同一页会请求2-3次的情况，防止数据重复加进来
-            if lastModel.id != videoId { return }
-        }
-        if dataArr.count == 0 {
-            self.isHaveQuerryAllVideo = true
-            return
-        }
-        for v in dataArr {
-            self.tryQuerryImageWithModel(videoModel: v)
-        }
-        self.videoList += dataArr
-        //用户滑动过快的时候等待请求下来再去管理预加载资源
-//        managePreloadingSourceWhenPlayNext()
-    }
-
-    //清空之前的数据，重新加载
-    func reloadData() {
-        configBaseData()
-    }
-    
-    
-}
-*/
 //MARK: - play manager
 extension PVHomePlayVC {
     //播放上一个视频
-    /*
     func playPrevious() {
         guard currentPlayContainer != nil else { return }
         let previousView = previousViewToView(containerView: currentPlayContainer!)
-        if previousView != nil && previousView!.videoModel != nil {
+        if previousView != nil && previousView!.data != nil {
             animationDownView(containerView: currentPlayContainer!, completion: nil)
             stopPlayCurrent(currentPlayContainView: currentPlayContainer!, changeToPlay: previousView!)
             currentPlayContainer = previousView
@@ -227,25 +169,107 @@ extension PVHomePlayVC {
         }
         else {
             cancelPan()
-            if videoList.count > 0 {
-                if let currentModelIndex = currentPlayContainer!.videoModel?.index(ofAccessibilityElement: videoList) {
-                    if currentModelIndex == 0 { reloadData() }
+            if dataArr.count > 0 {
+                let currentModelIndex = currentPlayContainer!.data.index(ofAccessibilityElement: dataArr)
+                if currentModelIndex == 0 {
+                    loadData(page: 0)
                 }
             }
             else {
-                reloadData()
+                loadData(page: 0)
             }
         }
     }
-    */
+ 
+    //播放下一个视频
+    func playNext() {
+        if currentPlayContainer == nil { return }
+        let nextPlayerView = nextViewToView(containerView: currentPlayContainer!)
+        if nextPlayerView != nil && nextPlayerView?.data != nil {
+            animtaionUpView(containerView: currentPlayContainer!, completion: nil)
+            stopPlayCurrent(currentPlayContainView: currentPlayContainer!, changeToPlay: nextPlayerView!)
+            currentPlayContainer = nextPlayerView
+            managePreloadingSourceWhenPlayNext()
+            tryQuerryNewPlayVideo()
+        }
+        else {
+            cancelPan()
+            guard let modelIndex = dataArr.firstIndex(of: currentPlayContainer!.data) else { return }
+            if modelIndex == dataArr.count - 1 || isOnlyPlayStableVideo {
+                view.makeToast("已经是最后一个视频了")
+            }
+            else {
+                managePreloadingSourceWhenPlayNext()
+                tryQuerryNewPlayVideo()
+            }
+            
+        }
+        
+    }
+    
+    //停止播放当前的视频，播放下一个视频
+    func stopPlayCurrent(currentPlayContainView: PVHomePlayContainerView, changeToPlay nextPlayContainerView: PVHomePlayContainerView) {
+        currentPlayContainView.isHavePrepared = false
+        currentPlayContainView.vodPlayer.stop()
+        currentPlayContainView.setPreCoverImageWhenStop()
+        if nextPlayContainerView.isHavePrepared == false {
+            guard nextPlayContainerView.data != nil else { return }
+            prepareWithPlayer(player: nextPlayContainerView.vodPlayer, model: nextPlayContainerView.data)
+            nextPlayContainerView.isHavePrepared = true
+        }
+        else {
+            switch nextPlayContainerView.playerState {
+            case .prepared: //已准备好
+                nextPlayContainerView.vodPlayer.start()
+                break
+                
+            default: break
+                
+            }
+        }
+        animtaionCurrentView(containerView: nextPlayContainerView, completion: nil)
+        
+    }
+    
+    
     
     //准备播放视频
-    func prepareWithPlayer(player: AliyunVodPlayer, model: AlivcQuVideoModel) {
+    func prepareWithPlayer(player: AliyunVodPlayer, model: PVVideoPlayModel) {
         player.stop()   //SDK开发人员的建议：准备之前先stop，防止prepare多次引发一些问题
         player.prepare(withVid: model.videoId, accessKeyId: accessKeyId, accessKeySecret: accessKeySecret, securityToken: securityToken)
         if accessKeyId == nil || accessKeySecret == nil || securityToken == nil { print("sts异常") }
     }
-    /*
+    
+    //根据情况判断是否要去请求新的资源
+    func tryQuerryNewPlayVideo() {
+        if currentPlayContainer == nil { return }
+        guard let currentIndexInSouce = dataArr.firstIndex(of: currentPlayContainer!.data) else { return }
+        //剩余个数
+        let lessCount = dataArr.count - currentIndexInSouce - 1
+        //加载更多
+        if lessCount < kCountLess_mustQurryMoreData {
+            page += 1
+            loadData(page: page)
+        }
+    }
+    
+    //准备播放下一个视频的清除数据工作
+    func clearWhenContainView(conView: PVHomePlayContainerView, newModel: PVVideoPlayModel) {
+        //清空图片
+        conView.clearImage()
+        //通过reset来清空上个视频播放的最后一帧图像 - 这是不合理的，但是是sdk的设计与我本身的处理策略导致，目前先这样处理
+        conView.vodPlayer.reset()
+        //显示封面图
+        conView.coverImageView.isHidden = false
+        //设置新的播放资源
+        conView.data = newModel
+        //准备播放新的播放资源
+        if conView.data != nil {
+            prepareWithPlayer(player: conView.vodPlayer, model: conView.data)
+        }
+        conView.isHavePrepared = true
+    }
+    
     //向上滑动的时候管理预加载资源
     func managePreloadingSourceWhenPlayNext() {
         //1.出现上划的情况
@@ -259,15 +283,15 @@ extension PVHomePlayVC {
         if upCount > kPreviousCount {
             //如果kNextCount为1，则lastView为currentPlayContainer，理解不了也没事
             let lastView = playContainerList.last
-            if lastView == nil || lastView?.videoModel == nil { return }
-            guard let lastModelIndex = videoList.firstIndex(of: lastView!.videoModel!) else { return }
+            if lastView == nil || lastView?.data == nil { return }
+            guard let lastModelIndex = dataArr.firstIndex(of: lastView!.data) else { return }
             let targetModelIndex = lastModelIndex + 1
             
-            if targetModelIndex < videoList.count {
+            if targetModelIndex < dataArr.count {
                 //要变化的conView
                 guard let firstView = playContainerList.first else { return }
                 //下一个播放的资源
-                let model = videoList[targetModelIndex]
+                let model = dataArr[targetModelIndex]
                 //准备工作
                 clearWhenContainView(conView: firstView, newModel: model)
                 //调整在列表中位置
@@ -281,12 +305,7 @@ extension PVHomePlayVC {
                 f.origin.y = kScreenHeight + 1
                 firstView.frame = f
             }
-            else {
-                if isHaveQuerryAllVideo == false {
-                    //用户滑动过快，此时滑到了最后一个，但是之前请求的下一个页面的播放数据还没有请求下来，这里也不做处理，等待请求下来，然后会再次调用本方法，调整资源位置
-                    
-                }
-            }
+           
         }
     }
     
@@ -300,18 +319,16 @@ extension PVHomePlayVC {
         guard let currentIndex = playContainerList.firstIndex(of: currentPlayContainer!) else { return }
         downCount = playContainerList.count - 1 - currentIndex
         if downCount > kNextCount {
-            //如果kPreviousCount为1，则firtView为currentPlayContainer
-            guard let firtView = playContainerList.first else { return }
-            if firtView.videoModel == nil { return }
-            guard let firstModelIndex = videoList.firstIndex(where: { (obj) -> Bool in
-                return obj == firtView.videoModel!
-            }) else { return }
+            //如果kPreviousCount为1，则firstView为currentPlayContainer
+            guard let firstView = playContainerList.first else { return }
+            if firstView.data == nil { return }
+            guard let firstModelIndex = dataArr.firstIndex(of: firstView.data) else { return }
             let targetModelIndex = firstModelIndex - 1
             if targetModelIndex >= 0 {
                 //要变化的containView
                 guard let lastView = playContainerList.last else { return }
                 //新的播放资源
-                let targetModel = videoList[targetModelIndex]
+                let targetModel = dataArr[targetModelIndex]
                 //准备
                 clearWhenContainView(conView: lastView, newModel: targetModel)
                 //调整在列表中的位置
@@ -329,48 +346,8 @@ extension PVHomePlayVC {
     }
     
     
-    //准备播放下一个视频的清除数据工作
-    func clearWhenContainView(conView: PVHomePlayContainerView, newModel: AlivcQuVideoModel) {
-        //清空图片
-        conView.clearImage()
-        //通过reset来清空上个视频播放的最后一帧图像 - 这是不合理的，但是是sdk的设计与我本身的处理策略导致，目前先这样处理
-        conView.vodPlayer.reset()
-        //显示封面图
-        conView.coverImageView.isHidden = false
-        //设置新的播放资源
-        conView.setVideoModel(model: newModel)
-        //准备播放新的播放资源
-        if conView.videoModel != nil {
-            prepareWithPlayer(player: conView.vodPlayer, model: conView.videoModel!)
-        }
-        conView.isHavePrepared = true
-    }
-
-    //停止播放当前的视频，播放下一个视频
-    func stopPlayCurrent(currentPlayContainView: PVHomePlayContainerView, changeToPlay nextPlayContainerView: PVHomePlayContainerView) {
-        currentPlayContainView.isHavePrepared = false
-        currentPlayContainView.vodPlayer.stop()
-        currentPlayContainView.setPreCoverImageWhenStop()
-        if nextPlayContainerView.isHavePrepared == false {
-            guard nextPlayContainerView.videoModel != nil else { return }
-            prepareWithPlayer(player: nextPlayContainerView.vodPlayer, model: nextPlayContainerView.videoModel!)
-            nextPlayContainerView.isHavePrepared = true
-        }
-        else {
-            switch nextPlayContainerView.playerState {
-            case .prepared: //已准备好
-                nextPlayContainerView.vodPlayer.start()
-                break
-                
-            default: break
-                
-            }
-        }
-        animtaionCurrentView(containerView: nextPlayContainerView, completion: nil)
-        
-    }
-*/
     
+
     
 }
 
@@ -400,7 +377,7 @@ extension PVHomePlayVC {
             break
             
         default:
-//            prepareWithPlayer(player: player, model: currentPlayContainer!.videoModel!)
+            prepareWithPlayer(player: player, model: currentPlayContainer!.data)
             break
         }
     }
@@ -410,23 +387,27 @@ extension PVHomePlayVC {
         let translation = sender.translation(in: view)
         switch sender.state {
         case .changed:
-//            changedToCommitTranslation(translation: translation)
+            changedToCommitTranslation(translation: translation)
             break
             
         case .ended:
             if abs(s.y) < kMinPanSpeed && abs(translation.y) < kScreenHeight / 2 {
-//                cancelPan()
+                cancelPan()
             }
             else {
-                
+                endToCommitTranslation(translation: translation)
             }
+            break
+            
+        case .cancelled:
+            cancelPan()
             break
             
         default:
             break
         }
     }
-    /*
+    
     //手势改变中的处理，主要是view的位置变化  当前播放的视图变化
     func changedToCommitTranslation(translation: CGPoint) {
         guard currentPlayContainer != nil else { return }
@@ -459,26 +440,18 @@ extension PVHomePlayVC {
         }
         else {
             if translation.y < 0 {//向上滑动
-            
+                playNext()
             }
             else {//向下滑动
-                
+                playPrevious()
             }
         }
     }
-    */
+ 
 }
 
 //MARK: - public method
 extension PVHomePlayVC {
-    //尝试加载图片
-    func tryQuerryImageWithModel(videoModel: AlivcQuVideoModel) {
-        if videoModel.firstFrameUrl != nil && videoModel.firstFrameImage == nil {
-            UIImageView().kf.setImage(with: URL.init(string: videoModel.firstFrameUrl!), placeholder: nil, options: nil, progressBlock: nil) { (img, error, cacheType, url) in
-                if img != nil { videoModel.firstFrameImage = img }
-            }
-        }
-    }
     
     func checkLocalHaveTheMedia(mediaInfo: AliyunDownloadMediaInfo) -> Bool {
         if localVideosIdString != nil {
@@ -497,18 +470,18 @@ extension PVHomePlayVC {
     
     @objc func resignActive() {
         isActive = false
-        currentPlayContainer?.vodPlayer.pause()
+        currentPlayContainer?.vodPlayer?.pause()
     }
     
     @objc func becomeActive() {
         isActive = true
         if currentPlayContainer?.playerState == AliyunVodPlayerState.prepared {
-            currentPlayContainer?.vodPlayer.start() //应对下拉刷新过程中退后台的处理
+            currentPlayContainer?.vodPlayer?.start() //应对下拉刷新过程中退后台的处理
         }
         else if savedPlayStatus == AliyunVodPlayerState.play {
-            currentPlayContainer?.vodPlayer.resume()
+            currentPlayContainer?.vodPlayer?.resume()
         }
-        //FIX ME: 尝试重新上传发布
+        
         
     }
     
