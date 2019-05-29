@@ -30,6 +30,8 @@ extension PVHomeHeaderView: FSPagerViewDelegate, FSPagerViewDataSource {
         delegate?.didSelectedBanner(index: index)
     }
     
+    
+    
 }
 
 extension PVHomeHeaderView: UICollectionViewDelegate, UICollectionViewDataSource {

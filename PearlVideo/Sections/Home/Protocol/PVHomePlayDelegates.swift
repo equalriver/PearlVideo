@@ -12,6 +12,9 @@ import AliyunVodPlayerSDK
 extension PVHomePlayVC: PVHomePlayDelegate {
     //点击头像
     func didSelectedAvatar(data: PVVideoPlayModel) {
+        if let currentId = UserDefaults.standard.string(forKey: kUserId) {
+            if data.userId == currentId { return }
+        }
         
     }
     
@@ -40,7 +43,7 @@ extension PVHomePlayVC: PVHomePlayDelegate {
         sender.isSelected = !sender.isSelected
         data.IsThumbuped = sender.isSelected
         let args: [String: Any] = ["data": data, "sender": sender]
-        NSObject.cancelPreviousPerformRequests(withTarget: self, selector: #selector(videoAttention(args:)), object: args)
+        NSObject.cancelPreviousPerformRequests(withTarget: self, selector: #selector(videoLike(args:)), object: args)
         self.perform(#selector(videoLike(args:)), with: args, afterDelay: 2)
         
     }
@@ -58,12 +61,13 @@ extension PVHomePlayVC: PVHomePlayDelegate {
     //评论
     func didSelectedComment(data: PVVideoPlayModel) {
         let v = PVVideoCommentView.init(videoId: data.videoId, delegate: self)
-        view.addSubview(v)
+        allContainView.addSubview(v)
     }
     
     //分享
     func didSelectedShare(data: PVVideoPlayModel) {
-        
+        let vc = PVVideoShareVC()
+        navigationController?.pushViewController(vc, animated: true)
     }
     
     //举报
@@ -77,9 +81,11 @@ extension PVHomePlayVC: PVHomePlayDelegate {
 
 //MARK: - comment delegate
 extension PVHomePlayVC: PVVideoCommentDelegate {
-    
     //点击用户头像
     func didSelectedUser(id: String) {
+        if let currentId = UserDefaults.standard.string(forKey: kUserId) {
+            if id == currentId { return }
+        }
         
     }
     //评论点赞
@@ -90,6 +96,18 @@ extension PVHomePlayVC: PVVideoCommentDelegate {
         }) { (e) in
             
         }
+    }
+    
+    //提交评论
+    func didSelectedDone(content: String, completion: @escaping () -> Void) {
+        print("提交评论: ", content)
+        PVNetworkTool.Request(router: .videoComment(videoId: videoId, content: content), success: { (resp) in
+            completion()
+            
+        }) { (e) in
+            self.view.makeToast("评论失败")
+        }
+        
     }
     
 }

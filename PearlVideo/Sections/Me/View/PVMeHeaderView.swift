@@ -10,10 +10,34 @@ import UIKit
 
 protocol PVMeHeaderViewDelegate: NSObjectProtocol {
     func didSelectedEdit()
-
+    func didSelectedLevel()
+    func didSelectedActiveness()
+    func didSelectedFruit()
 }
 
 class PVMeHeaderView: UIView {
+    
+    public var data = PVMeModel() {
+        didSet{
+            backgroundImageIV.kf.setImage(with: URL.init(string: data.backgroundImageUrl))
+            avatarIV.kf.setImage(with: URL.init(string: data.avatarUrl))
+            nameLabel.text = data.nickName
+            genderIV.image = data.gender == 1 ? UIImage.init(named: "me_male") : UIImage.init(named: "me_female")
+            fansLabel.text = "\(data.fansCount)粉丝 | \(data.followCount)关注"
+            if data.isMine {
+                editBtn.setTitle("编辑个人资料", for: .normal)
+                editBtn.backgroundColor = kColor_deepBackground
+                editBtn.layer.borderColor = UIColor.white.cgColor
+            }
+            else {
+                editBtn.setTitle("+关注", for: .normal)
+                editBtn.backgroundColor = kColor_pink
+                editBtn.layer.borderColor = nil
+            }
+            introLabel.text = data.autograph
+            authIV.isHidden = false
+        }
+    }
 
     weak public var delegate: PVMeHeaderViewDelegate?
     
@@ -29,11 +53,12 @@ class PVMeHeaderView: UIView {
     lazy var avatarIV: UIImageView = {
         let iv = UIImageView.init(image: UIImage.init(named: "me_placeholder"))
         iv.layer.cornerRadius = 45 * KScreenRatio_6
-//        iv.layer.masksToBounds = true
+        iv.layer.masksToBounds = true
         return iv
     }()
     lazy var authIV: UIImageView = {
         let v = UIImageView.init(image: UIImage.init(named: "me_auth"))
+        v.isHidden = true
         return v
     }()
     lazy var nameLabel: UILabel = {
@@ -95,6 +120,7 @@ class PVMeHeaderView: UIView {
     override init(frame: CGRect) {
         super.init(frame: frame)
         initUI()
+     
     }
     
     required init?(coder aDecoder: NSCoder) {
@@ -112,7 +138,7 @@ class PVMeHeaderView: UIView {
         addSubview(backgroundImageIV)
         addSubview(borderContentView)
         addSubview(avatarIV)
-        borderContentView.addSubview(authIV)
+        addSubview(authIV)
         borderContentView.addSubview(nameLabel)
         borderContentView.addSubview(genderIV)
         borderContentView.addSubview(fansLabel)
@@ -158,7 +184,7 @@ class PVMeHeaderView: UIView {
             make.top.equalTo(fansLabel.snp.bottom).offset(7)
         }
         starIV.snp.makeConstraints { (make) in
-            make.size.equalTo(CGSize.init(width: 50 * KScreenRatio_6, height: 30 * KScreenRatio_6))
+            make.size.equalTo(CGSize.init(width: 40 * KScreenRatio_6, height: 30 * KScreenRatio_6))
             make.centerY.equalTo(editBtn)
             make.left.equalTo(editBtn.snp.right).offset(10 * KScreenRatio_6)
         }
@@ -182,23 +208,50 @@ extension PVMeHeaderView: UICollectionViewDelegate, UICollectionViewDataSource {
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "PVMeTitlesCell", for: indexPath) as! PVMeTitlesCell
+        guard data.Level.count > 0 else { return cell }
         switch indexPath.item {
-        case 0:
-            
+        case 0: //等级
+            cell.numberLabel.text = data.Level
+            cell.nameBtn.setTitle("会员等级", for: .normal)
+            cell.nameBtn.setImage(UIImage.init(named: "me_会员等级"), for: .normal)
             break
             
-        case 1:
-            
+        case 1: //活跃度
+            cell.numberLabel.text = data.LivenessCount + "+" + data.reelLivenessCount
+            cell.nameBtn.setTitle("活跃度", for: .normal)
+            cell.nameBtn.setImage(UIImage.init(named: "me_活跃度"), for: .normal)
             break
             
-        case 2:
-            
+        case 2: //平安果
+            cell.numberLabel.text = data.pearlToal
+            cell.nameBtn.setTitle("平安果", for: .normal)
+            cell.nameBtn.setImage(UIImage.init(named: "me_平安果"), for: .normal)
             break
             
         default:
             break
         }
         return cell
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        if data.isMine == false { return }
+        switch indexPath.item {
+        case 0: //会员等级
+            delegate?.didSelectedLevel()
+            break
+            
+        case 1: //活跃度
+            delegate?.didSelectedActiveness()
+            break
+            
+        case 2: //总平安果
+            delegate?.didSelectedFruit()
+            break
+            
+        default:
+            break
+        }
     }
 }
 
@@ -217,6 +270,7 @@ class PVMeTitlesCell: UICollectionViewCell {
         let b = UIButton()
         b.titleLabel?.font = kFont_text
         b.setTitleColor(kColor_text, for: .normal)
+        b.isUserInteractionEnabled = false
         return b
     }()
     

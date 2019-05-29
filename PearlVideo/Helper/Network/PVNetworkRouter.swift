@@ -19,8 +19,8 @@ enum Router: URLRequestConvertible {
     ///获取验证码
     case getAuthCode(phone: String)
     
-    ///忘记密码
-    case forgetPsd(email: String, newPsd: String, authCode: String)
+    ///验证验证码
+    case validateAuthCode(phone: String, code: String)
     
     ///修改密码
     case changePsd(userId: String, phone: String, psd: String)
@@ -111,32 +111,21 @@ enum Router: URLRequestConvertible {
     ///视频评论点赞 action: 1点赞 2取消
     case videoCommentLike(videoId: String, commentId: Int, action: Int)
     
+    ///删除视频
+    case deleteVideo(videoId: String)
     
-    //application
-    ///获取应用列表
-    case getApplicationList()
+    ///设置私密视频
+    case setVideoSecurity(videoId: String, security: Bool)
     
-    //contact
-    ///通讯录最近联系人
-    case contactRecently()
+    ///提交视频评论
+    case videoComment(videoId: String, content: String)
     
-    ///通讯录所有人
-    case contactAll(pageIndex: String)
+    ///二次评论（评论的评论）
+    case twiceComment(id: Int, videoId: String, content: String)
     
-    ///通讯录同部门
-    case contactDepartment()
+    ///获取邀请码
+    case getInviteCode()
     
-    ///通讯录组织
-    case contactOrganization()
-    
-    ///通讯录下属
-    case contactUnderling()
-    
-    ///通讯录组织详情
-    case contactOrgDetail(depId: String)
-    
-    ///通讯录人员详情
-    case contactPersonDetail(userId: String)
     
     
     //我的
@@ -146,9 +135,20 @@ enum Router: URLRequestConvertible {
     ///关于我们
     case about()
     
-    ///意见反馈
-//    case feedback(json: Any)
+    ///视频 type: 3作品 4喜欢 5私密
+    case userInfoVideo(userId: String, type: Int, page: Int)
     
+    ///意见反馈
+    case feedback()
+    
+    ///我的反馈
+    case myFeedback(page: Int)
+    
+    ///修改用户信息  autograph签名
+    case editUserInfo()
+    
+    ///获取实人认证token
+    case getUserValidateToken()
     
     
     
@@ -170,11 +170,11 @@ enum Router: URLRequestConvertible {
             case .getAuthCode:
                 return "sendMsgCode"
                 
-            case .forgetPsd:
-                return "retrievePassword"
+            case .validateAuthCode:
+                return "MobileVerification"
                 
             case .changePsd:
-                return "/api/base/changePsd.do"
+                return "retrievePassword"
                 
             case .loginOut:
                 return "/api/common/token/logout"
@@ -261,34 +261,21 @@ enum Router: URLRequestConvertible {
             case .videoCommentLike:
                 return "CommentThumbup"
                 
+            case .deleteVideo:
+                return "deleteVideo"
                 
+            case .setVideoSecurity:
+                return "setUpPrivacyVideo"
                 
-            //application
-            case .getApplicationList:
-                return "/api/application/getApplicationMenu"
+            case .videoComment:
+                return "AddComment"
+        
+            case .twiceComment:
+                return "AddCommentReply"
                 
+            case .getInviteCode:
+                return "getInviteCode"
                 
-            //contact
-            case .contactRecently:
-                return "/api/base/getRecentUser"
-                
-            case .contactAll:
-                return "/api/base/getAllUserInfo.do"
-                
-            case .contactDepartment:
-                return "/api/base/getSameDepUserInfo.do"
-                
-            case .contactOrganization:
-                return "/api/base/getOrgInfo.do"
-                
-            case .contactUnderling:
-                return "/api/base/getSubUserInfo"
-                
-            case .contactOrgDetail:
-                return "/api/base/getUserInfoByDep.do"
-                
-            case .contactPersonDetail:
-                return "/api/base/getInfoByUserId"
                 
                 
             //我的
@@ -298,7 +285,20 @@ enum Router: URLRequestConvertible {
             case .about:
                 return "/api/base/introduction.do"
                 
-            
+            case .userInfoVideo:
+                return "GetUserVideoInfo"
+                
+            case .feedback:
+                return "Feedback"
+                
+            case .myFeedback:
+                return "FeedbackDetail"
+                
+            case .editUserInfo:
+                return "updateUserProfile"
+                
+            case .getUserValidateToken:
+                return "GetVerifyToken"
            
             }
           
@@ -337,17 +337,16 @@ enum Router: URLRequestConvertible {
                 "mobile": phone
             ]
             
-        case .forgetPsd(let email, let newPsd, let authCode):
+        case .validateAuthCode(let phone, let code):
             param = [
-                "email": email,
-                "newPsd": newPsd,
-                "authCode": authCode
+                "mobile": phone,
+                "msgcode": code
             ]
 
-        case .changePsd(let userId, let mobile, let password):
+        case .changePsd(let userId, let phone, let password):
             param = [
                 "userId": userId,
-                "mobile": mobile,
+                "mobile": phone,
                 "password": password
             ]
         
@@ -480,37 +479,33 @@ enum Router: URLRequestConvertible {
                 "action": action
             ]
             
-            
-            
-        //application
-        case .getApplicationList: break
-            
-            
-        //contact
-        case .contactRecently: break
-            
-        case .contactAll(let pageIndex):
+        case .deleteVideo(let videoId):
             param = [
-                "pageIndex": pageIndex,
-                "pageSize": "50"
+                "videoId": videoId
             ]
             
-        case .contactDepartment: break
-            
-        case .contactOrganization: break
-            
-        case .contactUnderling: break
-            
-        case .contactOrgDetail(let depId):
+        case .setVideoSecurity(let videoId, let security):
             param = [
-                "depId": depId
+                "videoId": videoId,
+                "isPrivcy": security
             ]
             
-        case .contactPersonDetail(let userId):
+        case .videoComment(let videoId, let content):
             param = [
-                "userId": userId
+                "videoId": videoId,
+                "content": content
             ]
             
+        case .twiceComment(let id, let videoId, let content):
+            param = [
+                "id": id,
+                "videoId": videoId,
+                "content": content
+            ]
+            
+        case .getInviteCode: break
+            
+        
         
         //我的
         case .userInfo(let userId, let page):
@@ -521,9 +516,24 @@ enum Router: URLRequestConvertible {
             
         case .about: break
             
+        case .userInfoVideo(let userId, let type, let page):
+            param = [
+                "userId": userId,
+                "type": type,
+                "skip": page
+            ]
             
-//        case .feedback(let json):
-//            singleParam = json
+        case .feedback: break
+            
+        case .myFeedback(let page):
+            param = [
+                "skip": page
+            ]
+            
+        case .editUserInfo: break
+            
+        case .getUserValidateToken: break
+
         }
         
         if param != nil { param = ["object": param!] }

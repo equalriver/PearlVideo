@@ -43,7 +43,11 @@ class PVHomePlayVC: PVBaseViewController {
     var playContainerList = [PVHomePlayContainerView]()
     
     ///当前正在播放的容器视图
-    var currentPlayContainer: PVHomePlayContainerView?
+    var currentPlayContainer: PVHomePlayContainerView? {
+        didSet{
+            allContainView.playContainer = currentPlayContainer
+        }
+    }
     
     ///是否加载过图片
 //    var isHaveQuerryImageWhenFirstEnter = false
@@ -55,7 +59,7 @@ class PVHomePlayVC: PVBaseViewController {
     var savedPlayStatus: AliyunVodPlayerState?
     
     ///是否在前台处于活跃状态
-    var isActive = false
+    var isActive = true
     
     ///轻量化的本地现在去重方案，本地已下载的视频id以逗号分隔
     var localVideosIdString: String?
@@ -85,6 +89,7 @@ class PVHomePlayVC: PVBaseViewController {
     }()
     lazy var allContainView: PVHomePlayMaskView = {
         let v = PVHomePlayMaskView.init(frame: CGRect.init(x: 0, y: 0, width: kScreenWidth, height: kScreenHeight))
+        v.delegate = self
         return v
     }()
     lazy var backBtn: UIButton = {
@@ -259,12 +264,10 @@ class PVHomePlayVC: PVBaseViewController {
         
         //3.处理要播放的视频
         if conView != nil {
-//            currentPlayContainer = conView
+            currentPlayContainer = conView
             //显示第一个视频的封面
-            
             currentPlayContainer?.coverImageView.kf.setImage(with: URL.init(string: model.coverUrl), placeholder: nil, options: nil, progressBlock: nil, completionHandler: { (img, error, cacheType, url) in
                 if error == nil && img != nil {
-//                        self.currentPlayContainer?.setCoverImage(coverImage: img!)
                     self.currentPlayContainer?.coverImageView.isHidden = self.currentPlayContainer?.playerState == .play || self.currentPlayContainer?.playerState == .pause
                 }
             })

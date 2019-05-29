@@ -7,25 +7,358 @@
 //
 
 import StoreKit
+import ObjectMapper
 
 //MARK: - 实名认证
+
 extension PVMeNameValidateVC {
+    
+    func loadData() {
+        PVNetworkTool.Request(router: .getUserValidateToken(), success: { (resp) in
+            if let d = Mapper<PVUserValidateModel>().map(JSONObject: resp["result"].object) {
+                self.data = d
+                if d.verifyStage == UserValidateStageType.success.rawValue {
+                    self.didValidateContent.isHidden = false
+                    self.validateContent.isHidden = true
+                    self.setNameAndIdCard(data: d)
+                }
+                //去支付
+                if d.verifyStage == UserValidateStageType.payment.rawValue {
+                    self.didValidateContent.isHidden = true
+                    self.validateContent.isHidden = false
+                    AlipaySDK.defaultService()?.payOrder(d.payOrder, fromScheme: kAlipayScheme, callback: { (dic) in
+                        
+                        self.alertView.closeAction()
+                    })
+                }
+                //认证
+                if d.verifyStage == UserValidateStageType.processing.rawValue {
+                    self.alertView.closeAction()
+                    RPSDK.start(d.verifyToken.token, rpCompleted: { (auditState) in
+                        //认证通过
+                        if auditState == .PASS {
+                            self.loadData()
+                        }
+                        else if(auditState == .FAIL) { //认证不通过
+                            self.view.makeToast("认证不通过")
+                        }
+                        else if(auditState == .IN_AUDIT) { //认证中，通常不会出现，只有在认证审核系统内部出现超时、未在限定时间内返回认证结果时出现。此时提示用户系统处理中，稍后查看认证结果即可
+                            YPJOtherTool.ypj.showAlert(title: nil, message: "系统处理中，请稍后查看认证结果", style: .alert, isNeedCancel: false, handle: nil)
+                        }
+                        else if(auditState == .NOT) { //未认证，用户取消
+                            
+                        }
+                        else if(auditState == .EXCEPTION) { //系统异常
+                            self.view.makeToast("系统异常")
+                        }
+                    }, withVC: self.navigationController)
+                }
+            }
+            
+        }) { (e) in
+            
+        }
+    }
+    
+    func setNameAndIdCard(data: PVUserValidateModel) {
+        let att_name = NSMutableAttributedString.init(string: "真实姓名    " + data.name)
+        att_name.addAttributes([.font: kFont_text, .foregroundColor: kColor_subText!], range: NSMakeRange(0, 8))
+        att_name.addAttributes([.font: kFont_text, .foregroundColor: UIColor.white], range: NSMakeRange(8, data.name.count))
+        nameLabel.attributedText = att_name
+        
+        let att_idCard = NSMutableAttributedString.init(string: "身份证号    " + data.idCard)
+        att_idCard.addAttributes([.font: kFont_text, .foregroundColor: kColor_subText!], range: NSMakeRange(0, 8))
+        att_idCard.addAttributes([.font: kFont_text, .foregroundColor: UIColor.white], range: NSMakeRange(8, data.idCard.count))
+        idCardLabel.attributedText = att_idCard
+    }
     
     @objc func acceptAgreement(sender: UIButton) {
         sender.isSelected = !sender.isSelected
-        if name != nil && phone != nil && idCard != nil && sender.isSelected { confirmBtn.isEnabled = true }
+        confirmBtn.isEnabled = sender.isSelected
+        confirmBtn.backgroundColor = confirmBtn.isEnabled ? kColor_pink : UIColor.gray
     }
     
     @objc func confirm(sender: UIButton) {
+        view.addSubview(alertView)
+    }
+}
+
+extension PVMeNameValidateVC: PVMeNameValidateAlertDelegate {
+    
+    func didSelectedValidate() {
         
     }
 }
 
+ //MARK: - 修改密码
+extension PVMePasswordChangeVC {
+    
+    @objc func textFieldEditingChange(sender: UITextField) {
+        nextBtn.isEnabled = phoneTF.hasText && authCodeTF.hasText
+        nextBtn.backgroundColor = nextBtn.isEnabled ? kColor_pink : UIColor.gray
+    }
+    
+    @objc func didClickGetAuthCode(sender: UIButton) {
+        guard phoneTF.hasText else {
+            view.makeToast("请输入手机号")
+            return
+        }
+        guard phoneTF.text!.ypj.isPhoneNumber else {
+            view.makeToast("手机号输入不正确")
+            return
+        }
+        sender.isEnabled = false
+        PVNetworkTool.Request(router: .getAuthCode(phone: phoneTF.text!), success: { (resp) in
+            auth()
+            
+        }) { (e) in
+            sender.isEnabled = true
+            self.view.makeToast(e.localizedDescription)
+        }
+        
+        func auth() {
+            var t = 60
+            self.timer.setEventHandler {
+                if t <= 1 {
+                    self.timer.suspend()
+                    DispatchQueue.main.async {
+                        sender.setTitle("获取验证码", for: .normal)
+                        sender.backgroundColor = kColor_pink
+                        sender.isEnabled = true
+                    }
+                }
+                else {
+                    t -= 1
+                    DispatchQueue.main.async {
+                        sender.setTitle("重新发送(\(t)s)", for: .normal)
+                        sender.backgroundColor = UIColor.gray
+                        sender.isEnabled = false
+                    }
+                }
+            }
+            self.timer.resume()
+            authCodeTF.becomeFirstResponder()
+        }
+    }
+    
+    @objc func nextAction(sender: UIButton) {
+        sender.isEnabled = false
+        PVNetworkTool.Request(router: .validateAuthCode(phone: phoneTF.text ?? "", code: authCodeTF.text ?? ""), success: { (resp) in
+            sender.isEnabled = true
+            let vc = PVMePasswordEditVC()
+            vc.phone = self.phoneTF.text ?? ""
+            self.navigationController?.pushViewController(vc, animated: true)
+            
+        }) { (e) in
+            sender.isEnabled = true
+            self.view.makeToast(e.localizedDescription)
+        }
+    }
+    
+}
 
-extension PVMeNameValidateVC: UITableViewDelegate, UITableViewDataSource{
+extension PVMePasswordEditVC {
+    
+    @objc func textFieldEditingChange(sender: UITextField) {
+        commitBtn.isEnabled = passwordTF_1.hasText && passwordTF_2.hasText
+        commitBtn.backgroundColor = commitBtn.isEnabled ? kColor_pink : UIColor.gray
+    }
+    
+    @objc func secureAction(sender: UIButton) {
+        sender.isSelected = !sender.isSelected
+        if secureBtn_1 == sender {
+            passwordTF_1.isSecureTextEntry = !sender.isSelected
+        }
+        if secureBtn_2 == sender {
+            passwordTF_2.isSecureTextEntry = !sender.isSelected
+        }
+
+    }
+    
+    @objc func commitAction(sender: UIButton) {
+        guard passwordTF_1.hasText && passwordTF_2.hasText else { return }
+        guard passwordTF_1.text! == passwordTF_2.text! else {
+            view.makeToast("两次输入的密码不一致")
+            return
+        }
+        sender.isEnabled = false
+        PVNetworkTool.Request(router: .changePsd(userId: kUserId, phone: phone, psd: passwordTF_1.text!), success: { (resp) in
+            sender.isEnabled = true
+            self.view.makeToast("修改成功")
+            DispatchQueue.main.asyncAfter(deadline: .now() + 2, execute: {
+                self.navigationController?.popToRootViewController(animated: true)
+            })
+            
+        }) { (e) in
+            sender.isEnabled = true
+        }
+    }
+    
+}
+
+//MARK: - 交换密码
+extension PVMeExchangePsdVC {
+    
+    @objc func textFieldEditingChange(sender: UITextField) {
+        confirmBtn.isEnabled = phoneTF.hasText && authCodeTF.hasText && passwordTF_1.hasText && passwordTF_2.hasText
+        confirmBtn.backgroundColor = confirmBtn.isEnabled ? kColor_pink : UIColor.gray
+    }
+    
+    @objc func getAuthCode(sender: UIButton) {
+        guard phoneTF.hasText else {
+            view.makeToast("请输入手机号")
+            return
+        }
+        guard phoneTF.text!.ypj.isPhoneNumber else {
+            view.makeToast("手机号输入不正确")
+            return
+        }
+        sender.isEnabled = false
+        PVNetworkTool.Request(router: .getAuthCode(phone: phoneTF.text!), success: { (resp) in
+            auth()
+            
+        }) { (e) in
+            sender.isEnabled = true
+            self.view.makeToast(e.localizedDescription)
+        }
+        
+        func auth() {
+            var t = 60
+            self.timer.setEventHandler {
+                if t <= 1 {
+                    self.timer.suspend()
+                    DispatchQueue.main.async {
+                        sender.setTitle("获取验证码", for: .normal)
+                        sender.backgroundColor = kColor_pink
+                        sender.isEnabled = true
+                    }
+                }
+                else {
+                    t -= 1
+                    DispatchQueue.main.async {
+                        sender.setTitle("重新发送(\(t)s)", for: .normal)
+                        sender.backgroundColor = UIColor.gray
+                        sender.isEnabled = false
+                    }
+                }
+            }
+            self.timer.resume()
+            authCodeTF.becomeFirstResponder()
+        }
+    }
+    
+    @objc func confirmAction(sender: UIButton) {
+        sender.isEnabled = false
+        
+    }
+}
+
+//MARK: - 收款方式
+extension PVMePayWayVC {
+    
+    @objc func addAccount(sender: UIButton) {
+        let v = PVMePayWayAlert.init(frame: CGRect.init(x: 0, y: 0, width: kScreenWidth, height: kScreenHeight))
+        v.delegate = self
+        view.addSubview(v)
+    }
+    
+}
+
+extension PVMePayWayVC: PVMePayWayAlertDelegate {
+    
+    func didSelectedConfirm(name: String, account: String) {
+        let att = NSMutableAttributedString.init(string: "修改 " + account)
+        att.addAttributes([.font: kFont_text, .foregroundColor: kColor_text!], range: NSMakeRange(0, 3))
+        att.addAttributes([.font: kFont_btn_weight, .foregroundColor: kColor_text!], range: NSMakeRange(3, account.count))
+        addBtn.setAttributedTitle(att, for: .selected)
+        addBtn.isSelected = true
+    }
+}
+
+//MARK: - 意见反馈
+extension PVMeFeedbackVC {
+    
+    @objc func commitAction(sender: UIButton) {
+        let uploadImages = imgs.filter { (obj) -> Bool in
+            return obj != addImg
+        }
+        //类型: 1解冻 2优化意见 3其他
+        let args: [String: Any] = ["type": type, "name": name, "tel": phone, "idCard": idCard, "content": content]
+        PVNetworkTool.upLoadImageRequest(images: uploadImages, imagesName: "imageUrl", params: args, router: .feedback(), success: { (resp) in
+            self.view.makeToast("提交成功")
+            DispatchQueue.main.asyncAfter(deadline: .now() + 2, execute: {
+                self.navigationController?.popViewController(animated: true)
+            })
+            
+        }) { (e) in
+            
+        }
+    }
+    
+    //我的反馈
+    override func rightButtonsAction(sender: UIButton) {
+        let vc = PVMeMyFeedbackVC()
+        navigationController?.pushViewController(vc, animated: true)
+    }
+    
+    @objc func typeAction(sender: UIButton) {
+        sender.isSelected = !sender.isSelected
+        if sender.isSelected {
+            typeBgView.frame = CGRect.init(x: 0, y: kNavigationBarAndStatusHeight + topBgView.height, width: kScreenWidth, height: kScreenHeight - kNavigationBarAndStatusHeight - topBgView.height)
+            view.addSubview(typeBgView)
+            typeTableView.height = 0
+            UIView.animate(withDuration: 0.3) {
+                self.typeTableView.height += 150 * KScreenRatio_6
+                sender.imageView?.transform = CGAffineTransform.init(rotationAngle: CGFloat.pi)
+            }
+        }
+        else {
+            UIView.animate(withDuration: 0.3, animations: {
+                sender.imageView?.transform = CGAffineTransform.identity
+                self.typeTableView.height = 0
+                
+            }) { (isFinish) in
+                self.typeBgView.removeFromSuperview()
+            }
+        }
+    }
+    
+    @objc func typeDismiss(sender: UITapGestureRecognizer) {
+        typeAction(sender: typeBtn)
+    }
+    
+    @objc func textFieldEditingChange(sender: UITextField) {
+        if sender == nameTF { name = nameTF.text ?? "" }
+        if sender == phoneTF { phone = phoneTF.text ?? "" }
+        if sender == idCardTF { idCard = idCardTF.text ?? "" }
+        if sender == contentTF {
+            if contentTF.hasText && contentTF.text!.count > kFeedbackContentLimitCount && contentTF.markedTextRange == nil {
+                contentTF.text = String(contentTF.text!.prefix(kFeedbackContentLimitCount))
+                return
+            }
+            content = contentTF.text ?? ""
+            contentCountLabel.text = "\(content.count)/\(kFeedbackContentLimitCount)"
+        }
+        if name.count > 0 && phone.count > 0 && idCard.count > 0 && content.count > 0 {
+            commitBtn.isEnabled = true
+            commitBtn.backgroundColor = kColor_pink
+        }
+        else {
+            commitBtn.isEnabled = false
+            commitBtn.backgroundColor = UIColor.gray
+        }
+    }
+    
+    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
+        view.endEditing(true)
+    }
+    
+}
+
+extension PVMeFeedbackVC: UITableViewDelegate, UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return titles.count
+        return 3
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
@@ -33,106 +366,18 @@ extension PVMeNameValidateVC: UITableViewDelegate, UITableViewDataSource{
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = PVMeNameValidateCell.init(title: titles[indexPath.row], tag: indexPath.row)
-        
+        let cell = PVMeFeedbackTypeCell.init(style: .default, reuseIdentifier: nil)
+        cell.titleLabel.text = ["解冻", "优化意见", "其它"][indexPath.row]
         return cell
     }
     
-}
-
-
- //MARK: - 修改密码
-extension PVMePasswordChangeVC {
-    
-    @objc func didClickGetAuthCode(sender: UIButton) {
-        sender.isEnabled = false
-        var t = 60
-        
-        self.timer.setEventHandler {
-            if t <= 1 {
-                self.timer.suspend()
-                DispatchQueue.main.async {
-                    sender.setTitle("获取验证码", for: .normal)
-                    sender.backgroundColor = kColor_pink
-                    sender.isEnabled = true
-                }
-            }
-            else {
-                t -= 1
-                DispatchQueue.main.async {
-                    sender.setTitle("已发送(\(t))", for: .normal)
-                    sender.backgroundColor = UIColor.gray
-                    sender.isEnabled = false
-                }
-            }
-        }
-        self.timer.resume()
-        authCodeTF.becomeFirstResponder()
-    }
-    
-    @objc func nextAction() {
-        
-    }
-    
-}
-
-
-
-
-//MARK: - 意见反馈
-extension PVMeFeedbackVC {
-    
-    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
-        view.endEditing(true)
-    }
-    
-    override func rightButtonsAction(sender: UIButton) {
-        let uploadImages = imgs.drop { (obj) -> Bool in
-            return obj != addImg
-        }
-        
-    }
-    
-    @objc func keyboardShowAction(noti: Notification) {
-        guard let info = noti.userInfo else { return }
-        guard let duration = info[UIApplication.keyboardAnimationDurationUserInfoKey] as? TimeInterval else { return }
-        guard let keyboardFrame = info[UIApplication.keyboardFrameEndUserInfoKey] as? CGRect else { return }
-        if contactView.contentTV.isFirstResponder  {
-            let y = keyboardFrame.origin.y - contactView.origin.y - contactView.contentTV.origin.y - contactView.contentTV.height
-            UIView.animate(withDuration: duration) {
-                self.view.centerY = kScreenHeight / 2 + y
-            }
-        }
-    }
-    
-    @objc func keyboardHideAction(noti: Notification) {
-        guard let info = noti.userInfo else { return }
-        guard let duration = info[UIApplication.keyboardAnimationDurationUserInfoKey] as? TimeInterval else { return }
-        if contactView.contentTV.isFirstResponder {
-            UIView.animate(withDuration: duration) {
-                self.view.center = CGPoint.init(x: kScreenWidth / 2, y: kScreenHeight / 2)
-            }
-        }
-    }
-    
-}
-
-extension PVMeFeedbackVC: YYTextViewDelegate {
-    
-    func textViewDidChange(_ textView: YYTextView) {
-        guard textView.superview != nil else { return }
-        if textView.superview! == contactView {//问题建议
-            content = textView.text ?? ""
-        }
-        else {//邮箱/手机号/QQ
-            contact = textView.text ?? ""
-        }
-        if content.count > 0 && contact.count > 0 {
-            commitBtn.isEnabled = true
-        }
-        else {
-            commitBtn.isEnabled = false
-        }
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        type = indexPath.row + 1
+        typeBtn.isSelected = !typeBtn.isSelected
+        typeBtn.setTitle(["解冻", "优化意见", "其它"][indexPath.row], for: .normal)
+        typeTableView.height = 0
+        typeBtn.imageView?.transform = CGAffineTransform.identity
+        typeBgView.removeFromSuperview()
     }
     
 }
@@ -217,6 +462,105 @@ extension PVMeFeedbackVC: PVMeFeedbackImageDelegate {
     
 }
 
+extension PVMeFeedbackVC: UIGestureRecognizerDelegate {
+    
+    func gestureRecognizer(_ gestureRecognizer: UIGestureRecognizer, shouldReceive touch: UITouch) -> Bool {
+        guard touch.view != nil else { return true }
+        if touch.view!.isDescendant(of: typeTableView) { return false }
+        return true
+    }
+}
+
+//MARK: - 我的反馈
+extension PVMeMyFeedbackVC {
+    
+    func loadData(page: Int) {
+        PVNetworkTool.Request(router: .myFeedback(page: page * 10), success: { (resp) in
+            if let d = Mapper<PVMeFeedbackList>().mapArray(JSONObject: resp["result"]["feedbackList"].arrayObject) {
+                if page == 0 { self.dataArr = d }
+                else { self.dataArr += d }
+                self.tableView.reloadData()
+            }
+            self.tableView.mj_footer.endRefreshing()
+            
+        }) { (e) in
+            self.page = self.page > 0 ? self.page - 1 : 0
+            self.tableView.mj_footer.endRefreshing()
+        }
+    }
+    
+    func setRefresh() {
+        PVRefresh.headerRefresh(scrollView: tableView) {[weak self] in
+            self?.page = 0
+            self?.loadData(page: 0)
+        }
+        PVRefresh.footerRefresh(scrollView: tableView) {[weak self] in
+            self?.page += 1
+            self?.loadData(page: self?.page ?? 0)
+        }
+    }
+}
+
+extension PVMeMyFeedbackVC: UITableViewDelegate, UITableViewDataSource {
+    
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        return dataArr.count
+    }
+    
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        return 70 * KScreenRatio_6
+    }
+    
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        var cell = tableView.dequeueReusableCell(withIdentifier: "PVMeMyFeedbackCell") as? PVMeMyFeedbackCell
+        if cell == nil {
+            cell = PVMeMyFeedbackCell.init(style: .default, reuseIdentifier: "PVMeMyFeedbackCell")
+        }
+        cell?.delegate = self
+        guard dataArr.count > indexPath.row else { return cell! }
+        cell?.data = dataArr[indexPath.row]
+        return cell!
+    }
+}
+
+extension PVMeMyFeedbackVC: PVMeMyFeedbackDelegate {
+    
+    func didSelectedHandle(sender: UIButton, cell: PVMeMyFeedbackCell) {
+        
+    }
+    
+}
+
+//MARK: - 关于我们
+extension PVMeAboutVC: UITableViewDataSource, UITableViewDelegate {
+    
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        return items.count
+    }
+    
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        return 55 * KScreenRatio_6
+    }
+    
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        let cell = PVMeAboutCell.init(image: imgs[indexPath.row], title: items[indexPath.row])
+        return cell
+    }
+    
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        
+        if indexPath.row == 0 {//用户协议
+           
+        }
+        if indexPath.row == 1 {//隐私政策
+            
+        }
+        if indexPath.row == 2 {//社区管理公约
+            
+        }
+    }
+    
+}
 
 //MARK: - 检测更新
 extension PVMeVersionVC: UITableViewDataSource, UITableViewDelegate {

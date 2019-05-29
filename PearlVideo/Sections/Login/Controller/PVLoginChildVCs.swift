@@ -159,6 +159,7 @@ class PVRegisterVC: PVBaseNavigationVC {
     }
     
     deinit {
+        NotificationCenter.default.removeObserver(self)
         timer.resume()
         timer.cancel()
     }
@@ -283,7 +284,6 @@ class PVRegisterPsdVC: PVBaseNavigationVC {
         tf.font = kFont_text
         tf.textColor = UIColor.white
         tf.attributedPlaceholder = NSAttributedString.init(string: "请输入密码", attributes: [.font: kFont_text, .foregroundColor: kColor_text!])
-        tf.keyboardType = .numbersAndPunctuation
         tf.clearButtonMode = .whileEditing
         tf.textAlignment = .center
         tf.addTarget(self, action: #selector(textFieldChange(sender:)), for: .editingChanged)

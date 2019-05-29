@@ -57,7 +57,7 @@ class PVPlayVideoUploadVC: PVBaseNavigationVC {
     //上传
     lazy var uploadManager: VODUploadClient = {
         let c = VODUploadClient.init()
-        c.init(listener)
+        c.setListener(listener)
         return c
     }()
     lazy var listener: VODUploadListener = {

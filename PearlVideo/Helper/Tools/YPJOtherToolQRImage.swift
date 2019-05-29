@@ -80,7 +80,9 @@ extension YPJOtherTool {
         bgImage.draw(in: CGRect(x: 0, y: 0, width: bgImage.size.width, height: bgImage.size.height))
         let imageX: CGFloat = (bgImage.size.width - iconSize) * 0.5
         let imageY: CGFloat = (bgImage.size.height - iconSize) * 0.5
-        iconImage.draw(in: CGRect(x: imageX, y: imageY, width: iconSize, height: iconSize))
+        //添加白边
+        let img = iconImage.byRoundCornerRadius(2, borderWidth: 3, borderColor: UIColor.white) ?? iconImage
+        img.draw(in: CGRect(x: imageX, y: imageY, width: iconSize, height: iconSize))
         let result = UIGraphicsGetImageFromCurrentImageContext()
         UIGraphicsEndImageContext()
         return result

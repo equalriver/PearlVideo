@@ -12,7 +12,8 @@ import ObjectMapper
 extension PVHomeMyTeamVC {
     //邀请好友
     override func rightButtonsAction(sender: UIButton) {
-        
+        let vc = PVMeShareVC()
+        navigationController?.pushViewController(vc, animated: true)
     }
     
     func loadData() {

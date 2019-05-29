@@ -21,7 +21,7 @@ class PVHomeAttentionVC: PVBaseViewController {
     
     let threshold:   CGFloat = 0.7
     let itemPerPage = 10   //每页条数
-    var currentPage = 0
+    var page = 0
     
     var dataArr = Array<PVHomeVideoModel>()
     
@@ -46,16 +46,14 @@ class PVHomeAttentionVC: PVBaseViewController {
         collectionView.snp.makeConstraints { (make) in
             make.size.centerY.centerX.equalToSuperview()
         }
-        loadData(page: currentPage)
+        loadData(page: page)
         setRefresh()
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        if UserDefaults.standard.value(forKey: kToken) == nil {
-            collectionView.stateUnlogin(title: "登录", img: nil) {
-                self.loadData(page: self.currentPage)
-            }
+        if dataArr.count == 0 {
+            loadData(page: self.page)
         }
     }
     
@@ -77,14 +75,14 @@ class PVHomeAttentionVC: PVBaseViewController {
             })
             
         }) { (e) in
-            self.currentPage = self.currentPage > 0 ? self.currentPage - 1 : 0
+            self.page = self.page > 0 ? self.page - 1 : 0
             self.isLoadingMore = false
         }
     }
     
     func setRefresh() {
         let headerRef = MJRefreshHeader.init {[weak self] in
-            self?.currentPage = 0
+            self?.page = 0
             self?.loadData(page: 0)
             self?.delegate?.didBeginAttentionHeaderRefresh(sender: self?.collectionView)
         }
@@ -112,15 +110,15 @@ extension PVHomeAttentionVC: UICollectionViewDataSource, UICollectionViewDelegat
             let total = scrollView.contentSize.height
             let ratio = current / total
             
-            let needRead = CGFloat(itemPerPage) * threshold + CGFloat(currentPage * itemPerPage)
-            let totalItem = itemPerPage * (currentPage + 1)
+            let needRead = CGFloat(itemPerPage) * threshold + CGFloat(page * itemPerPage)
+            let totalItem = itemPerPage * (page + 1)
             let newThreshold = needRead / CGFloat(totalItem)
             
             if ratio >= newThreshold {
-                currentPage += 1
+                page += 1
                 isLoadingMore = true
-                loadData(page: currentPage)
-                print("Request page \(currentPage) from server.")
+                loadData(page: page)
+                print("Request page \(page) from server.")
             }
         }
     }

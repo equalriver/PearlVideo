@@ -1,20 +1,21 @@
 PODS:
-  - Alamofire (4.8.1)
-  - AlivcConan (0.9.0):
-    - AlivcConan/AlivcConan (= 0.9.0)
-  - AlivcConan/AlivcConan (0.9.0)
+  - Alamofire (4.8.2)
+  - AlipaySDK-iOS (15.5.9)
+  - AlivcConan (0.9.2):
+    - AlivcConan/AlivcConan (= 0.9.2)
+  - AlivcConan/AlivcConan (0.9.2)
   - AliyunOSSiOS (2.10.7)
   - AliyunPlayer_iOS/AliyunPlayerSDK (3.4.9)
   - AliyunPlayer_iOS/AliyunVodPlayerSDK (3.4.9):
     - AliyunPlayer_iOS/AliyunPlayerSDK
-  - AliyunVideoSDKBasic (3.8.0):
+  - AliyunVideoSDKBasic (3.9.0):
     - QuCore-ThirdParty
     - VODUpload
   - FSPagerView (0.8.2)
   - IQKeyboardManagerSwift (6.2.0)
   - Kingfisher (4.10.1)
   - lottie-ios (2.5.3)
-  - MJRefresh (3.1.16)
+  - MJRefresh (3.2.0)
   - ObjectMapper (3.4.2)
   - pop (1.0.12)
   - PYSearch (0.9.1)
@@ -22,11 +23,12 @@ PODS:
   - SnapKit (4.2.0)
   - SVProgressHUD (2.2.5)
   - SwiftyJSON (4.2.0)
-  - Toast-Swift (4.0.1)
+  - Toast-Swift (4.0.0)
   - TZImagePickerController (3.2.0)
   - "UITableView+FDTemplateLayoutCell (1.6)"
-  - VODUpload (1.5.0):
+  - VODUpload (1.5.1):
     - AliyunOSSiOS
+  - WechatOpenSDK (1.8.4)
   - WMPageController (2.5.2)
   - YYKit (1.0.9):
     - YYKit/no-arc (= 1.0.9)
@@ -34,12 +36,13 @@ PODS:
 
 DEPENDENCIES:
   - Alamofire
+  - AlipaySDK-iOS
   - AlivcConan
   - AliyunOSSiOS
   - AliyunPlayer_iOS/AliyunVodPlayerSDK
   - AliyunVideoSDKBasic
   - FSPagerView
-  - IQKeyboardManagerSwift
+  - IQKeyboardManagerSwift (= 6.2)
   - Kingfisher
   - lottie-ios
   - MJRefresh
@@ -49,17 +52,18 @@ DEPENDENCIES:
   - QuCore-ThirdParty
   - SnapKit
   - SVProgressHUD
-  - SwiftyJSON
-  - Toast-Swift
+  - SwiftyJSON (= 4.2)
+  - Toast-Swift (= 4.0)
   - TZImagePickerController
   - "UITableView+FDTemplateLayoutCell"
-  - VODUpload
+  - WechatOpenSDK
   - WMPageController
   - YYKit
 
 SPEC REPOS:
   https://github.com/cocoapods/specs.git:
     - Alamofire
+    - AlipaySDK-iOS
     - AlivcConan
     - AliyunOSSiOS
     - AliyunPlayer_iOS
@@ -80,20 +84,22 @@ SPEC REPOS:
     - TZImagePickerController
     - "UITableView+FDTemplateLayoutCell"
     - VODUpload
+    - WechatOpenSDK
     - WMPageController
     - YYKit
 
 SPEC CHECKSUMS:
-  Alamofire: 16ce2c353fb72865124ddae8a57c5942388f4f11
-  AlivcConan: 57758f7918c8c718dbb9b9bbe298fdc6724191ac
+  Alamofire: ae5c501addb7afdbb13687d7f2f722c78734c2d3
+  AlipaySDK-iOS: 1c5283b30977a24acecc0114662697f7dc78f618
+  AlivcConan: 4cb3ff2d6bc81fda833eefa5a2ff6488975c344b
   AliyunOSSiOS: 602b6a4e70e62a5f0a6431c20496343141d7e66f
   AliyunPlayer_iOS: 5704f564e0c041668138a604ebff31ecb13fe7d3
-  AliyunVideoSDKBasic: b160d0c838bce5a10b3fa22468a3f16f850b40c1
+  AliyunVideoSDKBasic: 2ee2e4e13846d41572f7a442ce4ed1533528f8ab
   FSPagerView: 816a18842306973cc7cc6df8a5332272f7815c30
   IQKeyboardManagerSwift: b07ccf9d8cafe993dcd6cb794eb4ba34611a0c4e
   Kingfisher: c148cd7b47ebde9989f6bc7c27dcaa79d81279a0
   lottie-ios: a50d5c0160425cd4b01b852bb9578963e6d92d31
-  MJRefresh: 7798e16e53a5ef7f332dd05b27664db4e29530fd
+  MJRefresh: ed450d6eb9d3346a2cb033ab7eb6de090aeef437
   ObjectMapper: 0d4402610f4e468903ae64629eec4784531e5c51
   pop: d582054913807fd11fd50bfe6a539d91c7e1a55a
   PYSearch: 76dee18eea3309b60921a5d6a69390a63a5dda15
@@ -101,13 +107,14 @@ SPEC CHECKSUMS:
   SnapKit: fe8a619752f3f27075cc9a90244d75c6c3f27e2a
   SVProgressHUD: 1428aafac632c1f86f62aa4243ec12008d7a51d6
   SwiftyJSON: c4bcba26dd9ec7a027fc8eade48e2c911f229e96
-  Toast-Swift: e42a638589a2f95036b4bb7626cfbdde7daf0393
+  Toast-Swift: 594b5c5e5129f15438e410207e43287f027b3c00
   TZImagePickerController: 7850b158d025065b162a1a963d445040b828abc9
   "UITableView+FDTemplateLayoutCell": 5c949b4a5059c404b442926c0e80f81d10a2d66f
-  VODUpload: 95fefc3b9d75067247fa87369933a86cb4bd21f3
+  VODUpload: d180069b5fcee002079a892de2f310bacdb8e355
+  WechatOpenSDK: 9b721089507c895d05f997408c30bb6e6f5f9b60
   WMPageController: 0c7624d2b48e4f1ab92371688cf6744ed701575d
   YYKit: 7cda43304a8dc3696c449041e2cb3107b4e236e7
 
-PODFILE CHECKSUM: 59f6708b39f17404be297e626782fd7439c9d084
+PODFILE CHECKSUM: 117dede7247376308b573b3ee03c30031046c79a
 
-COCOAPODS: 1.6.0.beta.1
+COCOAPODS: 1.7.0

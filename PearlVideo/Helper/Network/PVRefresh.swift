@@ -52,7 +52,7 @@ class PVRefresh: NSObject {
             }
             
         }
-        footerRef?.backgroundColor = kColor_background
+        footerRef?.backgroundColor = kColor_deepBackground
         footerRef?.tintColor = kColor_subText
         footerRef?.setTitle("上拉加载更多", for: .idle)
         footerRef?.setTitle("正在加载数据...", for: .refreshing)

@@ -7,6 +7,9 @@ import ObjectMapper
 
 class PVMeViewController: PVBaseWMPageVC {
     
+    
+    var data = PVMeModel()
+    
     var panOffsetY: CGFloat = 0
     
     let headerViewHeight: CGFloat = 430 * KScreenRatio_6
@@ -44,6 +47,17 @@ class PVMeViewController: PVBaseWMPageVC {
         vc.delegate = self
         return vc
     }()
+    lazy var likeVC: PVMeLikeVC = {
+        let vc = PVMeLikeVC()
+        vc.delegate = self
+        return vc
+    }()
+    lazy var secureVC: PVMeSecureVC = {
+        let vc = PVMeSecureVC()
+        vc.delegate = self
+        return vc
+    }()
+    
     //life cycle
     override func loadView() {
         view = contentScrollView
@@ -54,19 +68,19 @@ class PVMeViewController: PVBaseWMPageVC {
         titleSizeSelected = 18 * KScreenRatio_6
         titleColorNormal = kColor_text!
         titleColorSelected = kColor_pink!
-        menuViewStyle = .line
-        progressWidth = 30 * KScreenRatio_6
         
         super.viewDidLoad()
         initUI()
         title = "我的"
         NotificationCenter.default.addObserver(self, selector: #selector(refreshNotification), name: .kNotiName_refreshMeVC, object: nil)
+        
        
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         UIApplication.shared.keyWindow?.addSubview(naviBar)
+        loadData()
     }
     
     override func viewWillDisappear(_ animated: Bool) {

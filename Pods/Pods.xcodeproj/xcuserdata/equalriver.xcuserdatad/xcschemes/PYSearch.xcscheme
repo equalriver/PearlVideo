@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Scheme
-   LastUpgradeVersion = "0930"
+   LastUpgradeVersion = "1020"
    version = "1.3">
    <BuildAction
       parallelizeBuildables = "YES"
@@ -14,10 +14,10 @@
             buildForArchiving = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "015D389382AFA23EC232EE568EBF5E3F"
+               BlueprintIdentifier = "F18DC33436366FFD1C3D805226CDBE8C"
+               BuildableName = "PYSearch.framework"
                BlueprintName = "PYSearch"
-               ReferencedContainer = "container:Pods.xcodeproj"
-               BuildableName = "PYSearch.framework">
+               ReferencedContainer = "container:Pods.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
       </BuildActionEntries>

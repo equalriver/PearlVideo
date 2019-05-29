@@ -23,7 +23,7 @@ public let kLastInputIP = "kLastInputIP"
 public let kLastInputAccount = "kLastInputAccount"
 
 ///base url
-public let kBaseURLString = UserDefaults.standard.string(forKey: kLocalIP) ?? "http://192.168.0.180:8080/api/"
+public let kBaseURLString = UserDefaults.standard.string(forKey: kLocalIP) ?? "http://192.168.0.112:8080/api/"
 
 ///local text ip
 public let kLocalIP = "kLocalIP"
@@ -35,10 +35,6 @@ public let kAppVersionURL = "http://itunes.apple.com/lookup?id=你的AppStoreid"
 //js handler
 public let kPVAppJSName_none = ""
 public let kPVMsgJSName_none = ""
-
-
-///极光推送 key
-public let kJPushKey = ""
 
 ///key chain service
 public let kKeyChainService = "com.lzmingsi.PearlVideo.keyChainService"
@@ -56,6 +52,13 @@ public let kAccessKeyId = "kAccessKeyId"
 public let kAccessKeySecret = "kAccessKeySecret"
 public let kSecurityToken = "kSecurityToken"
 
+//微信
+public let kWeixinAppId = "wx283fe91de8c744cc"
+public let kWeixinAppSecret = "057f48e865d5b3c3071bc1394ecff7a8"
+
+//支付宝
+public let kAlipayScheme = ""
+
 //MARK: - noti
 extension Notification.Name {
     
@@ -68,8 +71,8 @@ extension Notification.Name {
     ///刷新“我的”页面
     public static let kNotiName_refreshMeVC = Notification.Name.init("kNotiName_refreshMeVC")
     
-    
-    
+    ///alipay支付成功
+    public static let kNotiName_alipaySuccess = Notification.Name.init("kNotiName_alipaySuccess")
     
     
 

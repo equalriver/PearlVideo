@@ -19,6 +19,7 @@ public let speechViewTag = 9300
 
 
 
+
 //corner raidus
 public let kCornerRadius: CGFloat = 6
 
@@ -106,9 +107,8 @@ public let kReportLimitCount = 100
 ///意见反馈图片限制
 public let kFeedbackImageLimitCount = 6
 
-
-///feedback image count
-public let kFeedBackImageLimitCount = 3
+///意见反馈内容限制
+public let kFeedbackContentLimitCount = 30
 
 
 //MARK: - 短视频相关

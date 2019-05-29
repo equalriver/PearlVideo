@@ -10,6 +10,13 @@ import UIKit
 
 class PVMeProductionCell: UICollectionViewCell {
     
+    public var data: PVMeVideoList! {
+        didSet{
+            imgIV.kf.setImage(with: URL.init(string: data.coverUrl))
+            praiseBtn.setTitle("\(data.thumbCount)", for: .normal)
+        }
+    }
+    
     lazy var imgIV: UIImageView = {
         let v = UIImageView()
         return v
@@ -19,6 +26,7 @@ class PVMeProductionCell: UICollectionViewCell {
         b.setImage(UIImage.init(named: "me_like"), for: .normal)
         b.titleLabel?.font = kFont_text_3
         b.setTitleColor(UIColor.white, for: .normal)
+        b.isUserInteractionEnabled = false
         return b
     }()
     

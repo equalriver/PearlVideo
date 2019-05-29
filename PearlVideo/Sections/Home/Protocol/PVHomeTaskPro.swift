@@ -171,7 +171,6 @@ extension PVHomeAllTaskVC: PVHomeAllTaskDelegate {
             })
             tf.backgroundColor = UIColor.white
             tf.tintColor = kColor_border
-            tf.keyboardType = .numbersAndPunctuation
             tf.borderStyle = .roundedRect
         }
         let confirm = UIAlertAction.init(title: "确定", style: .default) { (ac) in

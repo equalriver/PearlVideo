@@ -37,6 +37,15 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         application.cancelAllLocalNotifications()
 //        JPUSHService.resetBadge()
     }
+    
+    func application(_ app: UIApplication, open url: URL, options: [UIApplication.OpenURLOptionsKey : Any] = [:]) -> Bool {
+        WXApi.handleOpen(url, delegate: self)
+        
+        AlipaySDK.defaultService()?.processOrder(withPaymentResult: url, standbyCallback: { (dic) in
+            NotificationCenter.default.post(name: .kNotiName_alipaySuccess, object: nil)
+        })
+        return true
+    }
     /*
     func application(_ application: UIApplication, didRegisterForRemoteNotificationsWithDeviceToken deviceToken: Data) {
 //        JPUSHService.registerDeviceToken(deviceToken)

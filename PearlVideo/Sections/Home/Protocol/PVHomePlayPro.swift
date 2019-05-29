@@ -22,6 +22,13 @@ extension PVHomePlayVC {
             if let securityToken = resp["result"]["securityToken"].string {
                 self.securityToken = securityToken
             }
+            firstLoadData()
+            
+        }) { (e) in
+            
+        }
+        
+        func firstLoadData() {
             PVNetworkTool.Request(router: .videoList(type: self.type, videoIndex: self.videoIndex, videoId: self.videoId), success: { (resp) in
                 if let d = Mapper<PVVideoPlayModel>().mapArray(JSONObject: resp["result"]["videoList"].arrayObject) {
                     if self.page == 0 { self.dataArr = d }
@@ -36,12 +43,10 @@ extension PVHomePlayVC {
                 }
                 
             }) { (e) in
-                
+                self.page = self.page > 0 ? self.page - 1 : 0
             }
-            
-        }) { (e) in
-            
         }
+        
     }
     
     func loadData(page: Int) {

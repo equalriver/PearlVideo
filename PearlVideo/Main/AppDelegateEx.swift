@@ -8,7 +8,8 @@ import IQKeyboardManagerSwift
 import SVProgressHUD
 import UserNotifications
 
-extension AppDelegate {
+
+extension AppDelegate: WXApiDelegate {
     
     public func appSetup(options: [UIApplication.LaunchOptionsKey: Any]? = nil) {
         
@@ -21,7 +22,7 @@ extension AppDelegate {
         //取得 APNs 标准信息内容
         if let aps = info["aps"] as? [AnyHashable : Any] {
             //推送显示的内容
-            if let content = aps["alert"] as? String {
+            if let _ = aps["alert"] as? String {
 //                if content.contains("") { NotificationCenter.default.post(name: .kNotiUserShouldRefreshData, object: nil) }
             }
     
@@ -38,6 +39,12 @@ extension AppDelegate {
         isProduction = true
 //        JMessage.setLogOFF()
         #endif
+        
+        //weixin
+        WXApi.registerApp(kWeixinAppId)
+        
+        //实人认证
+        RPSDK.initialize(RPSDKEnv.online)
         
         //toast
         ToastManager.shared.position = .center
@@ -94,6 +101,11 @@ extension AppDelegate {
     private func localizeNotification() {
         let setting = UIUserNotificationSettings.init(types: [UIUserNotificationType.alert, UIUserNotificationType.sound, UIUserNotificationType.badge], categories: nil)
         UIApplication.shared.registerUserNotificationSettings(setting)
+    }
+    
+    //微信delegate
+    func onResp(_ resp: BaseResp) {
+        
     }
     
 }

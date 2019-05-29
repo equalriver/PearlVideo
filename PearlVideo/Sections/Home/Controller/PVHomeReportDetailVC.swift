@@ -95,6 +95,7 @@ class PVHomeReportDetailVC: PVBaseNavigationVC {
         super.viewDidLoad()
         imgs = [addImg]
         initUI()
+        title = "举报详情"
     }
     
     func initUI() {

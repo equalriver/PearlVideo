@@ -24,6 +24,41 @@ extension UIView: YPJToolable {
 
 extension YPJViewTools where YPJToolType == UIView {
     
+    //MARK: - 截图当前view
+    ///截图当前view
+    func screenshot() -> UIImage? {
+        UIGraphicsBeginImageContextWithOptions(ypj.size, true, 0)
+        guard let context = UIGraphicsGetCurrentContext() else { return nil }
+        
+        //设置白色context
+        let path = UIBezierPath.init(rect: ypj.bounds)
+        UIColor.white.set()
+        context.addPath(path.cgPath)
+        context.fillPath()
+        
+        ypj.layer.render(in: context)
+        
+        let img = UIGraphicsGetImageFromCurrentImageContext()
+        UIGraphicsEndImageContext()
+        
+        return img
+    }
+    
+    //MARK: - 获取指定view的截图
+    ///获取指定view的截图
+    public func screenImage() -> UIImage {
+        UIGraphicsBeginImageContextWithOptions(self.ypj.size, true, UIScreen.main.scale)
+        if let context = UIGraphicsGetCurrentContext() {
+            self.ypj.layer.render(in: context)
+            let img = UIGraphicsGetImageFromCurrentImageContext()
+            if img != nil {
+                UIGraphicsEndImageContext()
+                return img!
+            }
+        }
+        return UIImage()
+    }
+    
     //MARK: - 添加渐变色层
     ///添加渐变色层
     func addGradientLayer(colors: [CGColor], startPoint: CGPoint, endPoint: CGPoint, locations: [NSNumber]?) {
@@ -106,21 +141,6 @@ extension YPJViewTools where YPJToolType == UIView {
         }) { (isFinished) in
             completion?(isFinished)
         }
-    }
-    
-    //MARK: - 获取指定view的截图
-    ///获取指定view的截图
-    public func screenImage() -> UIImage {
-        UIGraphicsBeginImageContextWithOptions(self.ypj.size, false, UIScreen.main.scale)
-        if let context = UIGraphicsGetCurrentContext() {
-            self.ypj.layer.render(in: context)
-            let img = UIGraphicsGetImageFromCurrentImageContext()
-            if img != nil {
-                UIGraphicsEndImageContext()
-                return img!
-            }
-        }
-        return UIImage()
     }
     
 }

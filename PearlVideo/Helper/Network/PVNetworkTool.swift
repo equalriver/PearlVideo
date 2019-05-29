@@ -144,7 +144,7 @@ class PVNetworkTool: SessionManager {
     }
     
     //上传图片
-    public class func upLoadImageRequest(images: [UIImage], imagesName: String, params: [String : String], router: Router, success : @escaping responseCallback, failure : @escaping errorCallback) {
+    public class func upLoadImageRequest(images: [UIImage], imagesName: String, params: [String : Any], router: Router, success : @escaping responseCallback, failure : @escaping errorCallback) {
         
         PVNetworkTool.shared.upload(multipartFormData: { (multipartFormData) in
         
@@ -167,8 +167,16 @@ class PVNetworkTool: SessionManager {
                 }
             }
             for (key ,value) in params {
-                guard let d = value.data(using: String.Encoding.utf8) else { break }
-                multipartFormData.append(d, withName: key)
+                if var d = value as? Int {
+                    let data = Data.init(bytes: &d, count: MemoryLayout.size(ofValue: d))
+                    multipartFormData.append(data, withName: key)
+                    continue
+                }
+                if let s = value as? String {
+                    guard let d = s.data(using: String.Encoding.utf8) else { break }
+                    multipartFormData.append(d, withName: key)
+                    continue
+                }
             }
             
         }, with: router

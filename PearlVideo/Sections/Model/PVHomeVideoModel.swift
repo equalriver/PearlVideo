@@ -11,7 +11,7 @@ import ObjectMapper
 
 class PVHomeVideoModel: PVBaseModel {
     
-    ///点赞数量
+    ///评论数量
     var commentCount = 0
     
     ///封面图

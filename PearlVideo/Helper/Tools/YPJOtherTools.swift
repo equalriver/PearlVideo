@@ -238,12 +238,13 @@ extension YPJOtherTool {
 
     //MARK: - 登录验证
     ///登录验证
-    public func loginValidate(currentVC: UIViewController, isLogin: ((_ isLogin: Bool) -> Void)?) {
+    @discardableResult
+    public func loginValidate(currentVC: UIViewController, isLogin: ((_ isLogin: Bool) -> Void)?) -> Bool {
         
         switch YYReachability.init().status {
         case .none:
             SVProgressHUD.showInfo(withStatus: "咦～竟然没有检测到网络")
-            return
+            return false
         default:
             break
         }
@@ -253,10 +254,10 @@ extension YPJOtherTool {
             let vc = PVBaseRootNaviVC.init(rootViewController: lvc)
             currentVC.present(vc, animated: true, completion: nil)
             isLogin?(false)
-            return
+            return false
         }
         isLogin?(true)
-        
+        return true
     }
     
     /*
@@ -363,6 +364,25 @@ extension YPJOtherTool {
         }
     }
     
+    //MARK: - 获取摄像头权限
+    ///获取摄像头权限
+    func getCameraAuth(target: UIViewController, _ auth: @escaping () -> Void) {
+        let status = AVCaptureDevice.authorizationStatus(for: AVMediaType.video)
+        switch status {
+        case .authorized, .notDetermined: auth()
+            
+        default:
+            AVCaptureDevice.requestAccess(for: .video) { (isGranted) in
+                if isGranted {
+                    DispatchQueue.main.async { auth() }
+                }
+                else {
+                    self.gotoAuthorizationView(type: "摄像头", vc: target)
+                }
+            }
+        }
+    }
+    
     //MARK: - debug string
     ///debug string
     func debugString(debugStr: String) -> String {
@@ -437,55 +457,5 @@ extension YPJOtherTool {
         
         return currentVersion
     }
-    
-    
-    /*
-     func createQRForString(qrString: String?, qrImageName: String) -> UIImage? {
-     if let sureQRString = qrString{
-     let stringData = sureQRString.data(using: String.Encoding.utf8, allowLossyConversion: false)
-     //创建一个二维码的滤镜
-     let qrFilter = CIFilter(name: "CIQRCodeGenerator")
-     qrFilter?.setValue(stringData, forKey: "inputMessage")//通过kvo方式给一个字符串，生成二维码
-     qrFilter?.setValue("H", forKey: "inputCorrectionLevel")//设置二维码的纠错水平，越高纠错水平越高，可以污损的范围越大
-     let qrCIImage = qrFilter?.outputImage//拿到二维码图片
-     
-     // 创建一个颜色滤镜,黑白色
-     let colorFilter = CIFilter(name: "CIFalseColor")!
-     colorFilter.setDefaults()
-     colorFilter.setValue(qrCIImage, forKey: "inputImage")
-     colorFilter.setValue(CIColor(red: 0, green: 0, blue: 0), forKey: "inputColor0")
-     colorFilter.setValue(CIColor(red: 1, green: 1, blue: 1), forKey: "inputColor1")
-     // 返回二维码image
-     let codeImage = UIImage(ciImage: (colorFilter.outputImage!.applying(CGAffineTransform(scaleX: 30, y: 30))))
-     
-     let context = CIContext(options: nil)
-     let ciimg = qrCIImage?.applying(CGAffineTransform(scaleX: 30, y: 30))
-     let cgimg = context.createCGImage(ciimg!, from: (ciimg?.extent)!)
-     
-     // 中间一般放logo
-     if let iconImage = UIImage(named: qrImageName) {
-     let rect = CGRect(x: 0, y: 0, width: codeImage.size.width, height: codeImage.size.height)
-     
-     UIGraphicsBeginImageContext(rect.size)
-     codeImage.draw(in: rect)
-     let avatarSize = CGSize(width: rect.size.width*0.25, height: rect.size.height*0.25)
-     
-     let x = (rect.width - avatarSize.width) * 0.5
-     let y = (rect.height - avatarSize.height) * 0.5
-     iconImage.draw(in: CGRect(x: x, y: y, width: avatarSize.width, height: avatarSize.height))
-     
-     let resultImage = UIGraphicsGetImageFromCurrentImageContext()
-     
-     UIGraphicsEndImageContext()
-     return resultImage
-     }
-     
-     //return codeImage
-     return UIImage.init(cgImage: cgimg!)
-     
-     }
-     return nil
-     }
-     */
     
 }

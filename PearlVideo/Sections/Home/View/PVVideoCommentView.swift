@@ -11,7 +11,7 @@ protocol PVVideoCommentDelegate: NSObjectProtocol {
     func didSelectedUser(id: String)
     ///1点赞 2取消
     func didSelectedLike(videoId: String, commentId: Int, action: Int)
-    
+    func didSelectedDone(content: String, completion: @escaping () -> Void)
 }
 
 class PVVideoCommentView: UIView {
@@ -24,6 +24,8 @@ class PVVideoCommentView: UIView {
     var videoId = ""
     
     var page = 0
+    
+    let inputViewRect = CGRect.init(x: 0, y: 420 * KScreenRatio_6, width: kScreenWidth, height: 50 * KScreenRatio_6)
     
     
     lazy var contentView: UIView = {
@@ -46,7 +48,7 @@ class PVVideoCommentView: UIView {
     }()
     lazy var tableView: UITableView = {
         let tb = UITableView.init(frame: .zero, style: .plain)
-        tb.backgroundColor = UIColor.white
+        tb.backgroundColor = kColor_deepBackground
         tb.separatorStyle = .none
         tb.dataSource = self
         tb.delegate = self
@@ -54,23 +56,29 @@ class PVVideoCommentView: UIView {
         return tb
     }()
     lazy var commentInputView: PVAttentionDetailCommentInputView = {
-        let v = PVAttentionDetailCommentInputView.init(frame: .zero, delegate: self)
-        v.delegate = self
+        let v = PVAttentionDetailCommentInputView.init(frame: inputViewRect, delegate: self)
         return v
     }()
     
     
     required convenience init(videoId: String, delegate: PVVideoCommentDelegate) {
         self.init()
+        frame = CGRect.init(x: 0, y: 0, width: kScreenWidth, height: kScreenHeight)
         backgroundColor = UIColor.clear
         self.videoId = videoId
         self.delegate = delegate
         initUI()
         setRefresh()
         loadData(page: 0)
+        NotificationCenter.default.addObserver(self, selector: #selector(keyboardShowAction(noti:)), name: UIApplication.keyboardWillShowNotification, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(keyboardHideAction(noti:)), name: UIApplication.keyboardWillHideNotification, object: nil)
         contentView.ypj.viewAnimateComeFromBottom(duration: 0.3) { (isFinish) in
            
         }
+    }
+    
+    deinit {
+        NotificationCenter.default.removeObserver(self)
     }
     
     func initUI() {
@@ -84,7 +92,7 @@ class PVVideoCommentView: UIView {
             make.centerX.equalToSuperview()
         }
         closeBtn.snp.makeConstraints { (make) in
-            make.centerY.equalTo(titleLabel)
+            make.top.equalToSuperview()
             make.size.equalTo(CGSize.init(width: 30 * KScreenRatio_6, height: 30 * KScreenRatio_6))
             make.right.equalToSuperview().offset(-10)
         }
@@ -93,18 +101,19 @@ class PVVideoCommentView: UIView {
             make.centerX.width.equalToSuperview()
             make.bottom.equalToSuperview().offset(-50 * KScreenRatio_6)
         }
-        commentInputView.snp.makeConstraints { (make) in
-            make.size.equalTo(CGSize.init(width: kScreenWidth, height: 50 * KScreenRatio_6))
-            make.bottom.centerX.equalToSuperview()
-        }
+//        commentInputView.snp.makeConstraints { (make) in
+//            make.size.equalTo(CGSize.init(width: kScreenWidth, height: 50 * KScreenRatio_6))
+//            make.bottom.centerX.equalToSuperview()
+//        }
     }
     
 }
 
 //MARK: - cell
 protocol PVVideoCommentCellDelegate: NSObjectProtocol {
-    func didSelectedHeader(cell: PVVideoCommentCell)
+    func didSelectedAvatar(cell: PVVideoCommentCell)
     func didSelectedLike(cell: PVVideoCommentCell, sender: UIButton)
+    func didSelectedMoreReply(cell: PVVideoCommentCell, sender: UIButton)
 }
 
 class PVVideoCommentCell: PVBaseTableCell {
@@ -120,6 +129,18 @@ class PVVideoCommentCell: PVBaseTableCell {
             dateLabel.text = data.createAt
             likeBtn.isSelected = data.status == 1
             likeBtn.setTitle("\(data.replyThumbCount)", for: .normal)
+            if data.replyCount > 0 {
+                moreReplyBtn.setTitle("查看\(data.replyCount)条回复", for: .normal)
+                moreReplyBtn.snp.updateConstraints { (make) in
+                    make.height.equalTo(30)
+                }
+            }
+            else {
+                moreReplyBtn.setTitle(nil, for: .normal)
+                moreReplyBtn.snp.updateConstraints { (make) in
+                    make.height.equalTo(0.1)
+                }
+            }
         }
     }
     
@@ -161,7 +182,14 @@ class PVVideoCommentCell: PVBaseTableCell {
         b.addTarget(self, action: #selector(likeAction(sender:)), for: .touchUpInside)
         return b
     }()
-    
+    lazy var moreReplyBtn: TitleFrontButton = {
+        let b = TitleFrontButton.init(frame: .zero)
+        b.titleLabel?.font = kFont_text_3
+        b.setTitleColor(kColor_subText, for: .normal)
+        b.setImage(UIImage.init(named: "video_push"), for: .normal)
+        b.addTarget(self, action: #selector(moreReply(sender:)), for: .touchUpInside)
+        return b
+    }()
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         initUI()
@@ -178,6 +206,7 @@ class PVVideoCommentCell: PVBaseTableCell {
         contentView.addSubview(contentLabel)
         contentView.addSubview(dateLabel)
         contentView.addSubview(likeBtn)
+        contentView.addSubview(moreReplyBtn)
         iconIV.snp.makeConstraints { (make) in
             make.size.equalTo(CGSize.init(width: 40 * KScreenRatio_6, height: 40 * KScreenRatio_6))
             make.top.left.equalToSuperview().offset(15 * KScreenRatio_6)
@@ -185,17 +214,17 @@ class PVVideoCommentCell: PVBaseTableCell {
         nameLabel.snp.makeConstraints { (make) in
             make.left.equalTo(iconIV.snp.right).offset(15 * KScreenRatio_6)
             make.top.equalTo(iconIV)
+//            make.height.equalTo(15 * KScreenRatio_6)
         }
         contentLabel.snp.makeConstraints { (make) in
             make.left.equalTo(nameLabel)
             make.top.equalTo(nameLabel.snp.bottom).offset(10 * KScreenRatio_6)
             make.width.equalTo(230 * KScreenRatio_6)
-            
+            make.bottom.equalTo(dateLabel.snp.top).offset(-8 * KScreenRatio_6)
         }
         dateLabel.snp.makeConstraints { (make) in
             make.left.equalTo(nameLabel)
-            make.top.equalTo(contentLabel.snp.bottom).offset(10 * KScreenRatio_6)
-            make.bottom.equalToSuperview().offset(-5)
+            make.bottom.equalTo(moreReplyBtn.snp.top).offset(-10)
             make.width.equalTo(contentLabel)
         }
         likeBtn.snp.makeConstraints { (make) in
@@ -203,7 +232,11 @@ class PVVideoCommentCell: PVBaseTableCell {
             make.right.equalToSuperview().offset(-20 * KScreenRatio_6)
             make.height.equalTo(40)
         }
-        
+        moreReplyBtn.snp.makeConstraints { (make) in
+            make.height.equalTo(0.1)
+            make.bottom.equalToSuperview().offset(-5)
+            make.left.equalTo(dateLabel).offset(10)
+        }
     }
     
     
@@ -214,14 +247,55 @@ class PVVideoCommentCell: PVBaseTableCell {
         contentLabel.text = nil
         dateLabel.text = nil
         likeBtn.setTitle(nil, for: .normal)
+        moreReplyBtn.setTitle(nil, for: .normal)
+        moreReplyBtn.isHidden = true
     }
     
     @objc func headerTap() {
-        delegate?.didSelectedHeader(cell: self)
+        delegate?.didSelectedAvatar(cell: self)
     }
     
     @objc func likeAction(sender: UIButton) {
         delegate?.didSelectedLike(cell: self, sender: sender)
     }
+    
+    @objc func moreReply(sender: UIButton) {
+        delegate?.didSelectedMoreReply(cell: self, sender: sender)
+    }
+    
+}
+
+//MARK: - 评论input view
+
+class PVAttentionDetailCommentInputView: UIView {
+    
+    
+    lazy var inputTV: YYTextView = {
+        let tv = YYTextView.init(frame: CGRect.init(x: 15 * KScreenRatio_6, y: 5, width: kScreenWidth - 30 * KScreenRatio_6, height: 40 * KScreenRatio_6))
+        tv.font = kFont_text
+        tv.textColor = UIColor.white
+        tv.placeholderFont = kFont_text
+        tv.placeholderText = "输入您的评论"
+        tv.placeholderTextColor = kColor_text
+        tv.backgroundColor = kColor_background
+        tv.returnKeyType = .send
+    
+        return tv
+    }()
+    
+    required convenience init(frame: CGRect, delegate: YYTextViewDelegate) {
+        self.init(frame: frame)
+        backgroundColor = kColor_background
+        inputTV.delegate = delegate
+        addSubview(inputTV)
+//        inputTV.snp.makeConstraints { (make) in
+//            make.left.equalToSuperview().offset(15 * KScreenRatio_6)
+//            make.right.equalToSuperview().offset(-15 * KScreenRatio_6)
+//            make.top.equalToSuperview().offset(5)
+//            make.bottom.equalToSuperview().offset(-5)
+//        }
+    }
+    
+    
     
 }

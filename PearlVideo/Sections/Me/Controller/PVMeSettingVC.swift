@@ -137,19 +137,23 @@ extension PVMeSettingVC: UITableViewDataSource, UITableViewDelegate {
         if indexPath.section == 1 {
             switch indexPath.row {
             case 0: //实名认证
-               
+                let vc = PVMeNameValidateVC()
+                navigationController?.pushViewController(vc, animated: true)
                 break
                 
             case 1: //修改密码
-                
+                let vc = PVMePasswordChangeVC()
+                navigationController?.pushViewController(vc, animated: true)
                 break
                 
             case 2: //交换密码
-                
+                let vc = PVMeExchangePsdVC()
+                navigationController?.pushViewController(vc, animated: true)
                 break
                 
             case 3: //收款方式
-                
+                let vc = PVMePayWayVC()
+                navigationController?.pushViewController(vc, animated: true)
                 break
                 
             default: break
@@ -179,7 +183,8 @@ extension PVMeSettingVC: UITableViewDataSource, UITableViewDelegate {
                 break
                 
             case 3: //检测更新
-                
+                let vc = PVMeVersionVC()
+                navigationController?.pushViewController(vc, animated: true)
                 break
                 
             case 4: //退出登录

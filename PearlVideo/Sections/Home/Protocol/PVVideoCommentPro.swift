@@ -12,7 +12,7 @@ extension PVVideoCommentView {
     
     func loadData(page: Int) {
         PVNetworkTool.Request(router: .videoCommentList(videoId: videoId, page: page * 10), success: { (resp) in
-            if let d = Mapper<PVVideoCommentModel>().mapArray(JSONObject: resp["result"]["fansInfolist"].arrayObject) {
+            if let d = Mapper<PVVideoCommentModel>().mapArray(JSONObject: resp["result"]["commentList"].arrayObject) {
                 if page == 0 { self.dataArr = d }
                 else {
                     self.dataArr += d
@@ -35,7 +35,7 @@ extension PVVideoCommentView {
         }
         PVRefresh.footerRefresh(scrollView: tableView) {[weak self] in
             self?.page += 1
-            
+            self?.loadData(page: self?.page ?? 0)
         }
     }
     
@@ -58,6 +58,26 @@ extension PVVideoCommentView {
         })
     }
     
+    @objc func keyboardShowAction(noti: Notification) {
+        guard let info = noti.userInfo else { return }
+        guard let duration = info[UIApplication.keyboardAnimationDurationUserInfoKey] as? TimeInterval else { return }
+        guard let keyboardFrame = info[UIApplication.keyboardFrameEndUserInfoKey] as? CGRect else { return }
+        
+        UIView.animate(withDuration: duration) {
+            self.commentInputView.centerY = self.inputViewRect.origin.y + self.inputViewRect.height / 2 - keyboardFrame.height
+        }
+        
+    }
+    
+    @objc func keyboardHideAction(noti: Notification) {
+        guard let info = noti.userInfo else { return }
+        guard let duration = info[UIApplication.keyboardAnimationDurationUserInfoKey] as? TimeInterval else { return }
+        UIView.animate(withDuration: duration) {
+            self.commentInputView.centerY = self.inputViewRect.origin.y + self.inputViewRect.height / 2
+        }
+        
+    }
+    
 }
 
 
@@ -74,6 +94,7 @@ extension PVVideoCommentView: UITableViewDataSource, UITableViewDelegate {
             guard let c = cell as? PVVideoCommentCell else { return }
             c.data = self.dataArr[indexPath.row]
         })
+        
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -89,15 +110,15 @@ extension PVVideoCommentView: UITableViewDataSource, UITableViewDelegate {
 
 //MARK: - cell delegate
 extension PVVideoCommentView: PVVideoCommentCellDelegate {
-    
-    func didSelectedHeader(cell: PVVideoCommentCell) {
+    //头像
+    func didSelectedAvatar(cell: PVVideoCommentCell) {
         if let indexPath = tableView.indexPath(for: cell) {
             if dataArr.count > indexPath.row {
                 delegate?.didSelectedUser(id: dataArr[indexPath.row].userId)
             }
         }
     }
-    
+    //喜欢
     func didSelectedLike(cell: PVVideoCommentCell, sender: UIButton) {
         sender.isSelected = !sender.isSelected
         if let indexPath = tableView.indexPath(for: cell) {
@@ -123,28 +144,39 @@ extension PVVideoCommentView: PVVideoCommentCellDelegate {
         guard let action = args["action"] as? Int else { return }
         delegate?.didSelectedLike(videoId: videoId, commentId: commentId, action: action)
     }
+    //评论的回复
+    func didSelectedMoreReply(cell: PVVideoCommentCell, sender: UIButton) {
+        guard let indexPath = tableView.indexPath(for: cell) else { return }
+        let vc = PVVideoCommentReplyVC.init(commentId: dataArr[indexPath.row].id, videoId: dataArr[indexPath.row].videoId)
+        if let currentVC = YPJOtherTool.ypj.currentViewController() {
+            currentVC.present(vc, animated: true, completion: nil)
+        }
+    }
     
 }
 
 //MARK: - input view delegate
 extension PVVideoCommentView: YYTextViewDelegate {
     
-    func textViewDidChange(_ textView: YYTextView) {
-        if textView.contentSize.height > textView.height && textView.contentSize.height <= 80 {
-            let offsetY = textView.contentSize.height - textView.height
-            commentInputView.origin.y -= offsetY
-            commentInputView.height += offsetY
+    func textView(_ textView: YYTextView, shouldChangeTextIn range: NSRange, replacementText text: String) -> Bool {
+        if text == "\n" {
+            delegate?.didSelectedDone(content: textView.text ?? "", completion: {
+                self.page = 0
+                self.loadData(page: self.page)
+            })
+            textView.text = nil
+            textView.resignFirstResponder()
+            return true
         }
+        return true
     }
     
-}
-extension PVVideoCommentView: PVAttentionDetailCommentInputViewDelegate {
-    
-    func didSelectedDone(textView: YYTextView) {
-        UIView.animate(withDuration: 0.25) {
-            self.commentInputView.origin.y = kScreenHeight * 2 - 50 * KScreenRatio_6
-            self.commentInputView.height = 50 * KScreenRatio_6
-        }
+    func textViewDidChange(_ textView: YYTextView) {
+//        if textView.contentSize.height > textView.height && textView.contentSize.height <= 80 {
+//            let offsetY = textView.contentSize.height - textView.height
+//            commentInputView.origin.y -= offsetY
+//            commentInputView.height += offsetY
+//        }
     }
     
 }

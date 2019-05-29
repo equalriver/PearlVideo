@@ -3,7 +3,7 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 50;
+	objectVersion = 51;
 	objects = {
 
 /* Begin PBXBuildFile section */
@@ -12,7 +12,6 @@
 		481C599F225311110086F616 /* PVForgetPsdVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 481C599E225311110086F616 /* PVForgetPsdVC.swift */; };
 		481C59A1225336D70086F616 /* PVAgreementWebVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 481C59A0225336D70086F616 /* PVAgreementWebVC.swift */; };
 		481C59A3225338A50086F616 /* PVHomePlayVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 481C59A2225338A50086F616 /* PVHomePlayVC.swift */; };
-		481C59A7225338E70086F616 /* PVPearlVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 481C59A6225338E70086F616 /* PVPearlVC.swift */; };
 		481C59A9225342220086F616 /* PVMeHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 481C59A8225342220086F616 /* PVMeHeaderView.swift */; };
 		481C59AB22535CFB0086F616 /* PVMePro.swift in Sources */ = {isa = PBXBuildFile; fileRef = 481C59AA22535CFB0086F616 /* PVMePro.swift */; };
 		481C59AD2253621F0086F616 /* PVMeVCChild.swift in Sources */ = {isa = PBXBuildFile; fileRef = 481C59AC2253621F0086F616 /* PVMeVCChild.swift */; };
@@ -20,9 +19,7 @@
 		481C59B1225366210086F616 /* PVMeVCChildPro.swift in Sources */ = {isa = PBXBuildFile; fileRef = 481C59B0225366210086F616 /* PVMeVCChildPro.swift */; };
 		481C59B322537E4B0086F616 /* PVMeAttentionVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 481C59B222537E4B0086F616 /* PVMeAttentionVC.swift */; };
 		481C59B522537F6B0086F616 /* PVMeAttentionCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 481C59B422537F6B0086F616 /* PVMeAttentionCell.swift */; };
-		481C59B72253882B0086F616 /* PVMeFansVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 481C59B62253882B0086F616 /* PVMeFansVC.swift */; };
 		481C59B922538C4B0086F616 /* PVMeUserinfoEditVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 481C59B822538C4B0086F616 /* PVMeUserinfoEditVC.swift */; };
-		481C59BB22538E570086F616 /* PVMeUserinfoEditCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 481C59BA22538E570086F616 /* PVMeUserinfoEditCell.swift */; };
 		481D6652225450E900B59929 /* PVDatePickerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 481D6651225450E900B59929 /* PVDatePickerView.swift */; };
 		481D66542254A02400B59929 /* PVMeSettingVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 481D66532254A02400B59929 /* PVMeSettingVC.swift */; };
 		481D66562254A28700B59929 /* PVMeSettingCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 481D66552254A28700B59929 /* PVMeSettingCell.swift */; };
@@ -41,17 +38,6 @@
 		481F20ED225F416F00331CCF /* PVVideoCommentPro.swift in Sources */ = {isa = PBXBuildFile; fileRef = 481F20EC225F416F00331CCF /* PVVideoCommentPro.swift */; };
 		481F52D3228C0F0E00474048 /* PVHomeVideoModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 481F52D2228C0F0E00474048 /* PVHomeVideoModel.swift */; };
 		481F52D5228C167400474048 /* PVHomeOtherModels.swift in Sources */ = {isa = PBXBuildFile; fileRef = 481F52D4228C167400474048 /* PVHomeOtherModels.swift */; };
-		481F802B2261802B00C20CB1 /* PVPearlPro.swift in Sources */ = {isa = PBXBuildFile; fileRef = 481F802A2261802B00C20CB1 /* PVPearlPro.swift */; };
-		481F802D2261872A00C20CB1 /* PVPearlPearlDetailVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 481F802C2261872900C20CB1 /* PVPearlPearlDetailVC.swift */; };
-		481F802F22618E0100C20CB1 /* PVPearlPearlDetailCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 481F802E22618E0100C20CB1 /* PVPearlPearlDetailCell.swift */; };
-		481F8031226190D500C20CB1 /* PVPearlPlantDetailVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 481F8030226190D500C20CB1 /* PVPearlPlantDetailVC.swift */; };
-		481F80332261934D00C20CB1 /* PVPearlUserLevelVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 481F80322261934D00C20CB1 /* PVPearlUserLevelVC.swift */; };
-		481F80352261C65B00C20CB1 /* PVPearlUserLevelCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 481F80342261C65B00C20CB1 /* PVPearlUserLevelCell.swift */; };
-		481F80372261D0B600C20CB1 /* PVPearlShellLevelVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 481F80362261D0B600C20CB1 /* PVPearlShellLevelVC.swift */; };
-		481F80392261DCE600C20CB1 /* PVPearlMarketVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 481F80382261DCE600C20CB1 /* PVPearlMarketVC.swift */; };
-		481F803B2261E8DF00C20CB1 /* PVPearlMarketChildVCs.swift in Sources */ = {isa = PBXBuildFile; fileRef = 481F803A2261E8DF00C20CB1 /* PVPearlMarketChildVCs.swift */; };
-		481F803D2261EB1200C20CB1 /* PVPearlMarketChildViews.swift in Sources */ = {isa = PBXBuildFile; fileRef = 481F803C2261EB1200C20CB1 /* PVPearlMarketChildViews.swift */; };
-		481F803F2261EB7900C20CB1 /* PVPearlMarketChildPro.swift in Sources */ = {isa = PBXBuildFile; fileRef = 481F803E2261EB7900C20CB1 /* PVPearlMarketChildPro.swift */; };
 		481F8F69228A507E00A3AF92 /* PVHomeTaskPro.swift in Sources */ = {isa = PBXBuildFile; fileRef = 481F8F68228A507E00A3AF92 /* PVHomeTaskPro.swift */; };
 		481F8F6B228A515500A3AF92 /* PVHomeTaskViews.swift in Sources */ = {isa = PBXBuildFile; fileRef = 481F8F6A228A515500A3AF92 /* PVHomeTaskViews.swift */; };
 		481F8F6D228A5F2E00A3AF92 /* PVHomeMessageVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 481F8F6C228A5F2E00A3AF92 /* PVHomeMessageVC.swift */; };
@@ -59,6 +45,12 @@
 		481F8F71228A62C900A3AF92 /* PVHomeMessagePro.swift in Sources */ = {isa = PBXBuildFile; fileRef = 481F8F70228A62C900A3AF92 /* PVHomeMessagePro.swift */; };
 		481FD11822697C130028F82C /* PVHomePlayDelegates.swift in Sources */ = {isa = PBXBuildFile; fileRef = 481FD11722697C130028F82C /* PVHomePlayDelegates.swift */; };
 		481FD11E2269F47B0028F82C /* PVPlayVideoUploadVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 481FD11D2269F47B0028F82C /* PVPlayVideoUploadVC.swift */; };
+		4820007D2297921700350DA2 /* PVMeVideoPlayVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4820007C2297921700350DA2 /* PVMeVideoPlayVC.swift */; };
+		4820007F2297951A00350DA2 /* PVMeVideoPlayPro.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4820007E2297951A00350DA2 /* PVMeVideoPlayPro.swift */; };
+		482000812297966400350DA2 /* PVMePlayMaskView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 482000802297966400350DA2 /* PVMePlayMaskView.swift */; };
+		482000832297EA2C00350DA2 /* PVMeLevelCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 482000822297EA2C00350DA2 /* PVMeLevelCell.swift */; };
+		482000852297F88700350DA2 /* PVVideoCommentReplyVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 482000842297F88700350DA2 /* PVVideoCommentReplyVC.swift */; };
+		482000872297FD6900350DA2 /* PVVideoCommentReplyHeader.swift in Sources */ = {isa = PBXBuildFile; fileRef = 482000862297FD6900350DA2 /* PVVideoCommentReplyHeader.swift */; };
 		48200A4E225E0E2800D19735 /* PVHomeReportVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48200A4D225E0E2800D19735 /* PVHomeReportVC.swift */; };
 		48200A50225E0EE600D19735 /* PVHomeReportCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48200A4F225E0EE600D19735 /* PVHomeReportCell.swift */; };
 		48200A52225E130100D19735 /* PVHomeReportDetailVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48200A51225E130100D19735 /* PVHomeReportDetailVC.swift */; };
@@ -79,22 +71,33 @@
 		482138DE226AD366001691E2 /* Pods_PearlVideo.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D3B3E5C129A02C953A874031 /* Pods_PearlVideo.framework */; };
 		4821C6A322560D4F0030BF4B /* PVMeMessageVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4821C6A222560D4F0030BF4B /* PVMeMessageVC.swift */; };
 		4821C6A52256131A0030BF4B /* PVMeMessageVCChild.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4821C6A42256131A0030BF4B /* PVMeMessageVCChild.swift */; };
-		4821C7492293A1AD005FC71A /* PVVideoCommentModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4821C7482293A1AD005FC71A /* PVVideoCommentModel.swift */; };
-		482290A12264318C00870988 /* PVPearlSendBillVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 482290A02264318C00870988 /* PVPearlSendBillVC.swift */; };
-		482290A3226450CE00870988 /* PVPearlSendBillCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 482290A2226450CE00870988 /* PVPearlSendBillCell.swift */; };
-		482290A5226461BC00870988 /* PVPearlDealRecordVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 482290A4226461BC00870988 /* PVPearlDealRecordVC.swift */; };
-		482290A72264630D00870988 /* PVPearlDealRecordChildVCs.swift in Sources */ = {isa = PBXBuildFile; fileRef = 482290A62264630D00870988 /* PVPearlDealRecordChildVCs.swift */; };
-		482290A92264641200870988 /* PVPearlDealRecordChildViews.swift in Sources */ = {isa = PBXBuildFile; fileRef = 482290A82264641200870988 /* PVPearlDealRecordChildViews.swift */; };
-		482290AB2264746600870988 /* PVPearlDealRecordChildPro.swift in Sources */ = {isa = PBXBuildFile; fileRef = 482290AA2264746600870988 /* PVPearlDealRecordChildPro.swift */; };
-		482290AD2264792200870988 /* PVPearlOrderDetailVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 482290AC2264792200870988 /* PVPearlOrderDetailVC.swift */; };
-		482290AF22647DDE00870988 /* PVPearlOrderDetailViews.swift in Sources */ = {isa = PBXBuildFile; fileRef = 482290AE22647DDE00870988 /* PVPearlOrderDetailViews.swift */; };
+		4821C7492293A1AD005FC71A /* PVVideoModels.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4821C7482293A1AD005FC71A /* PVVideoModels.swift */; };
 		4822D3EC2273EFF3000CF509 /* PVMeShareVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4822D3EB2273EFF3000CF509 /* PVMeShareVC.swift */; };
 		4822D3EE2274077F000CF509 /* YPJOtherToolQRImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4822D3ED2274077F000CF509 /* YPJOtherToolQRImage.swift */; };
-		4822D3F022745490000CF509 /* PVPearlHeaderViews.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4822D3EF22745490000CF509 /* PVPearlHeaderViews.swift */; };
 		48232F55226F110B001ACECC /* PVPlayCameraViewPro.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48232F54226F110B001ACECC /* PVPlayCameraViewPro.swift */; };
 		4823BBCE2290048E006869AA /* PVVideoPlayModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4823BBCD2290048E006869AA /* PVVideoPlayModel.swift */; };
+		4824382C229CC8AD006B480C /* PVExchangePro.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4824382B229CC8AD006B480C /* PVExchangePro.swift */; };
+		48243830229CD7FB006B480C /* FaceTheme.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 4824382D229CD7FA006B480C /* FaceTheme.bundle */; };
+		48243831229CD7FB006B480C /* RPSDK.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 4824382E229CD7FA006B480C /* RPSDK.bundle */; };
+		48243832229CD7FB006B480C /* FaceLivenessSDK.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 4824382F229CD7FB006B480C /* FaceLivenessSDK.bundle */; };
+		48243840229CD80E006B480C /* RPSDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 48243833229CD806006B480C /* RPSDK.framework */; };
+		48243841229CD80E006B480C /* ZipArchive.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 48243834229CD807006B480C /* ZipArchive.framework */; };
+		48243842229CD80E006B480C /* WindVaneBasic.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 48243835229CD808006B480C /* WindVaneBasic.framework */; };
+		48243843229CD80E006B480C /* FaceLivenessOpen.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 48243836229CD808006B480C /* FaceLivenessOpen.framework */; };
+		48243844229CD80E006B480C /* SGNoCaptcha.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 48243837229CD809006B480C /* SGNoCaptcha.framework */; };
+		48243845229CD80E006B480C /* SecurityGuardSDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 48243838229CD809006B480C /* SecurityGuardSDK.framework */; };
+		48243846229CD80E006B480C /* WindVane.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 48243839229CD80A006B480C /* WindVane.framework */; };
+		48243847229CD80E006B480C /* AliReachability.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4824383A229CD80A006B480C /* AliReachability.framework */; };
+		48243848229CD80E006B480C /* WindVaneBridge.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4824383B229CD80B006B480C /* WindVaneBridge.framework */; };
+		48243849229CD80E006B480C /* SGMain.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4824383C229CD80C006B480C /* SGMain.framework */; };
+		4824384A229CD80E006B480C /* AliyunOSSiOS.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4824383D229CD80C006B480C /* AliyunOSSiOS.framework */; };
+		4824384B229CD80E006B480C /* SGSecurityBody.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4824383E229CD80D006B480C /* SGSecurityBody.framework */; };
+		4824384C229CD80E006B480C /* WindVaneCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4824383F229CD80E006B480C /* WindVaneCore.framework */; };
+		4824384E229CD883006B480C /* yw_1222_0769.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 4824384D229CD883006B480C /* yw_1222_0769.jpg */; };
+		48243850229D1152006B480C /* PVVideoShareVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4824384F229D1152006B480C /* PVVideoShareVC.swift */; };
+		48243852229D1762006B480C /* PVVideoShareAlert.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48243851229D1762006B480C /* PVVideoShareAlert.swift */; };
+		4824916B229E86B700B6870F /* PVUserValidateModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4824916A229E86B700B6870F /* PVUserValidateModel.swift */; };
 		4824A64F226D5C5100FF7832 /* PVPlayProgressView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4824A64E226D5C5100FF7832 /* PVPlayProgressView.swift */; };
-		48283CD322602F4E00CBE8CD /* PVPearlViews.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48283CD222602F4E00CBE8CD /* PVPearlViews.swift */; };
 		482F3C3A225ADF7600FEC130 /* PVMeMessageVCChildPro.swift in Sources */ = {isa = PBXBuildFile; fileRef = 482F3C39225ADF7600FEC130 /* PVMeMessageVCChildPro.swift */; };
 		482F3C3C225AE43F00FEC130 /* PVMeMessageVCChildView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 482F3C3B225AE43F00FEC130 /* PVMeMessageVCChildView.swift */; };
 		482F3C3E225B30CC00FEC130 /* PVMeInvitationCodeVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 482F3C3D225B30CC00FEC130 /* PVMeInvitationCodeVC.swift */; };
@@ -106,7 +109,6 @@
 		483657FE225C2EFC00BCB2D9 /* PVMeTeamVCChild.swift in Sources */ = {isa = PBXBuildFile; fileRef = 483657FD225C2EFC00BCB2D9 /* PVMeTeamVCChild.swift */; };
 		48365800225C30B700BCB2D9 /* PVMeTeamVCChildPro.swift in Sources */ = {isa = PBXBuildFile; fileRef = 483657FF225C30B700BCB2D9 /* PVMeTeamVCChildPro.swift */; };
 		48365802225C311C00BCB2D9 /* PVMeTeamVCChildView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48365801225C311C00BCB2D9 /* PVMeTeamVCChildView.swift */; };
-		48365808225C8C4700BCB2D9 /* PVAttentionDetailViews.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48365807225C8C4700BCB2D9 /* PVAttentionDetailViews.swift */; };
 		484DAD08224F10B4002BA454 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 484DAD07224F10B4002BA454 /* AppDelegate.swift */; };
 		484DAD0F224F10B5002BA454 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 484DAD0E224F10B5002BA454 /* Assets.xcassets */; };
 		484DAD12224F10B5002BA454 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 484DAD10224F10B5002BA454 /* LaunchScreen.storyboard */; };
@@ -137,14 +139,13 @@
 		484DADE3224F1741002BA454 /* PVLoginPro.swift in Sources */ = {isa = PBXBuildFile; fileRef = 484DAD6C224F1741002BA454 /* PVLoginPro.swift */; };
 		484DADE4224F1741002BA454 /* PVLoginVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 484DAD6E224F1741002BA454 /* PVLoginVC.swift */; };
 		484DAE2D224F6DB4002BA454 /* PVLoginChildVCs.swift in Sources */ = {isa = PBXBuildFile; fileRef = 484DAE2C224F6DB4002BA454 /* PVLoginChildVCs.swift */; };
+		4876ECC5229BEAA4005370CF /* PVExchangeVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4876ECC4229BEAA4005370CF /* PVExchangeVC.swift */; };
+		4876ECC7229BEB1B005370CF /* PVExchangeViews.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4876ECC6229BEB1B005370CF /* PVExchangeViews.swift */; };
 		487AFC68226AF36F0064F00A /* alivcffmpeg.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 482138C4226AD068001691E2 /* alivcffmpeg.framework */; };
 		487AFC6A226B14EA0064F00A /* PVPlayPro.swift in Sources */ = {isa = PBXBuildFile; fileRef = 487AFC69226B14EA0064F00A /* PVPlayPro.swift */; };
 		487AFC6C226B2E0E0064F00A /* PVPlayCameraView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 487AFC6B226B2E0E0064F00A /* PVPlayCameraView.swift */; };
 		488759F622844AAE004BC541 /* PVHomeModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 488759F522844AAE004BC541 /* PVHomeModel.swift */; };
-		48A1C96C2276C78500A7C307 /* like_img_1.png in Resources */ = {isa = PBXBuildFile; fileRef = 48A1C9682276C78400A7C307 /* like_img_1.png */; };
-		48A1C96D2276C78500A7C307 /* like_img_0.png in Resources */ = {isa = PBXBuildFile; fileRef = 48A1C9692276C78400A7C307 /* like_img_0.png */; };
-		48A1C96E2276C78500A7C307 /* like_img_2.png in Resources */ = {isa = PBXBuildFile; fileRef = 48A1C96A2276C78400A7C307 /* like_img_2.png */; };
-		48A1C96F2276C78500A7C307 /* likeAnimation.json in Resources */ = {isa = PBXBuildFile; fileRef = 48A1C96B2276C78400A7C307 /* likeAnimation.json */; };
+		48A0291C2296A6B60065EF79 /* PVHomePlayMaskViewPro.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48A0291B2296A6B60065EF79 /* PVHomePlayMaskViewPro.swift */; };
 		48A993872283D45100CC4326 /* PVHomeHeaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48A993862283D45100CC4326 /* PVHomeHeaderView.swift */; };
 		48A9938B22840F2D00CC4326 /* PVHomeHeaderViewPro.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48A9938A22840F2D00CC4326 /* PVHomeHeaderViewPro.swift */; };
 		48A9938D22841C0400CC4326 /* PVHomeVCPro.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48A9938C22841C0400CC4326 /* PVHomeVCPro.swift */; };
@@ -155,7 +156,7 @@
 		48E13CBB228E953D00D27D75 /* YPJStringTools.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48E13CBA228E953D00D27D75 /* YPJStringTools.swift */; };
 		48E13CBD228E959300D27D75 /* YPJImageTools.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48E13CBC228E959300D27D75 /* YPJImageTools.swift */; };
 		48E13CBF228E988300D27D75 /* YPJResponderEx.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48E13CBE228E988300D27D75 /* YPJResponderEx.swift */; };
-		48E13CC1228EBF9900D27D75 /* PVMeModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48E13CC0228EBF9900D27D75 /* PVMeModel.swift */; };
+		48E13CC1228EBF9900D27D75 /* PVMeModels.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48E13CC0228EBF9900D27D75 /* PVMeModels.swift */; };
 		48E13CC3228EDFFC00D27D75 /* PVHomePlayMaskView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48E13CC2228EDFFC00D27D75 /* PVHomePlayMaskView.swift */; };
 /* End PBXBuildFile section */
 
@@ -165,7 +166,6 @@
 		481C599E225311110086F616 /* PVForgetPsdVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PVForgetPsdVC.swift; sourceTree = "<group>"; };
 		481C59A0225336D70086F616 /* PVAgreementWebVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PVAgreementWebVC.swift; sourceTree = "<group>"; };
 		481C59A2225338A50086F616 /* PVHomePlayVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PVHomePlayVC.swift; sourceTree = "<group>"; };
-		481C59A6225338E70086F616 /* PVPearlVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PVPearlVC.swift; sourceTree = "<group>"; };
 		481C59A8225342220086F616 /* PVMeHeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PVMeHeaderView.swift; sourceTree = "<group>"; };
 		481C59AA22535CFB0086F616 /* PVMePro.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PVMePro.swift; sourceTree = "<group>"; };
 		481C59AC2253621F0086F616 /* PVMeVCChild.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PVMeVCChild.swift; sourceTree = "<group>"; };
@@ -173,9 +173,7 @@
 		481C59B0225366210086F616 /* PVMeVCChildPro.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PVMeVCChildPro.swift; sourceTree = "<group>"; };
 		481C59B222537E4B0086F616 /* PVMeAttentionVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PVMeAttentionVC.swift; sourceTree = "<group>"; };
 		481C59B422537F6B0086F616 /* PVMeAttentionCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PVMeAttentionCell.swift; sourceTree = "<group>"; };
-		481C59B62253882B0086F616 /* PVMeFansVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PVMeFansVC.swift; sourceTree = "<group>"; };
 		481C59B822538C4B0086F616 /* PVMeUserinfoEditVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PVMeUserinfoEditVC.swift; sourceTree = "<group>"; };
-		481C59BA22538E570086F616 /* PVMeUserinfoEditCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PVMeUserinfoEditCell.swift; sourceTree = "<group>"; };
 		481D6651225450E900B59929 /* PVDatePickerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PVDatePickerView.swift; sourceTree = "<group>"; };
 		481D66532254A02400B59929 /* PVMeSettingVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PVMeSettingVC.swift; sourceTree = "<group>"; };
 		481D66552254A28700B59929 /* PVMeSettingCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PVMeSettingCell.swift; sourceTree = "<group>"; };
@@ -194,17 +192,6 @@
 		481F20EC225F416F00331CCF /* PVVideoCommentPro.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PVVideoCommentPro.swift; sourceTree = "<group>"; };
 		481F52D2228C0F0E00474048 /* PVHomeVideoModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PVHomeVideoModel.swift; sourceTree = "<group>"; };
 		481F52D4228C167400474048 /* PVHomeOtherModels.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PVHomeOtherModels.swift; sourceTree = "<group>"; };
-		481F802A2261802B00C20CB1 /* PVPearlPro.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PVPearlPro.swift; sourceTree = "<group>"; };
-		481F802C2261872900C20CB1 /* PVPearlPearlDetailVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PVPearlPearlDetailVC.swift; sourceTree = "<group>"; };
-		481F802E22618E0100C20CB1 /* PVPearlPearlDetailCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PVPearlPearlDetailCell.swift; sourceTree = "<group>"; };
-		481F8030226190D500C20CB1 /* PVPearlPlantDetailVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PVPearlPlantDetailVC.swift; sourceTree = "<group>"; };
-		481F80322261934D00C20CB1 /* PVPearlUserLevelVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PVPearlUserLevelVC.swift; sourceTree = "<group>"; };
-		481F80342261C65B00C20CB1 /* PVPearlUserLevelCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PVPearlUserLevelCell.swift; sourceTree = "<group>"; };
-		481F80362261D0B600C20CB1 /* PVPearlShellLevelVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PVPearlShellLevelVC.swift; sourceTree = "<group>"; };
-		481F80382261DCE600C20CB1 /* PVPearlMarketVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PVPearlMarketVC.swift; sourceTree = "<group>"; };
-		481F803A2261E8DF00C20CB1 /* PVPearlMarketChildVCs.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PVPearlMarketChildVCs.swift; sourceTree = "<group>"; };
-		481F803C2261EB1200C20CB1 /* PVPearlMarketChildViews.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PVPearlMarketChildViews.swift; sourceTree = "<group>"; };
-		481F803E2261EB7900C20CB1 /* PVPearlMarketChildPro.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PVPearlMarketChildPro.swift; sourceTree = "<group>"; };
 		481F8F68228A507E00A3AF92 /* PVHomeTaskPro.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PVHomeTaskPro.swift; sourceTree = "<group>"; };
 		481F8F6A228A515500A3AF92 /* PVHomeTaskViews.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PVHomeTaskViews.swift; sourceTree = "<group>"; };
 		481F8F6C228A5F2E00A3AF92 /* PVHomeMessageVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PVHomeMessageVC.swift; sourceTree = "<group>"; };
@@ -213,6 +200,12 @@
 		481FD11722697C130028F82C /* PVHomePlayDelegates.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PVHomePlayDelegates.swift; sourceTree = "<group>"; };
 		481FD11B2269EE8B0028F82C /* VODUpload.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = VODUpload.framework; path = Pods/VODUpload/frameworks/VODUpload.framework; sourceTree = "<group>"; };
 		481FD11D2269F47B0028F82C /* PVPlayVideoUploadVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PVPlayVideoUploadVC.swift; sourceTree = "<group>"; };
+		4820007C2297921700350DA2 /* PVMeVideoPlayVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PVMeVideoPlayVC.swift; sourceTree = "<group>"; };
+		4820007E2297951A00350DA2 /* PVMeVideoPlayPro.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PVMeVideoPlayPro.swift; sourceTree = "<group>"; };
+		482000802297966400350DA2 /* PVMePlayMaskView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PVMePlayMaskView.swift; sourceTree = "<group>"; };
+		482000822297EA2C00350DA2 /* PVMeLevelCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PVMeLevelCell.swift; sourceTree = "<group>"; };
+		482000842297F88700350DA2 /* PVVideoCommentReplyVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PVVideoCommentReplyVC.swift; sourceTree = "<group>"; };
+		482000862297FD6900350DA2 /* PVVideoCommentReplyHeader.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PVVideoCommentReplyHeader.swift; sourceTree = "<group>"; };
 		48200A4D225E0E2800D19735 /* PVHomeReportVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PVHomeReportVC.swift; sourceTree = "<group>"; };
 		48200A4F225E0EE600D19735 /* PVHomeReportCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PVHomeReportCell.swift; sourceTree = "<group>"; };
 		48200A51225E130100D19735 /* PVHomeReportDetailVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PVHomeReportDetailVC.swift; sourceTree = "<group>"; };
@@ -234,22 +227,33 @@
 		482138E2226AD4A4001691E2 /* AliyunVideoSDKPro.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AliyunVideoSDKPro.framework; path = Pods/AliyunVideoSDKBasic/frameworks/AliyunVideoSDKPro.framework; sourceTree = "<group>"; };
 		4821C6A222560D4F0030BF4B /* PVMeMessageVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PVMeMessageVC.swift; sourceTree = "<group>"; };
 		4821C6A42256131A0030BF4B /* PVMeMessageVCChild.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PVMeMessageVCChild.swift; sourceTree = "<group>"; };
-		4821C7482293A1AD005FC71A /* PVVideoCommentModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PVVideoCommentModel.swift; sourceTree = "<group>"; };
-		482290A02264318C00870988 /* PVPearlSendBillVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PVPearlSendBillVC.swift; sourceTree = "<group>"; };
-		482290A2226450CE00870988 /* PVPearlSendBillCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PVPearlSendBillCell.swift; sourceTree = "<group>"; };
-		482290A4226461BC00870988 /* PVPearlDealRecordVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PVPearlDealRecordVC.swift; sourceTree = "<group>"; };
-		482290A62264630D00870988 /* PVPearlDealRecordChildVCs.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PVPearlDealRecordChildVCs.swift; sourceTree = "<group>"; };
-		482290A82264641200870988 /* PVPearlDealRecordChildViews.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PVPearlDealRecordChildViews.swift; sourceTree = "<group>"; };
-		482290AA2264746600870988 /* PVPearlDealRecordChildPro.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PVPearlDealRecordChildPro.swift; sourceTree = "<group>"; };
-		482290AC2264792200870988 /* PVPearlOrderDetailVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PVPearlOrderDetailVC.swift; sourceTree = "<group>"; };
-		482290AE22647DDE00870988 /* PVPearlOrderDetailViews.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PVPearlOrderDetailViews.swift; sourceTree = "<group>"; };
+		4821C7482293A1AD005FC71A /* PVVideoModels.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PVVideoModels.swift; sourceTree = "<group>"; };
 		4822D3EB2273EFF3000CF509 /* PVMeShareVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PVMeShareVC.swift; sourceTree = "<group>"; };
 		4822D3ED2274077F000CF509 /* YPJOtherToolQRImage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = YPJOtherToolQRImage.swift; sourceTree = "<group>"; };
-		4822D3EF22745490000CF509 /* PVPearlHeaderViews.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PVPearlHeaderViews.swift; sourceTree = "<group>"; };
 		48232F54226F110B001ACECC /* PVPlayCameraViewPro.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PVPlayCameraViewPro.swift; sourceTree = "<group>"; };
 		4823BBCD2290048E006869AA /* PVVideoPlayModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PVVideoPlayModel.swift; sourceTree = "<group>"; };
+		4824382B229CC8AD006B480C /* PVExchangePro.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PVExchangePro.swift; sourceTree = "<group>"; };
+		4824382D229CD7FA006B480C /* FaceTheme.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = FaceTheme.bundle; sourceTree = "<group>"; };
+		4824382E229CD7FA006B480C /* RPSDK.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = RPSDK.bundle; sourceTree = "<group>"; };
+		4824382F229CD7FB006B480C /* FaceLivenessSDK.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = FaceLivenessSDK.bundle; sourceTree = "<group>"; };
+		48243833229CD806006B480C /* RPSDK.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = RPSDK.framework; sourceTree = "<group>"; };
+		48243834229CD807006B480C /* ZipArchive.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = ZipArchive.framework; sourceTree = "<group>"; };
+		48243835229CD808006B480C /* WindVaneBasic.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = WindVaneBasic.framework; sourceTree = "<group>"; };
+		48243836229CD808006B480C /* FaceLivenessOpen.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = FaceLivenessOpen.framework; sourceTree = "<group>"; };
+		48243837229CD809006B480C /* SGNoCaptcha.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = SGNoCaptcha.framework; sourceTree = "<group>"; };
+		48243838229CD809006B480C /* SecurityGuardSDK.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = SecurityGuardSDK.framework; sourceTree = "<group>"; };
+		48243839229CD80A006B480C /* WindVane.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = WindVane.framework; sourceTree = "<group>"; };
+		4824383A229CD80A006B480C /* AliReachability.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = AliReachability.framework; sourceTree = "<group>"; };
+		4824383B229CD80B006B480C /* WindVaneBridge.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = WindVaneBridge.framework; sourceTree = "<group>"; };
+		4824383C229CD80C006B480C /* SGMain.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = SGMain.framework; sourceTree = "<group>"; };
+		4824383D229CD80C006B480C /* AliyunOSSiOS.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = AliyunOSSiOS.framework; sourceTree = "<group>"; };
+		4824383E229CD80D006B480C /* SGSecurityBody.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = SGSecurityBody.framework; sourceTree = "<group>"; };
+		4824383F229CD80E006B480C /* WindVaneCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = WindVaneCore.framework; sourceTree = "<group>"; };
+		4824384D229CD883006B480C /* yw_1222_0769.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = yw_1222_0769.jpg; sourceTree = "<group>"; };
+		4824384F229D1152006B480C /* PVVideoShareVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PVVideoShareVC.swift; sourceTree = "<group>"; };
+		48243851229D1762006B480C /* PVVideoShareAlert.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PVVideoShareAlert.swift; sourceTree = "<group>"; };
+		4824916A229E86B700B6870F /* PVUserValidateModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PVUserValidateModel.swift; sourceTree = "<group>"; };
 		4824A64E226D5C5100FF7832 /* PVPlayProgressView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PVPlayProgressView.swift; sourceTree = "<group>"; };
-		48283CD222602F4E00CBE8CD /* PVPearlViews.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PVPearlViews.swift; sourceTree = "<group>"; };
 		482F3C39225ADF7600FEC130 /* PVMeMessageVCChildPro.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PVMeMessageVCChildPro.swift; sourceTree = "<group>"; };
 		482F3C3B225AE43F00FEC130 /* PVMeMessageVCChildView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PVMeMessageVCChildView.swift; sourceTree = "<group>"; };
 		482F3C3D225B30CC00FEC130 /* PVMeInvitationCodeVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PVMeInvitationCodeVC.swift; sourceTree = "<group>"; };
@@ -261,7 +265,6 @@
 		483657FD225C2EFC00BCB2D9 /* PVMeTeamVCChild.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PVMeTeamVCChild.swift; sourceTree = "<group>"; };
 		483657FF225C30B700BCB2D9 /* PVMeTeamVCChildPro.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PVMeTeamVCChildPro.swift; sourceTree = "<group>"; };
 		48365801225C311C00BCB2D9 /* PVMeTeamVCChildView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PVMeTeamVCChildView.swift; sourceTree = "<group>"; };
-		48365807225C8C4700BCB2D9 /* PVAttentionDetailViews.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PVAttentionDetailViews.swift; sourceTree = "<group>"; };
 		484DAD04224F10B4002BA454 /* PearlVideo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = PearlVideo.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		484DAD07224F10B4002BA454 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		484DAD0E224F10B5002BA454 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -295,13 +298,12 @@
 		484DAD6C224F1741002BA454 /* PVLoginPro.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PVLoginPro.swift; sourceTree = "<group>"; };
 		484DAD6E224F1741002BA454 /* PVLoginVC.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PVLoginVC.swift; sourceTree = "<group>"; };
 		484DAE2C224F6DB4002BA454 /* PVLoginChildVCs.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PVLoginChildVCs.swift; sourceTree = "<group>"; };
+		4876ECC4229BEAA4005370CF /* PVExchangeVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PVExchangeVC.swift; sourceTree = "<group>"; };
+		4876ECC6229BEB1B005370CF /* PVExchangeViews.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PVExchangeViews.swift; sourceTree = "<group>"; };
 		487AFC69226B14EA0064F00A /* PVPlayPro.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PVPlayPro.swift; sourceTree = "<group>"; };
 		487AFC6B226B2E0E0064F00A /* PVPlayCameraView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PVPlayCameraView.swift; sourceTree = "<group>"; };
 		488759F522844AAE004BC541 /* PVHomeModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PVHomeModel.swift; sourceTree = "<group>"; };
-		48A1C9682276C78400A7C307 /* like_img_1.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = like_img_1.png; sourceTree = "<group>"; };
-		48A1C9692276C78400A7C307 /* like_img_0.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = like_img_0.png; sourceTree = "<group>"; };
-		48A1C96A2276C78400A7C307 /* like_img_2.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = like_img_2.png; sourceTree = "<group>"; };
-		48A1C96B2276C78400A7C307 /* likeAnimation.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = likeAnimation.json; sourceTree = "<group>"; };
+		48A0291B2296A6B60065EF79 /* PVHomePlayMaskViewPro.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PVHomePlayMaskViewPro.swift; sourceTree = "<group>"; };
 		48A993862283D45100CC4326 /* PVHomeHeaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PVHomeHeaderView.swift; sourceTree = "<group>"; };
 		48A9938A22840F2D00CC4326 /* PVHomeHeaderViewPro.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PVHomeHeaderViewPro.swift; sourceTree = "<group>"; };
 		48A9938C22841C0400CC4326 /* PVHomeVCPro.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PVHomeVCPro.swift; sourceTree = "<group>"; };
@@ -312,7 +314,7 @@
 		48E13CBA228E953D00D27D75 /* YPJStringTools.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = YPJStringTools.swift; sourceTree = "<group>"; };
 		48E13CBC228E959300D27D75 /* YPJImageTools.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = YPJImageTools.swift; sourceTree = "<group>"; };
 		48E13CBE228E988300D27D75 /* YPJResponderEx.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = YPJResponderEx.swift; sourceTree = "<group>"; };
-		48E13CC0228EBF9900D27D75 /* PVMeModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PVMeModel.swift; sourceTree = "<group>"; };
+		48E13CC0228EBF9900D27D75 /* PVMeModels.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PVMeModels.swift; sourceTree = "<group>"; };
 		48E13CC2228EDFFC00D27D75 /* PVHomePlayMaskView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PVHomePlayMaskView.swift; sourceTree = "<group>"; };
 		761B771C9F0CE0F909F03944 /* Pods-PearlVideo.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-PearlVideo.release.xcconfig"; path = "Target Support Files/Pods-PearlVideo/Pods-PearlVideo.release.xcconfig"; sourceTree = "<group>"; };
 		930A2A5820FE0D1607F8150B /* Pods-PearlVideo.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-PearlVideo.debug.xcconfig"; path = "Target Support Files/Pods-PearlVideo/Pods-PearlVideo.debug.xcconfig"; sourceTree = "<group>"; };
@@ -325,16 +327,29 @@
 			buildActionMask = 2147483647;
 			files = (
 				487AFC68226AF36F0064F00A /* alivcffmpeg.framework in Frameworks */,
+				48243843229CD80E006B480C /* FaceLivenessOpen.framework in Frameworks */,
+				48243842229CD80E006B480C /* WindVaneBasic.framework in Frameworks */,
+				48243849229CD80E006B480C /* SGMain.framework in Frameworks */,
 				482138DE226AD366001691E2 /* Pods_PearlVideo.framework in Frameworks */,
 				482138DD226AD1F9001691E2 /* libiconv.tbd in Frameworks */,
+				4824384A229CD80E006B480C /* AliyunOSSiOS.framework in Frameworks */,
+				4824384C229CD80E006B480C /* WindVaneCore.framework in Frameworks */,
+				48243847229CD80E006B480C /* AliReachability.framework in Frameworks */,
+				48243841229CD80E006B480C /* ZipArchive.framework in Frameworks */,
 				482138DB226AD1E1001691E2 /* libc++.tbd in Frameworks */,
 				482138D9226AD1D4001691E2 /* OpenAL.framework in Frameworks */,
+				48243848229CD80E006B480C /* WindVaneBridge.framework in Frameworks */,
 				482138D7226AD1CB001691E2 /* MediaPlayer.framework in Frameworks */,
 				482138D5226AD1C3001691E2 /* VideoToolbox.framework in Frameworks */,
 				482138D3226AD1B8001691E2 /* CoreVideo.framework in Frameworks */,
 				482138D1226AD1B0001691E2 /* CoreMedia.framework in Frameworks */,
+				48243846229CD80E006B480C /* WindVane.framework in Frameworks */,
+				48243844229CD80E006B480C /* SGNoCaptcha.framework in Frameworks */,
 				482138CF226AD1A2001691E2 /* ImageIO.framework in Frameworks */,
+				4824384B229CD80E006B480C /* SGSecurityBody.framework in Frameworks */,
 				482138CD226AD196001691E2 /* libz.tbd in Frameworks */,
+				48243840229CD80E006B480C /* RPSDK.framework in Frameworks */,
+				48243845229CD80E006B480C /* SecurityGuardSDK.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -384,9 +399,8 @@
 				484DAD46224F1741002BA454 /* Base */,
 				484DAD6A224F1741002BA454 /* Login */,
 				484DAD73224F1741002BA454 /* Home */,
-				484DADBB224F1741002BA454 /* Attention */,
 				484DAD7C224F1741002BA454 /* Play */,
-				484DAE28224F1822002BA454 /* Pearl */,
+				4876ECC0229BEA4F005370CF /* Exchange */,
 				484DAD4E224F1741002BA454 /* Me */,
 			);
 			path = Sections;
@@ -395,8 +409,23 @@
 		484DAD1C224F1213002BA454 /* Resource */ = {
 			isa = PBXGroup;
 			children = (
-				48A1C96B2276C78400A7C307 /* likeAnimation.json */,
-				48A1C9672276C78400A7C307 /* likeAnimationImages */,
+				4824384D229CD883006B480C /* yw_1222_0769.jpg */,
+				4824383A229CD80A006B480C /* AliReachability.framework */,
+				4824383D229CD80C006B480C /* AliyunOSSiOS.framework */,
+				48243836229CD808006B480C /* FaceLivenessOpen.framework */,
+				48243833229CD806006B480C /* RPSDK.framework */,
+				48243838229CD809006B480C /* SecurityGuardSDK.framework */,
+				4824383C229CD80C006B480C /* SGMain.framework */,
+				48243837229CD809006B480C /* SGNoCaptcha.framework */,
+				4824383E229CD80D006B480C /* SGSecurityBody.framework */,
+				48243839229CD80A006B480C /* WindVane.framework */,
+				48243835229CD808006B480C /* WindVaneBasic.framework */,
+				4824383B229CD80B006B480C /* WindVaneBridge.framework */,
+				4824383F229CD80E006B480C /* WindVaneCore.framework */,
+				48243834229CD807006B480C /* ZipArchive.framework */,
+				4824382F229CD7FB006B480C /* FaceLivenessSDK.bundle */,
+				4824382D229CD7FA006B480C /* FaceTheme.bundle */,
+				4824382E229CD7FA006B480C /* RPSDK.bundle */,
 			);
 			path = Resource;
 			sourceTree = "<group>";
@@ -519,6 +548,7 @@
 				482F3C39225ADF7600FEC130 /* PVMeMessageVCChildPro.swift */,
 				482F3C43225B79B900FEC130 /* PVMeTeamVCPro.swift */,
 				483657FF225C30B700BCB2D9 /* PVMeTeamVCChildPro.swift */,
+				4820007E2297951A00350DA2 /* PVMeVideoPlayPro.swift */,
 			);
 			path = Protocol;
 			sourceTree = "<group>";
@@ -530,7 +560,6 @@
 				481F20E2225F11A900331CCF /* PVUserInfoVC.swift */,
 				481C59AC2253621F0086F616 /* PVMeVCChild.swift */,
 				481C59B222537E4B0086F616 /* PVMeAttentionVC.swift */,
-				481C59B62253882B0086F616 /* PVMeFansVC.swift */,
 				481C59B822538C4B0086F616 /* PVMeUserinfoEditVC.swift */,
 				481D66532254A02400B59929 /* PVMeSettingVC.swift */,
 				481D66572254BCC400B59929 /* PVMeSettingVCChild.swift */,
@@ -540,6 +569,7 @@
 				482F3C41225B716800FEC130 /* PVMeTeamVC.swift */,
 				483657FD225C2EFC00BCB2D9 /* PVMeTeamVCChild.swift */,
 				4822D3EB2273EFF3000CF509 /* PVMeShareVC.swift */,
+				4820007C2297921700350DA2 /* PVMeVideoPlayVC.swift */,
 			);
 			path = Controller;
 			sourceTree = "<group>";
@@ -550,13 +580,14 @@
 				481F20E4225F159900331CCF /* PVUserInfoView.swift */,
 				481C59A8225342220086F616 /* PVMeHeaderView.swift */,
 				481C59AE225363AF0086F616 /* PVMeProductionCell.swift */,
+				482000822297EA2C00350DA2 /* PVMeLevelCell.swift */,
 				481C59B422537F6B0086F616 /* PVMeAttentionCell.swift */,
-				481C59BA22538E570086F616 /* PVMeUserinfoEditCell.swift */,
 				481D66552254A28700B59929 /* PVMeSettingCell.swift */,
 				481D665B2254D91100B59929 /* PVMeSettingVCChildView.swift */,
 				482F3C3B225AE43F00FEC130 /* PVMeMessageVCChildView.swift */,
 				482F3C3F225B5F0900FEC130 /* PVMeInvitationBindingView.swift */,
 				48365801225C311C00BCB2D9 /* PVMeTeamVCChildView.swift */,
+				482000802297966400350DA2 /* PVMePlayMaskView.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -568,9 +599,10 @@
 				488759F522844AAE004BC541 /* PVHomeModel.swift */,
 				481F52D2228C0F0E00474048 /* PVHomeVideoModel.swift */,
 				481F52D4228C167400474048 /* PVHomeOtherModels.swift */,
-				48E13CC0228EBF9900D27D75 /* PVMeModel.swift */,
+				48E13CC0228EBF9900D27D75 /* PVMeModels.swift */,
 				4823BBCD2290048E006869AA /* PVVideoPlayModel.swift */,
-				4821C7482293A1AD005FC71A /* PVVideoCommentModel.swift */,
+				4821C7482293A1AD005FC71A /* PVVideoModels.swift */,
+				4824916A229E86B700B6870F /* PVUserValidateModel.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -633,6 +665,7 @@
 				48A9938A22840F2D00CC4326 /* PVHomeHeaderViewPro.swift */,
 				481F20EA225F350800331CCF /* PVHomePlayPro.swift */,
 				481FD11722697C130028F82C /* PVHomePlayDelegates.swift */,
+				48A0291B2296A6B60065EF79 /* PVHomePlayMaskViewPro.swift */,
 				481F20EC225F416F00331CCF /* PVVideoCommentPro.swift */,
 				48200A53225E1B5900D19735 /* PVHomeReportDetailPro.swift */,
 			);
@@ -652,6 +685,8 @@
 				481C59A2225338A50086F616 /* PVHomePlayVC.swift */,
 				48200A4D225E0E2800D19735 /* PVHomeReportVC.swift */,
 				48200A51225E130100D19735 /* PVHomeReportDetailVC.swift */,
+				482000842297F88700350DA2 /* PVVideoCommentReplyVC.swift */,
+				4824384F229D1152006B480C /* PVVideoShareVC.swift */,
 			);
 			path = Controller;
 			sourceTree = "<group>";
@@ -669,6 +704,8 @@
 				4830DD5E2268612A00E2B86F /* PVHomePlayContainerView.swift */,
 				48E13CC2228EDFFC00D27D75 /* PVHomePlayMaskView.swift */,
 				48200A4F225E0EE600D19735 /* PVHomeReportCell.swift */,
+				482000862297FD6900350DA2 /* PVVideoCommentReplyHeader.swift */,
+				48243851229D1762006B480C /* PVVideoShareAlert.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -710,99 +747,38 @@
 			path = View;
 			sourceTree = "<group>";
 		};
-		484DADBB224F1741002BA454 /* Attention */ = {
+		4876ECC0229BEA4F005370CF /* Exchange */ = {
 			isa = PBXGroup;
 			children = (
-				484DADBC224F1741002BA454 /* Protocol */,
-				484DADBF224F1741002BA454 /* Controller */,
-				484DADC3224F1741002BA454 /* View */,
+				4876ECC3229BEA8B005370CF /* Protocol */,
+				4876ECC2229BEA84005370CF /* Controller */,
+				4876ECC1229BEA79005370CF /* View */,
 			);
-			path = Attention;
+			path = Exchange;
 			sourceTree = "<group>";
 		};
-		484DADBC224F1741002BA454 /* Protocol */ = {
+		4876ECC1229BEA79005370CF /* View */ = {
 			isa = PBXGroup;
 			children = (
-			);
-			path = Protocol;
-			sourceTree = "<group>";
-		};
-		484DADBF224F1741002BA454 /* Controller */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			path = Controller;
-			sourceTree = "<group>";
-		};
-		484DADC3224F1741002BA454 /* View */ = {
-			isa = PBXGroup;
-			children = (
-				48365807225C8C4700BCB2D9 /* PVAttentionDetailViews.swift */,
+				4876ECC6229BEB1B005370CF /* PVExchangeViews.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
 		};
-		484DAE28224F1822002BA454 /* Pearl */ = {
+		4876ECC2229BEA84005370CF /* Controller */ = {
 			isa = PBXGroup;
 			children = (
-				484DAE2B224F185A002BA454 /* Protocol */,
-				484DAE2A224F1852002BA454 /* Controller */,
-				484DAE29224F1840002BA454 /* View */,
-			);
-			path = Pearl;
-			sourceTree = "<group>";
-		};
-		484DAE29224F1840002BA454 /* View */ = {
-			isa = PBXGroup;
-			children = (
-				48283CD222602F4E00CBE8CD /* PVPearlViews.swift */,
-				4822D3EF22745490000CF509 /* PVPearlHeaderViews.swift */,
-				481F802E22618E0100C20CB1 /* PVPearlPearlDetailCell.swift */,
-				481F80342261C65B00C20CB1 /* PVPearlUserLevelCell.swift */,
-				481F803C2261EB1200C20CB1 /* PVPearlMarketChildViews.swift */,
-				482290A2226450CE00870988 /* PVPearlSendBillCell.swift */,
-				482290A82264641200870988 /* PVPearlDealRecordChildViews.swift */,
-				482290AE22647DDE00870988 /* PVPearlOrderDetailViews.swift */,
-			);
-			path = View;
-			sourceTree = "<group>";
-		};
-		484DAE2A224F1852002BA454 /* Controller */ = {
-			isa = PBXGroup;
-			children = (
-				481C59A6225338E70086F616 /* PVPearlVC.swift */,
-				481F802C2261872900C20CB1 /* PVPearlPearlDetailVC.swift */,
-				481F8030226190D500C20CB1 /* PVPearlPlantDetailVC.swift */,
-				481F80322261934D00C20CB1 /* PVPearlUserLevelVC.swift */,
-				481F80362261D0B600C20CB1 /* PVPearlShellLevelVC.swift */,
-				481F80382261DCE600C20CB1 /* PVPearlMarketVC.swift */,
-				481F803A2261E8DF00C20CB1 /* PVPearlMarketChildVCs.swift */,
-				482290A02264318C00870988 /* PVPearlSendBillVC.swift */,
-				482290A4226461BC00870988 /* PVPearlDealRecordVC.swift */,
-				482290A62264630D00870988 /* PVPearlDealRecordChildVCs.swift */,
-				482290AC2264792200870988 /* PVPearlOrderDetailVC.swift */,
+				4876ECC4229BEAA4005370CF /* PVExchangeVC.swift */,
 			);
 			path = Controller;
 			sourceTree = "<group>";
 		};
-		484DAE2B224F185A002BA454 /* Protocol */ = {
+		4876ECC3229BEA8B005370CF /* Protocol */ = {
 			isa = PBXGroup;
 			children = (
-				481F802A2261802B00C20CB1 /* PVPearlPro.swift */,
-				481F803E2261EB7900C20CB1 /* PVPearlMarketChildPro.swift */,
-				482290AA2264746600870988 /* PVPearlDealRecordChildPro.swift */,
+				4824382B229CC8AD006B480C /* PVExchangePro.swift */,
 			);
 			path = Protocol;
-			sourceTree = "<group>";
-		};
-		48A1C9672276C78400A7C307 /* likeAnimationImages */ = {
-			isa = PBXGroup;
-			children = (
-				48A1C9682276C78400A7C307 /* like_img_1.png */,
-				48A1C9692276C78400A7C307 /* like_img_0.png */,
-				48A1C96A2276C78400A7C307 /* like_img_2.png */,
-			);
-			path = likeAnimationImages;
 			sourceTree = "<group>";
 		};
 		6DFCBF0E62A631F5DD4B9CC2 /* Frameworks */ = {
@@ -893,11 +869,11 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				48A1C96D2276C78500A7C307 /* like_img_0.png in Resources */,
-				48A1C96F2276C78500A7C307 /* likeAnimation.json in Resources */,
-				48A1C96C2276C78500A7C307 /* like_img_1.png in Resources */,
+				48243831229CD7FB006B480C /* RPSDK.bundle in Resources */,
+				48243832229CD7FB006B480C /* FaceLivenessSDK.bundle in Resources */,
+				4824384E229CD883006B480C /* yw_1222_0769.jpg in Resources */,
+				48243830229CD7FB006B480C /* FaceTheme.bundle in Resources */,
 				484DAD12224F10B5002BA454 /* LaunchScreen.storyboard in Resources */,
-				48A1C96E2276C78500A7C307 /* like_img_2.png in Resources */,
 				484DAD0F224F10B5002BA454 /* Assets.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -933,16 +909,11 @@
 			files = (
 			);
 			inputFileListPaths = (
-			);
-			inputPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-PearlVideo/Pods-PearlVideo-resources.sh",
-				"${PODS_ROOT}/AliyunPlayer_iOS/AliyunLanguageSource.bundle",
+				"${PODS_ROOT}/Target Support Files/Pods-PearlVideo/Pods-PearlVideo-resources-${CONFIGURATION}-input-files.xcfilelist",
 			);
 			name = "[CP] Copy Pods Resources";
 			outputFileListPaths = (
-			);
-			outputPaths = (
-				"${TARGET_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}/AliyunLanguageSource.bundle",
+				"${PODS_ROOT}/Target Support Files/Pods-PearlVideo/Pods-PearlVideo-resources-${CONFIGURATION}-output-files.xcfilelist",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
@@ -955,62 +926,11 @@
 			files = (
 			);
 			inputFileListPaths = (
-			);
-			inputPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-PearlVideo/Pods-PearlVideo-frameworks.sh",
-				"${BUILT_PRODUCTS_DIR}/Alamofire/Alamofire.framework",
-				"${PODS_ROOT}/AlivcConan/AlivcConan.framework",
-				"${BUILT_PRODUCTS_DIR}/AliyunOSSiOS/AliyunOSSiOS.framework",
-				"${PODS_ROOT}/AliyunPlayer_iOS/AliyunPlayerSDK.framework",
-				"${PODS_ROOT}/AliyunPlayer_iOS/AliThirdparty.framework",
-				"${PODS_ROOT}/AliyunPlayer_iOS/AliyunVodPlayerSDK.framework",
-				"${PODS_ROOT}/AliyunVideoSDKBasic/frameworks/AliyunVideoSDKPro.framework",
-				"${BUILT_PRODUCTS_DIR}/FSPagerView/FSPagerView.framework",
-				"${BUILT_PRODUCTS_DIR}/IQKeyboardManagerSwift/IQKeyboardManagerSwift.framework",
-				"${BUILT_PRODUCTS_DIR}/Kingfisher/Kingfisher.framework",
-				"${BUILT_PRODUCTS_DIR}/MJRefresh/MJRefresh.framework",
-				"${BUILT_PRODUCTS_DIR}/ObjectMapper/ObjectMapper.framework",
-				"${BUILT_PRODUCTS_DIR}/PYSearch/PYSearch.framework",
-				"${PODS_ROOT}/QuCore-ThirdParty/frameworks/alivcffmpeg.framework",
-				"${BUILT_PRODUCTS_DIR}/SVProgressHUD/SVProgressHUD.framework",
-				"${BUILT_PRODUCTS_DIR}/SnapKit/SnapKit.framework",
-				"${BUILT_PRODUCTS_DIR}/SwiftyJSON/SwiftyJSON.framework",
-				"${BUILT_PRODUCTS_DIR}/TZImagePickerController/TZImagePickerController.framework",
-				"${BUILT_PRODUCTS_DIR}/Toast-Swift/Toast_Swift.framework",
-				"${BUILT_PRODUCTS_DIR}/UITableView+FDTemplateLayoutCell/UITableView_FDTemplateLayoutCell.framework",
-				"${BUILT_PRODUCTS_DIR}/WMPageController/WMPageController.framework",
-				"${BUILT_PRODUCTS_DIR}/YYKit/YYKit.framework",
-				"${BUILT_PRODUCTS_DIR}/lottie-ios/Lottie.framework",
-				"${BUILT_PRODUCTS_DIR}/pop/pop.framework",
+				"${PODS_ROOT}/Target Support Files/Pods-PearlVideo/Pods-PearlVideo-frameworks-${CONFIGURATION}-input-files.xcfilelist",
 			);
 			name = "[CP] Embed Pods Frameworks";
 			outputFileListPaths = (
-			);
-			outputPaths = (
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Alamofire.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/AlivcConan.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/AliyunOSSiOS.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/AliyunPlayerSDK.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/AliThirdparty.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/AliyunVodPlayerSDK.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/AliyunVideoSDKPro.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/FSPagerView.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/IQKeyboardManagerSwift.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Kingfisher.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/MJRefresh.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/ObjectMapper.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/PYSearch.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/alivcffmpeg.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SVProgressHUD.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SnapKit.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/SwiftyJSON.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/TZImagePickerController.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Toast_Swift.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/UITableView_FDTemplateLayoutCell.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/WMPageController.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/YYKit.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/Lottie.framework",
-				"${TARGET_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}/pop.framework",
+				"${PODS_ROOT}/Target Support Files/Pods-PearlVideo/Pods-PearlVideo-frameworks-${CONFIGURATION}-output-files.xcfilelist",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
@@ -1029,55 +949,44 @@
 				482F3C42225B716800FEC130 /* PVMeTeamVC.swift in Sources */,
 				484DADCA224F1741002BA454 /* PVBaseModel.swift in Sources */,
 				481C59A3225338A50086F616 /* PVHomePlayVC.swift in Sources */,
+				4876ECC7229BEB1B005370CF /* PVExchangeViews.swift in Sources */,
 				481D66582254BCC400B59929 /* PVMeSettingVCChild.swift in Sources */,
-				482290A92264641200870988 /* PVPearlDealRecordChildViews.swift in Sources */,
 				481F8F6B228A515500A3AF92 /* PVHomeTaskViews.swift in Sources */,
 				481C59A9225342220086F616 /* PVMeHeaderView.swift in Sources */,
 				481C599F225311110086F616 /* PVForgetPsdVC.swift in Sources */,
 				481C59AF225363AF0086F616 /* PVMeProductionCell.swift in Sources */,
 				481FD11822697C130028F82C /* PVHomePlayDelegates.swift in Sources */,
-				481F80392261DCE600C20CB1 /* PVPearlMarketVC.swift in Sources */,
-				481F80372261D0B600C20CB1 /* PVPearlShellLevelVC.swift in Sources */,
 				481C59AD2253621F0086F616 /* PVMeVCChild.swift in Sources */,
 				484DAD25224F1380002BA454 /* KeysMacro.swift in Sources */,
 				484DADE3224F1741002BA454 /* PVLoginPro.swift in Sources */,
-				481F80332261934D00C20CB1 /* PVPearlUserLevelVC.swift in Sources */,
-				481F802F22618E0100C20CB1 /* PVPearlPearlDetailCell.swift in Sources */,
 				481F52D5228C167400474048 /* PVHomeOtherModels.swift in Sources */,
+				48243852229D1762006B480C /* PVVideoShareAlert.swift in Sources */,
 				484DAD3C224F140F002BA454 /* PVCustomButton.swift in Sources */,
 				481D66542254A02400B59929 /* PVMeSettingVC.swift in Sources */,
-				481F80352261C65B00C20CB1 /* PVPearlUserLevelCell.swift in Sources */,
 				481D665C2254D91100B59929 /* PVMeSettingVCChildView.swift in Sources */,
-				482290AD2264792200870988 /* PVPearlOrderDetailVC.swift in Sources */,
 				484DAD37224F140F002BA454 /* PVNetworkTool.swift in Sources */,
-				481C59A7225338E70086F616 /* PVPearlVC.swift in Sources */,
 				481F1C032289114B00AAEC8E /* PVHomeMyTeamPro.swift in Sources */,
 				481C59A1225336D70086F616 /* PVAgreementWebVC.swift in Sources */,
 				484DAD3D224F140F002BA454 /* YPJTextFieldEx.swift in Sources */,
-				481F802B2261802B00C20CB1 /* PVPearlPro.swift in Sources */,
 				48A9938D22841C0400CC4326 /* PVHomeVCPro.swift in Sources */,
 				481C59B322537E4B0086F616 /* PVMeAttentionVC.swift in Sources */,
 				4822D3EC2273EFF3000CF509 /* PVMeShareVC.swift in Sources */,
 				481F52D3228C0F0E00474048 /* PVHomeVideoModel.swift in Sources */,
-				481F803F2261EB7900C20CB1 /* PVPearlMarketChildPro.swift in Sources */,
 				48E13CC3228EDFFC00D27D75 /* PVHomePlayMaskView.swift in Sources */,
 				484DADC5224F1741002BA454 /* PVBaseTableCell.swift in Sources */,
 				48E13CBF228E988300D27D75 /* YPJResponderEx.swift in Sources */,
-				482290A5226461BC00870988 /* PVPearlDealRecordVC.swift in Sources */,
 				4822D3EE2274077F000CF509 /* YPJOtherToolQRImage.swift in Sources */,
+				4820007D2297921700350DA2 /* PVMeVideoPlayVC.swift in Sources */,
 				481C59B1225366210086F616 /* PVMeVCChildPro.swift in Sources */,
+				482000812297966400350DA2 /* PVMePlayMaskView.swift in Sources */,
 				481F20E3225F11A900331CCF /* PVUserInfoVC.swift in Sources */,
-				481F803D2261EB1200C20CB1 /* PVPearlMarketChildViews.swift in Sources */,
+				482000832297EA2C00350DA2 /* PVMeLevelCell.swift in Sources */,
 				481F8F6F228A602400A3AF92 /* PVHomeMessageViews.swift in Sources */,
 				481F8F71228A62C900A3AF92 /* PVHomeMessagePro.swift in Sources */,
-				48283CD322602F4E00CBE8CD /* PVPearlViews.swift in Sources */,
 				481F8F69228A507E00A3AF92 /* PVHomeTaskPro.swift in Sources */,
 				48200A54225E1B5900D19735 /* PVHomeReportDetailPro.swift in Sources */,
 				48A993932284206F00CC4326 /* PVHomeVideoCell.swift in Sources */,
-				482290AB2264746600870988 /* PVPearlDealRecordChildPro.swift in Sources */,
 				4824A64F226D5C5100FF7832 /* PVPlayProgressView.swift in Sources */,
-				48365808225C8C4700BCB2D9 /* PVAttentionDetailViews.swift in Sources */,
-				482290AF22647DDE00870988 /* PVPearlOrderDetailViews.swift in Sources */,
 				481D665A2254CEA000B59929 /* PVMeSettingVCChildPro.swift in Sources */,
 				48A9938B22840F2D00CC4326 /* PVHomeHeaderViewPro.swift in Sources */,
 				484DAD40224F140F002BA454 /* YPJOtherTools.swift in Sources */,
@@ -1087,7 +996,6 @@
 				48365802225C311C00BCB2D9 /* PVMeTeamVCChildView.swift in Sources */,
 				481F1C0122890E0B00AAEC8E /* PVHomeMyTeamViews.swift in Sources */,
 				482F3C3E225B30CC00FEC130 /* PVMeInvitationCodeVC.swift in Sources */,
-				482290A12264318C00870988 /* PVPearlSendBillVC.swift in Sources */,
 				481D6652225450E900B59929 /* PVDatePickerView.swift in Sources */,
 				48200A50225E0EE600D19735 /* PVHomeReportCell.swift in Sources */,
 				481C599D2252EDD30086F616 /* PVLoginChildVCPro.swift in Sources */,
@@ -1102,7 +1010,6 @@
 				482F3C40225B5F0900FEC130 /* PVMeInvitationBindingView.swift in Sources */,
 				4830DD5F2268612A00E2B86F /* PVHomePlayContainerView.swift in Sources */,
 				481C59B922538C4B0086F616 /* PVMeUserinfoEditVC.swift in Sources */,
-				481F803B2261E8DF00C20CB1 /* PVPearlMarketChildVCs.swift in Sources */,
 				484DAD45224F14F7002BA454 /* PVTabBarController.swift in Sources */,
 				484DADC8224F1741002BA454 /* PVNavigationBar.swift in Sources */,
 				482F3C3C225AE43F00FEC130 /* PVMeMessageVCChildView.swift in Sources */,
@@ -1115,48 +1022,49 @@
 				484DAD41224F140F002BA454 /* GCDTools.swift in Sources */,
 				484DAD3A224F140F002BA454 /* PVNetworkRouter.swift in Sources */,
 				481D66562254A28700B59929 /* PVMeSettingCell.swift in Sources */,
-				481F802D2261872A00C20CB1 /* PVPearlPearlDetailVC.swift in Sources */,
 				484DAD39224F140F002BA454 /* PVNetworkValidate.swift in Sources */,
 				481135F72283D25F00200453 /* PVHomeVC.swift in Sources */,
 				481F20E5225F159900331CCF /* PVUserInfoView.swift in Sources */,
 				484DADC9224F1741002BA454 /* PVBaseWMPageVC.swift in Sources */,
-				4822D3F022745490000CF509 /* PVPearlHeaderViews.swift in Sources */,
 				481F20E9225F270600331CCF /* PVVideoCommentView.swift in Sources */,
 				484DADC6224F1741002BA454 /* PVBaseViewController.swift in Sources */,
+				482000852297F88700350DA2 /* PVVideoCommentReplyVC.swift in Sources */,
 				487AFC6A226B14EA0064F00A /* PVPlayPro.swift in Sources */,
 				482138C3226ACA68001691E2 /* PVPlayVC.swift in Sources */,
 				48200A52225E130100D19735 /* PVHomeReportDetailVC.swift in Sources */,
 				484DAD38224F140F002BA454 /* PVRefresh.swift in Sources */,
-				48E13CC1228EBF9900D27D75 /* PVMeModel.swift in Sources */,
+				48E13CC1228EBF9900D27D75 /* PVMeModels.swift in Sources */,
 				484DAD08224F10B4002BA454 /* AppDelegate.swift in Sources */,
+				482000872297FD6900350DA2 /* PVVideoCommentReplyHeader.swift in Sources */,
 				484DAD27224F1380002BA454 /* ToolMacro.swift in Sources */,
 				4821C6A52256131A0030BF4B /* PVMeMessageVCChild.swift in Sources */,
-				481F8031226190D500C20CB1 /* PVPearlPlantDetailVC.swift in Sources */,
+				4820007F2297951A00350DA2 /* PVMeVideoPlayPro.swift in Sources */,
 				481FD11E2269F47B0028F82C /* PVPlayVideoUploadVC.swift in Sources */,
 				483657FE225C2EFC00BCB2D9 /* PVMeTeamVCChild.swift in Sources */,
 				484DAE2D224F6DB4002BA454 /* PVLoginChildVCs.swift in Sources */,
+				4824382C229CC8AD006B480C /* PVExchangePro.swift in Sources */,
 				481C59AB22535CFB0086F616 /* PVMePro.swift in Sources */,
 				484DAD26224F1380002BA454 /* ArgsMacro.swift in Sources */,
 				48200A4E225E0E2800D19735 /* PVHomeReportVC.swift in Sources */,
-				4821C7492293A1AD005FC71A /* PVVideoCommentModel.swift in Sources */,
+				4821C7492293A1AD005FC71A /* PVVideoModels.swift in Sources */,
 				484DADE4224F1741002BA454 /* PVLoginVC.swift in Sources */,
 				488759F622844AAE004BC541 /* PVHomeModel.swift in Sources */,
+				48243850229D1152006B480C /* PVVideoShareVC.swift in Sources */,
 				482F3C44225B79B900FEC130 /* PVMeTeamVCPro.swift in Sources */,
 				4820F40A228582E200898CD7 /* PVHomeVCChildViews.swift in Sources */,
 				484DADCB224F1741002BA454 /* PVBaseNavigationVC.swift in Sources */,
 				482F3C3A225ADF7600FEC130 /* PVMeMessageVCChildPro.swift in Sources */,
-				482290A72264630D00870988 /* PVPearlDealRecordChildVCs.swift in Sources */,
+				4824916B229E86B700B6870F /* PVUserValidateModel.swift in Sources */,
 				484DAD3F224F140F002BA454 /* YPJExTools.swift in Sources */,
-				482290A3226450CE00870988 /* PVPearlSendBillCell.swift in Sources */,
 				481F20EB225F350800331CCF /* PVHomePlayPro.swift in Sources */,
 				4820F40C2285874B00898CD7 /* PVHomeInfoChildVCsPro.swift in Sources */,
 				4823BBCE2290048E006869AA /* PVVideoPlayModel.swift in Sources */,
 				481F1C0922899E3100AAEC8E /* PVHomeTaskVC.swift in Sources */,
 				481F8F6D228A5F2E00A3AF92 /* PVHomeMessageVC.swift in Sources */,
-				481C59B72253882B0086F616 /* PVMeFansVC.swift in Sources */,
-				481C59BB22538E570086F616 /* PVMeUserinfoEditCell.swift in Sources */,
 				484DADCD224F1741002BA454 /* PVMeViewController.swift in Sources */,
 				4830DD62226863DE00E2B86F /* AlivcQuVideoModel.swift in Sources */,
+				48A0291C2296A6B60065EF79 /* PVHomePlayMaskViewPro.swift in Sources */,
+				4876ECC5229BEAA4005370CF /* PVExchangeVC.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1295,6 +1203,7 @@
 			baseConfigurationReference = 930A2A5820FE0D1607F8150B /* Pods-PearlVideo.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = 5D56L9247R;
 				ENABLE_BITCODE = NO;
@@ -1303,6 +1212,7 @@
 					"$(PROJECT_DIR)/Pods/VODUpload/frameworks",
 					"$(PROJECT_DIR)/PearlVideo/Vendor",
 					"$(PROJECT_DIR)/Pods/AliyunVideoSDKBasic/frameworks",
+					"$(PROJECT_DIR)/PearlVideo/Resource",
 				);
 				GCC_OPTIMIZATION_LEVEL = 0;
 				INFOPLIST_FILE = PearlVideo/Info.plist;
@@ -1313,6 +1223,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.lzmingsi.PearlVideo;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_OBJC_BRIDGING_HEADER = "$(SRCROOT)/PearlVideo/BridgingHeader.h";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 4.2;
@@ -1325,6 +1236,7 @@
 			baseConfigurationReference = 761B771C9F0CE0F909F03944 /* Pods-PearlVideo.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = 5D56L9247R;
 				ENABLE_BITCODE = NO;
@@ -1333,6 +1245,7 @@
 					"$(PROJECT_DIR)/Pods/VODUpload/frameworks",
 					"$(PROJECT_DIR)/PearlVideo/Vendor",
 					"$(PROJECT_DIR)/Pods/AliyunVideoSDKBasic/frameworks",
+					"$(PROJECT_DIR)/PearlVideo/Resource",
 				);
 				GCC_OPTIMIZATION_LEVEL = s;
 				INFOPLIST_FILE = PearlVideo/Info.plist;
@@ -1343,6 +1256,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.lzmingsi.PearlVideo;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_OBJC_BRIDGING_HEADER = "$(SRCROOT)/PearlVideo/BridgingHeader.h";
 				SWIFT_OPTIMIZATION_LEVEL = "-O";
 				SWIFT_VERSION = 4.2;

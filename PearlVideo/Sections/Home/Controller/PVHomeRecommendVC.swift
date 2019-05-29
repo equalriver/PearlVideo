@@ -51,10 +51,8 @@ class PVHomeRecommendVC: PVBaseViewController {
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        if UserDefaults.standard.value(forKey: kToken) == nil {
-            collectionView.stateUnlogin(title: "登录", img: nil) {
-                self.loadData(page: self.page)
-            }
+        if dataArr.count == 0 {
+            loadData(page: self.page)
         }
     }
     

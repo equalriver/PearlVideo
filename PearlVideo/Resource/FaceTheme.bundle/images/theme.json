@@ -1,0 +1,9 @@
+{
+    "Key说明":"color_error_text:错误文字颜色（检验不通过...），color_button_text:屏幕下方按钮文字颜色，color_prompt_text:动作提示语文字颜色（请张下嘴...），color_nav_text:导航首页提示文字颜色（请本人操作...），color_tip_text: 悬浮提示文字颜色（请把脸部移入框中）",
+  "颜色说明":"值为10进制整型，由16进制颜色（0xAARRGGBB）转化成10进制的整型 ，如 0xFFFF5000 对应 4294922240",
+  "color_error_text":4294922240, 
+  "color_button_text":4294967295, 
+  "color_prompt_text":4281545523,
+  "color_nav_text":4281545523,    
+  "color_tip_text":4282204485
+}

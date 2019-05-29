@@ -39,6 +39,7 @@ class PVHomeHeaderView: UIView {
         v.register(FSPagerViewCell.self, forCellWithReuseIdentifier: "FSPagerViewCell")
         v.dataSource = self
         v.delegate = self
+       
         return v
     }()
     lazy var bannerPageControl: FSPageControl = {
@@ -117,7 +118,6 @@ class PVHomeHeaderView: UIView {
     }
     
 }
-
 
 
 //MARK: - notice banner view
