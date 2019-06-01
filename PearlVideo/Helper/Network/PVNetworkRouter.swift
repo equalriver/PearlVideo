@@ -28,6 +28,10 @@ enum Router: URLRequestConvertible {
     ///退出登录
     case loginOut()
     
+    ///获取版本号
+    case getVersion()
+    
+    
     
     //首页
     ///首页
@@ -105,8 +109,8 @@ enum Router: URLRequestConvertible {
     ///视频评论列表
     case videoCommentList(videoId: String, page: Int)
     
-    ///视频举报
-    case videoReport()
+    ///视频举报 imageUrl<string>数组
+    case videoReport(videoId: String, type: String, content: String)
     
     ///视频评论点赞 action: 1点赞 2取消
     case videoCommentLike(videoId: String, commentId: Int, action: Int)
@@ -138,18 +142,26 @@ enum Router: URLRequestConvertible {
     ///视频 type: 3作品 4喜欢 5私密
     case userInfoVideo(userId: String, type: Int, page: Int)
     
-    ///意见反馈
-    case feedback()
+    ///意见反馈 类型: 1解冻 2优化意见 3其他
+    case feedback(type: Int, name: String, phone: String, idCard: String, imageUrl: [String], content: String)
     
     ///我的反馈
     case myFeedback(page: Int)
     
-    ///修改用户信息  autograph签名
-    case editUserInfo()
+    ///修改用户信息  sign签名
+    case editUserInfo(name: String, avatarUrl: String, sign: String, gender: String)
     
     ///获取实人认证token
-    case getUserValidateToken()
+    case getUserValidateToken(idCard: String, name: String)
     
+    ///获取上传图片的阿里云auth和address
+    case getAuthWithUploadImage(imageExt: String)
+    
+    ///获取用户认证状态
+    case getUserValidateStatus()
+    
+    ///非人脸身份认证 verifyId: 加密的参数("name|idCard|deviceId", 密钥"fuyin")
+    case userValidate(name: String, idCard: String, deviceId: String)
     
     
     func asURLRequest() throws -> URLRequest {
@@ -178,6 +190,9 @@ enum Router: URLRequestConvertible {
                 
             case .loginOut:
                 return "/api/common/token/logout"
+                
+            case .getVersion:
+                return "GetVersion"
                 
             //home
             case .homePage:
@@ -274,7 +289,7 @@ enum Router: URLRequestConvertible {
                 return "AddCommentReply"
                 
             case .getInviteCode:
-                return "getInviteCode"
+                return "GetShareUserInfo"
                 
                 
                 
@@ -300,6 +315,15 @@ enum Router: URLRequestConvertible {
             case .getUserValidateToken:
                 return "GetVerifyToken"
            
+            case .getAuthWithUploadImage:
+                return "CreateUploadImage"
+                
+            case .getUserValidateStatus:
+                return "GetUserVerifyStatus"
+                
+            case .userValidate:
+                return "VerifyUserNonFace"
+                
             }
           
         }
@@ -351,6 +375,11 @@ enum Router: URLRequestConvertible {
             ]
         
         case .loginOut: break
+            
+        case .getVersion:
+            param = [
+                "type": "iOS"
+            ]
             
             
         //home
@@ -470,7 +499,12 @@ enum Router: URLRequestConvertible {
                 "skip": page
             ]
             
-        case .videoReport: break
+        case .videoReport(let videoId, let type, let content):
+            param = [
+                "videoId": videoId,
+                "type": type,
+                "content": content
+            ]
             
         case .videoCommentLike(let videoId, let commentId, let action):
             param = [
@@ -523,16 +557,49 @@ enum Router: URLRequestConvertible {
                 "skip": page
             ]
             
-        case .feedback: break
+        case .feedback(let type, let name, let phone, let idCard, let imageUrl, let content):
+            param = [
+                "type": type,
+                "name": name,
+                "tel": phone,
+                "idCard": idCard,
+                "imageUrl": imageUrl,
+                "content": content
+            ]
             
         case .myFeedback(let page):
             param = [
                 "skip": page
             ]
             
-        case .editUserInfo: break
+        case .editUserInfo(let name, let avatarUrl, let sign, let gender):
+            param = [
+                "nickName": name,
+                "avatarUrl": avatarUrl,
+                "autograph": sign,
+                "gender": gender
+            ]
             
-        case .getUserValidateToken: break
+        case .getUserValidateToken(let idCard, let name):
+            param = [
+                "idNo": idCard,
+                "name": name
+            ]
+            
+        case .getAuthWithUploadImage(let imageExt):
+            param = [
+                "imageExt": imageExt
+            ]
+            
+        case .getUserValidateStatus: break
+            
+        case .userValidate(let name, let idCard, let deviceId):
+            param = [
+                "name": name,
+                "idNo": idCard,
+                "verifyId": deviceId,
+                "platform": "iOS"
+            ]
 
         }
         
@@ -560,7 +627,7 @@ enum Router: URLRequestConvertible {
 //            break
 
         default:
-            let token = UserDefaults.standard.string(forKey: kToken) ?? UserDefaults.standard.string(forKey: kVisitorToken)
+            let token = UserDefaults.standard.string(forKey: kToken)
             if token != nil {
                 if token!.count > 0 { urlReq.setValue("Bearer " + token!, forHTTPHeaderField: "Authorization") }
             }
@@ -570,16 +637,16 @@ enum Router: URLRequestConvertible {
         
         
         //MARK: - Content-Type
-//        switch self {
+        switch self {
 //        case .getAuthCode:
 //            urlReq.setValue("multipart/form-data;text/xml", forHTTPHeaderField: "Content-Type")
 //
 //        case .uploadLogo, .uploadLogFile:
 //            urlReq.setValue("multipart/form-data;application/json", forHTTPHeaderField: "Content-Type")
-//        default:
-//            urlReq.setValue("application/json", forHTTPHeaderField: "Content-Type")
+        default:
+            urlReq.setValue("application/json;charset=utf-8", forHTTPHeaderField: "Content-Type")
             
-//        }
+        }
  
 
         //MARK: - encoding http body

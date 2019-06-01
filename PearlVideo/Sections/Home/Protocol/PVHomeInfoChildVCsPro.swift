@@ -76,6 +76,8 @@ extension PVHomeActivenessVC {
                     self.data.livenessDetailList += d.livenessDetailList
                     if d.livenessDetailList.count == 0 { self.page -= 1 }
                 }
+                if self.data.livenessDetailList.count == 0 { self.tableView.stateEmpty() }
+                else { self.tableView.stateNormal() }
                 self.tableView.reloadData()
             }
             
@@ -131,6 +133,8 @@ extension PVHomeFruitVC {
                     self.data.pearlDetail += d.pearlDetail
                     if d.pearlDetail.count == 0 { self.page -= 1 }
                 }
+                if self.data.pearlDetail.count == 0 { self.tableView.stateEmpty() }
+                else { self.tableView.stateNormal() }
                 self.tableView.reloadData()
             }
             
@@ -208,6 +212,8 @@ extension PVHomeSchoolVideoVC {
                     self.dataArr += d
                     if d.count == 0 { self.page -= 1 }
                 }
+                if self.dataArr.count == 0 { self.tableView.stateEmpty() }
+                else { self.tableView.stateNormal() }
                 self.tableView.reloadData()
             }
             
@@ -263,6 +269,8 @@ extension PVHomeSchoolGuideVC {
                     self.dataArr += d
                     if d.count == 0 { self.page -= 1 }
                 }
+                if self.dataArr.count == 0 { self.tableView.stateEmpty() }
+                else { self.tableView.stateNormal() }
                 self.tableView.reloadData()
             }
             

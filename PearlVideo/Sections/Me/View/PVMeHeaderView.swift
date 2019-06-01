@@ -13,29 +13,43 @@ protocol PVMeHeaderViewDelegate: NSObjectProtocol {
     func didSelectedLevel()
     func didSelectedActiveness()
     func didSelectedFruit()
+    func didLongPressBackground()
 }
 
 class PVMeHeaderView: UIView {
     
     public var data = PVMeModel() {
         didSet{
-            backgroundImageIV.kf.setImage(with: URL.init(string: data.backgroundImageUrl))
-            avatarIV.kf.setImage(with: URL.init(string: data.avatarUrl))
+            titlesCV.reloadData()
+            backgroundImageIV.kf.setImage(with: URL.init(string: data.backgroundImageUrl), placeholder: UIImage.init(named: "me_bg"), options: nil, progressBlock: nil, completionHandler: nil)
+            avatarIV.kf.setImage(with: URL.init(string: data.avatarUrl), placeholder: UIImage.init(named: "me_placeholder"), options: nil, progressBlock: nil, completionHandler: nil)
             nameLabel.text = data.nickName
-            genderIV.image = data.gender == 1 ? UIImage.init(named: "me_male") : UIImage.init(named: "me_female")
-            fansLabel.text = "\(data.fansCount)粉丝 | \(data.followCount)关注"
+            
+            if data.gender == 0 { genderIV.image = nil }
+            else {
+                genderIV.image = data.gender == 1 ? UIImage.init(named: "me_male") : UIImage.init(named: "me_female")
+            }
+            fansLabel.text = data.nickName.count > 0 ? "\(data.fansCount)粉丝 | \(data.followCount)关注" : nil
             if data.isMine {
                 editBtn.setTitle("编辑个人资料", for: .normal)
                 editBtn.backgroundColor = kColor_deepBackground
                 editBtn.layer.borderColor = UIColor.white.cgColor
             }
             else {
-                editBtn.setTitle("+关注", for: .normal)
-                editBtn.backgroundColor = kColor_pink
-                editBtn.layer.borderColor = nil
+                if data.nickName.count > 0 {
+                    editBtn.setTitle("+关注", for: .normal)
+                    editBtn.backgroundColor = kColor_pink
+                    editBtn.layer.borderColor = nil
+                }
+                else {
+                    editBtn.setTitle("登录/注册", for: .normal)
+                    editBtn.backgroundColor = kColor_deepBackground
+                    editBtn.layer.borderColor = UIColor.white.cgColor
+                }
+                
             }
             introLabel.text = data.autograph
-            authIV.isHidden = false
+            authIV.isHidden = !data.isCertification
         }
     }
 
@@ -43,6 +57,12 @@ class PVMeHeaderView: UIView {
     
     lazy var backgroundImageIV: UIImageView = {
         let v = UIImageView.init(image: UIImage.init(named: "me_bg"))
+        let long = UILongPressGestureRecognizer.init(actionBlock: {[weak self] (ges) in
+            self?.delegate?.didLongPressBackground()
+        })
+        long.minimumPressDuration = 1.0
+        v.addGestureRecognizer(long)
+        v.isUserInteractionEnabled = true
         return v
     }()
     lazy var borderContentView: UIView = {
@@ -126,13 +146,6 @@ class PVMeHeaderView: UIView {
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
-
-    override func layoutSubviews() {
-        super.layoutSubviews()
-        if borderContentView.width > 0 {
-            borderContentView.ypj.makeViewRoundingMask(roundedRect: borderContentView.bounds, corners: [UIRectCorner.topLeft, UIRectCorner.topRight], cornerRadii: CGSize.init(width: 10 * KScreenRatio_6, height: 10 * KScreenRatio_6))
-        }
-    }
     
     func initUI() {
         addSubview(backgroundImageIV)
@@ -208,10 +221,10 @@ extension PVMeHeaderView: UICollectionViewDelegate, UICollectionViewDataSource {
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "PVMeTitlesCell", for: indexPath) as! PVMeTitlesCell
-        guard data.Level.count > 0 else { return cell }
+        guard data.nickName.count > 0 else { return cell }
         switch indexPath.item {
         case 0: //等级
-            cell.numberLabel.text = data.Level
+            cell.numberLabel.text = data.Level.count > 0 ? data.Level : "LV0"
             cell.nameBtn.setTitle("会员等级", for: .normal)
             cell.nameBtn.setImage(UIImage.init(named: "me_会员等级"), for: .normal)
             break
@@ -235,23 +248,23 @@ extension PVMeHeaderView: UICollectionViewDelegate, UICollectionViewDataSource {
     }
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        if data.isMine == false { return }
-        switch indexPath.item {
-        case 0: //会员等级
-            delegate?.didSelectedLevel()
-            break
-            
-        case 1: //活跃度
-            delegate?.didSelectedActiveness()
-            break
-            
-        case 2: //总平安果
-            delegate?.didSelectedFruit()
-            break
-            
-        default:
-            break
-        }
+//        if data.isMine == false { return }
+//        switch indexPath.item {
+//        case 0: //会员等级
+//            delegate?.didSelectedLevel()
+//            break
+//
+//        case 1: //活跃度
+//            delegate?.didSelectedActiveness()
+//            break
+//
+//        case 2: //总平安果
+//            delegate?.didSelectedFruit()
+//            break
+//
+//        default:
+//            break
+//        }
     }
 }
 

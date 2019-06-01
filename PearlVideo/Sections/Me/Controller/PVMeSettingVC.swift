@@ -8,8 +8,11 @@
 
 import UIKit
 import Kingfisher
+import ObjectMapper
 
 class PVMeSettingVC: PVBaseNavigationVC {
+    
+    var data: PVMeUserValidateModel!
     
     let items_2 = ["实名认证", "修改密码", "交换密码", "收款方式"]
     let items_3 = ["意见反馈", "关于我们", "清理缓存", "检测更新", UserDefaults.standard.value(forKey: kToken) == nil ? "登录" : "退出登录"]
@@ -18,7 +21,7 @@ class PVMeSettingVC: PVBaseNavigationVC {
         let tb = UITableView.init(frame: .zero, style: .plain)
         tb.backgroundColor = kColor_background
         tb.separatorStyle = .none
-        tb.isScrollEnabled = false
+        tb.bounces = false
         tb.dataSource = self
         tb.delegate = self
         return tb
@@ -33,10 +36,21 @@ class PVMeSettingVC: PVBaseNavigationVC {
             make.top.equalTo(naviBar.snp.bottom)
             make.width.bottom.centerX.equalToSuperview()
         }
-        
+        loadData()
     }
 
-
+    func loadData() {
+        PVNetworkTool.Request(router: .getUserValidateStatus(), success: { (resp) in
+            if let d = Mapper<PVMeUserValidateModel>().map(JSONObject: resp["result"].object) {
+                self.data = d
+                self.tableView.reloadData()
+            }
+            
+        }) { (e) in
+            
+        }
+    }
+    
 }
 
 
@@ -106,8 +120,17 @@ extension PVMeSettingVC: UITableViewDataSource, UITableViewDelegate {
                     detail = v + " "
                 }
             }
+            if indexPath.row == 4 {
+                title = UserDefaults.standard.value(forKey: kToken) == nil ? "登录" : "退出登录"
+            }
         }
         let cell = PVMeSettingCell.init(img: img, title: title, detail: detail, rightImage: detailImg, showBadge: isShowBadge)
+        if indexPath.section == 1 && indexPath.row == 0 {//实名认证
+            if data != nil && data.isVerfiedSuccess {
+                cell.rightBtn.setTitle("已认证", for: .normal)
+                cell.rightBtn.setTitleColor(UIColor.yellow, for: .normal)
+            }
+        }
         return cell
     }
     
@@ -128,7 +151,7 @@ extension PVMeSettingVC: UITableViewDataSource, UITableViewDelegate {
         }
         //钱包
         if indexPath.section == 0 {
-            let paste = UIPasteboard.init()
+            let paste = UIPasteboard.general
             //FIX ME
             paste.string = ""  //复制到粘贴板
             view.makeToast("复制地址成功")
@@ -138,6 +161,7 @@ extension PVMeSettingVC: UITableViewDataSource, UITableViewDelegate {
             switch indexPath.row {
             case 0: //实名认证
                 let vc = PVMeNameValidateVC()
+                if data != nil && data.isVerfiedSuccess { vc.validateStateData = data }
                 navigationController?.pushViewController(vc, animated: true)
                 break
                 
@@ -168,7 +192,7 @@ extension PVMeSettingVC: UITableViewDataSource, UITableViewDelegate {
                 break
                 
             case 1: //关于我们
-                let vc = PVAgreementWebVC.init(url: "", title: "关于我们")
+                let vc = PVMeAboutVC()
                 navigationController?.pushViewController(vc, animated: true)
                 break
                 
@@ -190,7 +214,10 @@ extension PVMeSettingVC: UITableViewDataSource, UITableViewDelegate {
             case 4: //退出登录
                 guard let _ = UserDefaults.standard.value(forKey: kToken) else {
                     YPJOtherTool.ypj.loginValidate(currentVC: self) {[weak self] (isFinish) in
-                        if isFinish { self?.tableView.reloadData() }
+                        if isFinish {
+                            self?.tableView.reloadData()
+                            NotificationCenter.default.post(name: .kNotiName_refreshMeVC, object: nil)
+                        }
                     }
                     return
                 }

@@ -265,6 +265,9 @@ class PVHomeTeamModel: PVBaseModel {
     
     var avatarImageUrl = ""
     
+    var isLeader = false
+    
+    
     override func mapping(map: Map) {
         userTeamCount <- map["userTeamCount"]
         smallLivenessCount <- map["smallLivenessCount"]
@@ -272,6 +275,7 @@ class PVHomeTeamModel: PVBaseModel {
         userTeamLivenessCount <- map["userTeamLivenessCount"]
         name <- map["name"]
         avatarImageUrl <- map["avatarImageUrl"]
+        isLeader <- map["isLeader"]
     }
 }
 

@@ -40,7 +40,7 @@ extension UIView {
     }
     
     ///无数据
-    public func stateEmpty(title: String?, img: UIImage?, buttonTitle: String?, handle: (() -> Void)?) {
+    public func stateEmpty(title: String? = nil, img: UIImage? = nil, buttonTitle: String? = nil, handle: (() -> Void)? = nil) {
         
         if self.isKind(of: UIScrollView.self) { (self as! UIScrollView).isScrollEnabled = false }
         

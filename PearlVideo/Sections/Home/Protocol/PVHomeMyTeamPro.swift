@@ -10,9 +10,9 @@ import WMPageController
 import ObjectMapper
 
 extension PVHomeMyTeamVC {
-    //邀请好友
+    //团队招募
     override func rightButtonsAction(sender: UIButton) {
-        let vc = PVMeShareVC()
+        let vc = PVVideoShareVC()
         navigationController?.pushViewController(vc, animated: true)
     }
     
@@ -23,7 +23,7 @@ extension PVHomeMyTeamVC {
             }
             
         }) { (e) in
-            
+             
         }
     }
 }
@@ -87,6 +87,8 @@ extension PVHomeMyTeamAllVC {
                     self.dataArr += d
                     if d.count == 0 { self.page -= 1 }
                 }
+                if self.dataArr.count == 0 { self.tableView.stateEmpty() }
+                else { self.tableView.stateNormal() }
                 self.tableView.reloadData()
             }
             
@@ -143,6 +145,8 @@ extension PVHomeMyTeamAuthVC {
                     self.dataArr += d
                     if d.count == 0 { self.page -= 1 }
                 }
+                if self.dataArr.count == 0 { self.tableView.stateEmpty() }
+                else { self.tableView.stateNormal() }
                 self.tableView.reloadData()
             }
             
@@ -194,12 +198,14 @@ extension PVHomeMyTeamNotAuthVC {
     func loadData(page: Int) {
         PVNetworkTool.Request(router: .teamNotAuthList(page: page * 10), success: { (resp) in
             self.tableView.mj_footer.endRefreshing()
-            if let d = Mapper<PVHomeTeamList>().mapArray(JSONObject: resp["result"]["NotRealNameAuthentication"].arrayObject) {
+            if let d = Mapper<PVHomeTeamList>().mapArray(JSONObject: resp["result"]["notRealNameAuthenticationList"].arrayObject) {
                 if page == 0 { self.dataArr = d }
                 else {
                     self.dataArr += d
                     if d.count == 0 { self.page -= 1 }
                 }
+                if self.dataArr.count == 0 { self.tableView.stateEmpty() }
+                else { self.tableView.stateNormal() }
                 self.tableView.reloadData()
             }
             

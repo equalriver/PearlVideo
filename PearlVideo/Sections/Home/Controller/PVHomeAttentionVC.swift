@@ -68,6 +68,8 @@ class PVHomeAttentionVC: PVBaseViewController {
                 else {
                     self.dataArr += d
                 }
+                if self.dataArr.count == 0 { self.collectionView.stateEmpty() }
+                else { self.collectionView.stateNormal() }
                 self.collectionView.reloadData()
             }
             DispatchQueue.main.asyncAfter(deadline: .now() + 0.2, execute: {

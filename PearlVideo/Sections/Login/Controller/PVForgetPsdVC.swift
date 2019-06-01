@@ -218,7 +218,7 @@ class PVForgetPsdVC: PVBaseNavigationVC {
             
         }) { (e) in
             sender.isEnabled = true
-            self.view.makeToast(e.localizedDescription)
+             
         }
         
         func auth() {
@@ -283,7 +283,7 @@ class PVForgetPsdVC: PVBaseNavigationVC {
                 
             }) { (e) in
                 sender.isEnabled = true
-                self.view.makeToast(e.localizedDescription)
+                 
             }
         }
         

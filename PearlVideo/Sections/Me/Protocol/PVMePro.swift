@@ -15,8 +15,12 @@ extension PVMeViewController {
     
     //setting
     override func rightButtonsAction(sender: UIButton) {
-        let vc = PVMeSettingVC()
-        navigationController?.pushViewController(vc, animated: true)
+        YPJOtherTool.ypj.loginValidate(currentVC: self) {[weak self] (isLogin) in
+            if isLogin {
+                let vc = PVMeSettingVC()
+                self?.navigationController?.pushViewController(vc, animated: true)
+            }
+        }
     }
     
     func setRefresh() {
@@ -79,6 +83,15 @@ extension PVMeViewController {
     
     //noti
     @objc func refreshNotification() {
+        if UserDefaults.standard.value(forKey: kToken) == nil {
+            data = PVMeModel()
+            self.headerView.data = data
+            self.updateMenuItemAttributeText(index: Int(self.selectIndex))
+            YPJOtherTool.ypj.loginValidate(currentVC: self) {[weak self] (isLogin) in
+                self?.loadData()
+            }
+            return
+        }
         loadData()
     }
     
@@ -106,6 +119,7 @@ extension PVMeViewController: PVMeHeaderViewDelegate {
     func didSelectedEdit() {
         if YPJOtherTool.ypj.loginValidate(currentVC: self, isLogin: nil) {
             let vc = PVMeUserinfoEditVC()
+            vc.data = data
             navigationController?.pushViewController(vc, animated: true)
         }
     }
@@ -125,6 +139,70 @@ extension PVMeViewController: PVMeHeaderViewDelegate {
         navigationController?.pushViewController(vc, animated: true)
     }
 
+    //长按背景
+    func didLongPressBackground() {
+        return
+        //FIX
+        if presentedViewController != nil { return }
+        let alert = UIAlertController.init(title: nil, message: nil, preferredStyle: .actionSheet)
+        let camera = UIAlertAction.init(title: "拍照", style: .default) { (ac) in
+            YPJOtherTool.ypj.getCameraAuth(target: self, {
+                let picker = UIImagePickerController()
+                picker.allowsEditing = true
+                picker.sourceType = .camera
+                picker.cameraCaptureMode = .photo
+                picker.cameraDevice = .front
+                picker.delegate = self
+                self.present(picker, animated: true, completion: nil)
+            })
+        }
+        let photo = UIAlertAction.init(title: "从相册选取", style: .default) { (ac) in
+            YPJOtherTool.ypj.getPhotosAuth(target: self) {
+                let picker = UIImagePickerController()
+                picker.allowsEditing = true
+                picker.sourceType = .photoLibrary
+                picker.delegate = self
+                self.present(picker, animated: true, completion: nil)
+            }
+        }
+        let cancel = UIAlertAction.init(title: "取消", style: .cancel, handler: nil)
+        alert.addAction(cancel)
+        alert.addAction(camera)
+        alert.addAction(photo)
+        DispatchQueue.main.async {
+            self.present(alert, animated: true, completion: nil)
+        }
+    }
+}
+
+//MARK: - Image Picker Controller Delegate
+extension PVMeViewController: UIImagePickerControllerDelegate, UINavigationControllerDelegate {
+    
+    func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
+        
+        if let resultImage = info[.editedImage] as? UIImage {
+            
+            guard let imgData = resultImage.ypj.compressImage(maxLength: 512 * 1024) else { return }
+            guard let img = UIImage.init(data: imgData) else {
+                picker.dismiss(animated: true, completion: nil)
+                return
+            }
+            headerView.backgroundImageIV.image = img
+            if let p = img.ypj.saveImageToLocalFolder(directory: .cachesDirectory, compressionQuality: 1.0) {
+                //FIX
+            }
+            
+            picker.dismiss(animated: true, completion: nil)
+        }
+        
+    }
+    
+    func imagePickerControllerDidCancel(_ picker: UIImagePickerController) {
+        picker.dismiss(animated: true, completion: {
+            
+        })
+    }
+    
 }
 
 //MARK: - 作品, 喜欢, 私密

@@ -116,6 +116,8 @@ extension PVHomeMsgNoticeVC {
                     self.dataArr += d
                     if d.count == 0 { self.page -= 1 }
                 }
+                if self.dataArr.count == 0 { self.tableView.stateEmpty() }
+                else { self.tableView.stateNormal() }
                 self.tableView.reloadData()
             }
             
@@ -196,6 +198,8 @@ extension PVHomeMsgCommentVC {
                     self.dataArr += d
                     if d.count == 0 { self.page -= 1 }
                 }
+                if self.dataArr.count == 0 { self.tableView.stateEmpty() }
+                else { self.tableView.stateNormal() }
                 self.tableView.reloadData()
             }
             
@@ -253,6 +257,8 @@ extension PVHomeMsgLikeVC {
                     self.dataArr += d
                     if d.count == 0 { self.page -= 1 }
                 }
+                if self.dataArr.count == 0 { self.tableView.stateEmpty() }
+                else { self.tableView.stateNormal() }
                 self.tableView.reloadData()
             }
             
@@ -311,6 +317,8 @@ extension PVHomeMsgAttentionVC {
                     self.dataArr += d
                     if d.count == 0 { self.page -= 1 }
                 }
+                if self.dataArr.count == 0 { self.tableView.stateEmpty() }
+                else { self.tableView.stateNormal() }
                 self.tableView.reloadData()
             }
             

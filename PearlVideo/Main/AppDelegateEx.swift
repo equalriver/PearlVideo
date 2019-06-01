@@ -16,6 +16,11 @@ extension AppDelegate: WXApiDelegate {
         libSetup(options: options)
         setupAppearance()
         
+        if UserDefaults.standard.string(forKey: kAppVersionCode) == nil {
+            UserDefaults.standard.setValue("1", forKey: kAppVersionCode)
+            UserDefaults.standard.synchronize()
+        }
+        
     }
     
     public func handleAPNs(info: [AnyHashable : Any]) {
@@ -57,6 +62,9 @@ extension AppDelegate: WXApiDelegate {
         //keyboard
         IQKeyboardManager.shared.enable = true
         IQKeyboardManager.shared.shouldResignOnTouchOutside = true
+        
+        //SVProgressHUD
+        SVProgressHUD.setMaximumDismissTimeInterval(2)
         
         
         UserDefaults.standard.set(nil, forKey: kLocalIP)

@@ -67,9 +67,116 @@ extension YPJOtherTool {
         }
     }
     
+    
+    ///3DES_ECB加密
+    func encryptWith3DES_ECB(content: String, key: String) -> String? {
+        guard let myRawData = content.data(using: .utf8) else { return nil }
+        guard let myKeyData = key.data(using: .utf8) else { return nil }
+       
+        let buffer_size: size_t = myRawData.count + kCCBlockSize3DES
+        let buffer = UnsafeMutablePointer<NSData>.allocate(capacity: buffer_size)
+        var num_bytes_encrypted : size_t = 0
+        let operation: CCOperation = UInt32(kCCEncrypt)
+        let algoritm:  CCAlgorithm = UInt32(kCCAlgorithm3DES)
+        let options:   CCOptions   = UInt32(kCCOptionECBMode)
+        let keyLength        = size_t(kCCKeySize3DES)
+        let Crypto_status: CCCryptorStatus = CCCrypt(operation, algoritm, options, (myKeyData as NSData).bytes, keyLength, nil, (myRawData as NSData).bytes, myRawData.count, buffer, buffer_size, &num_bytes_encrypted)
+        if Crypto_status == kCCSuccess {
+            let myResult: Data = Data(bytes: buffer, count: num_bytes_encrypted)
+            free(buffer)
+            return String.init(data: myResult, encoding: .utf8)
+            
+        }else{
+            free(buffer)
+            return nil
+        }
+    }
+    
+  
+    //MARK: - 3DES的加密过程 和 解密过程
+    /**
+     3DES的加密过程 和 解密过程
+     
+     - parameter op : CCOperation： 加密还是解密
+     CCOperation（kCCEncrypt）加密
+     CCOperation（kCCDecrypt) 解密
+     
+     - parameter key: 加解密key
+     - parameter iv : 可选的初始化向量，可以为nil
+     - returns      : 返回加密或解密的参数
+     */
+    func tripleDESEncryptOrDecrypt(content: String, op: CCOperation, key: String, iv: String?) -> String? {
+        // Key
+        guard let keyData = key.data(using: String.Encoding.utf8, allowLossyConversion: true) else { return nil }
+        let keyBytes = (keyData as NSData).bytes
+        
+        var data: NSData!
+        if op == CCOperation(kCCEncrypt) {//加密内容
+            data = content.data(using: String.Encoding.utf8, allowLossyConversion: true) as NSData?
+        }
+        else {//解密内容
+            data =  NSData(base64Encoded: content, options: NSData.Base64DecodingOptions.ignoreUnknownCharacters)!
+        }
+        
+        let dataLength    = size_t(data.length)
+        let dataBytes     = UnsafeMutableRawPointer(mutating: data.bytes)
+        
+        // 返回数据
+        let cryptData    = NSMutableData(length: Int(dataLength) + kCCBlockSize3DES)
+        let cryptPointer = UnsafeMutableRawPointer(mutating: cryptData?.bytes)
+        let cryptLength  = size_t(cryptData!.length)
+        
+        //  可选的初始化向量
+        let viData: NSData? = iv?.data(using: String.Encoding.utf8, allowLossyConversion: true) as NSData?
+        let viDataBytes: UnsafeMutableRawPointer? = UnsafeMutableRawPointer(mutating: viData?.bytes)
+        
+        // 特定的几个参数
+        let keyLength              = size_t(kCCKeySize3DES)
+        let operation: CCOperation = UInt32(op)
+        let algoritm:  CCAlgorithm = UInt32(kCCAlgorithm3DES)
+        let options:   CCOptions   = UInt32(kCCOptionPKCS7Padding | kCCOptionECBMode)
+        
+        var numBytesCrypted :size_t = 0
+        
+        let cryptStatus = CCCrypt(operation, // 加密还是解密
+            algoritm, // 算法类型
+            options,  // 密码块的设置选项
+            keyBytes, // 秘钥的字节
+            keyLength, // 秘钥的长度
+            viDataBytes, // 可选初始化向量的字节
+            dataBytes, // 加解密内容的字节
+            dataLength, // 加解密内容的长度
+            cryptPointer, // output data buffer
+            cryptLength,  // output data length available
+            &numBytesCrypted) // real output data length
+        
+        if cryptStatus == kCCSuccess {
+            
+            cryptData!.length = Int(numBytesCrypted)
+            if op == CCOperation(kCCEncrypt)  {
+                let base64cryptString = cryptData?.base64EncodedString(options: NSData.Base64EncodingOptions.lineLength64Characters)
+                free(cryptPointer)
+                if let d = cryptData {
+                    let str = YPJOtherToolsObjC.convertData(toHexStr: d as Data)
+                    print(str)
+                }
+                return base64cryptString
+            }
+            else {
+                let base64cryptString = String.init(data: cryptData! as Data, encoding: .utf8)
+                free(cryptPointer)
+                return base64cryptString
+            }
+        } else {
+            free(cryptPointer)
+            print("Error: \(cryptStatus)")
+        }
+        return nil
+    }
+    
     //MARK: - AES128加密
     ///AES128加密
-    func aes128cbc(content: String) throws -> String? {
+    func aes128cbcEncrypt(content: String) -> String? {
         guard let contentData = content.data(using: .utf8) else { return nil }
         
         //kCCEncrypt 加密  kCCDecrypt 解密
@@ -82,7 +189,6 @@ extension YPJOtherTool {
         guard let key = kAES_KEY.data(using: .utf8)?.withUnsafeBytes({ (bytes: UnsafePointer<UInt8>) -> UnsafePointer<UInt8> in
             return bytes
         }) else { return nil }
-        let keyLength = size_t(kCCKeySizeAES128)
         
         guard let iv = kInitVector.data(using: .utf8)?.withUnsafeBytes({ (bytes: UnsafePointer<UInt8>) -> UnsafePointer<UInt8> in
             return bytes
@@ -101,7 +207,7 @@ extension YPJOtherTool {
         
         var dataOutMoved: size_t = 0
         
-        let cryptStatus = CCCrypt(CCOperation(kCCEncrypt), CCAlgorithm(kCCKeySizeAES128), CCOptions(kCCOptionPKCS7Padding), key, keyLength, iv, dataIn, dataLength, dataOut, dataOutAvailable, &dataOutMoved)
+        let cryptStatus = CCCrypt(CCOperation(kCCEncrypt), CCAlgorithm(kCCKeySizeAES128), CCOptions(kCCOptionPKCS7Padding), key, kCCKeySizeAES128, iv, dataIn, dataLength, dataOut, dataOutAvailable, &dataOutMoved)
         
         if cryptStatus == kCCSuccess {
             data.count = dataOutMoved
@@ -431,7 +537,7 @@ extension YPJOtherTool {
     
     //MARK: - 判断是不是首次登录或者版本更新
     ///判断是不是首次登录或者版本更新
-    func isAPPFirstLauch() -> Bool {
+    var isAPPFirstLauch: Bool {
         //获取当前版本号
         guard let infoDic = Bundle.main.infoDictionary else { return false }
         guard let currentVersion: String = infoDic["CFBundleShortVersionString"] as? String else { return false }
@@ -446,7 +552,6 @@ extension YPJOtherTool {
         
         return false
     }
-    
     
     //MARK: - 获取当前版本号
     ///获取当前版本号

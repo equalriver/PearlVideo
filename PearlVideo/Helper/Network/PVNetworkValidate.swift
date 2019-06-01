@@ -20,11 +20,12 @@ extension DataRequest {
                 return .success
             }
             else {
-                return .failure(PVError.networkError(message: json["msg"].stringValue))
+                let s = json["result"]["bizMessage"].stringValue
+                let msg = s.count > 0 ? s : json["msg"].stringValue
+                return .failure(PVError.networkError(message: msg))
             }
             
         }catch{
-            
             print(error.localizedDescription)
             return .failure(PVError.networkError(message: "咦～竟然失败了"))
         }

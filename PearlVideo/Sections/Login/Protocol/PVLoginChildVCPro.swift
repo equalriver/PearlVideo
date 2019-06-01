@@ -20,13 +20,13 @@ extension PVRegisterVC {
             view.makeToast("手机号输入不正确")
             return
         }
-        sender.isEnabled = false
+        
         PVNetworkTool.Request(router: .getAuthCode(phone: phoneTF.text!), success: { (resp) in
             auth()
             
         }) { (e) in
             sender.isEnabled = true
-            self.view.makeToast(e.localizedDescription)
+ 
         }
         
         func auth() {
@@ -84,7 +84,7 @@ extension PVRegisterVC {
             
         }) { (e) in
             sender.isEnabled = true
-            self.view.makeToast(e.localizedDescription)
+            
         }
     }
     
@@ -97,13 +97,13 @@ extension PVRegisterVC {
     
     //用户协议
     func didSelectedAgreement() {
-        let vc = PVAgreementWebVC.init(url: "", title: "用户协议")
+        let vc = PVAgreementWebVC.init(url: kUserAgreementURL, title: "用户协议")
         navigationController?.pushViewController(vc, animated: true)
     }
     
     //隐私
     func didSelectedPrivacy() {
-        let vc = PVAgreementWebVC.init(url: "", title: "隐私政策")
+        let vc = PVAgreementWebVC.init(url: kSecureURL, title: "隐私政策")
         navigationController?.pushViewController(vc, animated: true)
     }
     
@@ -171,10 +171,12 @@ extension PVRegisterPsdVC {
         let userId = UserDefaults.standard.string(forKey: kUserId) ?? ""
         PVNetworkTool.Request(router: .changePsd(userId: userId, phone: phone, psd: psd_1), success: { (resp) in
             sender.isEnabled = true
+            NotificationCenter.default.post(name: .kNotiName_refreshMeVC, object: nil)
+            self.navigationController?.dismiss(animated: true, completion: nil)
             
         }) { (e) in
             sender.isEnabled = true
-            self.view.makeToast(e.localizedDescription)
+            
         }
     }
     

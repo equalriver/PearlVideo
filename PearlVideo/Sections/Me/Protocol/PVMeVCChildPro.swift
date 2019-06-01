@@ -29,6 +29,8 @@ extension PVMeProductionVC {
                     self.dataArr += d
                     if d.count == 0 { self.page -= 1 }
                 }
+                if self.dataArr.count == 0 { self.collectionView.stateEmpty() }
+                else { self.collectionView.stateNormal() }
                 self.collectionView.reloadData()
             }
             DispatchQueue.main.asyncAfter(deadline: .now() + 0.2, execute: {
@@ -106,6 +108,8 @@ extension PVMeLikeVC {
                     self.dataArr += d
                     if d.count == 0 { self.page -= 1 }
                 }
+                if self.dataArr.count == 0 { self.collectionView.stateEmpty() }
+                else { self.collectionView.stateNormal() }
                 self.collectionView.reloadData()
             }
             DispatchQueue.main.asyncAfter(deadline: .now() + 0.2, execute: {
@@ -182,6 +186,8 @@ extension PVMeSecureVC {
                     self.dataArr += d
                     if d.count == 0 { self.page -= 1 }
                 }
+                if self.dataArr.count == 0 { self.collectionView.stateEmpty() }
+                else { self.collectionView.stateNormal() }
                 self.collectionView.reloadData()
             }
             DispatchQueue.main.asyncAfter(deadline: .now() + 0.2, execute: {

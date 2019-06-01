@@ -37,7 +37,7 @@ extension PVLoginVC {
             
         }) { (e) in
             sender.isEnabled = true
-            self.view.makeToast(e.localizedDescription)
+            
         }
         
         func auth() {
@@ -131,7 +131,6 @@ extension PVLoginVC {
             
         }) { (e) in
             sender.isEnabled = true
-            self.view.makeToast(e.localizedDescription)
         }
     }
     
@@ -142,13 +141,13 @@ extension PVLoginVC {
     
     //用户协议
     func didSelectedAgreement() {
-        let vc = PVAgreementWebVC.init(url: "", title: "用户协议")
+        let vc = PVAgreementWebVC.init(url: kUserAgreementURL, title: "用户协议")
         navigationController?.pushViewController(vc, animated: true)
     }
     
     //隐私
     func didSelectedPrivacy() {
-        let vc = PVAgreementWebVC.init(url: "", title: "隐私政策")
+        let vc = PVAgreementWebVC.init(url: kSecureURL, title: "隐私政策")
         navigationController?.pushViewController(vc, animated: true)
     }
     

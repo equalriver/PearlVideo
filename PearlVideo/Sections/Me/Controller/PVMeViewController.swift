@@ -73,14 +73,20 @@ class PVMeViewController: PVBaseWMPageVC {
         initUI()
         title = "我的"
         NotificationCenter.default.addObserver(self, selector: #selector(refreshNotification), name: .kNotiName_refreshMeVC, object: nil)
-        
-       
+        loadData()
+        UIApplication.shared.keyWindow?.addSubview(naviBar)
     }
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        UIApplication.shared.keyWindow?.addSubview(naviBar)
-        loadData()
+        if data.avatarUrl.count == 0 { loadData() }
+    }
+    
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        if UIApplication.shared.keyWindow?.subviews.contains(naviBar) == false {
+            UIApplication.shared.keyWindow?.addSubview(naviBar)
+        }
     }
     
     override func viewWillDisappear(_ animated: Bool) {

@@ -15,14 +15,22 @@ extension PVHomeReportDetailVC {
         let uploadImages = imgs.filter { (obj) -> Bool in
             return obj != addImg
         }
-        let args = ["videoId": videoId, "type": type, "content": contentTV.text ?? ""]
-        PVNetworkTool.upLoadImageRequest(images: uploadImages, imagesName: "imageUrl", params: args, router: .videoReport(), success: { (resp) in
+        var imgPaths = Array<String>()
+        for v in uploadImages {
+            if let p = v.ypj.saveImageToLocalFolder(directory: .cachesDirectory, compressionQuality: 1.0) {
+                imgPaths.append(p)
+            }
+        }
+        //FIX image未上传
+        PVNetworkTool.Request(router: .videoReport(videoId: videoId, type: type, content: contentTV.text ?? ""), success: { (resp) in
             
-            sender.isEnabled = true
+            self.navigationController?.popToRootViewController(animated: true)
             
         }) { (e) in
-            sender.isEnabled = true
+            
         }
+        
+        
     }
     
 }

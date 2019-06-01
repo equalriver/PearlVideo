@@ -124,7 +124,7 @@ class PVPlayVideoUploadVC: PVBaseNavigationVC {
         listener.finish = {[weak self] (fileInfo, result) in
             // fileInfo 上传文件信息
             // result 上传结果信息
-            if let info = fileInfo {
+            if let info: UploadFileInfo = fileInfo {
                 if info.state == .success {
                     SVProgressHUD.showSuccess(withStatus: "上传成功")
                     DispatchQueue.main.asyncAfter(deadline: .now() + 2, execute: {
@@ -136,6 +136,9 @@ class PVPlayVideoUploadVC: PVBaseNavigationVC {
                     self?.uploadManager.stop()
                     self?.uplaodBtn.isEnabled = true
                 }
+            }
+            if let result: VodUploadResult = result {
+                print(result)
             }
         }
         

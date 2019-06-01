@@ -66,6 +66,8 @@ extension PVHomeMyTaskVC {
                     self.dataArr += d
                     if d.count == 0 { self.page -= 1 }
                 }
+                if self.dataArr.count == 0 { self.tableView.stateEmpty() }
+                else { self.tableView.stateNormal() }
                 self.tableView.reloadData()
             }
             
@@ -122,6 +124,8 @@ extension PVHomeAllTaskVC {
                     self.dataArr += d
                     if d.count == 0 { self.page -= 1 }
                 }
+                if self.dataArr.count == 0 { self.tableView.stateEmpty() }
+                else { self.tableView.stateNormal() }
                 self.tableView.reloadData()
             }
             
@@ -213,6 +217,8 @@ extension PVHomeHistoryTaskVC {
                     self.dataArr += d
                     if d.count == 0 { self.page -= 1 }
                 }
+                if self.dataArr.count == 0 { self.tableView.stateEmpty() }
+                else { self.tableView.stateNormal() }
                 self.tableView.reloadData()
             }
             

@@ -59,13 +59,14 @@ class PVMeNameValidateAlert: UIView {
         l.font = UIFont.systemFont(ofSize: 24 * KScreenRatio_6, weight: .semibold)
         l.textColor = kColor_pink
         l.textAlignment = .center
+        l.text = "¥ 1.5"
         return l
     }()
     lazy var alipayBtn: UIButton = {
         let b = UIButton()
         b.titleLabel?.font = kFont_text_2
         b.setImage(UIImage.init(named: "me_支付宝"), for: .normal)
-        b.setTitle("支付宝  ", for: .normal)
+        b.setTitle("  支付宝", for: .normal)
         b.setTitleColor(UIColor.white, for: .normal)
         b.isUserInteractionEnabled = false
         return b
@@ -240,18 +241,13 @@ class PVMePayWayAlert: UIView {
         super.init(frame: frame)
         backgroundColor = UIColor.clear
         initUI()
-        NotificationCenter.default.addObserver(self, selector: #selector(keyboardShowAction(noti:)), name: UIApplication.keyboardWillShowNotification, object: nil)
-        NotificationCenter.default.addObserver(self, selector: #selector(keyboardHideAction(noti:)), name: UIApplication.keyboardWillHideNotification, object: nil)
         contentView.ypj.viewAnimateComeFromBottom(duration: 0.25, completion: nil)
     }
     
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
-    
-    deinit {
-        NotificationCenter.default.removeObserver(self)
-    }
+
     
     func initUI() {
         addSubview(contentView)
@@ -287,26 +283,6 @@ class PVMePayWayAlert: UIView {
     
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
         endEditing(true)
-    }
-    
-    @objc func keyboardShowAction(noti: Notification) {
-        guard let info = noti.userInfo else { return }
-        guard let duration = info[UIApplication.keyboardAnimationDurationUserInfoKey] as? TimeInterval else { return }
-        guard let keyboardFrame = info[UIApplication.keyboardFrameEndUserInfoKey] as? CGRect else { return }
-        UIView.animate(withDuration: duration) {
-            self.contentView.centerY -= keyboardFrame.height
-        }
-        
-    }
-    
-    @objc func keyboardHideAction(noti: Notification) {
-        guard let info = noti.userInfo else { return }
-        guard let duration = info[UIApplication.keyboardAnimationDurationUserInfoKey] as? TimeInterval else { return }
-        guard let keyboardFrame = info[UIApplication.keyboardFrameEndUserInfoKey] as? CGRect else { return }
-        UIView.animate(withDuration: duration) {
-            self.contentView.centerY += keyboardFrame.height
-        }
-        
     }
     
     @objc func textFieldEditingChange(sender: UITextField) {
@@ -550,7 +526,7 @@ class PVMeAboutCell: PVBaseTableCell {
             make.centerY.equalToSuperview()
         }
         arrowIV.snp.makeConstraints { (make) in
-            make.size.equalTo(CGSize.init(width: 10, height: 20))
+            make.size.equalTo(CGSize.init(width: 20, height: 20))
             make.right.equalToSuperview().offset(-30 * KScreenRatio_6)
             make.centerY.equalToSuperview()
         }
@@ -584,7 +560,7 @@ class PVMeVersionCell: PVBaseTableCell {
             make.centerY.equalToSuperview()
         }
         arrowIV.snp.makeConstraints { (make) in
-            make.size.equalTo(CGSize.init(width: 10, height: 20))
+            make.size.equalTo(CGSize.init(width: 20, height: 20))
             make.right.equalToSuperview().offset(-30 * KScreenRatio_6)
             make.centerY.equalToSuperview()
         }

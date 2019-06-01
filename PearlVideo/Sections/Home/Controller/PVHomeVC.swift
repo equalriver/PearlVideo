@@ -44,8 +44,11 @@ class PVHomeVC: PVBaseWMPageVC {
         v.showsVerticalScrollIndicator = false
         v.delegate = self
         v.scrollsToTop = false
-        v.bounces = false
         return v
+    }()
+    lazy var reachability: YYReachability = {
+        let r = YYReachability.init()
+        return r
     }()
     
     override func loadView() {
@@ -65,6 +68,16 @@ class PVHomeVC: PVBaseWMPageVC {
         super.viewDidLoad()
         initUI()
         setRefresh()
+        reachability.notifyBlock = {[weak self] (reach) in
+            switch reach.status {
+            case .none:
+                self?.view.makeToast("请检查网络连接")
+                
+            default:
+                
+                break
+            }
+        }
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -72,6 +85,20 @@ class PVHomeVC: PVBaseWMPageVC {
         if data == nil {
             loadData()
         }
+    }
+    
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        checkVersion {
+            if UserDefaults.standard.string(forKey: kToken) == nil {
+                YPJOtherTool.ypj.loginValidate(currentVC: self) {[weak self] (isLogin) in
+                    if isLogin { self?.loadData() }
+                }
+                return
+            }
+            
+        }
+        
     }
     
     func initUI() {

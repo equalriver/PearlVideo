@@ -27,8 +27,8 @@ class PVHomeHeaderView: UIView {
         }
     }
     
-    let actionImgs = ["home_任务", "home_组队", "home_团队", "home_商学院"]
-    let actionTitles = ["任务", "组队", "团队", "商学院"]
+    let actionImgs = ["home_任务", "home_资讯", "home_团队", "home_商学院"]
+    let actionTitles = ["任务", "资讯", "团队", "商学院"]
     
     
     lazy var bannerView: FSPagerView = {

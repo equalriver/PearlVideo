@@ -14,6 +14,8 @@ enum UserValidateStageType: String {
     case payment = "STAGE_PAYMENT"
     ///认证中
     case processing = "STAGE_PROCESSING"
+    
+    case fail = "STAGE_INCONSISTENT"
 }
 
 class PVUserValidateModel: PVBaseModel {

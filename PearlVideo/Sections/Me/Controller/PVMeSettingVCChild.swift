@@ -11,11 +11,23 @@
 
 class PVMeNameValidateVC: PVBaseNavigationVC {
     
+    public var validateStateData: PVMeUserValidateModel! {
+        didSet{
+            didValidateContent.isHidden = false
+            validateContent.isHidden = true
+            setNameAndIdCard(name: validateStateData.name, idCard: validateStateData.idCard)
+        }
+    }
+    
     var data = PVUserValidateModel()
+    
+    var alertView: PVMeNameValidateAlert?
+    
     
     lazy var didValidateContent: UIView = {
         let v = UIView()
         v.backgroundColor = kColor_deepBackground
+        v.isHidden = true
         return v
     }()
     lazy var nameLabel: UILabel = {
@@ -41,25 +53,71 @@ class PVMeNameValidateVC: PVBaseNavigationVC {
     lazy var validateContent: UIView = {
         let v = UIView()
         v.backgroundColor = kColor_deepBackground
-        v.isHidden = true
+        v.isHidden = false
         return v
+    }()
+    lazy var noticeLabel: UILabel = {
+        let l = UILabel()
+        l.numberOfLines = 0
+        l.backgroundColor = kColor_deepBackground
+        l.textColor = kColor_pink
+        l.font = kFont_text_2
+        l.text = "温馨提示：若因用户填写资料有误等原因导致认证失败，再次认证也需支付相同费用。"
+        return l
+    }()
+    lazy var nameTF: UITextField = {
+        let tf = UITextField()
+        tf.backgroundColor = kColor_deepBackground
+        tf.font = kFont_text
+        tf.textColor = UIColor.white
+        tf.attributedPlaceholder = NSAttributedString.init(string: "请输入您的姓名", attributes: [.font: kFont_text, .foregroundColor: kColor_subText!])
+        tf.layer.borderColor = UIColor.white.cgColor
+        tf.layer.borderWidth = 1
+        tf.layer.cornerRadius = 20 * KScreenRatio_6
+        tf.leftView = UIView.init(frame: CGRect.init(x: 0, y: 0, width: 15, height: 20))
+        tf.leftViewMode = .always
+        tf.clearButtonMode = .whileEditing
+        tf.addTarget(self, action: #selector(textFieldEditingChange(sender:)), for: .editingChanged)
+        return tf
+    }()
+    lazy var idCardTF: UITextField = {
+        let tf = UITextField()
+        tf.backgroundColor = kColor_deepBackground
+        tf.font = kFont_text
+        tf.textColor = UIColor.white
+        tf.attributedPlaceholder = NSAttributedString.init(string: "请输入您的身份证号", attributes: [.font: kFont_text, .foregroundColor: kColor_subText!])
+        tf.layer.borderColor = UIColor.white.cgColor
+        tf.layer.borderWidth = 1
+        tf.layer.cornerRadius = 20 * KScreenRatio_6
+        tf.leftView = UIView.init(frame: CGRect.init(x: 0, y: 0, width: 15, height: 20))
+        tf.leftViewMode = .always
+        tf.clearButtonMode = .whileEditing
+        tf.addTarget(self, action: #selector(textFieldEditingChange(sender:)), for: .editingChanged)
+        return tf
     }()
     lazy var contentLabel: UILabel = {
         let l = UILabel()
-        l.textAlignment = .center
         l.numberOfLines = 0
         l.backgroundColor = kColor_deepBackground
+        l.textColor = kColor_subText
+        l.font = kFont_text_2
+        l.text = "注意：亲爱的福音用户，您好。为保证用户的真实性，福音将调用第三方公司认证系统进行实名认证，整个认证过程中只做用户真实性匹配对比，不做其他任何用途用户需支付1.5元认证费用，用于第三方公司认证付费及信息费，即可人脸认证成功。若因用户填写资料有误等原因导致认证失败，再次认证也需支付相同费用。如您不同意，请勿认证及支付。如您成功支付1.5元并认证完成，将视为同意此协议。"
         return l
     }()
     lazy var checkBtn: UIButton = {
         let b = UIButton()
-        b.titleLabel?.font = kFont_text
-        b.setTitle("同意福音《认证协议》", for: .normal)
-        b.setTitleColor(kColor_pink, for: .normal)
         b.setImage(UIImage.init(named: "login_unselected"), for: .normal)
         b.setImage(UIImage.init(named: "login_selected"), for: .selected)
         b.isSelected = true
         b.addTarget(self, action: #selector(acceptAgreement(sender:)), for: .touchUpInside)
+        return b
+    }()
+    lazy var protocolBtn: UIButton = {
+        let b = UIButton()
+        b.titleLabel?.font = kFont_text
+        b.setTitle("同意福音《认证协议》", for: .normal)
+        b.setTitleColor(kColor_pink, for: .normal)
+        b.addTarget(self, action: #selector(protocolAction(sender:)), for: .touchUpInside)
         return b
     }()
     lazy var confirmBtn: UIButton = {
@@ -67,23 +125,32 @@ class PVMeNameValidateVC: PVBaseNavigationVC {
         b.setTitleColor(UIColor.white, for: .normal)
         b.setTitle("开始认证", for: .normal)
         b.titleLabel?.font = kFont_text
-        b.backgroundColor = kColor_pink
+        b.backgroundColor = UIColor.gray
         b.layer.cornerRadius = 20 * KScreenRatio_6
         b.layer.masksToBounds = true
+        b.isEnabled = false
         b.addTarget(self, action: #selector(confirm(sender:)), for: .touchUpInside)
         return b
-    }()
-    lazy var alertView: PVMeNameValidateAlert = {
-        let v = PVMeNameValidateAlert.init(frame: CGRect.init(x: 0, y: 0, width: kScreenWidth, height: kScreenHeight))
-        v.delegate = self
-        return v
     }()
     
     override func viewDidLoad() {
         super.viewDidLoad()
         title = "实名认证"
         initUI()
-        loadData()
+        NotificationCenter.default.addObserver(self, selector: #selector(alipayCallbackNoti(sender:)), name: .kNotiName_alipaySuccess, object: nil)
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        if validateStateData != nil && validateStateData.isVerfiedSuccess {
+            validateContent.isHidden = true
+            didValidateContent.isHidden = false
+            loadData()
+        }
+    }
+    
+    deinit {
+        NotificationCenter.default.removeObserver(self)
     }
     
     func initUI() {
@@ -93,8 +160,12 @@ class PVMeNameValidateVC: PVBaseNavigationVC {
         didValidateContent.addSubview(idCardLabel)
         didValidateContent.addSubview(sepView_2)
         view.addSubview(validateContent)
+        validateContent.addSubview(noticeLabel)
+        validateContent.addSubview(nameTF)
+        validateContent.addSubview(idCardTF)
         validateContent.addSubview(contentLabel)
         validateContent.addSubview(checkBtn)
+        validateContent.addSubview(protocolBtn)
         validateContent.addSubview(confirmBtn)
         didValidateContent.snp.makeConstraints { (make) in
             make.top.equalTo(naviBar.snp.bottom)
@@ -124,19 +195,37 @@ class PVMeNameValidateVC: PVBaseNavigationVC {
             make.top.equalTo(naviBar.snp.bottom)
             make.width.centerX.bottom.equalToSuperview()
         }
-        contentLabel.snp.makeConstraints { (make) in
-            make.top.equalTo(naviBar.snp.bottom).offset(30 * KScreenRatio_6)
+        noticeLabel.snp.makeConstraints { (make) in
             make.left.equalToSuperview().offset(20 * KScreenRatio_6)
             make.right.equalToSuperview().offset(-20 * KScreenRatio_6)
+            make.top.equalToSuperview().offset(10 * KScreenRatio_6)
+        }
+        nameTF.snp.makeConstraints { (make) in
+            make.size.equalTo(CGSize.init(width: 330 * KScreenRatio_6, height: 40 * KScreenRatio_6))
+            make.centerX.equalToSuperview()
+            make.top.equalTo(noticeLabel.snp.bottom).offset(20 * KScreenRatio_6)
+        }
+        idCardTF.snp.makeConstraints { (make) in
+            make.size.centerX.equalTo(nameTF)
+            make.top.equalTo(nameTF.snp.bottom).offset(20 * KScreenRatio_6)
         }
         checkBtn.snp.makeConstraints { (make) in
-            make.left.equalTo(contentLabel)
-            make.top.equalTo(contentLabel.snp.bottom).offset(20 * KScreenRatio_6)
+            make.left.equalTo(idCardTF)
+            make.top.equalTo(idCardTF.snp.bottom).offset(20 * KScreenRatio_6)
+        }
+        protocolBtn.snp.makeConstraints { (make) in
+            make.left.equalTo(checkBtn.snp.right).offset(10)
+            make.centerY.equalTo(checkBtn)
         }
         confirmBtn.snp.makeConstraints { (make) in
             make.size.equalTo(CGSize.init(width: 330 * KScreenRatio_6, height: 40 * KScreenRatio_6))
-            make.top.equalTo(checkBtn.snp.bottom).offset(70 * KScreenRatio_6)
+            make.top.equalTo(checkBtn.snp.bottom).offset(30 * KScreenRatio_6)
             make.centerX.equalToSuperview()
+        }
+        contentLabel.snp.makeConstraints { (make) in
+            make.top.equalTo(confirmBtn.snp.bottom).offset(30 * KScreenRatio_6)
+            make.left.equalToSuperview().offset(20 * KScreenRatio_6)
+            make.right.equalToSuperview().offset(-20 * KScreenRatio_6)
         }
     }
     
@@ -888,7 +977,7 @@ class PVMeAboutVC: PVBaseNavigationVC {
     
     
     lazy var logoIV: UIImageView = {
-        let iv = UIImageView.init(image: UIImage.init(named: "me_logo"))
+        let iv = UIImageView.init(image: UIImage.init(named: "logo"))
         return iv
     }()
     lazy var versionLabel: UILabel = {
@@ -933,6 +1022,7 @@ class PVMeAboutVC: PVBaseNavigationVC {
         view.addSubview(logoIV)
         view.addSubview(versionLabel)
         view.addSubview(tableView)
+        view.addSubview(copyrightLabel)
         logoIV.snp.makeConstraints { (make) in
             make.size.equalTo(CGSize.init(width: 70 * KScreenRatio_6, height: 70 * KScreenRatio_6))
             make.centerX.equalToSuperview()
@@ -964,19 +1054,20 @@ class PVMeVersionVC: PVBaseNavigationVC {
     
     
     lazy var logoIV: UIImageView = {
-        let iv = UIImageView.init(image: UIImage.init(named: "me_logo"))
+        let iv = UIImageView.init(image: UIImage.init(named: "logo"))
         return iv
     }()
     lazy var versionLabel: UILabel = {
         let l = UILabel()
+        l.numberOfLines = 0
         l.textAlignment = .center
         l.backgroundColor = kColor_background
-        let s = "福音\n" + "V" + (YPJOtherTool.ypj.getCurrentVersion ?? "1.0.0")
+        let s = "福音\n\n" + "V" + (YPJOtherTool.ypj.getCurrentVersion ?? "1.0.0")
         let att = NSMutableAttributedString.init(string: s)
         att.addAttributes([.font: kFont_btn_weight,
-                           .foregroundColor: UIColor.white], range: NSMakeRange(0, 2))
+                           .foregroundColor: UIColor.white], range: NSMakeRange(0, 4))
         att.addAttributes([.font: kFont_btn_weight,
-                           .foregroundColor: kColor_text!], range: NSMakeRange(2, s.count - 2))
+                           .foregroundColor: kColor_subText!], range: NSMakeRange(4, s.count - 4))
         l.attributedText = att
         return l
     }()

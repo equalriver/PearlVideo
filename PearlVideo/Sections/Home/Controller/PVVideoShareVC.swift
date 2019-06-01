@@ -17,13 +17,8 @@ class PVVideoShareVC: PVBaseNavigationVC {
                              我是\(data.nickname)
                              我为福音代言
                              """
-            
-        }
-    }
-    
-    var inviteCode = "" {
-        didSet{
-            inviteLabel.text = "邀请码：\(inviteCode)"
+            inviteLabel.text = "邀请码：\(data.inviteCode)"
+            qrcodeIV.image = YPJOtherTool.ypj.createCustomizeQRCode(size: qrcodeIV.size.height, dataStr: data.shareURL, imageType: .SquareImage, iconImage: UIImage.init(named: "logo")!, iconImageSize: 30 * KScreenRatio_6)
         }
     }
     
@@ -129,13 +124,14 @@ class PVVideoShareVC: PVBaseNavigationVC {
     }
     
     @objc func copyAction(sender: UIButton) {
-        guard inviteCode.count > 0 else { return }
-        let p = UIPasteboard.init()
-        p.string = inviteCode
+        guard data.inviteCode.count > 0 else { return }
+        let p = UIPasteboard.general
+        p.string = data.shareURL
         view.makeToast("已复制")
     }
     
     @objc func shareAction(sender: UIButton) {
+        guard self.data.userId.count > 0 else { return }
         let v = PVVideoShareAlert.init(frame: CGRect.init(x: 0, y: 0, width: kScreenWidth, height: kScreenHeight))
         v.delegate = self
         view.addSubview(v)
@@ -143,15 +139,12 @@ class PVVideoShareVC: PVBaseNavigationVC {
     
     func loadData() {
         PVNetworkTool.Request(router: .getInviteCode(), success: { (resp) in
-            if let d = Mapper<PVVideoShareModel>().map(JSONObject: resp["result"]["userInviteResult"].object) {
+            if let d = Mapper<PVVideoShareModel>().map(JSONObject: resp["result"].object) {
                 self.data = d
-            }
-            if let code = resp["result"]["inviteCode"].string {
-                self.inviteCode = code
             }
             
         }) { (e) in
-            
+             
         }
     }
     
@@ -170,6 +163,7 @@ extension PVVideoShareVC: PVVideoShareAlertDelegate {
     }
     
     func didSelectedSharePlatform(type: PVVideoSharePlatformType) {
+        
         func wechatShareImage(type: PVVideoSharePlatformType) {
             guard let img = contentIV.ypj.screenshot() else { return }
             guard let data = img.ypj.compressImage(maxLength: 9 * 1024 * 1024) else { return }

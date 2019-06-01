@@ -223,7 +223,8 @@ extension YPJImageTools where YPJToolType == UIImage {
         return newImage
     }
     
-    
+    //MARK: - 保存图片到本地
+    ///保存图片到本地
     func saveImageToLocalFolder(directory: FileManager.SearchPathDirectory, compressionQuality: CGFloat) -> String? {
         guard let data = ypj.jpegData(compressionQuality: compressionQuality) else {
             print("图片转data失败")
@@ -232,15 +233,16 @@ extension YPJImageTools where YPJToolType == UIImage {
         let p = NSSearchPathForDirectoriesInDomains(directory, .userDomainMask, true)
         guard let path = p.first else { return nil }
         
-        let imgCacheFolderPath = path + "/videoImageCache/"
-        let imgAbsolutePath = imgCacheFolderPath + "/" + ypj.description.ypj.MD5 + ".jpg"
+        let imgCacheFolderPath = path + "/imageCache/"
+        let imgAbsolutePath = imgCacheFolderPath + ypj.description.ypj.MD5 + ".jpg"
         
-        if FileManager.default.fileExists(atPath: imgCacheFolderPath) == false {
-            do {
-                try FileManager.default.createDirectory(atPath: imgCacheFolderPath, withIntermediateDirectories: true, attributes: nil)
-            }catch {
-                print(error)
-                return nil
+        if FileManager.default.fileExists(atPath: imgAbsolutePath) == false {
+            DispatchQueue.ypj_once(token: "createDirectory") {
+                do {
+                    try FileManager.default.createDirectory(atPath: imgCacheFolderPath, withIntermediateDirectories: true, attributes: nil)
+                }catch {
+                    print(error)
+                }
             }
             do {
                 try data.write(to: URL.init(fileURLWithPath: imgAbsolutePath))

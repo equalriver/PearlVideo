@@ -7,7 +7,7 @@
 //
 
 import UIKit
-import Kingfisher
+import SVProgressHUD
 
 
 @UIApplicationMain
@@ -40,10 +40,20 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     
     func application(_ app: UIApplication, open url: URL, options: [UIApplication.OpenURLOptionsKey : Any] = [:]) -> Bool {
         WXApi.handleOpen(url, delegate: self)
+        if url.absoluteString.contains(kAlipayScheme) {
+            AlipaySDK.defaultService()?.processOrder(withPaymentResult: url, standbyCallback: { (dic) in
+                NotificationCenter.default.post(name: .kNotiName_alipaySuccess, object: nil)
+//                guard let code = dic?["resultStatus"] as? Int else { return }
+//                if code == 9000 {
+//                    NotificationCenter.default.post(name: .kNotiName_alipaySuccess, object: nil)
+//                }
+//                else {
+//                    SVProgressHUD.showError(withStatus: "认证失败")
+//                }
+                
+            })
+        }
         
-        AlipaySDK.defaultService()?.processOrder(withPaymentResult: url, standbyCallback: { (dic) in
-            NotificationCenter.default.post(name: .kNotiName_alipaySuccess, object: nil)
-        })
         return true
     }
     /*

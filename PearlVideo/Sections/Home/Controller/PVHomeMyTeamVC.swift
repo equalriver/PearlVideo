@@ -17,7 +17,7 @@ class PVHomeMyTeamVC: PVBaseWMPageVC {
     lazy var inviteBtn: UIButton = {
         let b = UIButton()
         b.titleLabel?.font = kFont_text
-        b.setTitle("邀请好友", for: .normal)
+        b.setTitle("团队招募", for: .normal)
         b.setTitleColor(kColor_yellow, for: .normal)
         return b
     }()

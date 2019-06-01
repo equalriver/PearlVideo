@@ -14,7 +14,7 @@
 #import <AlipaySDK/AlipaySDK.h>
 #import <RPSDK/RPSDK.h>
 #import <WechatOpenSDK/WXApi.h>
-
+#import "YPJOtherToolsObjC.h"
 
 #endif /* BridgingHeader_h */
 

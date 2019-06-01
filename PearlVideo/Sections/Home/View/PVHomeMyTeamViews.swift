@@ -12,7 +12,7 @@ class PVHomeMyTeamHeaderView: UIView {
     public var data = PVHomeTeamModel() {
         didSet{
             avatarIV.kf.setImage(with: URL.init(string: data.avatarImageUrl))
-            infoLabel.text = "我的推荐人: \(data.name)"
+            infoLabel.text = data.isLeader ? "一级领导人：\(data.name)" : "我的推荐人: \(data.name)"
             infoCV.reloadData()
         }
     }
@@ -91,8 +91,8 @@ extension PVHomeMyTeamHeaderView: UICollectionViewDelegate, UICollectionViewData
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "PVHomeMyTeamInfoCell", for: indexPath) as! PVHomeMyTeamInfoCell
         switch indexPath.item {
-        case 0: //团队人员
-            cell.titleLabel.text = "团队人员"
+        case 0: //直推人数
+            cell.titleLabel.text = "直推人数"
             cell.detailLabel.text = "\(data.userTeamCount)"
             break
             

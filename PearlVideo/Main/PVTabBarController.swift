@@ -1,6 +1,7 @@
 //
 //  PVTabBarController.swift
 
+import SVProgressHUD
 
 class PYTabBar: UITabBar {
     
@@ -68,12 +69,12 @@ class PVTabBarController: UITabBarController {
     }()
 
     private lazy var hotVC: PVBaseRootNaviVC = {
-        let vc = PVBaseRootNaviVC.init(rootViewController: UIViewController())
+        let vc = PVBaseRootNaviVC.init(rootViewController: PVExchangeVC())
         return vc
     }()
 
     private lazy var pearlVC: PVBaseRootNaviVC = {
-        let vc = PVBaseRootNaviVC.init(rootViewController: PVHomeVC())
+        let vc = PVBaseRootNaviVC.init(rootViewController: PVExchangeVC())
         return vc
     }()
 
@@ -99,10 +100,12 @@ class PVTabBarController: UITabBarController {
     
     
     @objc func didSelectedPlay() {
-        if let vc = self.selectedViewController {
-            let playVC = PVPlayVC()
-            vc.present(PVBaseRootNaviVC.init(rootViewController: playVC), animated: true, completion: nil)
-        }
+        SVProgressHUD.showInfo(withStatus: "暂未开放")
+        return
+//        if let vc = self.selectedViewController {
+//            let playVC = PVPlayVC()
+//            vc.present(PVBaseRootNaviVC.init(rootViewController: playVC), animated: true, completion: nil)
+//        }
     }
 
     

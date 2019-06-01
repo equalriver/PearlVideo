@@ -17,7 +17,7 @@ class PVRegisterVC: PVBaseNavigationVC {
     
     
     lazy var iconIV: UIImageView = {
-        let v = UIImageView.init(image: UIImage.init(named: "login_logo"))
+        let v = UIImageView.init(image: UIImage.init(named: "logo"))
         return v
     }()
     lazy var phoneTF: UITextField = {
@@ -121,20 +121,22 @@ class PVRegisterVC: PVBaseNavigationVC {
         let s5: NSString = "我已阅读并同意《用户协议》和《隐私政策》"
         let att  = NSMutableAttributedString.init(string: s5 as String)
         att.addAttributes([.font: kFont_text_2, .foregroundColor: kColor_subText!], range: s5.range(of: s1))
-        att.addAttributes([.font: kFont_text_2, .foregroundColor: UIColor.init(hexString: "#E11379")!], range: s5.range(of: s2))
+        att.addAttributes([.font: kFont_text_2, .foregroundColor: kColor_pink!], range: s5.range(of: s2))
         att.addAttributes([.font: kFont_text_2, .foregroundColor: kColor_subText!], range: s5.range(of: s3))
-        att.addAttributes([.font: kFont_text_2, .foregroundColor: UIColor.init(hexString: "#E11379")!], range: s5.range(of: s4))
+        att.addAttributes([.font: kFont_text_2, .foregroundColor: kColor_pink!], range: s5.range(of: s4))
         l.attributedText = att
         
-        l.highlightTapAction = {[weak self] (containerView, text, range, rect) in
+        l.textTapAction = {[weak self] (containerView, text, range, rect) in
             let r: NSRange = range
             //用户协议
-            if r == s5.range(of: s2) {
+            if s5.range(of: s2).contains(r.location) {
                 self?.didSelectedAgreement()
+                return
             }
             //隐私
-            if r == s5.range(of: s4) {
+            if s5.range(of: s4).contains(r.location) {
                 self?.didSelectedPrivacy()
+                return
             }
         }
         return l

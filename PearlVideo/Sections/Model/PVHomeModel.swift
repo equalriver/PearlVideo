@@ -41,17 +41,15 @@ class PVHomeBannerModel: PVBaseModel {
     
     var id = 0
     var imageUrl = ""
-//    {
-//        "id": 3,
-//        "imageUrl": "http://content.zyunx.net/image/default/1DC9946BDA9B413D8DDA6C59AD324C47-6-2.png",
-//        "sequence": 3,
-//        "status": 1,
-//        "url": "http://content.zyunx.net/image/default/1DC9946BDA9B413D8DDA6C59AD324C47-6-2.png"
-//    }
+    var url = ""
+    var title = ""
+
     
     override func mapping(map: Map) {
         id <- map["id"]
         imageUrl <- map["imageUrl"]
+        url <- map["url"]
+        title <- map["title"]
     }
     
 }
@@ -64,6 +62,29 @@ class PVHomeNoticeModel: PVBaseModel {
     override func mapping(map: Map) {
         id <- map["id"]
         title <- map["title"]
+    }
+    
+}
+
+class PVVersionModel: PVBaseModel {
+    
+    var id = 0
+    
+    ///版本号
+    var versionCode = ""
+    
+    ///更新内容
+    var content = ""
+    
+    var downloadURL = ""
+    
+    
+    
+    override func mapping(map: Map) {
+        id <- map["id"]
+        versionCode <- map["versionCode"]
+        content <- map["content"]
+        downloadURL <- map["apk_url"]
     }
     
 }

@@ -4,9 +4,6 @@
 
 import Foundation
 
-///游客token
-public let kVisitorToken = "visitor_token"
-
 ///登录用户token
 public let kToken = "kToken"
 
@@ -23,13 +20,28 @@ public let kLastInputIP = "kLastInputIP"
 public let kLastInputAccount = "kLastInputAccount"
 
 ///base url
-public let kBaseURLString = UserDefaults.standard.string(forKey: kLocalIP) ?? "http://192.168.0.112:8080/api/"
+//public let kBaseURLString = "http://192.168.0.112:8080/api/"
+//public let kBaseURLString = "http://www.lzmingsi.com:8080/api/"
+public let kBaseURLString = "https://yjhfuyin.lzmingsi.com/api/"
+
+///用户协议
+public let kUserAgreementURL = "http://www.lzmingsi.com/?formal=%e7%94%a8%e6%88%b7%e5%8d%8f%e8%ae%ae"
+
+///隐私政策
+public let kSecureURL = "http://www.lzmingsi.com/?formal=%e9%9a%90%e7%a7%81%e6%94%bf%e7%ad%96"
+
+///认证协议
+public let kValidateURL = "http://www.lzmingsi.com/?formal=%e7%a6%8f%e9%9f%b3app%e8%ae%a4%e8%af%81%e6%8a%80%e6%9c%af%e6%9c%8d%e5%8a%a1%e5%8d%8f%e8%ae%ae"
+
+///社区管理
+public let kCommunityURL = "http://www.lzmingsi.com/?formal=%e7%a4%be%e5%8c%ba%e7%ae%a1%e7%90%86%e8%a7%84%e5%ae%9a"
+
 
 ///local text ip
 public let kLocalIP = "kLocalIP"
 
 ///获取app version url  k: ["results"][0]["version"]
-public let kAppVersionURL = "http://itunes.apple.com/lookup?id=你的AppStoreid"
+public let kAppVersionURL = "http://itunes.apple.com/lookup?id=\(kAPPID)"
 
 
 //js handler
@@ -41,11 +53,15 @@ public let kKeyChainService = "com.lzmingsi.PearlVideo.keyChainService"
 
 ///app version
 public let kAppVersion = "PV_app_version"
+public let kAppVersionCode = "kAppVersionCode"
 
 //AES
 public let kInitVector = "16-Bytes--String"
 public let kAES_KEY = "kPVPsd"
 
+//3DES
+public let k3DES_KEY = "fuyin"
+public let k3DES_iv = "01234567"
 
 //点播STS
 public let kAccessKeyId = "kAccessKeyId"
@@ -53,11 +69,18 @@ public let kAccessKeySecret = "kAccessKeySecret"
 public let kSecurityToken = "kSecurityToken"
 
 //微信
-public let kWeixinAppId = "wx283fe91de8c744cc"
-public let kWeixinAppSecret = "057f48e865d5b3c3071bc1394ecff7a8"
+public let kWeixinAppId = "wxe29565366a03f638"
 
 //支付宝
-public let kAlipayScheme = ""
+public let kAlipayScheme = "2019052365384112"
+
+///app id
+public let kAPPID = "1466058668"
+
+
+
+
+
 
 //MARK: - noti
 extension Notification.Name {

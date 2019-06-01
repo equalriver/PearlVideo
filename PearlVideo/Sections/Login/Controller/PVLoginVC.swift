@@ -21,18 +21,18 @@ class PVLoginVC: PVBaseViewController {
         return b
     }()
     lazy var iconIV: UIImageView = {
-        let v = UIImageView.init(image: UIImage.init(named: "login_logo"))
+        let v = UIImageView.init(image: UIImage.init(named: "logo"))
         return v
     }()
-    lazy var ipTextField: UITextField = {
-        let tf = UITextField()
-        tf.backgroundColor = UIColor.white
-        tf.textColor = kColor_text
-        tf.keyboardType = .numbersAndPunctuation
-        tf.placeholder = "ip:  "
-        tf.addTarget(self, action: #selector(ipTextFieldChange(sender:)), for: .editingDidEnd)
-        return tf
-    }()
+//    lazy var ipTextField: UITextField = {
+//        let tf = UITextField()
+//        tf.backgroundColor = UIColor.white
+//        tf.textColor = kColor_text
+//        tf.keyboardType = .numbersAndPunctuation
+//        tf.placeholder = "ip:  "
+//        tf.addTarget(self, action: #selector(ipTextFieldChange(sender:)), for: .editingDidEnd)
+//        return tf
+//    }()
     lazy var phoneTF: UITextField = {
         let tf = UITextField()
         tf.backgroundColor = kColor_deepBackground
@@ -153,16 +153,18 @@ class PVLoginVC: PVBaseViewController {
         att.addAttributes([.font: kFont_text_2, .foregroundColor: kColor_subText!], range: s4.range(of: s2))
         att.addAttributes([.font: kFont_text_2, .foregroundColor: kColor_pink!], range: s4.range(of: s3))
         l.attributedText = att
-        
-        l.highlightTapAction = {[weak self] (containerView, text, range, rect) in
+
+        l.textTapAction = {[weak self] (containerView, text, range, rect) in
             let r: NSRange = range
             //用户协议
-            if r == s4.range(of: s1) {
+            if s4.range(of: s1).contains(r.location) {
                 self?.didSelectedAgreement()
+                return
             }
             //隐私
-            if r == s4.range(of: s3) {
+            if s4.range(of: s3).contains(r.location) {
                 self?.didSelectedPrivacy()
+                return
             }
         }
         return l
@@ -257,14 +259,14 @@ class PVLoginVC: PVBaseViewController {
             make.centerX.equalToSuperview()
             make.bottom.equalTo(privacyTapLabel.snp.top).offset(-5)
         }
-        #if DEBUG
-        view.addSubview(ipTextField)
-        ipTextField.snp.makeConstraints { (make) in
-            make.size.equalTo(CGSize.init(width: 100, height: 30))
-            make.centerX.equalToSuperview()
-            make.top.equalToSuperview().offset(40)
-        }
-        #endif
+//        #if DEBUG
+//        view.addSubview(ipTextField)
+//        ipTextField.snp.makeConstraints { (make) in
+//            make.size.equalTo(CGSize.init(width: 100, height: 30))
+//            make.centerX.equalToSuperview()
+//            make.top.equalToSuperview().offset(40)
+//        }
+//        #endif
     }
     
     

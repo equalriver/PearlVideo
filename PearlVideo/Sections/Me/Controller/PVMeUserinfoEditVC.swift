@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import ObjectMapper
 
 class PVMeUserinfoEditVC: PVBaseNavigationVC {
 
@@ -19,10 +20,13 @@ class PVMeUserinfoEditVC: PVBaseNavigationVC {
             signTV.text = data.autograph
         }
     }
+
     
     lazy var iconIV: UIImageView = {
         let iv = UIImageView()
         iv.contentMode = .scaleAspectFill
+        iv.layer.cornerRadius = 50 * KScreenRatio_6
+        iv.layer.masksToBounds = true
         let l = UILabel()
         l.text = "更换"
         l.textColor = UIColor.white
@@ -110,7 +114,8 @@ class PVMeUserinfoEditVC: PVBaseNavigationVC {
         v.backgroundColor = kColor_background
         v.placeholderText = "编辑你的个性签名"
         v.placeholderFont = kFont_text_3
-        v.placeholderTextColor = kColor_subText
+        v.textColor = UIColor.white
+        v.placeholderTextColor = UIColor.white
         v.delegate = self
         return v
     }()
@@ -127,9 +132,8 @@ class PVMeUserinfoEditVC: PVBaseNavigationVC {
         view.backgroundColor = kColor_deepBackground
         title = "编辑资料"
         naviBar.rightBarButtons = [checkBtn]
-        //addShape
-        let rect = CGRect.init(x: 0, y: 0, width: 100 * KScreenRatio_6, height: 100 * KScreenRatio_6)
-        iconIV.ypj.addCornerShape(rect: rect, cornerRadius: rect.height / 2, fillColor: kColor_deepBackground!)
+        NotificationCenter.default.addObserver(self, selector: #selector(keyboardShowAction(noti:)), name: UIApplication.keyboardWillShowNotification, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(keyboardHideAction(noti:)), name: UIApplication.keyboardWillHideNotification, object: nil)
     }
     
     func initUI() {
@@ -173,24 +177,101 @@ class PVMeUserinfoEditVC: PVBaseNavigationVC {
             make.left.equalTo(nameLabel)
             make.centerY.equalToSuperview()
         }
+        genderContent.snp.makeConstraints { (make) in
+            make.left.equalTo(nameTF)
+            make.height.equalToSuperview()
+            make.centerY.equalTo(genderLabel)
+            make.right.equalTo(genderBtn.snp.left)
+        }
+        genderBtn.snp.makeConstraints { (make) in
+            make.right.equalToSuperview().offset(-10 * KScreenRatio_6)
+            make.centerY.equalToSuperview()
+            make.size.equalTo(CGSize.init(width: 30, height: 30))
+        }
+        signLabel.snp.makeConstraints { (make) in
+            make.left.equalTo(nameLabel)
+            make.top.equalTo(contentView_2.snp.bottom).offset(50 * KScreenRatio_6)
+        }
+        countLabel.snp.makeConstraints { (make) in
+            make.right.equalToSuperview().offset(-30 * KScreenRatio_6)
+            make.centerY.equalTo(signLabel)
+        }
+        contentView_3.snp.makeConstraints { (make) in
+            make.size.equalTo(CGSize.init(width: 330 * KScreenRatio_6, height: 90 * KScreenRatio_6))
+            make.top.equalTo(signLabel.snp.bottom).offset(15 * KScreenRatio_6)
+            make.centerX.equalToSuperview()
+        }
+        signTV.snp.makeConstraints { (make) in
+            make.left.top.equalToSuperview().offset(15 * KScreenRatio_6)
+            make.right.bottom.equalToSuperview().offset(-15 * KScreenRatio_6)
+        }
     }
     
-
-    override func rightButtonsAction(sender: UIButton) {
-        guard let img = iconIV.image else { return }
-        guard genderContent.text != nil else { return }
-        let args: [String: Any] = ["nickName": nameTF.text ?? data.nickName, "gender": genderContent.text! == "男" ? 1 : 2, "autograph": signTV.text ?? data.autograph]
+    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
+        view.endEditing(true)
+    }
+    
+    @objc func keyboardShowAction(noti: Notification) {
+        guard let info = noti.userInfo else { return }
+        guard let duration = info[UIApplication.keyboardAnimationDurationUserInfoKey] as? TimeInterval else { return }
+        guard let keyboardFrame = info[UIApplication.keyboardFrameEndUserInfoKey] as? CGRect else { return }
         
-        PVNetworkTool.upLoadImageRequest(images: [img], imagesName: "avatarUrl", params: args, router: .editUserInfo(), success: { (resp) in
-            self.navigationController?.popViewController(animated: true)
-            
-        }) { (e) in
-            
+        UIView.animate(withDuration: duration) {
+            self.view.centerY = kScreenHeight / 2 - keyboardFrame.height
         }
         
     }
     
+    @objc func keyboardHideAction(noti: Notification) {
+        guard let info = noti.userInfo else { return }
+        guard let duration = info[UIApplication.keyboardAnimationDurationUserInfoKey] as? TimeInterval else { return }
+        UIView.animate(withDuration: duration) {
+            self.view.centerY = kScreenHeight / 2
+        }
+        
+    }
+
+    override func rightButtonsAction(sender: UIButton) {
+        guard nameTF.hasText else {
+            view.makeToast("昵称不能为空")
+            return
+        }
+        guard genderContent.text != nil else { return }
+        PVNetworkTool.Request(router: .editUserInfo(name: self.nameTF.text!, avatarUrl: "", sign: self.signTV.text ?? "", gender: self.genderContent.text! == "男" ? "1" : "2"), success: { (resp) in
+            NotificationCenter.default.post(name: .kNotiName_refreshMeVC, object: nil)
+            self.navigationController?.popToRootViewController(animated: true)
+
+        }, failure: { (e) in
+
+        })
+        /*
+        guard let img = iconIV.image else { return }
+        if let path = img.ypj.saveImageToLocalFolder(directory: .cachesDirectory, compressionQuality: 1.0) {
+            
+            PVNetworkTool.Request(router: .getAuthWithUploadImage(imageExt: "jpg"), success: { (resp) in
+                
+                if let d = Mapper<PVUploadImageModel>().map(JSONObject: resp["result"].object) {
+                    PVNetworkTool.uploadFileWithAliyun(description: "", auth: d.uploadAuth, address: d.uploadAddress, filePath: path, handle: { (isSuccess) in
+                        PVNetworkTool.Request(router: .editUserInfo(name: self.nameTF.text!, avatarUrl: d.imageUrl, sign: self.signTV.text ?? "", gender: self.genderContent.text! == "男" ? "1" : "2"), success: { (resp) in
+                            NotificationCenter.default.post(name: .kNotiName_refreshMeVC, object: nil)
+                            self.navigationController?.popToRootViewController(animated: true)
+                            
+                        }, failure: { (e) in
+                            
+                        })
+                    })
+                }
+                
+            }) { (e) in
+                
+            }
+        }
+        */
+    }
+    
     @objc func didSelectedHeader(sender: UITapGestureRecognizer) {
+        return
+        //FIX
         let alert = UIAlertController.init(title: nil, message: nil, preferredStyle: .actionSheet)
         let camera = UIAlertAction.init(title: "拍照", style: .default) { (ac) in
             YPJOtherTool.ypj.getCameraAuth(target: self, {
@@ -248,8 +329,13 @@ extension PVMeUserinfoEditVC: UIImagePickerControllerDelegate, UINavigationContr
         if let resultImage = info[.editedImage] as? UIImage {
             
             guard let imgData = resultImage.ypj.compressImage(maxLength: 512 * 1024) else { return }
-            let img = UIImage.init(data: imgData)
+
+            guard let img = UIImage.init(data: imgData) else {
+                picker.dismiss(animated: true, completion: nil)
+                return
+            }
             iconIV.image = img
+            picker.dismiss(animated: true, completion: nil)
         }
         
     }

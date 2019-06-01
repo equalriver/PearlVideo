@@ -40,8 +40,10 @@ class PVExchangeVC: PVBaseNavigationVC {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        title = "交换中心"
-        naviBar.rightBarButtons = [recordBtn]
+//        title = "交换中心"
+//        naviBar.rightBarButtons = [recordBtn]
+        naviBar.isHidden = true
+        view.stateEmpty(title: nil, img: nil, buttonTitle: nil, handle: nil)
     }
     
     func initUI() {

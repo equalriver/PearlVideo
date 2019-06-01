@@ -175,3 +175,21 @@ class PVMeFeedbackList: PVBaseModel {
     }
     
 }
+
+
+//MARK: - 认证状态
+class PVMeUserValidateModel: PVBaseModel {
+    ///是否认证成功
+    var isVerfiedSuccess = false
+    
+    var idCard = ""
+    
+    var name = ""
+    
+    override func mapping(map: Map) {
+        isVerfiedSuccess <- map["isVerfiedSuccess"]
+        idCard <- map["idNo"]
+        name <- map["name"]
+    }
+    
+}

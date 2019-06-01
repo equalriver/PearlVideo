@@ -12,19 +12,20 @@ import AliyunVodPlayerSDK
 extension PVHomePlayVC: PVHomePlayDelegate {
     //点击头像
     func didSelectedAvatar(data: PVVideoPlayModel) {
-        if let currentId = UserDefaults.standard.string(forKey: kUserId) {
-            if data.userId == currentId { return }
-        }
-        
+//        if let currentId = UserDefaults.standard.string(forKey: kUserId) {
+//            if data.userId == currentId { return }
+//        }
+        view.makeToast("暂未开放")
     }
     
     //关注
     func didSelectedAttention(sender: UIButton, data: PVVideoPlayModel) {
-        sender.isSelected = !sender.isSelected
-        data.IsFollowed = sender.isSelected
-        let args: [String: Any] = ["data": data, "sender": sender]
-        NSObject.cancelPreviousPerformRequests(withTarget: self, selector: #selector(videoAttention(args:)), object: args)
-        self.perform(#selector(videoAttention(args:)), with: args, afterDelay: 2)
+        view.makeToast("暂未开放")
+//        sender.isSelected = !sender.isSelected
+//        data.IsFollowed = sender.isSelected
+//        let args: [String: Any] = ["data": data, "sender": sender]
+//        NSObject.cancelPreviousPerformRequests(withTarget: self, selector: #selector(videoAttention(args:)), object: args)
+//        self.perform(#selector(videoAttention(args:)), with: args, afterDelay: 2)
         
     }
     
@@ -40,11 +41,12 @@ extension PVHomePlayVC: PVHomePlayDelegate {
     
     //点赞
     func didSelectedLike(sender: UIButton, data: PVVideoPlayModel) {
-        sender.isSelected = !sender.isSelected
-        data.IsThumbuped = sender.isSelected
-        let args: [String: Any] = ["data": data, "sender": sender]
-        NSObject.cancelPreviousPerformRequests(withTarget: self, selector: #selector(videoLike(args:)), object: args)
-        self.perform(#selector(videoLike(args:)), with: args, afterDelay: 2)
+        view.makeToast("暂未开放")
+//        sender.isSelected = !sender.isSelected
+//        data.IsThumbuped = sender.isSelected
+//        let args: [String: Any] = ["data": data, "sender": sender]
+//        NSObject.cancelPreviousPerformRequests(withTarget: self, selector: #selector(videoLike(args:)), object: args)
+//        self.perform(#selector(videoLike(args:)), with: args, afterDelay: 2)
         
     }
     
@@ -60,8 +62,9 @@ extension PVHomePlayVC: PVHomePlayDelegate {
     
     //评论
     func didSelectedComment(data: PVVideoPlayModel) {
-        let v = PVVideoCommentView.init(videoId: data.videoId, delegate: self)
-        allContainView.addSubview(v)
+        view.makeToast("暂未开放")
+//        let v = PVVideoCommentView.init(videoId: data.videoId, delegate: self)
+//        allContainView.addSubview(v)
     }
     
     //分享
@@ -72,9 +75,10 @@ extension PVHomePlayVC: PVHomePlayDelegate {
     
     //举报
     func didSelectedReport(data: PVVideoPlayModel) {
-        let vc = PVHomeReportVC()
-        vc.videoId = data.videoId
-        navigationController?.pushViewController(vc, animated: true)
+        view.makeToast("暂未开放")
+//        let vc = PVHomeReportVC()
+//        vc.videoId = data.videoId
+//        navigationController?.pushViewController(vc, animated: true)
     }
     
 }

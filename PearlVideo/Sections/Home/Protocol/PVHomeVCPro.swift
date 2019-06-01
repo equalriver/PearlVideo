@@ -13,8 +13,9 @@ import MJRefresh
 extension PVHomeVC {
     
     @objc func messageAction() {
-        let vc = PVHomeMessageVC()
-        navigationController?.pushViewController(vc, animated: true)
+        view.makeToast("暂未开放")
+//        let vc = PVHomeMessageVC()
+//        navigationController?.pushViewController(vc, animated: true)
     }
     
     func setRefresh() {
@@ -32,6 +33,28 @@ extension PVHomeVC {
                 self.data = d
                 self.headerView.data = d
                 self.reloadData()
+            }
+            
+        }) { (e) in
+            
+        }
+    }
+    
+    func checkVersion(handle: @escaping () -> Void) {
+        guard let version = UserDefaults.standard.string(forKey: kAppVersionCode) else { return }
+        
+        PVNetworkTool.Request(router: .getVersion(), success: { (resp) in
+            if let d = Mapper<PVVersionModel>().map(JSONObject: resp["result"].object) {
+                if d.versionCode != version {
+                    UserDefaults.standard.setValue("\(d.versionCode)", forKey: kAppVersionCode)
+                    YPJOtherTool.ypj.showAlert(title: nil, message: "有新版本需要更新", style: .alert, isNeedCancel: false, handle: { (ac) in
+                        guard let url = URL.init(string: d.downloadURL) else { return }
+                        UIApplication.shared.openURL(url)
+                    })
+                }
+                else {
+                    handle()
+                }
             }
             
         }) { (e) in
@@ -111,44 +134,49 @@ extension PVHomeVC {
 extension PVHomeVC: PVHomeHeaderDelegate {
     
     func didSelectedBanner(index: Int) {
-        
+        guard data.bannerList.count > index else { return }
+        let url = data.bannerList[index].url
+        let vc = PVAgreementWebVC.init(url: url, title: data.bannerList[index].title)
+        navigationController?.pushViewController(vc, animated: true)
     }
     
     func didSelectedTitlesItem(index: Int) {
-        switch index {
-        case 0: //会员等级
-            let vc = PVHomeUserLevelVC()
-            navigationController?.pushViewController(vc, animated: true)
-            break
-            
-        case 1: //活跃度
-            let vc = PVHomeActivenessVC()
-            navigationController?.pushViewController(vc, animated: true)
-            break
-            
-        case 2: //总平安果
-            let vc = PVHomeFruitVC()
-            navigationController?.pushViewController(vc, animated: true)
-            break
-            
-        case 3: //当前收益
-            
-            break
-            
-        default:
-            break
-        }
+        view.makeToast("暂未开放")
+//        switch index {
+//        case 0: //会员等级
+//            let vc = PVHomeUserLevelVC()
+//            navigationController?.pushViewController(vc, animated: true)
+//            break
+//
+//        case 1: //活跃度
+//            let vc = PVHomeActivenessVC()
+//            navigationController?.pushViewController(vc, animated: true)
+//            break
+//
+//        case 2: //总平安果
+//            let vc = PVHomeFruitVC()
+//            navigationController?.pushViewController(vc, animated: true)
+//            break
+//
+//        case 3: //当前收益
+//
+//            break
+//
+//        default:
+//            break
+//        }
     }
     
     func didSelectedActionItem(index: Int) {
         switch index {
         case 0: //任务
-            let vc = PVHomeTaskVC()
-            navigationController?.pushViewController(vc, animated: true)
+            view.makeToast("暂未开放")
+//            let vc = PVHomeTaskVC()
+//            navigationController?.pushViewController(vc, animated: true)
             break
             
-        case 1: //组队
-            
+        case 1: //资讯
+            view.makeToast("暂未开放")
             break
             
         case 2: //团队
@@ -157,8 +185,9 @@ extension PVHomeVC: PVHomeHeaderDelegate {
             break
             
         case 3: //商学院
-            let vc = PVHomeSchoolVC()
-            navigationController?.pushViewController(vc, animated: true)
+            view.makeToast("暂未开放")
+//            let vc = PVHomeSchoolVC()
+//            navigationController?.pushViewController(vc, animated: true)
             break
             
         default:

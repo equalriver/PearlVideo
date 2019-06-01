@@ -61,7 +61,7 @@ class PVVideoCommentModel: PVBaseModel {
 
 //MARK: - 分享
 class PVVideoShareModel: PVBaseModel {
-    ///评论id
+    
     var userId = ""
     
     var avatarImageUrl = ""
@@ -73,13 +73,20 @@ class PVVideoShareModel: PVBaseModel {
     
     var createAt = ""
     
+    var shareURL = ""
+    
+    var inviteCode = ""
+    
     
     override func mapping(map: Map) {
         userId <- map["userId"]
         avatarImageUrl <- map["avatarImageUrl"]
-        nickname <- map["nickname"]
+        nickname <- map["nickName"]
         certificationStatus <- map["certificationStatus"]
         createAt <- map["createAt"]
+        shareURL <- map["shareUrl"]
+        inviteCode <- map["inviteCode"]
+        shareURL = shareURL + inviteCode
     }
     
 }

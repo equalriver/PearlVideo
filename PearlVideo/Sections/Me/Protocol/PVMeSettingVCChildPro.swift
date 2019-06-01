@@ -8,13 +8,44 @@
 
 import StoreKit
 import ObjectMapper
+import SVProgressHUD
+import CommonCrypto
 
 //MARK: - 实名认证
 
 extension PVMeNameValidateVC {
+    /*
+    func firstLoadData() {
+        SVProgressHUD.show()
+        PVNetworkTool.Request(router: .getUserValidateToken(idCard: <#T##String#>, name: <#T##String#>), success: { (resp) in
+           
+            if let d = Mapper<PVUserValidateModel>().map(JSONObject: resp["result"].object) {
+                self.data = d
+                if d.verifyStage == UserValidateStageType.success.rawValue {
+                    self.didValidateContent.isHidden = false
+                    self.validateContent.isHidden = true
+                    self.setNameAndIdCard(data: d)
+                }
+                else {
+                    self.didValidateContent.isHidden = true
+                    self.validateContent.isHidden = false
+                }
+            }
+            SVProgressHUD.dismiss()
+            
+        }) { (e) in
+            SVProgressHUD.dismiss()
+        }
+    }
+    */
     
+    // 人脸认证
+    /*
     func loadData() {
-        PVNetworkTool.Request(router: .getUserValidateToken(), success: { (resp) in
+        PVNetworkTool.Request(router: .getUserValidateToken(idCard: idCardTF.text ?? "", name: nameTF.text ?? ""), success: { (resp) in
+            if let s = resp["result"]["bizMessage"].string {
+                self.view.makeToast(s)
+            }
             if let d = Mapper<PVUserValidateModel>().map(JSONObject: resp["result"].object) {
                 self.data = d
                 if d.verifyStage == UserValidateStageType.success.rawValue {
@@ -28,12 +59,12 @@ extension PVMeNameValidateVC {
                     self.validateContent.isHidden = false
                     AlipaySDK.defaultService()?.payOrder(d.payOrder, fromScheme: kAlipayScheme, callback: { (dic) in
                         
-                        self.alertView.closeAction()
+                        self.alertView?.closeAction()
                     })
                 }
                 //认证
                 if d.verifyStage == UserValidateStageType.processing.rawValue {
-                    self.alertView.closeAction()
+                    self.alertView?.closeAction()
                     RPSDK.start(d.verifyToken.token, rpCompleted: { (auditState) in
                         //认证通过
                         if auditState == .PASS {
@@ -59,34 +90,104 @@ extension PVMeNameValidateVC {
             
         }
     }
+    */
     
-    func setNameAndIdCard(data: PVUserValidateModel) {
-        let att_name = NSMutableAttributedString.init(string: "真实姓名    " + data.name)
+    func loadData() {
+        guard idCardTF.hasText && nameTF.hasText else { return }
+        let uuid = YPJOtherTool.ypj.getUUIDWithkeyChain()
+        
+        PVNetworkTool.Request(router: .userValidate(name: nameTF.text!, idCard: idCardTF.text!, deviceId: uuid), success: { (resp) in
+            self.alertView?.closeAction()
+            if let s = resp["result"]["bizMessage"].string {
+                self.view.makeToast(s)
+            }
+            if let d = Mapper<PVUserValidateModel>().map(JSONObject: resp["result"].object) {
+                self.data = d
+                //认证成功
+                if d.verifyStage == UserValidateStageType.success.rawValue {
+                    self.view.makeToast("认证成功")
+                    self.didValidateContent.isHidden = false
+                    self.validateContent.isHidden = true
+                    self.setNameAndIdCard(name: d.name, idCard: d.idCard)
+                }
+                //去支付
+                if d.verifyStage == UserValidateStageType.payment.rawValue {
+                    self.didValidateContent.isHidden = true
+                    self.validateContent.isHidden = false
+                    let v = PVMeNameValidateAlert.init(frame: CGRect.init(x: 0, y: 0, width: kScreenWidth, height: kScreenHeight))
+                    v.delegate = self
+                    self.alertView = v
+                    self.view.addSubview(v)
+                   
+                }
+                //认证失败
+                if d.verifyStage == UserValidateStageType.fail.rawValue {
+                    self.view.makeToast("认证失败")
+                }
+            }
+        }) { (e) in
+            self.alertView?.closeAction()
+        }
+        
+        
+    }
+    
+    func setNameAndIdCard(name: String, idCard: String) {
+        let att_name = NSMutableAttributedString.init(string: "真实姓名    " + name)
         att_name.addAttributes([.font: kFont_text, .foregroundColor: kColor_subText!], range: NSMakeRange(0, 8))
-        att_name.addAttributes([.font: kFont_text, .foregroundColor: UIColor.white], range: NSMakeRange(8, data.name.count))
+        att_name.addAttributes([.font: kFont_text, .foregroundColor: UIColor.white], range: NSMakeRange(8, name.count))
         nameLabel.attributedText = att_name
         
-        let att_idCard = NSMutableAttributedString.init(string: "身份证号    " + data.idCard)
+        let att_idCard = NSMutableAttributedString.init(string: "身份证号    " + idCard)
         att_idCard.addAttributes([.font: kFont_text, .foregroundColor: kColor_subText!], range: NSMakeRange(0, 8))
-        att_idCard.addAttributes([.font: kFont_text, .foregroundColor: UIColor.white], range: NSMakeRange(8, data.idCard.count))
+        att_idCard.addAttributes([.font: kFont_text, .foregroundColor: UIColor.white], range: NSMakeRange(8, idCard.count))
         idCardLabel.attributedText = att_idCard
     }
     
-    @objc func acceptAgreement(sender: UIButton) {
-        sender.isSelected = !sender.isSelected
-        confirmBtn.isEnabled = sender.isSelected
+    @objc func textFieldEditingChange(sender: UITextField) {
+        confirmBtn.isEnabled = checkBtn.isSelected && nameTF.hasText && idCardTF.hasText
         confirmBtn.backgroundColor = confirmBtn.isEnabled ? kColor_pink : UIColor.gray
     }
+    //checkbox
+    @objc func acceptAgreement(sender: UIButton) {
+        sender.isSelected = !sender.isSelected
+        confirmBtn.isEnabled = sender.isSelected && nameTF.hasText && idCardTF.hasText
+        confirmBtn.backgroundColor = confirmBtn.isEnabled ? kColor_pink : UIColor.gray
+    }
+    //认证协议
+    @objc func protocolAction(sender: UIButton) {
+        let vc = PVAgreementWebVC.init(url: kValidateURL, title: "认证协议")
+        navigationController?.pushViewController(vc, animated: true)
+    }
     
+    //认证
     @objc func confirm(sender: UIButton) {
-        view.addSubview(alertView)
+        view.endEditing(true)
+        loadData()
+    }
+    
+    @objc func alipayCallbackNoti(sender: Notification) {
+        PVNetworkTool.Request(router: .getUserValidateStatus(), success: { (resp) in
+            if let d = Mapper<PVMeUserValidateModel>().map(JSONObject: resp["result"].object) {
+                self.didValidateContent.isHidden = false
+                self.validateContent.isHidden = true
+                self.setNameAndIdCard(name: d.name, idCard: d.idCard)
+                
+            }
+            
+        }) { (e) in
+            
+        }
     }
 }
 
 extension PVMeNameValidateVC: PVMeNameValidateAlertDelegate {
     
     func didSelectedValidate() {
-        
+        AlipaySDK.defaultService()?.payOrder(data.payOrder, fromScheme: kAlipayScheme, callback: { (dic) in
+            
+            
+        })
     }
 }
 
@@ -113,7 +214,7 @@ extension PVMePasswordChangeVC {
             
         }) { (e) in
             sender.isEnabled = true
-            self.view.makeToast(e.localizedDescription)
+             
         }
         
         func auth() {
@@ -151,7 +252,7 @@ extension PVMePasswordChangeVC {
             
         }) { (e) in
             sender.isEnabled = true
-            self.view.makeToast(e.localizedDescription)
+             
         }
     }
     
@@ -219,7 +320,7 @@ extension PVMeExchangePsdVC {
             
         }) { (e) in
             sender.isEnabled = true
-            self.view.makeToast(e.localizedDescription)
+             
         }
         
         func auth() {
@@ -270,8 +371,7 @@ extension PVMePayWayVC: PVMePayWayAlertDelegate {
         let att = NSMutableAttributedString.init(string: "修改 " + account)
         att.addAttributes([.font: kFont_text, .foregroundColor: kColor_text!], range: NSMakeRange(0, 3))
         att.addAttributes([.font: kFont_btn_weight, .foregroundColor: kColor_text!], range: NSMakeRange(3, account.count))
-        addBtn.setAttributedTitle(att, for: .selected)
-        addBtn.isSelected = true
+        addBtn.setAttributedTitle(att, for: .normal)
     }
 }
 
@@ -282,13 +382,16 @@ extension PVMeFeedbackVC {
         let uploadImages = imgs.filter { (obj) -> Bool in
             return obj != addImg
         }
+        var imgPaths = Array<String>()
+        for v in uploadImages {
+            if let p = v.ypj.saveImageToLocalFolder(directory: .cachesDirectory, compressionQuality: 1.0) {
+                imgPaths.append(p)
+            }
+        }
+        //FIX
         //类型: 1解冻 2优化意见 3其他
-        let args: [String: Any] = ["type": type, "name": name, "tel": phone, "idCard": idCard, "content": content]
-        PVNetworkTool.upLoadImageRequest(images: uploadImages, imagesName: "imageUrl", params: args, router: .feedback(), success: { (resp) in
-            self.view.makeToast("提交成功")
-            DispatchQueue.main.asyncAfter(deadline: .now() + 2, execute: {
-                self.navigationController?.popViewController(animated: true)
-            })
+        PVNetworkTool.Request(router: .feedback(type: type, name: name, phone: phone, idCard: idCard, imageUrl: [""], content: content), success: { (resp) in
+            self.navigationController?.popToRootViewController(animated: true)
             
         }) { (e) in
             
@@ -481,6 +584,8 @@ extension PVMeMyFeedbackVC {
                 else { self.dataArr += d }
                 self.tableView.reloadData()
             }
+            if self.dataArr.count == 0 { self.tableView.stateEmpty() }
+            else { self.tableView.stateNormal() }
             self.tableView.mj_footer.endRefreshing()
             
         }) { (e) in
@@ -550,13 +655,16 @@ extension PVMeAboutVC: UITableViewDataSource, UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         
         if indexPath.row == 0 {//用户协议
-           
+           let vc = PVAgreementWebVC.init(url: kUserAgreementURL, title: "用户协议")
+            navigationController?.pushViewController(vc, animated: true)
         }
         if indexPath.row == 1 {//隐私政策
-            
+            let vc = PVAgreementWebVC.init(url: kSecureURL, title: "隐私政策")
+            navigationController?.pushViewController(vc, animated: true)
         }
         if indexPath.row == 2 {//社区管理公约
-            
+            let vc = PVAgreementWebVC.init(url: kCommunityURL, title: "社区管理公约")
+            navigationController?.pushViewController(vc, animated: true)
         }
     }
     
@@ -583,8 +691,7 @@ extension PVMeVersionVC: UITableViewDataSource, UITableViewDelegate {
         func gotoStore() {
             let vc = SKStoreProductViewController.init()
             vc.delegate = self
-            //FIX ME: appid ?
-            vc.loadProduct(withParameters: [SKStoreProductParameterITunesItemIdentifier: "appid"]) {[weak self] (isFinish, error) in
+            vc.loadProduct(withParameters: [SKStoreProductParameterITunesItemIdentifier: kAPPID]) {[weak self] (isFinish, error) in
                 if error != nil { print(error!.localizedDescription) }
                 else {
                     self?.present(vc, animated: true, completion: nil)

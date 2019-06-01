@@ -30,43 +30,16 @@ class PVNetworkTool: SessionManager {
         
         DispatchQueue.global().async {
             //check login
-            
-            if UserDefaults.standard.string(forKey: kVisitorToken) == nil {
-                
-                let uuid = YPJOtherTool.ypj.getUUIDWithkeyChain()
-                
-                PVNetworkTool.shared.request(Router.visitorLogin(deviceId: uuid)).validate().responseJSON(completionHandler: { (resp) in
-                    
-                    switch resp.result {
-                        
-                    case .success(let value):
-                        
-                        let json = JSON(value)
-                        if let token = json["result"]["token"].string {
-                            UserDefaults.standard.setValue(token, forKey: kVisitorToken)
-                            UserDefaults.standard.synchronize()
-                            PVNetworkTool.Request(router: router, success: success, failure: failure)
-                        }
-  
-                    case .failure(let error):
-                        print(error.localizedDescription)
-                        return
-                    }
-                   
-                })
-                return
-            }
-            /*
-            if UserDefaults.standard.string(forKey: kToken) == nil {
-                switch router {
-                case .login, .forgetPsd, .getAuthCode:
-                    break
-
-                default:
-                    return
-                }
-            }
-            */
+//            if UserDefaults.standard.string(forKey: kToken) == nil {
+//                switch router {
+//                case .login:
+//                    break
+//
+//                default:
+//                    return
+//                }
+//            }
+ 
             //检查是否使用代理
             if YPJOtherTool.ypj.getProxyStatus() == true {
                 DispatchQueue.main.async {
@@ -133,6 +106,20 @@ class PVNetworkTool: SessionManager {
                             SVProgressHUD.showInfo(withStatus: "连接超时")
                         }
                         print(error.localizedDescription)
+                        if error.localizedDescription.contains("E.NEED_REGISTER_USER_PRIVILEGE") {
+                            DispatchQueue.ypj_once(token: "login", block: {
+                                DispatchQueue.main.async {
+                                    guard let vc = YPJOtherTool.ypj.currentViewController() else { return }
+                                    YPJOtherTool.ypj.loginValidate(currentVC: vc, isLogin: nil)
+                                }
+                            })
+                            
+                        }
+                        if error.localizedDescription.contains("E.NEED_VISITOR_PRIVILEGE") || error.localizedDescription.contains("E") {
+                            failure(error)
+                            return
+                        }
+                        SVProgressHUD.showError(withStatus: error.localizedDescription)
                         failure(error)
                     }
                     
@@ -153,7 +140,7 @@ class PVNetworkTool: SessionManager {
                     let formatter = DateFormatter()
                     formatter.dateFormat = "yyyyMMddHHmmss"
                     let str = formatter.string(from: Date())
-                    let fileName = str + "logo" + "\(index)" + ".jpg"
+                    let fileName = str + "upload" + "\(index)" + ".jpg"
                     // 以文件流格式上传
                     // 批量上传与单张上传，后台语言为java或.net等
                     multipartFormData.append(imgData, withName: imagesName, fileName: fileName, mimeType: "image/jpeg")
@@ -230,6 +217,52 @@ class PVNetworkTool: SessionManager {
             }
         }
         
+    }
+    
+    ///上传至阿里云
+    public class func uploadFileWithAliyun(description: String, auth: String, address: String, filePath: String, handle:@escaping (_ isSuccess: Bool) -> Void) {
+        SVProgressHUD.show(withStatus: "正在上传...")
+        let uploadManager = VODUploadClient.init()
+        let listener = VODUploadListener()
+        //开始上传回调
+        listener.started = { (fileInfo) in
+            // fileInfo 上传文件信息
+            uploadManager.setUploadAuthAndAddress(fileInfo, uploadAuth: auth, uploadAddress: address)
+        }
+        //上传完成回调
+        listener.finish = { (fileInfo, result) in
+            // fileInfo 上传文件信息
+            // result 上传结果信息
+            SVProgressHUD.dismiss()
+            if let info: UploadFileInfo = fileInfo {
+                if info.state == .success {
+                    handle(true)
+                }
+                if info.state == .failure {
+                    uploadManager.stop()
+                    handle(false)
+                }
+            }
+            if let result: VodUploadResult = result {
+                print("上传结果信息: ", result)
+            }
+        }
+        //上传失败回调
+        listener.failure = { (fileInfo, code, message) in
+            // fileInfo 上传文件信息
+            // code 错误码
+            // message 错误描述
+            uploadManager.stop()
+            SVProgressHUD.dismiss()
+            handle(false)
+        }
+        uploadManager.setListener(listener)
+        
+        let vodInfo = VodInfo.init()
+        vodInfo.title = description
+        
+        uploadManager.addFile(filePath, vodInfo: vodInfo)
+        uploadManager.start()
     }
     
     
