@@ -76,12 +76,12 @@ extension YPJOtherTool {
     ///   - iconImage: icon图片
     ///   - iconSize: icon的大小
     private func createNewImage(bgImage: UIImage, iconImage:UIImage, iconSize:CGFloat) -> UIImage? {
-        UIGraphicsBeginImageContext(bgImage.size)
+        UIGraphicsBeginImageContextWithOptions(bgImage.size, true, 0)
         bgImage.draw(in: CGRect(x: 0, y: 0, width: bgImage.size.width, height: bgImage.size.height))
         let imageX: CGFloat = (bgImage.size.width - iconSize) * 0.5
         let imageY: CGFloat = (bgImage.size.height - iconSize) * 0.5
         //添加白边
-        let img = iconImage.byRoundCornerRadius(5, borderWidth: 3, borderColor: UIColor.white) ?? iconImage
+        let img = iconImage.byRoundCornerRadius(10, borderWidth: 6, borderColor: UIColor.white) ?? iconImage
         img.draw(in: CGRect(x: imageX, y: imageY, width: iconSize, height: iconSize))
         let result = UIGraphicsGetImageFromCurrentImageContext()
         UIGraphicsEndImageContext()
@@ -93,7 +93,7 @@ extension YPJOtherTool {
     /// - Parameter image: 需要剪裁的图片
     /// - Returns: 处理好的图片
     private func createCircularImage(image: UIImage) -> UIImage?{
-        UIGraphicsBeginImageContextWithOptions(image.size, false, 0)
+        UIGraphicsBeginImageContextWithOptions(image.size, true, 0)
         let ctx = UIGraphicsGetCurrentContext()
         ctx?.addEllipse(in: CGRect(x: 0, y: 0, width: image.size.width, height: image.size.height))
         ctx?.clip()
@@ -180,7 +180,7 @@ extension YPJOtherTool {
             }
         }
         
-        UIGraphicsBeginImageContext(size)
+        UIGraphicsBeginImageContextWithOptions(size, true, 0)
         
         let thumbnailRect = CGRect(origin: thumbnailPoint, size: CGSize(width: scaledWidth, height: scaledHeight))
         

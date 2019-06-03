@@ -40,21 +40,17 @@ extension PVHomeVC {
         }
     }
     
-    func checkVersion(handle: @escaping () -> Void) {
-        guard let version = UserDefaults.standard.string(forKey: kAppVersionCode) else { return }
+    func checkVersion() {
         
         PVNetworkTool.Request(router: .getVersion(), success: { (resp) in
             if let d = Mapper<PVVersionModel>().map(JSONObject: resp["result"].object) {
-                if d.versionCode != version {
-                    UserDefaults.standard.setValue("\(d.versionCode)", forKey: kAppVersionCode)
+                if d.versionCode != kAppUpdateVersionValue {
                     YPJOtherTool.ypj.showAlert(title: nil, message: "有新版本需要更新", style: .alert, isNeedCancel: false, handle: { (ac) in
                         guard let url = URL.init(string: d.downloadURL) else { return }
                         UIApplication.shared.openURL(url)
                     })
                 }
-                else {
-                    handle()
-                }
+
             }
             
         }) { (e) in

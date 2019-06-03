@@ -26,6 +26,10 @@ extension PVHomeMyTeamVC {
              
         }
     }
+    
+    @objc func userValidateNoti(sender: Notification) {
+        loadData()
+    }
 }
 
 //page controller delegate
@@ -98,6 +102,10 @@ extension PVHomeMyTeamAllVC {
         }
     }
     
+    @objc func userValidateNoti(sender: Notification) {
+        loadData(page: 0)
+    }
+    
 }
 
 extension PVHomeMyTeamAllVC: UITableViewDelegate, UITableViewDataSource {
@@ -154,6 +162,10 @@ extension PVHomeMyTeamAuthVC {
             self.page = self.page > 0 ? self.page - 1 : 0
             self.tableView.mj_footer.endRefreshing()
         }
+    }
+    
+    @objc func userValidateNoti(sender: Notification) {
+        loadData(page: 0)
     }
     
 }
@@ -213,6 +225,10 @@ extension PVHomeMyTeamNotAuthVC {
             self.page = self.page > 0 ? self.page - 1 : 0
             self.tableView.mj_footer.endRefreshing()
         }
+    }
+    
+    @objc func userValidateNoti(sender: Notification) {
+        loadData(page: 0)
     }
     
 }

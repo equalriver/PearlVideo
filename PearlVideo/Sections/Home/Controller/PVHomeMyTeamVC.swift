@@ -45,7 +45,12 @@ class PVHomeMyTeamVC: PVBaseWMPageVC {
         menuView?.backgroundColor = kColor_deepBackground
         scrollView?.backgroundColor = kColor_deepBackground
         view.addSubview(headerView)
+        NotificationCenter.default.addObserver(self, selector: #selector(userValidateNoti(sender:)), name: .kNotiName_userValidateSuccess, object: nil)
         loadData()
+    }
+    
+    deinit {
+        NotificationCenter.default.removeObserver(self)
     }
     
 }
@@ -102,6 +107,11 @@ class PVHomeMyTeamAuthVC: PVBaseViewController {
         }
         setRefresh()
         loadData(page: 0)
+        NotificationCenter.default.addObserver(self, selector: #selector(userValidateNoti(sender:)), name: .kNotiName_userValidateSuccess, object: nil)
+    }
+    
+    deinit {
+        NotificationCenter.default.removeObserver(self)
     }
     
 }
@@ -130,6 +140,11 @@ class PVHomeMyTeamNotAuthVC: PVBaseViewController {
         }
         setRefresh()
         loadData(page: 0)
+        NotificationCenter.default.addObserver(self, selector: #selector(userValidateNoti(sender:)), name: .kNotiName_userValidateSuccess, object: nil)
+    }
+    
+    deinit {
+        NotificationCenter.default.removeObserver(self)
     }
     
 }

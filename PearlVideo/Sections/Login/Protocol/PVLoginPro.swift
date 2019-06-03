@@ -14,12 +14,6 @@ extension PVLoginVC {
         dismiss(animated: true, completion: nil)
     }
     
-    @objc func ipTextFieldChange(sender: UITextField) {
-        guard sender.hasText else { return }
-        let ip = "http://192.168.0.\(sender.text!):8080/api/"
-        UserDefaults.standard.set(ip, forKey: kLocalIP)
-        UserDefaults.standard.synchronize()
-    }
     
     //获取验证码
     @objc func getAuthCode(sender: UIButton) {

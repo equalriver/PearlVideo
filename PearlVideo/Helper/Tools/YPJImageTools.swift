@@ -153,7 +153,7 @@ extension YPJImageTools where YPJToolType == UIImage {
      */
     func compressImage(maxLength: Int) -> Data? {
         
-        var compress: CGFloat = 0.5
+        var compress: CGFloat = 1.0
         
         var data = self.ypj.jpegData(compressionQuality: compress)
         

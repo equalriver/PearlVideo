@@ -17,7 +17,7 @@ class PVMeModel: PVBaseModel {
     var isCertification = false
     
     ///星级达人
-    var grade = ""
+    var grade = 0
     
     ///昵称
     var nickName = ""
@@ -29,7 +29,7 @@ class PVMeModel: PVBaseModel {
     ///签名
     var autograph = ""
     
-    var gender = 0
+    var gender = ""
     
     ///关注数量
     var followCount = 0

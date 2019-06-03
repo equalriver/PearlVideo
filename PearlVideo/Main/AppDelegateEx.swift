@@ -16,10 +16,7 @@ extension AppDelegate: WXApiDelegate {
         libSetup(options: options)
         setupAppearance()
         
-        if UserDefaults.standard.string(forKey: kAppVersionCode) == nil {
-            UserDefaults.standard.setValue("1", forKey: kAppVersionCode)
-            UserDefaults.standard.synchronize()
-        }
+        
         
     }
     
@@ -66,9 +63,8 @@ extension AppDelegate: WXApiDelegate {
         //SVProgressHUD
         SVProgressHUD.setMaximumDismissTimeInterval(2)
         
-        
-        UserDefaults.standard.set(nil, forKey: kLocalIP)
-        UserDefaults.standard.synchronize()
+   
+       
         /*
         //JPush
         let entity = JPUSHRegisterEntity.init()

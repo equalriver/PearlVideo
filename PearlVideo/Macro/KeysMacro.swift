@@ -10,14 +10,28 @@ public let kToken = "kToken"
 ///user id
 public let kUserId = "kUserId"
 
-///客户数据路径
-public let kClientDataFilePath = NSHomeDirectory() + "/Documents/xxxx.plist"
+///app id
+public let kAPPID = "1466058668"
+
+///获取app version url  k: ["results"][0]["version"]
+public let kAppVersionURL = "http://itunes.apple.com/lookup?id=\(kAPPID)"
+
+//app version
+public let kAppVersion = "PV_app_version"
+public let kAppUpdateVersionValue = "2" //FIX: 打包更新时修改
 
 ///上一次输入的IP
 public let kLastInputIP = "kLastInputIP"
 
 ///上一次输入的帐号
 public let kLastInputAccount = "kLastInputAccount"
+
+///客户数据路径
+public let kClientDataFilePath = NSHomeDirectory() + "/Documents/xxxx.plist"
+
+
+
+
 
 ///base url
 //public let kBaseURLString = "http://192.168.0.112:8080/api/"
@@ -37,23 +51,8 @@ public let kValidateURL = "http://www.lzmingsi.com/?formal=%e7%a6%8f%e9%9f%b3app
 public let kCommunityURL = "http://www.lzmingsi.com/?formal=%e7%a4%be%e5%8c%ba%e7%ae%a1%e7%90%86%e8%a7%84%e5%ae%9a"
 
 
-///local text ip
-public let kLocalIP = "kLocalIP"
-
-///获取app version url  k: ["results"][0]["version"]
-public let kAppVersionURL = "http://itunes.apple.com/lookup?id=\(kAPPID)"
 
 
-//js handler
-public let kPVAppJSName_none = ""
-public let kPVMsgJSName_none = ""
-
-///key chain service
-public let kKeyChainService = "com.lzmingsi.PearlVideo.keyChainService"
-
-///app version
-public let kAppVersion = "PV_app_version"
-public let kAppVersionCode = "kAppVersionCode"
 
 //AES
 public let kInitVector = "16-Bytes--String"
@@ -62,6 +61,13 @@ public let kAES_KEY = "kPVPsd"
 //3DES
 public let k3DES_KEY = "fuyin"
 public let k3DES_iv = "01234567"
+
+///key chain service
+public let kKeyChainService = "com.lzmingsi.PearlVideo.keyChainService"
+
+
+
+
 
 //点播STS
 public let kAccessKeyId = "kAccessKeyId"
@@ -74,8 +80,6 @@ public let kWeixinAppId = "wxe29565366a03f638"
 //支付宝
 public let kAlipayScheme = "2019052365384112"
 
-///app id
-public let kAPPID = "1466058668"
 
 
 
@@ -97,6 +101,7 @@ extension Notification.Name {
     ///alipay支付成功
     public static let kNotiName_alipaySuccess = Notification.Name.init("kNotiName_alipaySuccess")
     
-    
+    ///实名认证成功
+    public static let kNotiName_userValidateSuccess = Notification.Name.init("kNotiName_userValidateSuccess")
 
 }

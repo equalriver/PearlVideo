@@ -66,32 +66,6 @@ extension YPJOtherTool {
             }
         }
     }
-    
-    
-    ///3DES_ECB加密
-    func encryptWith3DES_ECB(content: String, key: String) -> String? {
-        guard let myRawData = content.data(using: .utf8) else { return nil }
-        guard let myKeyData = key.data(using: .utf8) else { return nil }
-       
-        let buffer_size: size_t = myRawData.count + kCCBlockSize3DES
-        let buffer = UnsafeMutablePointer<NSData>.allocate(capacity: buffer_size)
-        var num_bytes_encrypted : size_t = 0
-        let operation: CCOperation = UInt32(kCCEncrypt)
-        let algoritm:  CCAlgorithm = UInt32(kCCAlgorithm3DES)
-        let options:   CCOptions   = UInt32(kCCOptionECBMode)
-        let keyLength        = size_t(kCCKeySize3DES)
-        let Crypto_status: CCCryptorStatus = CCCrypt(operation, algoritm, options, (myKeyData as NSData).bytes, keyLength, nil, (myRawData as NSData).bytes, myRawData.count, buffer, buffer_size, &num_bytes_encrypted)
-        if Crypto_status == kCCSuccess {
-            let myResult: Data = Data(bytes: buffer, count: num_bytes_encrypted)
-            free(buffer)
-            return String.init(data: myResult, encoding: .utf8)
-            
-        }else{
-            free(buffer)
-            return nil
-        }
-    }
-    
   
     //MARK: - 3DES的加密过程 和 解密过程
     /**
@@ -156,10 +130,6 @@ extension YPJOtherTool {
             if op == CCOperation(kCCEncrypt)  {
                 let base64cryptString = cryptData?.base64EncodedString(options: NSData.Base64EncodingOptions.lineLength64Characters)
                 free(cryptPointer)
-                if let d = cryptData {
-                    let str = YPJOtherToolsObjC.convertData(toHexStr: d as Data)
-                    print(str)
-                }
                 return base64cryptString
             }
             else {

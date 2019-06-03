@@ -93,6 +93,7 @@ class PVNetworkTool: SessionManager {
                     DispatchQueue.main.async { success(json) }
                     
                 case .failure(let error):
+                    print(error.localizedDescription)
                     //超时重连
 //                    if error.localizedDescription.contains("The request timed out.") {
 //                        print(error.localizedDescription)
@@ -102,10 +103,12 @@ class PVNetworkTool: SessionManager {
 //                        })
 //                    }
                     DispatchQueue.main.async {
+                        
                         if error.localizedDescription.contains("The request timed out.") {
                             SVProgressHUD.showInfo(withStatus: "连接超时")
+                            return
                         }
-                        print(error.localizedDescription)
+                        
                         if error.localizedDescription.contains("E.NEED_REGISTER_USER_PRIVILEGE") {
                             DispatchQueue.ypj_once(token: "login", block: {
                                 DispatchQueue.main.async {
@@ -115,12 +118,32 @@ class PVNetworkTool: SessionManager {
                             })
                             
                         }
+                        if error.localizedDescription.contains("没实名认证") {
+                            DispatchQueue.main.async {
+                                guard let vc = YPJOtherTool.ypj.currentViewController() else { return }
+                                let validateVC = PVMeNameValidateVC()
+                                YPJOtherTool.ypj.showAlert(title: nil, message: "未实名认证，点击前往认证页面", style: .alert, isNeedCancel: false, handle: { (ac) in
+                                    vc.navigationController?.pushViewController(validateVC, animated: true)
+                                })
+                                
+                            }
+                            return
+                        }
+                        if error.localizedDescription.contains("E.NEED_REGISTER_USER_PRIVILEGE") {
+                            failure(error)
+                            UserDefaults.standard.set(nil, forKey: kToken)
+                            UserDefaults.standard.synchronize()
+                            return
+                        }
                         if error.localizedDescription.contains("E.NEED_VISITOR_PRIVILEGE") || error.localizedDescription.contains("E") {
                             failure(error)
                             return
                         }
                         SVProgressHUD.showError(withStatus: error.localizedDescription)
                         failure(error)
+                        DispatchQueue.main.asyncAfter(deadline: .now() + 2, execute: {
+                            SVProgressHUD.dismiss()
+                        })
                     }
                     
                 }

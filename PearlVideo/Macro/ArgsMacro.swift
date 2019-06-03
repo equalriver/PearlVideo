@@ -118,8 +118,5 @@ public let kMinPanSpeed: CGFloat = 30.0 //判断滑动的最小速度，小于�
 public let kPageCount = 10 //分页查询每次查询的个数
 public let kCountLess_mustQurryMoreData = 3 //当前播放的视频，播放资源列表剩余的个数，如果小于这个数，则后台去请求最新的播放资源列表数据
 
-public let defaultVidString = "6e783360c811449d8692b2117acc9212"
-public let kCateID = "872354889"
-
 public let kAnimationTime = 0.26 //滑动一个完整的视频需要的时间 - 秒
 

@@ -97,6 +97,7 @@ extension PVMeNameValidateVC {
         let uuid = YPJOtherTool.ypj.getUUIDWithkeyChain()
         
         PVNetworkTool.Request(router: .userValidate(name: nameTF.text!, idCard: idCardTF.text!, deviceId: uuid), success: { (resp) in
+            SVProgressHUD.dismiss()
             self.alertView?.closeAction()
             if let s = resp["result"]["bizMessage"].string {
                 self.view.makeToast(s)
@@ -105,10 +106,11 @@ extension PVMeNameValidateVC {
                 self.data = d
                 //认证成功
                 if d.verifyStage == UserValidateStageType.success.rawValue {
-                    self.view.makeToast("认证成功")
+                    SVProgressHUD.showSuccess(withStatus: "认证成功")
                     self.didValidateContent.isHidden = false
                     self.validateContent.isHidden = true
                     self.setNameAndIdCard(name: d.name, idCard: d.idCard)
+                    NotificationCenter.default.post(name: .kNotiName_userValidateSuccess, object: nil)
                 }
                 //去支付
                 if d.verifyStage == UserValidateStageType.payment.rawValue {
@@ -148,12 +150,14 @@ extension PVMeNameValidateVC {
         confirmBtn.isEnabled = checkBtn.isSelected && nameTF.hasText && idCardTF.hasText
         confirmBtn.backgroundColor = confirmBtn.isEnabled ? kColor_pink : UIColor.gray
     }
+    
     //checkbox
     @objc func acceptAgreement(sender: UIButton) {
         sender.isSelected = !sender.isSelected
         confirmBtn.isEnabled = sender.isSelected && nameTF.hasText && idCardTF.hasText
         confirmBtn.backgroundColor = confirmBtn.isEnabled ? kColor_pink : UIColor.gray
     }
+    
     //认证协议
     @objc func protocolAction(sender: UIButton) {
         let vc = PVAgreementWebVC.init(url: kValidateURL, title: "认证协议")
@@ -166,17 +170,14 @@ extension PVMeNameValidateVC {
         loadData()
     }
     
-    @objc func alipayCallbackNoti(sender: Notification) {
-        PVNetworkTool.Request(router: .getUserValidateStatus(), success: { (resp) in
-            if let d = Mapper<PVMeUserValidateModel>().map(JSONObject: resp["result"].object) {
-                self.didValidateContent.isHidden = false
-                self.validateContent.isHidden = true
-                self.setNameAndIdCard(name: d.name, idCard: d.idCard)
-                
-            }
-            
-        }) { (e) in
-            
+    @objc func alipayCallbackNoti(sender: Notification?) {
+        SVProgressHUD.show(withStatus: "认证中...")
+        if self.data.idCard.count > 0 {
+            SVProgressHUD.dismiss()
+            return
+        }
+        DispatchQueue.main.asyncAfter(deadline: .now() + 3) {
+            self.loadData()
         }
     }
 }
@@ -185,7 +186,7 @@ extension PVMeNameValidateVC: PVMeNameValidateAlertDelegate {
     
     func didSelectedValidate() {
         AlipaySDK.defaultService()?.payOrder(data.payOrder, fromScheme: kAlipayScheme, callback: { (dic) in
-            
+            print("alipay payOrder: ", dic ?? "")
             
         })
     }

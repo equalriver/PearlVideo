@@ -36,6 +36,11 @@ class PVMeSettingVC: PVBaseNavigationVC {
             make.top.equalTo(naviBar.snp.bottom)
             make.width.bottom.centerX.equalToSuperview()
         }
+        
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
         loadData()
     }
 

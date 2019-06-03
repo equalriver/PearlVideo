@@ -35,6 +35,7 @@ class PVHomeRecommendVC: PVBaseViewController {
         v.backgroundColor = kColor_background
         v.dataSource = self
         v.delegate = self
+        v.isScrollEnabled = false
         v.register(PVHomeVideoCell.self, forCellWithReuseIdentifier: "PVHomeVideoCell")
         return v
     }()

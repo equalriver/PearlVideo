@@ -159,6 +159,8 @@
 		48E13CC3228EDFFC00D27D75 /* PVHomePlayMaskView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48E13CC2228EDFFC00D27D75 /* PVHomePlayMaskView.swift */; };
 		48F353CF22A13B4A00026594 /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 48F353CE22A13B4A00026594 /* SystemConfiguration.framework */; };
 		48F353D122A13B5B00026594 /* libresolv.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 48F353D022A13B5B00026594 /* libresolv.tbd */; };
+		48F822ED22A4CCAF00D93B5E /* PVExchangeBuyOrderVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48F822EC22A4CCAF00D93B5E /* PVExchangeBuyOrderVC.swift */; };
+		48F822EF22A4F31A00D93B5E /* PVExchangeBuyOrderCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48F822EE22A4F31A00D93B5E /* PVExchangeBuyOrderCell.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -182,7 +184,6 @@
 		481D66592254CEA000B59929 /* PVMeSettingVCChildPro.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PVMeSettingVCChildPro.swift; sourceTree = "<group>"; };
 		481D665B2254D91100B59929 /* PVMeSettingVCChildView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PVMeSettingVCChildView.swift; sourceTree = "<group>"; };
 		481DEB5222A129380093E47C /* PVOtherModels.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PVOtherModels.swift; sourceTree = "<group>"; };
-		481DEB5922A13A170093E47C /* AlivcConan.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AlivcConan.framework; path = Pods/AlivcConan/AlivcConan.framework; sourceTree = "<group>"; };
 		481F1BFE22890C6600AAEC8E /* PVHomeMyTeamVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PVHomeMyTeamVC.swift; sourceTree = "<group>"; };
 		481F1C0022890E0B00AAEC8E /* PVHomeMyTeamViews.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PVHomeMyTeamViews.swift; sourceTree = "<group>"; };
 		481F1C022289114B00AAEC8E /* PVHomeMyTeamPro.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PVHomeMyTeamPro.swift; sourceTree = "<group>"; };
@@ -320,6 +321,8 @@
 		48E13CC2228EDFFC00D27D75 /* PVHomePlayMaskView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PVHomePlayMaskView.swift; sourceTree = "<group>"; };
 		48F353CE22A13B4A00026594 /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = System/Library/Frameworks/SystemConfiguration.framework; sourceTree = SDKROOT; };
 		48F353D022A13B5B00026594 /* libresolv.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libresolv.tbd; path = usr/lib/libresolv.tbd; sourceTree = SDKROOT; };
+		48F822EC22A4CCAF00D93B5E /* PVExchangeBuyOrderVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PVExchangeBuyOrderVC.swift; sourceTree = "<group>"; };
+		48F822EE22A4F31A00D93B5E /* PVExchangeBuyOrderCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PVExchangeBuyOrderCell.swift; sourceTree = "<group>"; };
 		761B771C9F0CE0F909F03944 /* Pods-PearlVideo.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-PearlVideo.release.xcconfig"; path = "Target Support Files/Pods-PearlVideo/Pods-PearlVideo.release.xcconfig"; sourceTree = "<group>"; };
 		930A2A5820FE0D1607F8150B /* Pods-PearlVideo.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-PearlVideo.debug.xcconfig"; path = "Target Support Files/Pods-PearlVideo/Pods-PearlVideo.debug.xcconfig"; sourceTree = "<group>"; };
 		D3B3E5C129A02C953A874031 /* Pods_PearlVideo.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_PearlVideo.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -365,7 +368,6 @@
 		484DACFB224F10B4002BA454 = {
 			isa = PBXGroup;
 			children = (
-				481DEB5922A13A170093E47C /* AlivcConan.framework */,
 				482138E2226AD4A4001691E2 /* AliyunVideoSDKPro.framework */,
 				484DAD06224F10B4002BA454 /* PearlVideo */,
 				484DAD05224F10B4002BA454 /* Products */,
@@ -768,6 +770,7 @@
 			isa = PBXGroup;
 			children = (
 				4876ECC6229BEB1B005370CF /* PVExchangeViews.swift */,
+				48F822EE22A4F31A00D93B5E /* PVExchangeBuyOrderCell.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -776,6 +779,7 @@
 			isa = PBXGroup;
 			children = (
 				4876ECC4229BEAA4005370CF /* PVExchangeVC.swift */,
+				48F822EC22A4CCAF00D93B5E /* PVExchangeBuyOrderVC.swift */,
 			);
 			path = Controller;
 			sourceTree = "<group>";
@@ -968,6 +972,7 @@
 				481FD11822697C130028F82C /* PVHomePlayDelegates.swift in Sources */,
 				481C59AD2253621F0086F616 /* PVMeVCChild.swift in Sources */,
 				484DAD25224F1380002BA454 /* KeysMacro.swift in Sources */,
+				48F822ED22A4CCAF00D93B5E /* PVExchangeBuyOrderVC.swift in Sources */,
 				484DADE3224F1741002BA454 /* PVLoginPro.swift in Sources */,
 				481F52D5228C167400474048 /* PVHomeOtherModels.swift in Sources */,
 				48243852229D1762006B480C /* PVVideoShareAlert.swift in Sources */,
@@ -1022,6 +1027,7 @@
 				484DADC8224F1741002BA454 /* PVNavigationBar.swift in Sources */,
 				482F3C3C225AE43F00FEC130 /* PVMeMessageVCChildView.swift in Sources */,
 				484DAD3E224F140F002BA454 /* YPJViewEx.swift in Sources */,
+				48F822EF22A4F31A00D93B5E /* PVExchangeBuyOrderCell.swift in Sources */,
 				484DAD44224F14F7002BA454 /* AppDelegateEx.swift in Sources */,
 				481F20ED225F416F00331CCF /* PVVideoCommentPro.swift in Sources */,
 				48E13CB9228E951500D27D75 /* YPJViewTools.swift in Sources */,

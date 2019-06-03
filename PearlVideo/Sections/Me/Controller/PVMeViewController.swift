@@ -79,7 +79,9 @@ class PVMeViewController: PVBaseWMPageVC {
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        if data.avatarUrl.count == 0 { loadData() }
+        DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
+            if self.data.avatarUrl.count == 0 { self.loadData() }
+        }
     }
     
     override func viewDidAppear(_ animated: Bool) {

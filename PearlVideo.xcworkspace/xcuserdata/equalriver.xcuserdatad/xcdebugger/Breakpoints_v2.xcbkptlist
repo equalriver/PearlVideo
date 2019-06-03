@@ -42,7 +42,7 @@
                   moduleName = "PearlVideo"
                   usesParentBreakpointCondition = "Yes"
                   urlString = "file:///Users/equalriver/Desktop/PearlVideo/PearlVideo/Sections/Login/Controller/PVForgetPsdVC.swift"
-                  timestampString = "581095889.7088701"
+                  timestampString = "581258419.041424"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
                   startingLineNumber = "284"
@@ -57,7 +57,7 @@
                   moduleName = "PearlVideo"
                   usesParentBreakpointCondition = "Yes"
                   urlString = "file:///Users/equalriver/Desktop/PearlVideo/PearlVideo/Sections/Login/Controller/PVForgetPsdVC.swift"
-                  timestampString = "581095889.71076"
+                  timestampString = "581258419.043481"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
                   startingLineNumber = "285"
@@ -90,7 +90,7 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "PearlVideo/Sections/Play/Controller/PVPlayVideoUploadVC.swift"
-            timestampString = "580909815.1255701"
+            timestampString = "581235211.238921"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "127"
@@ -106,7 +106,7 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "PearlVideo/Sections/Play/Controller/PVPlayVideoUploadVC.swift"
-            timestampString = "580909815.125846"
+            timestampString = "581235211.238979"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "120"
@@ -122,7 +122,7 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "PearlVideo/Sections/Play/Controller/PVPlayVideoUploadVC.swift"
-            timestampString = "580909815.125899"
+            timestampString = "581235211.239024"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "150"
@@ -138,7 +138,7 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "PearlVideo/Sections/Play/Controller/PVPlayVideoUploadVC.swift"
-            timestampString = "580909815.125941"
+            timestampString = "581235211.239066"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "115"
@@ -186,11 +186,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "PearlVideo/Helper/Network/PVNetworkTool.swift"
-            timestampString = "581094847.386252"
+            timestampString = "581258418.670581"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "236"
-            endingLineNumber = "236"
+            startingLineNumber = "259"
+            endingLineNumber = "259"
             landmarkName = "uploadFileWithAliyun(description:auth:address:filePath:handle:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -202,11 +202,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "PearlVideo/Helper/Network/PVNetworkTool.swift"
-            timestampString = "581094847.386304"
+            timestampString = "581258418.6706491"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "255"
-            endingLineNumber = "255"
+            startingLineNumber = "278"
+            endingLineNumber = "278"
             landmarkName = "uploadFileWithAliyun(description:auth:address:filePath:handle:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -218,11 +218,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "PearlVideo/Helper/Network/PVNetworkTool.swift"
-            timestampString = "581094847.386348"
+            timestampString = "581258418.6707"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "230"
-            endingLineNumber = "230"
+            startingLineNumber = "253"
+            endingLineNumber = "253"
             landmarkName = "uploadFileWithAliyun(description:auth:address:filePath:handle:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -235,22 +235,6 @@
             continueAfterRunningActions = "No"
             scope = "0"
             stopOnStyle = "0">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "Yes"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "PearlVideo/Main/AppDelegate.swift"
-            timestampString = "581095899.9903311"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "45"
-            endingLineNumber = "45"
-            landmarkName = "application(_:open:options:)"
-            landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
    </Breakpoints>

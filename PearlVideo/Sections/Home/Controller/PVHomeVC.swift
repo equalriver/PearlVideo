@@ -82,6 +82,14 @@ class PVHomeVC: PVBaseWMPageVC {
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
+        if UserDefaults.standard.string(forKey: kToken) == nil {
+            DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
+                YPJOtherTool.ypj.loginValidate(currentVC: self) {[weak self] (isLogin) in
+                    if isLogin { self?.loadData() }
+                }
+            }
+            return
+        }
         if data == nil {
             loadData()
         }
@@ -89,14 +97,10 @@ class PVHomeVC: PVBaseWMPageVC {
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
-        checkVersion {
-            if UserDefaults.standard.string(forKey: kToken) == nil {
-                YPJOtherTool.ypj.loginValidate(currentVC: self) {[weak self] (isLogin) in
-                    if isLogin { self?.loadData() }
-                }
-                return
+        if UserDefaults.standard.string(forKey: kToken) != nil {
+            DispatchQueue.ypj_once(token: "checkVersion") {
+                self.checkVersion()
             }
-            
         }
         
     }

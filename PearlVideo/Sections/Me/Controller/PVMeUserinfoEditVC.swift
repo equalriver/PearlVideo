@@ -15,7 +15,7 @@ class PVMeUserinfoEditVC: PVBaseNavigationVC {
         didSet{
             iconIV.kf.setImage(with: URL.init(string: data.avatarUrl))
             nameTF.text = data.nickName
-            genderContent.text = data.gender == 1 ? "男" : "女"
+            genderContent.text = data.gender
             countLabel.text = "\(data.autograph.count)/\(kSigningLimitCount)"
             signTV.text = data.autograph
         }

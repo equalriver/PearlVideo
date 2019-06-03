@@ -268,3 +268,260 @@ class PVExchangeCell: PVBaseTableCell {
     }
     
 }
+
+
+//MARK: - header section view
+protocol PVExchangeHeaderSectionDelegate: NSObjectProtocol {
+    func didSelectedSearch()
+    func didSelectedSendOrder()
+}
+class PVExchangeHeaderSectionView: UIView {
+    
+    weak public var delegate: PVExchangeHeaderSectionDelegate?
+    
+    lazy var searchBtn: UIButton = {
+        let b = UIButton()
+        b.addTarget(self, action: #selector(searchAction(sender:)), for: .touchUpInside)
+        return b
+    }()
+    lazy var sendOrderBtn: UIButton = {
+        let b = UIButton()
+        b.titleLabel?.font = kFont_btn_weight
+        b.setTitle("发单", for: .normal)
+        b.setTitleColor(UIColor.white, for: .normal)
+        b.backgroundColor = kColor_pink
+        b.layer.cornerRadius = 18 * KScreenRatio_6
+        b.addTarget(self, action: #selector(sendOrder(sender:)), for: .touchUpInside)
+        return b
+    }()
+    
+    override init(frame: CGRect) {
+        super.init(frame: frame)
+        addSubview(searchBtn)
+        addSubview(sendOrderBtn)
+        searchBtn.snp.makeConstraints { (make) in
+            make.size.equalTo(CGSize.init(width: 230 * KScreenRatio_6, height: 36 * KScreenRatio_6))
+            make.left.equalToSuperview().offset(15 * KScreenRatio_6)
+            make.centerY.equalToSuperview()
+        }
+        sendOrderBtn.snp.makeConstraints { (make) in
+            make.centerY.equalToSuperview()
+            make.right.equalToSuperview().offset(-15 * KScreenRatio_6)
+            make.size.equalTo(CGSize.init(width: 80 * KScreenRatio_6, height: 36 * KScreenRatio_6))
+        }
+    }
+    
+    required init?(coder aDecoder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
+    @objc func searchAction(sender: UIButton) {
+        delegate?.didSelectedSearch()
+    }
+    
+    @objc func sendOrder(sender: UIButton) {
+        delegate?.didSelectedSendOrder()
+    }
+    
+}
+
+//MARK: - buy alert view
+class PVExchangeBuyAlert: UIView {
+    
+    typealias callback = (_ count: String, _ password: String) -> Void
+    
+    private var handle: callback?
+    
+    lazy var contentView: UIView = {
+        let v = UIView.init(frame: CGRect.init(x: 0, y: kScreenHeight, width: kScreenWidth, height: 380 * KScreenRatio_6 + kIphoneXLatterInsetHeight))
+        v.backgroundColor = kColor_background
+        return v
+    }()
+    lazy var titleLabel: UILabel = {
+        let l = UILabel()
+        l.font = kFont_btn_weight
+        l.textColor = UIColor.white
+        l.text = "买进平安果"
+        return l
+    }()
+    lazy var iconIV: UIImageView = {
+        let v = UIImageView.init(image: UIImage.init(named: "me_平安果"))
+        return v
+    }()
+    lazy var currentCountLabel: UILabel = {
+        let l = UILabel()
+        l.textColor = kColor_subText
+        l.textAlignment = .right
+        l.font = kFont_text
+        return l
+    }()
+    lazy var priceLabel: UILabel = {
+        let l = UILabel()
+        l.textColor = UIColor.white
+        l.font = kFont_text_2
+        return l
+    }()
+    lazy var totalPriceLabel: UILabel = {
+        let l = UILabel()
+        return l
+    }()
+    lazy var payWayLabel: UILabel = {
+        let l = UILabel()
+        l.font = kFont_text_2
+        l.textColor = kColor_text
+        l.text = "支付方式"
+        return l
+    }()
+    lazy var payWayIV: UIImageView = {
+        let v = UIImageView.init(image: UIImage.init(named: "me_支付宝"))
+        return v
+    }()
+    lazy var countTF: UITextField = {
+        let tf = UITextField()
+        tf.backgroundColor = kColor_deepBackground
+        tf.font = kFont_text
+        tf.textColor = UIColor.white
+        tf.attributedPlaceholder = NSAttributedString.init(string: "请输入整数数量", attributes: [.font: kFont_text, .foregroundColor: kColor_subText!])
+        tf.layer.borderColor = UIColor.white.cgColor
+        tf.layer.borderWidth = 1
+        tf.layer.cornerRadius = 20 * KScreenRatio_6
+        tf.leftView = UIView.init(frame: CGRect.init(x: 0, y: 0, width: 15, height: 20))
+        tf.leftViewMode = .always
+        tf.keyboardType = .numbersAndPunctuation
+        tf.addTarget(self, action: #selector(textFieldEditingChange(sender:)), for: .editingChanged)
+        return tf
+    }()
+    lazy var passwordTF: UITextField = {
+        let tf = UITextField()
+        tf.backgroundColor = kColor_deepBackground
+        tf.font = kFont_text
+        tf.textColor = UIColor.white
+        tf.attributedPlaceholder = NSAttributedString.init(string: "请输入交换密码", attributes: [.font: kFont_text, .foregroundColor: kColor_subText!])
+        tf.layer.borderColor = UIColor.white.cgColor
+        tf.layer.borderWidth = 1
+        tf.layer.cornerRadius = 20 * KScreenRatio_6
+        tf.leftView = UIView.init(frame: CGRect.init(x: 0, y: 0, width: 15, height: 20))
+        tf.leftViewMode = .always
+        tf.isSecureTextEntry = true
+        tf.addTarget(self, action: #selector(textFieldEditingChange(sender:)), for: .editingChanged)
+        return tf
+    }()
+    lazy var cancelBtn: UIButton = {
+        let b = UIButton()
+        b.titleLabel?.font = kFont_text
+        b.setTitle("取消", for: .normal)
+        b.setTitleColor(UIColor.white, for: .normal)
+        b.layer.cornerRadius = 20 * KScreenRatio_6
+        b.backgroundColor = kColor_background
+        b.addTarget(self, action: #selector(cancelAction(sender:)), for: .touchUpInside)
+        return b
+    }()
+    lazy var orderBtn: UIButton = {
+        let b = UIButton()
+        b.titleLabel?.font = kFont_text
+        b.setTitle("立即下单", for: .normal)
+        b.setTitleColor(UIColor.white, for: .normal)
+        b.layer.cornerRadius = 20 * KScreenRatio_6
+        b.backgroundColor = UIColor.gray
+        b.isEnabled = false
+        b.addTarget(self, action: #selector(orderAction(sender:)), for: .touchUpInside)
+        return b
+    }()
+    
+    
+    required convenience init(frame: CGRect, handle: @escaping callback) {
+        self.init(frame: frame)
+        self.handle = handle
+        backgroundColor = UIColor.init(white: 0.2, alpha: 0.4)
+        initUI()
+        contentView.ypj.viewAnimateComeFromBottom(duration: 0.3, completion: nil)
+    }
+    
+    deinit {
+        print("****************** PVExchangeBuyAlert deinit")
+    }
+    
+    func initUI() {
+        addSubview(contentView)
+        contentView.addSubview(titleLabel)
+        contentView.addSubview(iconIV)
+        contentView.addSubview(currentCountLabel)
+        contentView.addSubview(priceLabel)
+        contentView.addSubview(totalPriceLabel)
+        contentView.addSubview(payWayLabel)
+        contentView.addSubview(payWayIV)
+        contentView.addSubview(countTF)
+        contentView.addSubview(passwordTF)
+        contentView.addSubview(cancelBtn)
+        contentView.addSubview(orderBtn)
+        titleLabel.snp.makeConstraints { (make) in
+            make.left.equalToSuperview().offset(15 * KScreenRatio_6)
+            make.top.equalToSuperview().offset(30 * KScreenRatio_6)
+        }
+        iconIV.snp.makeConstraints { (make) in
+            make.size.equalTo(CGSize.init(width: 20, height: 20))
+            make.left.equalTo(titleLabel.snp.right).offset(10)
+            make.centerY.equalTo(titleLabel)
+        }
+        currentCountLabel.snp.makeConstraints { (make) in
+            make.left.equalTo(iconIV.snp.right).offset(5)
+            make.right.equalToSuperview().offset(-15 * KScreenRatio_6)
+            make.centerY.equalTo(titleLabel)
+        }
+        priceLabel.snp.makeConstraints { (make) in
+            make.left.equalTo(titleLabel)
+            make.top.equalTo(titleLabel.snp.bottom).offset(20 * KScreenRatio_6)
+        }
+        totalPriceLabel.snp.makeConstraints { (make) in
+            make.left.equalTo(titleLabel)
+            make.top.equalTo(priceLabel.snp.bottom).offset(20 * KScreenRatio_6)
+        }
+        payWayLabel.snp.makeConstraints { (make) in
+            make.left.equalTo(titleLabel)
+            make.top.equalTo(totalPriceLabel.snp.bottom).offset(25 * KScreenRatio_6)
+        }
+        payWayIV.snp.makeConstraints { (make) in
+            make.size.equalTo(CGSize.init(width: 25, height: 25))
+            make.centerY.equalTo(payWayLabel)
+            make.left.equalTo(payWayLabel.snp.right).offset(10)
+        }
+        countTF.snp.makeConstraints { (make) in
+            make.left.equalToSuperview().offset(15 * KScreenRatio_6)
+            make.right.equalToSuperview().offset(-15 * KScreenRatio_6)
+            make.height.equalTo(40 * KScreenRatio_6)
+            make.top.equalTo(payWayLabel.snp.bottom).offset(25 * KScreenRatio_6)
+        }
+        passwordTF.snp.makeConstraints { (make) in
+            make.centerX.width.height.equalTo(countTF)
+            make.top.equalTo(countTF.snp.bottom).offset(15 * KScreenRatio_6)
+        }
+        cancelBtn.snp.makeConstraints { (make) in
+            make.size.equalTo(CGSize.init(width: 165 * KScreenRatio_6, height: 40 * KScreenRatio_6))
+            make.left.equalTo(passwordTF)
+            make.top.equalTo(passwordTF.snp.bottom).offset(25 * KScreenRatio_6)
+        }
+        orderBtn.snp.makeConstraints { (make) in
+            make.size.centerY.equalTo(cancelBtn)
+            make.right.equalTo(passwordTF)
+        }
+    }
+    
+    @objc func textFieldEditingChange(sender: UITextField) {
+        orderBtn.isEnabled = countTF.hasText && passwordTF.hasText
+        orderBtn.backgroundColor = orderBtn.isEnabled ? kColor_pink : UIColor.gray
+    }
+    
+    @objc func cancelAction(sender: UIButton) {
+        contentView.ypj.viewAnimateDismissFromBottom(duration: 0.3) { (isFinish) in
+            if isFinish {
+                self.removeFromSuperview()
+            }
+        }
+    }
+    
+    @objc func orderAction(sender: UIButton) {
+        guard countTF.hasText && passwordTF.hasText else { return }
+        handle?(countTF.text!, passwordTF.text!)
+        handle = nil
+    }
+}

@@ -24,11 +24,9 @@ class PVMeHeaderView: UIView {
             backgroundImageIV.kf.setImage(with: URL.init(string: data.backgroundImageUrl), placeholder: UIImage.init(named: "me_bg"), options: nil, progressBlock: nil, completionHandler: nil)
             avatarIV.kf.setImage(with: URL.init(string: data.avatarUrl), placeholder: UIImage.init(named: "me_placeholder"), options: nil, progressBlock: nil, completionHandler: nil)
             nameLabel.text = data.nickName
+            starIV.image = data.grade == 0 ? UIImage.init(named: "me_星级达人0_gray") : UIImage.init(named: "me_星级达人\(data.grade - 1)")
+            genderIV.image = data.gender == "男" ? UIImage.init(named: "me_male") : UIImage.init(named: "me_female")
             
-            if data.gender == 0 { genderIV.image = nil }
-            else {
-                genderIV.image = data.gender == 1 ? UIImage.init(named: "me_male") : UIImage.init(named: "me_female")
-            }
             fansLabel.text = data.nickName.count > 0 ? "\(data.fansCount)粉丝 | \(data.followCount)关注" : nil
             if data.isMine {
                 editBtn.setTitle("编辑个人资料", for: .normal)

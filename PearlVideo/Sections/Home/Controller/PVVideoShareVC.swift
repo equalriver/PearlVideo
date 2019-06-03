@@ -18,7 +18,7 @@ class PVVideoShareVC: PVBaseNavigationVC {
                              我为福音代言
                              """
             inviteLabel.text = "邀请码：\(data.inviteCode)"
-            qrcodeIV.image = YPJOtherTool.ypj.createCustomizeQRCode(size: qrcodeIV.size.height, dataStr: data.shareURL, imageType: .SquareImage, iconImage: UIImage.init(named: "logo")!, iconImageSize: 30 * KScreenRatio_6)
+            qrcodeIV.image = YPJOtherTool.ypj.createCustomizeQRCode(size: qrcodeIV.size.height, dataStr: data.shareURL, imageType: .SquareImage, iconImage: UIImage.init(named: "logo")!, iconImageSize: 20 * KScreenRatio_6)
         }
     }
     
