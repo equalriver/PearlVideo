@@ -237,14 +237,7 @@ class PVMeUserinfoEditVC: PVBaseNavigationVC {
             return
         }
         guard genderContent.text != nil else { return }
-        PVNetworkTool.Request(router: .editUserInfo(name: self.nameTF.text!, avatarUrl: "", sign: self.signTV.text ?? "", gender: self.genderContent.text! == "男" ? "1" : "2"), success: { (resp) in
-            NotificationCenter.default.post(name: .kNotiName_refreshMeVC, object: nil)
-            self.navigationController?.popToRootViewController(animated: true)
-
-        }, failure: { (e) in
-
-        })
-        /*
+        
         guard let img = iconIV.image else { return }
         if let path = img.ypj.saveImageToLocalFolder(directory: .cachesDirectory, compressionQuality: 1.0) {
             
@@ -252,6 +245,7 @@ class PVMeUserinfoEditVC: PVBaseNavigationVC {
                 
                 if let d = Mapper<PVUploadImageModel>().map(JSONObject: resp["result"].object) {
                     PVNetworkTool.uploadFileWithAliyun(description: "", auth: d.uploadAuth, address: d.uploadAddress, filePath: path, handle: { (isSuccess) in
+                        if isSuccess == false { return }
                         PVNetworkTool.Request(router: .editUserInfo(name: self.nameTF.text!, avatarUrl: d.imageUrl, sign: self.signTV.text ?? "", gender: self.genderContent.text! == "男" ? "1" : "2"), success: { (resp) in
                             NotificationCenter.default.post(name: .kNotiName_refreshMeVC, object: nil)
                             self.navigationController?.popToRootViewController(animated: true)
@@ -266,12 +260,11 @@ class PVMeUserinfoEditVC: PVBaseNavigationVC {
                 
             }
         }
-        */
+ 
     }
     
     @objc func didSelectedHeader(sender: UITapGestureRecognizer) {
-        return
-        //FIX
+
         let alert = UIAlertController.init(title: nil, message: nil, preferredStyle: .actionSheet)
         let camera = UIAlertAction.init(title: "拍照", style: .default) { (ac) in
             YPJOtherTool.ypj.getCameraAuth(target: self, {

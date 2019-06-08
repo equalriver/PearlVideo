@@ -80,7 +80,7 @@ class PVVideoShareVC: PVBaseNavigationVC {
         initUI()
         loadData()
     }
-    
+  
     func initUI() {
         view.addSubview(contentIV)
         contentIV.addSubview(avatarIV)

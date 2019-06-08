@@ -193,3 +193,28 @@ class PVMeUserValidateModel: PVBaseModel {
     }
     
 }
+
+//MARK: - 关注
+class PVMeAttentionModel: PVBaseModel {
+    
+    ///关注状态 1.关注 2取消 3互相关注
+    var status = 0
+  
+    var nickName = ""
+    
+    var avatarImageUrl = ""
+    
+    var gender = ""
+    
+    var isFollow = false
+
+    
+    override func mapping(map: Map) {
+        status <- map["status"]
+        nickName <- map["nickName"]
+        avatarImageUrl <- map["avatarImageUrl"]
+        gender <- map["gender"]
+        isFollow <- map["isFollow"]
+    }
+    
+}

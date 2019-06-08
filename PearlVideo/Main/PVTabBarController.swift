@@ -100,12 +100,12 @@ class PVTabBarController: UITabBarController {
     
     
     @objc func didSelectedPlay() {
-        SVProgressHUD.showInfo(withStatus: "暂未开放")
-        return
-//        if let vc = self.selectedViewController {
-//            let playVC = PVPlayVC()
-//            vc.present(PVBaseRootNaviVC.init(rootViewController: playVC), animated: true, completion: nil)
-//        }
+//        SVProgressHUD.showInfo(withStatus: "暂未开放")
+//        return
+        if let vc = self.selectedViewController {
+            let playVC = PVPlayVC()
+            vc.present(PVBaseRootNaviVC.init(rootViewController: playVC), animated: true, completion: nil)
+        }
     }
 
     

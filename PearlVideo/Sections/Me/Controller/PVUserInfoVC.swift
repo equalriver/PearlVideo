@@ -11,6 +11,8 @@ import UIKit
 
 class PVUserInfoVC: PVBaseWMPageVC {
 
+    public var userId = ""
+    
     var data = PVMeModel()
     
     var panOffsetY: CGFloat = 0
@@ -38,6 +40,12 @@ class PVUserInfoVC: PVBaseWMPageVC {
         vc.delegate = self
         return vc
     }()
+    lazy var likeVC: PVMeLikeVC = {
+        let vc = PVMeLikeVC()
+        vc.delegate = self
+        return vc
+    }()
+    
     //life cycle
     override func loadView() {
         view = contentScrollView
@@ -51,7 +59,6 @@ class PVUserInfoVC: PVBaseWMPageVC {
         
         super.viewDidLoad()
         initUI()
-        
         
     }
     

@@ -9,6 +9,7 @@
 import WMPageController
 import MJRefresh
 import ObjectMapper
+import SVProgressHUD
 
 //MARK: - actions
 extension PVMeViewController {
@@ -141,8 +142,6 @@ extension PVMeViewController: PVMeHeaderViewDelegate {
 
     //长按背景
     func didLongPressBackground() {
-        return
-        //FIX
         if presentedViewController != nil { return }
         let alert = UIAlertController.init(title: nil, message: nil, preferredStyle: .actionSheet)
         let camera = UIAlertAction.init(title: "拍照", style: .default) { (ac) in
@@ -173,6 +172,20 @@ extension PVMeViewController: PVMeHeaderViewDelegate {
             self.present(alert, animated: true, completion: nil)
         }
     }
+    
+    //关注
+    func didSelectedAttention() {
+        let vc = PVMeAttentionVC()
+        vc.userId = UserDefaults.standard.string(forKey: kUserId) ?? ""
+        navigationController?.pushViewController(vc, animated: true)
+    }
+    
+    //粉丝
+    func didSelectedFans() {
+        let vc = PVMeFansVC()
+        vc.userId = UserDefaults.standard.string(forKey: kUserId) ?? ""
+        navigationController?.pushViewController(vc, animated: true)
+    }
 }
 
 //MARK: - Image Picker Controller Delegate
@@ -188,11 +201,34 @@ extension PVMeViewController: UIImagePickerControllerDelegate, UINavigationContr
                 return
             }
             headerView.backgroundImageIV.image = img
-            if let p = img.ypj.saveImageToLocalFolder(directory: .cachesDirectory, compressionQuality: 1.0) {
-                //FIX
+            guard let imgPath = img.ypj.saveImageToLocalFolder(directory: .cachesDirectory, compressionQuality: 1.0) else {
+                picker.dismiss(animated: true, completion: nil)
+                return
             }
             
-            picker.dismiss(animated: true, completion: nil)
+            picker.dismiss(animated: true) {
+                PVNetworkTool.Request(router: .getAuthWithUploadImage(imageExt: "jpg"), success: { (resp) in
+                    
+                    if let d = Mapper<PVUploadImageModel>().map(JSONObject: resp["result"].object) {
+                        PVNetworkTool.uploadFileWithAliyun(description: "", auth: d.uploadAuth, address: d.uploadAddress, filePath: imgPath, handle: { (isSuccess) in
+                            if isSuccess == false {
+                                SVProgressHUD.showError(withStatus: "上传图片失败")
+                                return
+                            }
+                            PVNetworkTool.Request(router: .editBackgroundImage(imagePath: d.imageUrl), success: { (resp) in
+                                self.loadData()
+                                
+                            }, failure: { (e) in
+                                
+                            })
+                            
+                        })
+                    }
+                    
+                }) { (e) in
+                    
+                }
+            }
         }
         
     }

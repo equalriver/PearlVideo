@@ -120,6 +120,10 @@ class PVPlayVideoUploadVC: PVBaseNavigationVC {
             self?.uploadManager.resume(withAuth: self?.uploadAuth)
         }
         
+        listener.progress = { (fileInfo, uploadedSize, totalSize) in
+            
+        }
+        
         //上传完成回调
         listener.finish = {[weak self] (fileInfo, result) in
             // fileInfo 上传文件信息

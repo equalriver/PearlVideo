@@ -6,6 +6,9 @@
 //  Copyright © 2019 equalriver. All rights reserved.
 //
 
+import ObjectMapper
+import SVProgressHUD
+
 //MARK: - action
 extension PVHomeReportDetailVC {
     
@@ -15,22 +18,37 @@ extension PVHomeReportDetailVC {
         let uploadImages = imgs.filter { (obj) -> Bool in
             return obj != addImg
         }
-        var imgPaths = Array<String>()
-        for v in uploadImages {
-            if let p = v.ypj.saveImageToLocalFolder(directory: .cachesDirectory, compressionQuality: 1.0) {
-                imgPaths.append(p)
+        SVProgressHUD.show()
+        for (i, v) in uploadImages.enumerated() {
+            if let imgPath = v.ypj.saveImageToLocalFolder(directory: .cachesDirectory, compressionQuality: 1.0) {
+                PVNetworkTool.Request(router: .getAuthWithUploadImage(imageExt: "jpg"), success: { (resp) in
+                    
+                    if let d = Mapper<PVUploadImageModel>().map(JSONObject: resp["result"].object) {
+                        PVNetworkTool.uploadFileWithAliyun(description: "", auth: d.uploadAuth, address: d.uploadAddress, filePath: imgPath, handle: { (isSuccess) in
+                            if isSuccess == false {
+                                SVProgressHUD.showError(withStatus: "上传图片失败")
+                                return
+                            }
+                            PVNetworkTool.Request(router: .videoReport(videoId: self.videoId, type: self.type, content: self.contentTV.text ?? ""), success: { (resp) in
+                                if i == uploadImages.count - 1 {
+                                   SVProgressHUD.dismiss()
+                                    self.navigationController?.popToRootViewController(animated: true)
+                                }
+                                
+                                
+                            }) { (e) in
+                                SVProgressHUD.dismiss()
+                                sender.isEnabled = true
+                            }
+                        })
+                    }
+                    
+                }) { (e) in
+                    sender.isEnabled = true
+                }
             }
         }
-        //FIX image未上传
-        PVNetworkTool.Request(router: .videoReport(videoId: videoId, type: type, content: contentTV.text ?? ""), success: { (resp) in
-            
-            self.navigationController?.popToRootViewController(animated: true)
-            
-        }) { (e) in
-            
-        }
-        
-        
+
     }
     
 }

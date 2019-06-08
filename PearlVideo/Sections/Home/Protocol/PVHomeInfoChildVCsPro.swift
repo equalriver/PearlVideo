@@ -12,29 +12,64 @@ import WMPageController
 //MARK: - 会员等级
 extension PVHomeUserLevelVC {
     func setRefresh() {
-        PVRefresh.headerRefresh(scrollView: tableView) {[weak self] in
-            self?.loadData()
+        PVRefresh.headerRefresh(scrollView: tableView) { [weak self] in
+            self?.page = 0
+            self?.loadData(page: 0)
+            self?.loadCurrentInfo()
+        }
+        PVRefresh.footerRefresh(scrollView: tableView) { [weak self] in
+            self?.page += 1
+            self?.loadData(page: self?.page ?? 0)
         }
     }
     
-    func loadData() {
-        PVNetworkTool.Request(router: .userLevelDetail(), success: { (resp) in
-            if let d = Mapper<PVHomeUserLevelModel>().map(JSONObject: resp["result"].object) {
-                self.data = d
+    func loadCurrentInfo() {
+        PVNetworkTool.Request(router: .currentUserLevel(), success: { (resp) in
+            if let d = Mapper<PVHomeCurrentUserLevel>().map(JSONObject: resp["result"].object) {
+                self.infoData = d
                 self.headerView.data = d
-                self.tableView.reloadData()
+                self.tableView.tableHeaderView = self.headerView
             }
             
         }) { (e) in
             
         }
     }
+    
+    func loadData(page: Int) {
+        PVNetworkTool.Request(router: .userLevel(nextPage: page), success: { (resp) in
+            self.tableView.mj_footer.endRefreshing()
+            if let d = Mapper<PVHomeUserLevelModel>().mapArray(JSONObject: resp["result"]["userExpList"].arrayObject) {
+                if page == 0 { self.dataArr = d }
+                else {
+                    self.dataArr += d
+                    if d.count == 0 { self.page -= 1 }
+                }
+            }
+            if self.dataArr.count == 0 { self.tableView.stateEmpty() }
+            else { self.tableView.stateNormal() }
+            self.tableView.reloadData()
+            
+        }) { (e) in
+            self.page = self.page > 0 ? self.page - 1 : 0
+            self.tableView.mj_footer.endRefreshing()
+        }
+    }
+}
+
+extension PVHomeUserLevelVC: PVHomeUserLevelHeaderDelegate {
+    
+    func didSelectedLevelDetail() {
+        let vc = PVHomeUserLevelDetailVC()
+        navigationController?.pushViewController(vc, animated: true)
+    }
+    
 }
 
 extension PVHomeUserLevelVC: UITableViewDataSource, UITableViewDelegate {
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return data.levelList.count
+        return dataArr.count
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
@@ -46,8 +81,53 @@ extension PVHomeUserLevelVC: UITableViewDataSource, UITableViewDelegate {
         if cell == nil {
             cell = PVHomeUserLevelCell.init(style: .default, reuseIdentifier: "PVHomeUserLevelCell")
         }
-        guard data.levelList.count > indexPath.row else { return cell! }
-        cell?.data = data.levelList[indexPath.row]
+        guard dataArr.count > indexPath.row else { return cell! }
+        cell?.data = dataArr[indexPath.row]
+        return cell!
+    }
+}
+
+//MARK: - 会员等级详情
+extension PVHomeUserLevelDetailVC {
+    func setRefresh() {
+        PVRefresh.headerRefresh(scrollView: tableView) { [weak self] in
+            self?.loadData()
+        }
+    }
+    
+    func loadData() {
+        PVNetworkTool.Request(router: .userLevelDetail(), success: { (resp) in
+        
+            if let d = Mapper<PVHomeUserLevelDetailModel>().mapArray(JSONObject: resp["result"]["levelList"].arrayObject) {
+                self.dataArr = d
+            }
+            if self.dataArr.count == 0 { self.tableView.stateEmpty() }
+            else { self.tableView.stateNormal() }
+            self.tableView.reloadData()
+            
+        }) { (e) in
+            
+        }
+    }
+}
+
+extension PVHomeUserLevelDetailVC: UITableViewDataSource, UITableViewDelegate {
+    
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        return dataArr.count
+    }
+    
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        return 80 * KScreenRatio_6
+    }
+    
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        var cell = tableView.dequeueReusableCell(withIdentifier: "PVHomeUserLevelDetailCell") as? PVHomeUserLevelDetailCell
+        if cell == nil {
+            cell = PVHomeUserLevelDetailCell.init(style: .default, reuseIdentifier: "PVHomeUserLevelDetailCell")
+        }
+        guard dataArr.count > indexPath.row else { return cell! }
+        cell?.data = dataArr[indexPath.row]
         return cell!
     }
 }

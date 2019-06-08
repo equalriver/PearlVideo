@@ -13,6 +13,10 @@ class PVHomeMyTaskCell: PVBaseTableCell {
         didSet{
             imgIV.image = UIImage.init(named: "home_书卷\(data.category)")
             switch data.category {
+            case 0:
+                typeLabel.textColor = kColor_pink
+                break
+                
             case 1:
                 typeLabel.textColor = UIColor.init(hexString: "#4D7AFA")
                 break
@@ -128,7 +132,15 @@ class PVHomeAllTaskCell: PVBaseTableCell {
     public var data: PVHomeTaskList! {
         didSet{
             imgIV.image = UIImage.init(named: "home_书卷\(data.category)")
+            activenessLabel.textColor = kColor_text
+        
             switch data.category {
+            case 0:
+                typeLabel.textColor = kColor_pink
+                exchangeBtn.backgroundColor = kColor_pink
+                activenessLabel.textColor = kColor_pink
+                break
+                
             case 1:
                 typeLabel.textColor = UIColor.init(hexString: "#4D7AFA")
                 exchangeBtn.backgroundColor = UIColor.init(hexString: "#4D7AFA")

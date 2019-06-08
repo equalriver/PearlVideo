@@ -14,7 +14,7 @@ class PVRefresh: NSObject {
                 handle()
             }
             if scrollView.mj_header != nil {
-                DispatchQueue.main.asyncAfter(deadline: .now() + 2, execute: {
+                DispatchQueue.main.asyncAfter(deadline: .now() + 1, execute: {
                     scrollView.mj_header.endRefreshing()
                 })
             }

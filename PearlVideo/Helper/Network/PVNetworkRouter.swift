@@ -43,6 +43,12 @@ enum Router: URLRequestConvertible {
     ///首页关注视频列表
     case homeAttentionVideoList(page: Int)
     
+    ///会员等级
+    case userLevel(nextPage: Int)
+    
+    ///当前会员等级信息
+    case currentUserLevel()
+    
     ///会员等级详情
     case userLevelDetail()
     
@@ -90,6 +96,7 @@ enum Router: URLRequestConvertible {
     
     
     
+    
     //video
     ///获取上传地址和凭证
     case getUploadAuthAndAddress(description: String, fileName: String)
@@ -100,8 +107,8 @@ enum Router: URLRequestConvertible {
     ///所有视频播放列表 1: 推荐, 2: 关注, 3: 我的作品, 4: 我的喜欢视频, 5: 私密视频
     case videoList(type: Int, videoIndex: Int, videoId: String)
     
-    ///视频关注 action: 1关注 2取消
-    case videoAttention(id: String, action: Int)
+    ///关注 action: 1关注 2取消
+    case attention(id: String, action: Int)
     
     ///视频点赞 action: 1点赞 2取消
     case videoLike(id: String, action: Int)
@@ -129,6 +136,44 @@ enum Router: URLRequestConvertible {
     
     ///获取邀请码
     case getInviteCode()
+    
+    
+    //交换中心
+    ///市场信息
+    case exchangeInfo()
+    
+    ///市场订单列表
+    case exchangeInfoList(isBuyOrder: Bool, phone: String, page: Int)
+    
+    ///准备发布买单
+    case readySendBuyOrder()
+    
+    ///准备发布卖单
+    case readySendSellOrder()
+    
+    ///发布买单
+    case sendBuyOrder(price: Double, count: Int, password: String)
+    
+    ///发布卖单
+    case sendSellOrder(price: Double, count: Int, password: String)
+    
+    ///准备接单
+    case readyAcceptOrder(orderId: String)
+    
+    ///接单
+    case acceptOrder(orderId: String, password: String, count: Int)
+    
+    ///交易记录列表
+    case recordList(type: PVExchangeRecordListType, nextPage: Int)
+    
+    ///交易记录详情
+    case recordDetail(orderId: String)
+    
+    ///取消订单
+    case cancelOrder(orderId: String)
+    
+    ///支付订单
+    case payOrder(orderId: String, screenshot: String)
     
     
     
@@ -162,6 +207,19 @@ enum Router: URLRequestConvertible {
     
     ///非人脸身份认证 verifyId: 加密的参数("name|idCard|deviceId", 密钥"fuyin")
     case userValidate(name: String, idCard: String, deviceId: String)
+    
+    ///修改背景图片
+    case editBackgroundImage(imagePath: String)
+    
+    ///关注和粉丝列表 type：1.关注 2粉丝 3.搜索
+    case attentionAndFansList(type: Int, userId: String, content: String, page: Int)
+    
+    ///设置交易密码
+    case setExchangePassword(phone: String, authCode: String, password: String)
+    
+    ///设置支付方式
+    case setPayWay(name: String, account: String)
+    
     
     
     func asURLRequest() throws -> URLRequest {
@@ -204,8 +262,14 @@ enum Router: URLRequestConvertible {
             case .homeAttentionVideoList:
                 return "GetFollowVideoList"
                 
-            case .userLevelDetail:
+            case .userLevel:
+                return "GetUserExpDetail"
+                
+            case .currentUserLevel:
                 return "getUserLevel"
+                
+            case .userLevelDetail:
+                return "GetUserLevelDetail"
                 
             case .activenessDetail:
                 return "LivenessDetail"
@@ -261,7 +325,7 @@ enum Router: URLRequestConvertible {
             case .videoList:
                 return "GetVideoList"
                 
-            case .videoAttention:
+            case .attention:
                 return "follow"
                 
             case .videoLike:
@@ -290,6 +354,44 @@ enum Router: URLRequestConvertible {
                 
             case .getInviteCode:
                 return "GetShareUserInfo"
+                
+                
+            //交换中心
+            case .exchangeInfo:
+                return "GetXchgMarketOverview"
+                
+            case .exchangeInfoList:
+                return "GetXchgMarketOrderList"
+                
+            case .readySendBuyOrder:
+                return "PrepareBidXchgOrder"
+                
+            case .readySendSellOrder:
+                return "PrepareAskXchgOrder"
+                
+            case .sendBuyOrder:
+                return "BidXchgOrder"
+                
+            case .sendSellOrder:
+                return "AskXchgOrder"
+                
+            case .readyAcceptOrder:
+                return "PrepareAcceptXchgOrder"
+                
+            case .acceptOrder:
+                return "AcceptXchgOrder"
+                
+            case .recordList:
+                return "GetXchgOrderList"
+                
+            case .recordDetail:
+                return "GetXchgOrderDetail"
+                
+            case .cancelOrder:
+                return "CancelXchgOrder"
+                
+            case .payOrder:
+                return "PayXchgOrder"
                 
                 
                 
@@ -323,6 +425,18 @@ enum Router: URLRequestConvertible {
                 
             case .userValidate:
                 return "VerifyUserNonFace"
+                
+            case .editBackgroundImage:
+                return "UpdateBackgroundImage"
+                
+            case .attentionAndFansList:
+                return "GetFollowFansList"
+                
+            case .setExchangePassword:
+                return "ResetXchgPassword"
+                
+            case .setPayWay:
+                return "SetXchgMoneyAcctApiSpec"
                 
             }
           
@@ -395,7 +509,15 @@ enum Router: URLRequestConvertible {
                 "next": page
             ]
             
+        case .userLevel(let nextPage):
+            param = [
+                "next": nextPage
+            ]
+            
+        case .currentUserLevel: break
+            
         case .userLevelDetail: break
+            
             
         case .activenessDetail(let page):
             param = [
@@ -481,7 +603,7 @@ enum Router: URLRequestConvertible {
                 "videoId": videoId
             ]
             
-        case .videoAttention(let id, let action):
+        case .attention(let id, let action):
             param = [
                 "followeeId": id,
                 "action": action
@@ -540,6 +662,69 @@ enum Router: URLRequestConvertible {
         case .getInviteCode: break
             
         
+        //交换中心
+        case .exchangeInfo: break
+            
+        case .exchangeInfoList(let isBuyOrder, let phone, let page):
+            param = [
+                "type": isBuyOrder ? "BID" : "ASK",
+                "mobile": phone,
+                "skip": page
+            ]
+            
+        case .readySendBuyOrder: break
+            
+        case .readySendSellOrder: break
+            
+        case .sendBuyOrder(let price, let count, let password):
+            param = [
+                "price": price,
+                "volume": count,
+                "xchgPassword": password
+            ]
+            
+        case .sendSellOrder(let price, let count, let password):
+            param = [
+                "price": price,
+                "volume": count,
+                "xchgPassword": password
+            ]
+            
+        case .readyAcceptOrder(let orderId):
+            param = [
+                "orderId": orderId
+            ]
+            
+        case .acceptOrder(let orderId, let password, let count):
+            param = [
+                "orderId": orderId,
+                "xchgPassword": password,
+                "amount": count
+            ]
+            
+        case .recordList(let type, let nextPage):
+            param = [
+                "orderCategory": type.rawValue,
+                "next": nextPage
+            ]
+            
+        case .recordDetail(let orderId):
+            param = [
+                "orderId": orderId
+            ]
+            
+        case .cancelOrder(let orderId):
+            param = [
+                "orderId": orderId
+            ]
+            
+        case .payOrder(let orderId, let screenshot):
+            param = [
+                "orderId": orderId,
+                "paymentImageUrl": screenshot
+            ]
+            
+            
         
         //我的
         case .userInfo(let userId, let page):
@@ -600,8 +785,37 @@ enum Router: URLRequestConvertible {
                 "verifyId": deviceId,
                 "platform": "iOS"
             ]
+            
+        case .editBackgroundImage(let imagePath):
+            param = [
+                "backgroundImageUrl": imagePath
+            ]
 
+        case .attentionAndFansList(let type, let userId, let content, let page):
+            param = [
+                "type": type,
+                "userId": userId,
+                "content": content,
+                "skip": page
+            ]
+            
+        case .setExchangePassword(let phone, let authCode, let password):
+            param = [
+                "mobile": phone,
+                "checkCode": authCode,
+                "xchgPassword": password
+            ]
+            
+        case .setPayWay(let name, let account):
+            param = [
+                "name": name,
+                "account": account,
+                "type": "ALIPAY"
+            ]
+            
         }
+        
+        
         
         if param != nil { param = ["object": param!] }
         else { param = [String: Any]() }

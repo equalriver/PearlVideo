@@ -13,9 +13,9 @@ import MJRefresh
 extension PVHomeVC {
     
     @objc func messageAction() {
-        view.makeToast("暂未开放")
-//        let vc = PVHomeMessageVC()
-//        navigationController?.pushViewController(vc, animated: true)
+//        view.makeToast("暂未开放")
+        let vc = PVHomeMessageVC()
+        navigationController?.pushViewController(vc, animated: true)
     }
     
     func setRefresh() {
@@ -137,38 +137,38 @@ extension PVHomeVC: PVHomeHeaderDelegate {
     }
     
     func didSelectedTitlesItem(index: Int) {
-        view.makeToast("暂未开放")
-//        switch index {
-//        case 0: //会员等级
-//            let vc = PVHomeUserLevelVC()
-//            navigationController?.pushViewController(vc, animated: true)
-//            break
-//
-//        case 1: //活跃度
-//            let vc = PVHomeActivenessVC()
-//            navigationController?.pushViewController(vc, animated: true)
-//            break
-//
-//        case 2: //总平安果
-//            let vc = PVHomeFruitVC()
-//            navigationController?.pushViewController(vc, animated: true)
-//            break
-//
-//        case 3: //当前收益
-//
-//            break
-//
-//        default:
-//            break
-//        }
+//        view.makeToast("暂未开放")
+        switch index {
+        case 0: //会员等级
+            let vc = PVHomeUserLevelVC()
+            navigationController?.pushViewController(vc, animated: true)
+            break
+
+        case 1: //活跃度
+            let vc = PVHomeActivenessVC()
+            navigationController?.pushViewController(vc, animated: true)
+            break
+
+        case 2: //总平安果
+            let vc = PVHomeFruitVC()
+            navigationController?.pushViewController(vc, animated: true)
+            break
+
+        case 3: //当前收益
+
+            break
+
+        default:
+            break
+        }
     }
     
     func didSelectedActionItem(index: Int) {
         switch index {
         case 0: //任务
-            view.makeToast("暂未开放")
-//            let vc = PVHomeTaskVC()
-//            navigationController?.pushViewController(vc, animated: true)
+//            view.makeToast("暂未开放")
+            let vc = PVHomeTaskVC()
+            navigationController?.pushViewController(vc, animated: true)
             break
             
         case 1: //资讯
@@ -181,9 +181,9 @@ extension PVHomeVC: PVHomeHeaderDelegate {
             break
             
         case 3: //商学院
-            view.makeToast("暂未开放")
-//            let vc = PVHomeSchoolVC()
-//            navigationController?.pushViewController(vc, animated: true)
+//            view.makeToast("暂未开放")
+            let vc = PVHomeSchoolVC()
+            navigationController?.pushViewController(vc, animated: true)
             break
             
         default:

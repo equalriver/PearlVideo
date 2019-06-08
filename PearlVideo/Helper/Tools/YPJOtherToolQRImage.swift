@@ -22,6 +22,7 @@ extension YPJOtherTool {
         
         let data = dataStr.data(using: .utf8)
         filter?.setValue(data, forKey: "inputMessage")
+        filter?.setValue("H", forKey: "inputCorrectionLevel")
         guard let cIImage = filter?.outputImage else {
             return nil
         }
@@ -119,6 +120,7 @@ extension YPJOtherTool {
         let context = CIContext(options: nil);
         let bitmapImage = context.createCGImage(image, from: extent)
         let bitmapInfo = CGBitmapInfo(rawValue: CGImageAlphaInfo.none.rawValue)
+        
         guard let bitmapRef = CGContext(data: nil,
                                         width: Int(width),
                                         height: Int(height),

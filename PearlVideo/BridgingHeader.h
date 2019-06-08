@@ -12,9 +12,8 @@
 #import <YYKit/YYKit.h>
 #import <VODUpload/VODUploadClient.h>
 #import <AlipaySDK/AlipaySDK.h>
-#import <RPSDK/RPSDK.h>
 #import <WechatOpenSDK/WXApi.h>
 #import <PYSearch/PYSearch.h>
-
+#import "LZImageBrowserManger.h"
 #endif /* BridgingHeader_h */
 

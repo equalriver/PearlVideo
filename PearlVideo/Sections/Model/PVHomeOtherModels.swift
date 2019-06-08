@@ -11,61 +11,67 @@ import ObjectMapper
 //MARK: - 会员等级
 class PVHomeUserLevelModel: PVBaseModel {
     
-    ///等级
-    var level = ""
+    var title = ""
+    
+    var userId = ""
     
     ///经验值
-    var expToal = 0
+    var value = 0
     
-    ///还差多少经验值
-    var differExpNum = 0
+    var createAt = 0
     
-    var levelList = Array<PVHomeUserLevelList>()
     
     override func mapping(map: Map) {
-        level <- map["level"]
-        expToal <- map["expToal"]
-        differExpNum <- map["differExpNum"]
-        levelList <- map["levelList"]
+        title <- map["title"]
+        userId <- map["userId"]
+        value <- map["value"]
+        createAt <- map["createAt"]
     }
     
 }
 
-class PVHomeUserLevelList: PVBaseModel {
-    
-    ///等级ID
-    var id = 0
-    
-    var name = ""
-    
-    ///等级
-    var level = 0
-    
-    ///是否完成实名认证用户
-    var expDes = ""
-    
-    ///手续费
-    var fee = 0
-    
-    ///手续费详情
-    var feeDes = ""
-    
-    ///创建时间
-    var creatAt = ""
+//MARK: - 当前会员等级信息
+class PVHomeCurrentUserLevel: PVBaseModel {
     
     ///经验值
-    var expValue = 0
-  
+    var expToal = 0
+    
+    var level = ""
+    
+    ///还差多少经验值
+    var differExpNum = 0
+
+    
     override func mapping(map: Map) {
-        id <- map["id"]
+        expToal <- map["expToal"]
+        level <- map["level"]
+        differExpNum <- map["differExpNum"]
+    }
+    
+}
+
+//MARK: - 会员等级详情
+class PVHomeUserLevelDetailModel: PVBaseModel {
+    ///会员等级
+    var name = ""
+    
+    var level = 0
+    
+    ///交易手续费
+    var feeDes = ""
+    
+    ///交易手续费
+    var expDes = ""
+    
+    
+    
+    override func mapping(map: Map) {
         name <- map["name"]
         level <- map["level"]
-        expDes <- map["expDes"]
-        fee <- map["fee"]
         feeDes <- map["feeDes"]
-        creatAt <- map["creatAt"]
-        expValue <- map["expValue"]
+        expDes <- map["expDes"]
     }
+    
 }
 
 //MARK: - 活跃度

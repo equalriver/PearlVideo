@@ -14,6 +14,8 @@ protocol PVMeHeaderViewDelegate: NSObjectProtocol {
     func didSelectedActiveness()
     func didSelectedFruit()
     func didLongPressBackground()
+    func didSelectedAttention()
+    func didSelectedFans()
 }
 
 class PVMeHeaderView: UIView {
@@ -89,10 +91,11 @@ class PVMeHeaderView: UIView {
         let iv = UIImageView()
         return iv
     }()
-    lazy var fansLabel: UILabel = {
-        let l = UILabel()
+    lazy var fansLabel: YYLabel = {
+        let l = YYLabel()
         l.font = kFont_text
         l.textColor = kColor_subText
+        l.isUserInteractionEnabled = true
         return l
     }()
     lazy var editBtn: UIButton = {
@@ -138,7 +141,18 @@ class PVMeHeaderView: UIView {
     override init(frame: CGRect) {
         super.init(frame: frame)
         initUI()
-     
+        fansLabel.textTapAction = {[weak self] (containerView, text, range, rect) in
+            let t: NSString = text.string as NSString
+            if t.range(of: "关注").contains(range.location) {
+                self?.delegate?.didSelectedAttention()
+                return
+            }
+            if t.range(of: "粉丝").contains(range.location) {
+                self?.delegate?.didSelectedFans()
+                return
+            }
+
+        }
     }
     
     required init?(coder aDecoder: NSCoder) {
@@ -246,23 +260,23 @@ extension PVMeHeaderView: UICollectionViewDelegate, UICollectionViewDataSource {
     }
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-//        if data.isMine == false { return }
-//        switch indexPath.item {
-//        case 0: //会员等级
-//            delegate?.didSelectedLevel()
-//            break
-//
-//        case 1: //活跃度
-//            delegate?.didSelectedActiveness()
-//            break
-//
-//        case 2: //总平安果
-//            delegate?.didSelectedFruit()
-//            break
-//
-//        default:
-//            break
-//        }
+        if data.isMine == false { return }
+        switch indexPath.item {
+        case 0: //会员等级
+            delegate?.didSelectedLevel()
+            break
+
+        case 1: //活跃度
+            delegate?.didSelectedActiveness()
+            break
+
+        case 2: //总平安果
+            delegate?.didSelectedFruit()
+            break
+
+        default:
+            break
+        }
     }
 }
 

@@ -19,9 +19,10 @@ pod 'SVProgressHUD'
 pod 'PYSearch'
 pod 'IQKeyboardManagerSwift', '6.2'
 pod 'TZImagePickerController'
-pod 'pop'
-pod 'lottie-ios'
+#pod 'pop'
+#pod 'lottie-ios'
 pod 'FSPagerView'
+pod 'SDWebImage'
 
 #短视频相关
 pod 'AliyunPlayer_iOS/AliyunVodPlayerSDK'

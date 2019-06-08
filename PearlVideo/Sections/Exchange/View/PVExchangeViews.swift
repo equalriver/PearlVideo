@@ -176,7 +176,31 @@ class PVExchangeHeaderItem: UIView {
 }
 
 //MARK: - cell
+protocol PVExchangeOrderDelegate: NSObjectProtocol {
+    func didSelectedDeal(cell: PVExchangeCell, isBuyOrder: Bool)
+}
 class PVExchangeCell: PVBaseTableCell {
+    
+    public var isBuyOrder = true {
+        didSet{
+            actionBtn.setTitle(isBuyOrder ? "买进" : "卖出", for: .normal)
+        }
+    }
+    
+    public var data: PVExchangeOrderList! {
+        didSet{
+            avatarIV.kf.setImage(with: URL.init(string: data.avatarURL))
+            nameLabel.text = data.nickname
+            let att_price = NSMutableAttributedString.init(string: "单价    ¥\(data.price)")
+            att_price.addAttributes([.font: kFont_text_2, .foregroundColor: kColor_subText!], range: NSMakeRange(0, 6))
+            att_price.addAttributes([.font: kFont_text_2, .foregroundColor: kColor_pink!], range: NSMakeRange(6, att_price.string.count - 6))
+            priceLabel.attributedText = att_price
+            
+            countLabel.text = "数量    \(data.count)平安果"
+        }
+    }
+    
+    weak public var delegate: PVExchangeOrderDelegate?
     
     lazy var avatarIV: UIImageView = {
         let v = UIImageView()
@@ -264,7 +288,7 @@ class PVExchangeCell: PVBaseTableCell {
     }
     
     @objc func dealAction(sender: UIButton) {
-        
+        delegate?.didSelectedDeal(cell: self, isBuyOrder: isBuyOrder)
     }
     
 }
@@ -514,6 +538,7 @@ class PVExchangeBuyAlert: UIView {
     @objc func cancelAction(sender: UIButton) {
         contentView.ypj.viewAnimateDismissFromBottom(duration: 0.3) { (isFinish) in
             if isFinish {
+                self.handle = nil
                 self.removeFromSuperview()
             }
         }
@@ -522,6 +547,13 @@ class PVExchangeBuyAlert: UIView {
     @objc func orderAction(sender: UIButton) {
         guard countTF.hasText && passwordTF.hasText else { return }
         handle?(countTF.text!, passwordTF.text!)
-        handle = nil
+        contentView.ypj.viewAnimateDismissFromBottom(duration: 0.3) { (isFinish) in
+            if isFinish {
+                self.handle = nil
+                self.removeFromSuperview()
+            }
+        }
+        
+        
     }
 }

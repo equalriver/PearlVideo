@@ -69,7 +69,7 @@ extension PVMeProductionVC: UICollectionViewDelegate, UICollectionViewDataSource
             let total = scrollView.contentSize.height
             let ratio = current / total
             
-            let needRead = itemPerPage * threshold + page * itemPerPage
+            let needRead = itemPerPage * threshold + page * itemPerPage * 0.8
             let totalItem = itemPerPage * (page + 1)
             let newThreshold = needRead / totalItem
             
@@ -98,7 +98,7 @@ extension PVMeLikeVC {
     
     func loadData(page: Int) {
         isLoadingMore = true
-        PVNetworkTool.Request(router: .userInfoVideo(userId: UserDefaults.standard.string(forKey: kUserId) ?? "", type: 3, page: page * 10), success: { (resp) in
+        PVNetworkTool.Request(router: .userInfoVideo(userId: UserDefaults.standard.string(forKey: kUserId) ?? "", type: 4, page: page * 10), success: { (resp) in
             
             if let d = Mapper<PVMeVideoList>().mapArray(JSONObject: resp["result"]["videoList"].arrayObject) {
                 if page == 0 {
@@ -148,7 +148,7 @@ extension PVMeLikeVC: UICollectionViewDelegate, UICollectionViewDataSource {
             let total = scrollView.contentSize.height
             let ratio = current / total
             
-            let needRead = itemPerPage * threshold + page * itemPerPage
+            let needRead = itemPerPage * threshold + page * itemPerPage * 0.8
             let totalItem = itemPerPage * (page + 1)
             let newThreshold = needRead / totalItem
             
@@ -176,7 +176,7 @@ extension PVMeSecureVC {
     
     func loadData(page: Int) {
         isLoadingMore = true
-        PVNetworkTool.Request(router: .userInfoVideo(userId: UserDefaults.standard.string(forKey: kUserId) ?? "", type: 3, page: page * 10), success: { (resp) in
+        PVNetworkTool.Request(router: .userInfoVideo(userId: UserDefaults.standard.string(forKey: kUserId) ?? "", type: 5, page: page * 10), success: { (resp) in
             
             if let d = Mapper<PVMeVideoList>().mapArray(JSONObject: resp["result"]["videoList"].arrayObject) {
                 if page == 0 {
@@ -226,7 +226,7 @@ extension PVMeSecureVC: UICollectionViewDelegate, UICollectionViewDataSource {
             let total = scrollView.contentSize.height
             let ratio = current / total
             
-            let needRead = itemPerPage * threshold + page * itemPerPage
+            let needRead = itemPerPage * threshold + page * itemPerPage * 0.8
             let totalItem = itemPerPage * (page + 1)
             let newThreshold = needRead / totalItem
             

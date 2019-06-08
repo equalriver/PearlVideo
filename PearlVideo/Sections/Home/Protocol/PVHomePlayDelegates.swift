@@ -12,27 +12,29 @@ import AliyunVodPlayerSDK
 extension PVHomePlayVC: PVHomePlayDelegate {
     //点击头像
     func didSelectedAvatar(data: PVVideoPlayModel) {
-//        if let currentId = UserDefaults.standard.string(forKey: kUserId) {
-//            if data.userId == currentId { return }
-//        }
-        view.makeToast("暂未开放")
+        if let currentId = UserDefaults.standard.string(forKey: kUserId) {
+            if data.userId == currentId { return }
+        }
+        let vc  = PVUserInfoVC()
+        vc.userId = data.userId
+        navigationController?.pushViewController(vc, animated: true)
     }
     
     //关注
     func didSelectedAttention(sender: UIButton, data: PVVideoPlayModel) {
-        view.makeToast("暂未开放")
-//        sender.isSelected = !sender.isSelected
-//        data.IsFollowed = sender.isSelected
-//        let args: [String: Any] = ["data": data, "sender": sender]
-//        NSObject.cancelPreviousPerformRequests(withTarget: self, selector: #selector(videoAttention(args:)), object: args)
-//        self.perform(#selector(videoAttention(args:)), with: args, afterDelay: 2)
+//        view.makeToast("暂未开放")
+        sender.isSelected = !sender.isSelected
+        data.IsFollowed = sender.isSelected
+        let args: [String: Any] = ["data": data, "sender": sender]
+        NSObject.cancelPreviousPerformRequests(withTarget: self, selector: #selector(videoAttention(args:)), object: args)
+        self.perform(#selector(videoAttention(args:)), with: args, afterDelay: 2)
         
     }
     
     @objc func videoAttention(args: [String: Any]) {
         guard let data = args["data"] as? PVVideoPlayModel else { return }
         guard let sender = args["sender"] as? UIButton else { return }
-        PVNetworkTool.Request(router: .videoAttention(id: data.userId, action: sender.isSelected ? 1 : 2), success: { (resp) in
+        PVNetworkTool.Request(router: .attention(id: data.userId, action: sender.isSelected ? 1 : 2), success: { (resp) in
             print("关注：", data.userId)
         }) { (e) in
             
@@ -41,19 +43,19 @@ extension PVHomePlayVC: PVHomePlayDelegate {
     
     //点赞
     func didSelectedLike(sender: UIButton, data: PVVideoPlayModel) {
-        view.makeToast("暂未开放")
-//        sender.isSelected = !sender.isSelected
-//        data.IsThumbuped = sender.isSelected
-//        let args: [String: Any] = ["data": data, "sender": sender]
-//        NSObject.cancelPreviousPerformRequests(withTarget: self, selector: #selector(videoLike(args:)), object: args)
-//        self.perform(#selector(videoLike(args:)), with: args, afterDelay: 2)
+//        view.makeToast("暂未开放")
+        sender.isSelected = !sender.isSelected
+        data.IsThumbuped = sender.isSelected
+        let args: [String: Any] = ["data": data, "sender": sender]
+        NSObject.cancelPreviousPerformRequests(withTarget: self, selector: #selector(videoLike(args:)), object: args)
+        self.perform(#selector(videoLike(args:)), with: args, afterDelay: 2)
         
     }
     
     @objc func videoLike(args: [String: Any]) {
         guard let data = args["data"] as? PVVideoPlayModel else { return }
         guard let sender = args["sender"] as? UIButton else { return }
-        PVNetworkTool.Request(router: .videoAttention(id: data.videoId, action: sender.isSelected ? 1 : 2), success: { (resp) in
+        PVNetworkTool.Request(router: .attention(id: data.videoId, action: sender.isSelected ? 1 : 2), success: { (resp) in
             print("点赞：", data.userId)
         }) { (e) in
             
@@ -62,9 +64,9 @@ extension PVHomePlayVC: PVHomePlayDelegate {
     
     //评论
     func didSelectedComment(data: PVVideoPlayModel) {
-        view.makeToast("暂未开放")
-//        let v = PVVideoCommentView.init(videoId: data.videoId, delegate: self)
-//        allContainView.addSubview(v)
+//        view.makeToast("暂未开放")
+        let v = PVVideoCommentView.init(videoId: data.videoId, delegate: self)
+        allContainView.addSubview(v)
     }
     
     //分享
@@ -75,10 +77,10 @@ extension PVHomePlayVC: PVHomePlayDelegate {
     
     //举报
     func didSelectedReport(data: PVVideoPlayModel) {
-        view.makeToast("暂未开放")
-//        let vc = PVHomeReportVC()
-//        vc.videoId = data.videoId
-//        navigationController?.pushViewController(vc, animated: true)
+//        view.makeToast("暂未开放")
+        let vc = PVHomeReportVC()
+        vc.videoId = data.videoId
+        navigationController?.pushViewController(vc, animated: true)
     }
     
 }
@@ -90,6 +92,9 @@ extension PVHomePlayVC: PVVideoCommentDelegate {
         if let currentId = UserDefaults.standard.string(forKey: kUserId) {
             if id == currentId { return }
         }
+        let vc  = PVUserInfoVC()
+        vc.userId = id
+        navigationController?.pushViewController(vc, animated: true)
         
     }
     //评论点赞

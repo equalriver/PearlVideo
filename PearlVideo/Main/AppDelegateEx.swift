@@ -46,7 +46,7 @@ extension AppDelegate: WXApiDelegate {
         WXApi.registerApp(kWeixinAppId)
         
         //实人认证
-        RPSDK.initialize(RPSDKEnv.online)
+//        RPSDK.initialize(RPSDKEnv.online)
         
         //toast
         ToastManager.shared.position = .center

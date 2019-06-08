@@ -9,11 +9,13 @@
 //MARK: - 会员等级
 class PVHomeUserLevelVC: PVBaseNavigationVC {
     
-    var data = PVHomeUserLevelModel()
-    
+    var dataArr = Array<PVHomeUserLevelModel>()
+    var page = 0
+    var infoData = PVHomeCurrentUserLevel()
     
     lazy var headerView: PVHomeUserLevelHeaderView = {
-        let v = PVHomeUserLevelHeaderView.init(frame: CGRect.init(x: 0, y: 0, width: kScreenWidth, height: 170 * KScreenRatio_6))
+        let v = PVHomeUserLevelHeaderView.init(frame: CGRect.init(x: 0, y: 0, width: kScreenWidth, height: 180 * KScreenRatio_6))
+        v.delegate = self
         return v
     }()
     lazy var tableView: UITableView = {
@@ -29,6 +31,38 @@ class PVHomeUserLevelVC: PVBaseNavigationVC {
     override func viewDidLoad() {
         super.viewDidLoad()
         title = "等级"
+        view.backgroundColor = kColor_deepBackground
+        view.addSubview(tableView)
+        tableView.snp.makeConstraints { (make) in
+            make.top.equalTo(naviBar.snp.bottom)
+            make.centerX.width.bottom.equalToSuperview()
+        }
+        setRefresh()
+        loadData(page: 0)
+        loadCurrentInfo()
+    }
+    
+    
+    
+}
+
+class PVHomeUserLevelDetailVC: PVBaseNavigationVC {
+    
+    var dataArr = Array<PVHomeUserLevelDetailModel>()
+    
+    lazy var tableView: UITableView = {
+        let tb = UITableView.init(frame: .zero, style: .plain)
+        tb.backgroundColor = kColor_deepBackground
+        tb.separatorStyle = .none
+        tb.dataSource = self
+        tb.delegate = self
+        return tb
+    }()
+    
+    
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        title = "会员等级详情"
         view.backgroundColor = kColor_deepBackground
         view.addSubview(tableView)
         tableView.snp.makeConstraints { (make) in

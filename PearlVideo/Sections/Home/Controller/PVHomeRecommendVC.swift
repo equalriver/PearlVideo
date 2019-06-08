@@ -18,7 +18,7 @@ class PVHomeRecommendVC: PVBaseViewController {
     
     private var isLoadingMore = false
     
-    let threshold:   CGFloat = 0.7
+    let threshold: CGFloat = 0.7
     let itemPerPage = 10   //每页条数
     var page = 0
     
@@ -113,7 +113,7 @@ extension PVHomeRecommendVC: UICollectionViewDataSource, UICollectionViewDelegat
             let total = scrollView.contentSize.height
             let ratio = current / total
             
-            let needRead = CGFloat(itemPerPage) * threshold + CGFloat(page * itemPerPage)
+            let needRead = CGFloat(itemPerPage) * threshold + CGFloat(page * itemPerPage) * 0.8
             let totalItem = itemPerPage * (page + 1)
             let newThreshold = needRead / CGFloat(totalItem)
            

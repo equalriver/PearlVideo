@@ -252,18 +252,23 @@ class PVNetworkTool: SessionManager {
             // fileInfo 上传文件信息
             uploadManager.setUploadAuthAndAddress(fileInfo, uploadAuth: auth, uploadAddress: address)
         }
+        listener.progress = { (fileInfo, uploadedSize, totalSize) in
+            
+        }
         //上传完成回调
         listener.finish = { (fileInfo, result) in
             // fileInfo 上传文件信息
             // result 上传结果信息
             SVProgressHUD.dismiss()
             if let info: UploadFileInfo = fileInfo {
-                if info.state == .success {
-                    handle(true)
-                }
-                if info.state == .failure {
-                    uploadManager.stop()
-                    handle(false)
+                DispatchQueue.main.async {
+                    if info.state == .success {
+                        handle(true)
+                    }
+                    if info.state == .failure {
+                        uploadManager.stop()
+                        handle(false)
+                    }
                 }
             }
             if let result: VodUploadResult = result {
@@ -276,8 +281,10 @@ class PVNetworkTool: SessionManager {
             // code 错误码
             // message 错误描述
             uploadManager.stop()
-            SVProgressHUD.dismiss()
-            handle(false)
+            DispatchQueue.main.async {
+                SVProgressHUD.dismiss()
+                handle(false)
+            }
         }
         uploadManager.setListener(listener)
         

@@ -121,12 +121,20 @@ extension PVUserInfoVC: PVMeHeaderViewDelegate {
     }
     //长按头像
     func didLongPressBackground() {
-        
+        return
+    }
+    //关注
+    func didSelectedAttention() {
+        return
+    }
+    //粉丝
+    func didSelectedFans() {
+        return
     }
 }
 
-//MARK: - 作品
-extension PVUserInfoVC: PVMeProductionDelegate {
+//MARK: - 作品, 喜欢
+extension PVUserInfoVC: PVMeProductionDelegate, PVMeLikeDelegate {
     
     func didBeginHeaderRefresh(sender: UIScrollView?) {
         DispatchQueue.main.asyncAfter(deadline: .now() + 0.2) {
@@ -155,7 +163,7 @@ extension PVUserInfoVC {
             return productionVC
         }
         if index == 1 {//喜欢
-            
+            return likeVC
         }
         
         return UIViewController()

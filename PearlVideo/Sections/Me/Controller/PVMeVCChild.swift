@@ -18,7 +18,7 @@ class PVMeProductionVC: PVBaseViewController {
     
     var dataArr = Array<PVMeVideoList>()
     
-    let threshold:   CGFloat = 0.7
+    let threshold: CGFloat = 0.7
     let itemPerPage: CGFloat = 10   //每页条数
     var page: CGFloat = 0
     
@@ -64,7 +64,7 @@ class PVMeLikeVC: PVBaseViewController {
     
     var dataArr = Array<PVMeVideoList>()
     
-    let threshold:   CGFloat = 0.7
+    let threshold: CGFloat = 0.7
     let itemPerPage: CGFloat = 10   //每页条数
     var page: CGFloat = 0
     
@@ -111,7 +111,7 @@ class PVMeSecureVC: PVBaseViewController {
     
     var dataArr = Array<PVMeVideoList>()
     
-    let threshold:   CGFloat = 0.7
+    let threshold: CGFloat = 0.7
     let itemPerPage: CGFloat = 10   //每页条数
     var page: CGFloat = 0
     

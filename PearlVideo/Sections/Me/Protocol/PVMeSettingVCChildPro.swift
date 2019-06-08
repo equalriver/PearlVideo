@@ -383,19 +383,54 @@ extension PVMeFeedbackVC {
         let uploadImages = imgs.filter { (obj) -> Bool in
             return obj != addImg
         }
+        let group = DispatchGroup.init()
         var imgPaths = Array<String>()
-        for v in uploadImages {
-            if let p = v.ypj.saveImageToLocalFolder(directory: .cachesDirectory, compressionQuality: 1.0) {
-                imgPaths.append(p)
+        for (i, v) in uploadImages.enumerated() {
+            guard let p = v.ypj.saveImageToLocalFolder(directory: .cachesDirectory, compressionQuality: 1.0) else {
+                view.makeToast("上传图片失败")
+                return
             }
+            
+            func upload(imgPath: String) {
+                PVNetworkTool.Request(router: .getAuthWithUploadImage(imageExt: "jpg"), success: { (resp) in
+                    
+                    if let d = Mapper<PVUploadImageModel>().map(JSONObject: resp["result"].object) {
+                        PVNetworkTool.uploadFileWithAliyun(description: "", auth: d.uploadAuth, address: d.uploadAddress, filePath: imgPath, handle: { (isSuccess) in
+                            if isSuccess == false {
+                                SVProgressHUD.showError(withStatus: "上传图片失败")
+                                return
+                            }
+                            imgPaths.append(d.imageUrl)
+                        })
+                    }
+                    
+                }) { (e) in
+                    sender.isEnabled = true
+                }
+            }
+            
+            DispatchQueue.global().async(group: group, execute: DispatchWorkItem.init(block: {
+                upload(imgPath: p)
+                print("上传第\(i)张图片")
+            }))
+            
         }
-        //FIX
+        if imgPaths.count != uploadImages.count {
+            view.makeToast("上传图片失败")
+            return
+        }
         //类型: 1解冻 2优化意见 3其他
-        PVNetworkTool.Request(router: .feedback(type: type, name: name, phone: phone, idCard: idCard, imageUrl: [""], content: content), success: { (resp) in
-            self.navigationController?.popToRootViewController(animated: true)
-            
-        }) { (e) in
-            
+        group.notify(queue: .global()) {
+            print("group  notify")
+            PVNetworkTool.Request(router: .feedback(type: self.type, name: self.name, phone: self.phone, idCard: self.idCard, imageUrl: imgPaths, content: self.content), success: { (resp) in
+                self.view.makeToast("提交成功")
+                DispatchQueue.main.asyncAfter(deadline: .now() + 2, execute: {
+                    self.navigationController?.popToRootViewController(animated: true)
+                })
+                
+            }) { (e) in
+                
+            }
         }
     }
     

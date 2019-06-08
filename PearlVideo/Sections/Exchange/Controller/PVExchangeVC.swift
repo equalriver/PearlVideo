@@ -10,6 +10,17 @@ class PVExchangeVC: PVBaseNavigationVC {
     
     var isBuyOrderView = true
     
+    var isLoadingMore = false
+    
+    let threshold: CGFloat = 0.7
+    let itemPerPage = 10   //每页条数
+    var page = 0
+    
+    var dataArr = Array<PVExchangeOrderList>()
+    var searchArr = Array<PVExchangeOrderList>()
+    var data = PVExchangeInfoModel()
+    
+    
     lazy var segment: UISegmentedControl = {
         let s = UISegmentedControl.init(items: ["我要买", "我要卖"])
         if #available(iOS 11.0, *) { s.isSpringLoaded = true }
@@ -63,8 +74,10 @@ class PVExchangeVC: PVBaseNavigationVC {
         super.viewDidLoad()
         title = "交换中心"
         naviBar.rightBarButtons = [recordBtn]
-        naviBar.isHidden = true
-        view.stateEmpty(title: nil, img: nil, buttonTitle: nil, handle: nil)
+        initUI()
+        setRefresh()
+        loadData(page: 0)
+        loadInfoData()
     }
     
     func initUI() {

@@ -7,9 +7,15 @@
 //
 
 //MARK: - 会员等级
+protocol PVHomeUserLevelHeaderDelegate: NSObjectProtocol {
+    func didSelectedLevelDetail()
+}
+
 class PVHomeUserLevelHeaderView: UIView {
     
-    public var data: PVHomeUserLevelModel! {
+    weak public var delegate: PVHomeUserLevelHeaderDelegate?
+    
+    public var data: PVHomeCurrentUserLevel! {
         didSet{
             levelLabel.text = data.level
             xpLabel.text = "经验值：\(data.expToal)"
@@ -26,7 +32,7 @@ class PVHomeUserLevelHeaderView: UIView {
     }()
     lazy var levelBtn: UIButton = {
         let b = UIButton()
-        b.titleLabel?.font = UIFont.systemFont(ofSize: 24 * KScreenRatio_6, weight: UIFont.Weight.semibold)
+        b.titleLabel?.font = UIFont.systemFont(ofSize: 18 * KScreenRatio_6, weight: UIFont.Weight.semibold)
         b.setTitleColor(kColor_text, for: .normal)
         b.setTitle(" 会员等级", for: .normal)
         b.setImage(UIImage.init(named: "home_level_diamond"), for: .normal)
@@ -44,6 +50,16 @@ class PVHomeUserLevelHeaderView: UIView {
         l.textColor = kColor_subText
         return l
     }()
+    lazy var levelDetailBtn: UIButton = {
+        let b = UIButton()
+        b.titleLabel?.font = kFont_text_2
+        b.setTitle("会员等级", for: .normal)
+        b.setTitleColor(UIColor.white, for: .normal)
+        b.backgroundColor = UIColor.init(hexString: "#FFC525")
+        b.layer.cornerRadius = 5
+        b.addTarget(self, action: #selector(detailAction(sender:)), for: .touchUpInside)
+        return b
+    }()
     
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -52,8 +68,9 @@ class PVHomeUserLevelHeaderView: UIView {
         addSubview(levelBtn)
         addSubview(xpLabel)
         addSubview(noticeLabel)
+        addSubview(levelDetailBtn)
         levelLabel.snp.makeConstraints { (make) in
-            make.top.equalToSuperview().offset(40 * KScreenRatio_6)
+            make.top.equalToSuperview().offset(30 * KScreenRatio_6)
             make.centerX.width.equalToSuperview()
         }
         levelBtn.snp.makeConstraints { (make) in
@@ -62,11 +79,15 @@ class PVHomeUserLevelHeaderView: UIView {
         }
         xpLabel.snp.makeConstraints { (make) in
             make.left.equalToSuperview().offset(20 * KScreenRatio_6)
-            make.top.equalTo(levelBtn.snp.bottom).offset(15 * KScreenRatio_6)
+            make.bottom.equalTo(noticeLabel.snp.top).offset(-10)
         }
         noticeLabel.snp.makeConstraints { (make) in
             make.left.width.equalTo(xpLabel)
-            make.top.equalTo(xpLabel.snp.bottom).offset(12 * KScreenRatio_6)
+            make.bottom.equalToSuperview().offset(-15 * KScreenRatio_6)
+        }
+        levelDetailBtn.snp.makeConstraints { (make) in
+            make.size.equalTo(CGSize.init(width: 70 * KScreenRatio_6, height: 25 * KScreenRatio_6))
+            make.bottom.right.equalToSuperview().offset(-15 * KScreenRatio_6)
         }
     }
     
@@ -74,11 +95,84 @@ class PVHomeUserLevelHeaderView: UIView {
         fatalError("init(coder:) has not been implemented")
     }
     
+    @objc func detailAction(sender: UIButton) {
+        delegate?.didSelectedLevelDetail()
+    }
+    
 }
 
 class PVHomeUserLevelCell: PVBaseTableCell {
     
-    public var data: PVHomeUserLevelList! {
+    public var data = PVHomeUserLevelModel() {
+        didSet{
+            titleLabel.text = data.title
+            dateLabel.text = formatter.string(from: Date.init(timeIntervalSince1970: TimeInterval(data.createAt)))
+            detailLabel.text = "+\(data.value)"
+        }
+    }
+    
+    lazy var titleLabel: UILabel = {
+        let l = UILabel()
+        l.font = kFont_btn_weight
+        l.textColor = UIColor.white
+        return l
+    }()
+    lazy var dateLabel: UILabel = {
+        let l = UILabel()
+        l.font = kFont_text_3
+        l.textColor = kColor_subText
+        return l
+    }()
+    lazy var detailLabel: UILabel = {
+        let l = UILabel()
+        l.font = kFont_text_2_weight
+        l.textColor = UIColor.white
+        l.textAlignment = .right
+        return l
+    }()
+    lazy var formatter: DateFormatter = {
+        let f = DateFormatter()
+        f.dateFormat = "yyyy-MM-dd HH:mm:ss"
+        return f
+    }()
+    
+    override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
+        super.init(style: style, reuseIdentifier: reuseIdentifier)
+        contentView.backgroundColor = kColor_background
+        contentView.addSubview(titleLabel)
+        contentView.addSubview(detailLabel)
+        contentView.addSubview(dateLabel)
+
+        titleLabel.snp.makeConstraints { (make) in
+            make.left.equalToSuperview().offset(25 * KScreenRatio_6)
+            make.top.equalToSuperview().offset(20 * KScreenRatio_6)
+        }
+        dateLabel.snp.makeConstraints { (make) in
+            make.left.equalTo(titleLabel)
+            make.top.equalTo(titleLabel.snp.bottom).offset(10 * KScreenRatio_6)
+            make.width.equalToSuperview().multipliedBy(0.5)
+        }
+        detailLabel.snp.makeConstraints { (make) in
+            make.right.equalToSuperview().offset(-20 * KScreenRatio_6)
+            make.centerY.equalToSuperview()
+        }
+    }
+    
+    required init?(coder aDecoder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
+    override func prepareForReuse() {
+        super.prepareForReuse()
+        titleLabel.text = nil
+        detailLabel.text = nil
+        dateLabel.text = nil
+    }
+}
+
+class PVHomeUserLevelDetailCell: PVBaseTableCell {
+    
+    public var data: PVHomeUserLevelDetailModel! {
         didSet{
             let s = "会员等级 \(data.name)"
             let att = NSMutableAttributedString.init(string: s)
