@@ -28,7 +28,7 @@ extension PVHomeVC {
     }
     
     func loadData() {
-        PVNetworkTool.Request(router: .homePage(), success: { (resp) in
+        PVNetworkTool.Request(router: .homePage, success: { (resp) in
             if let d = Mapper<PVHomeModel>().map(JSONObject: resp["result"].object) {
                 self.data = d
                 self.headerView.data = d
@@ -42,7 +42,7 @@ extension PVHomeVC {
     
     func checkVersion() {
         
-        PVNetworkTool.Request(router: .getVersion(), success: { (resp) in
+        PVNetworkTool.Request(router: .getVersion, success: { (resp) in
             if let d = Mapper<PVVersionModel>().map(JSONObject: resp["result"].object) {
                 if d.versionCode != kAppUpdateVersionValue {
                     YPJOtherTool.ypj.showAlert(title: nil, message: "有新版本需要更新", style: .alert, isNeedCancel: false, handle: { (ac) in

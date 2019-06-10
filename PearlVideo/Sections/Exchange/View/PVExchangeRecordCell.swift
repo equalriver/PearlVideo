@@ -10,6 +10,15 @@
 
 class PVExchangeRecordCell: PVBaseTableCell {
     
+    public var data: PVExchangeRecordList! {
+        didSet{
+            avatarIV.kf.setImage(with: URL.init(string: data.avatarURL))
+            nameLabel.text = data.nickname
+            countLabel.text = "数量：\(data.count)平安果"
+            exchangeCostLabel.text = "交换金额：￥\(data.totalPrice)"
+            dateLabel.text = data.date
+        }
+    }
     
     lazy var avatarIV: UIImageView = {
         let v = UIImageView()

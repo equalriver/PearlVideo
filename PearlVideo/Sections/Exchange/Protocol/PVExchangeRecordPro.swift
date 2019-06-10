@@ -20,7 +20,18 @@ extension PVExchangeRecordVC {
     }
     
     override func pageController(_ pageController: WMPageController, viewControllerAt index: Int) -> UIViewController {
-        
+        if index == 0 {//买单
+            return PVExchangeRecordBuyVC()
+        }
+        if index == 1 {//卖单
+            
+        }
+        if index == 2 {//交换中
+            
+        }
+        if index == 3 {//已完成
+            
+        }
         return UIViewController()
     }
     
@@ -48,6 +59,23 @@ extension PVExchangeRecordBuyVC {
     }
     
     func loadData(page: Int) {
+        PVNetworkTool.Request(router: .recordList(type: .buy, nextPage: page), success: { (resp) in
+            self.tableView.mj_footer.endRefreshing()
+            if let d = Mapper<PVExchangeRecordList>().mapArray(JSONObject: resp["result"]["orderList"].arrayObject) {
+                if page == 0 { self.dataArr = d }
+                else {
+                    self.dataArr += d
+                    if d.count == 0 { self.page -= 1 }
+                }
+                if self.dataArr.count == 0 { self.tableView.stateEmpty() }
+                else { self.tableView.stateNormal() }
+                self.tableView.reloadData()
+            }
+            
+        }) { (e) in
+            self.page = self.page > 0 ? self.page - 1 : 0
+            self.tableView.mj_footer.endRefreshing()
+        }
         
     }
 }
@@ -55,7 +83,7 @@ extension PVExchangeRecordBuyVC {
 extension PVExchangeRecordBuyVC: UITableViewDelegate, UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return 0
+        return dataArr.count
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
@@ -67,7 +95,9 @@ extension PVExchangeRecordBuyVC: UITableViewDelegate, UITableViewDataSource {
         if cell == nil {
             cell = PVExchangeRecordCell.init(style: .default, reuseIdentifier: "PVExchangeRecordCell")
         }
-        
+        guard dataArr.count > indexPath.row else { return cell! }
+        cell?.handleLabel.text = "买入"
+        cell?.data = dataArr[indexPath.row]
         return cell!
     }
     

@@ -12,7 +12,7 @@ import ObjectMapper
 extension PVHomeMessageVC {
     //获取消息状态
     func getMessageStatus() {
-        PVNetworkTool.Request(router: .messageBadgeState(), success: { (resp) in
+        PVNetworkTool.Request(router: .messageBadgeState, success: { (resp) in
             if let fs = resp["result"]["followMessageStatus"].bool {
                 self.followMessageStatus = fs
             }

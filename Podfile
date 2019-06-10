@@ -23,6 +23,7 @@ pod 'TZImagePickerController'
 #pod 'lottie-ios'
 pod 'FSPagerView'
 pod 'SDWebImage'
+#pod 'YBImageBrowser'
 
 #短视频相关
 pod 'AliyunPlayer_iOS/AliyunVodPlayerSDK'

@@ -138,7 +138,7 @@ class PVVideoShareVC: PVBaseNavigationVC {
     }
     
     func loadData() {
-        PVNetworkTool.Request(router: .getInviteCode(), success: { (resp) in
+        PVNetworkTool.Request(router: .getInviteCode, success: { (resp) in
             if let d = Mapper<PVVideoShareModel>().map(JSONObject: resp["result"].object) {
                 self.data = d
             }

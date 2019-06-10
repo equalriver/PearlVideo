@@ -26,6 +26,9 @@ class PVExchangeVC: PVBaseNavigationVC {
         if #available(iOS 11.0, *) { s.isSpringLoaded = true }
         s.backgroundColor = kColor_deepBackground
         s.tintColor = kColor_pink
+        s.selectedSegmentIndex = 0
+        s.setTitleTextAttributes([.font: kFont_text_2, .foregroundColor: kColor_subText!], for: .normal)
+        s.setTitleTextAttributes([.font: kFont_text_2, .foregroundColor: UIColor.white], for: .selected)
         s.addTarget(self, action: #selector(segmentAction(sender:)), for: .valueChanged)
         return s
     }()
@@ -74,10 +77,15 @@ class PVExchangeVC: PVBaseNavigationVC {
         super.viewDidLoad()
         title = "交换中心"
         naviBar.rightBarButtons = [recordBtn]
+        naviBar.isNeedBackButton = false
         initUI()
         setRefresh()
-        loadData(page: 0)
-        loadInfoData()
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        if dataArr.count == 0 { loadData(page: 0) }
+        if data.maxPrice == 0 { loadInfoData() }
     }
     
     func initUI() {

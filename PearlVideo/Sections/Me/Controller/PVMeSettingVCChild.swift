@@ -241,7 +241,7 @@ class PVMePasswordChangeVC: PVBaseNavigationVC {
         tf.attributedPlaceholder = NSAttributedString.init(string: "请输入手机号码", attributes: [.font: kFont_text, .foregroundColor: kColor_subText!])
         tf.textColor = UIColor.white
         tf.clearButtonMode = .whileEditing
-        tf.keyboardType = .numbersAndPunctuation
+        tf.keyboardType = .numberPad
         tf.addTarget(self, action: #selector(textFieldEditingChange(sender:)), for: .editingChanged)
         return tf
     }()
@@ -251,7 +251,7 @@ class PVMePasswordChangeVC: PVBaseNavigationVC {
         tf.attributedPlaceholder = NSAttributedString.init(string: "请输入验证码", attributes: [.font: kFont_text, .foregroundColor: kColor_subText!])
         tf.textColor = UIColor.white
         tf.clearButtonMode = .whileEditing
-        tf.keyboardType = .numbersAndPunctuation
+        tf.keyboardType = .numberPad
         tf.addTarget(self, action: #selector(textFieldEditingChange(sender:)), for: .editingChanged)
         if #available(iOS 12.0, *) {
             tf.textContentType = UITextContentType.oneTimeCode
@@ -293,10 +293,7 @@ class PVMePasswordChangeVC: PVBaseNavigationVC {
         title = "修改密码"
     }
     
-    deinit {
-        timer.resume()
-        timer.cancel()
-    }
+ 
     
     func initUI() {
         view.addSubview(phoneTF)
@@ -426,7 +423,7 @@ class PVMeExchangePsdVC: PVBaseNavigationVC {
         tf.attributedPlaceholder = NSAttributedString.init(string: "输入您的手机号", attributes: [.font: kFont_text, .foregroundColor: kColor_subText!])
         tf.textColor = UIColor.white
         tf.clearButtonMode = .whileEditing
-        tf.keyboardType = .numbersAndPunctuation
+        tf.keyboardType = .numberPad
         tf.addTarget(self, action: #selector(textFieldEditingChange(sender:)), for: .editingChanged)
         return tf
     }()
@@ -436,7 +433,7 @@ class PVMeExchangePsdVC: PVBaseNavigationVC {
         tf.attributedPlaceholder = NSAttributedString.init(string: "请输入验证码", attributes: [.font: kFont_text, .foregroundColor: kColor_subText!])
         tf.textColor = UIColor.white
         tf.clearButtonMode = .whileEditing
-        tf.keyboardType = .numbersAndPunctuation
+        tf.keyboardType = .numberPad
         tf.addTarget(self, action: #selector(textFieldEditingChange(sender:)), for: .editingChanged)
         if #available(iOS 12.0, *) {
             tf.textContentType = UITextContentType.oneTimeCode
@@ -496,10 +493,7 @@ class PVMeExchangePsdVC: PVBaseNavigationVC {
         initUI()
     }
     
-    deinit {
-        timer.resume()
-        timer.cancel()
-    }
+ 
     
     func initUI() {
         view.addSubview(phoneTF)

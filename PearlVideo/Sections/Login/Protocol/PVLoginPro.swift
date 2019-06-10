@@ -28,17 +28,17 @@ extension PVLoginVC {
         sender.isEnabled = false
         PVNetworkTool.Request(router: .getAuthCode(phone: phoneTF.text!), success: { (resp) in
             auth()
-            
+
         }) { (e) in
             sender.isEnabled = true
-            
+
         }
         
         func auth() {
             var t = 60
-            self.timer.setEventHandler {
+            self.timer.setEventHandler { [weak self] in
                 if t <= 1 {
-                    self.timer.suspend()
+                    self?.timer.suspend()
                     DispatchQueue.main.async {
                         sender.setTitle("获取验证码", for: .normal)
                         sender.backgroundColor = kColor_pink
@@ -57,6 +57,7 @@ extension PVLoginVC {
             self.timer.resume()
             authCodeTF.becomeFirstResponder()
         }
+        
     }
     
     //登录方式切换

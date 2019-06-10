@@ -29,7 +29,7 @@ class PVForgetPsdVC: PVBaseNavigationVC {
         tf.font = kFont_text
         tf.textColor = UIColor.white
         tf.attributedPlaceholder = NSAttributedString.init(string: "请输入手机号码", attributes: [.font: kFont_text, .foregroundColor: kColor_text!])
-        tf.keyboardType = .numbersAndPunctuation
+        tf.keyboardType = .numberPad
         tf.clearButtonMode = .whileEditing
         tf.textAlignment = .center
         tf.layer.cornerRadius = 20 * KScreenRatio_6
@@ -44,7 +44,7 @@ class PVForgetPsdVC: PVBaseNavigationVC {
         tf.font = kFont_text
         tf.textColor = UIColor.white
         tf.attributedPlaceholder = NSAttributedString.init(string: "请输入验证码", attributes: [.font: kFont_text, .foregroundColor: kColor_text!])
-        tf.keyboardType = .numbersAndPunctuation
+        tf.keyboardType = .numberPad
         tf.clearButtonMode = .whileEditing
         tf.textAlignment = .center
         tf.layer.cornerRadius = 20 * KScreenRatio_6
@@ -98,10 +98,6 @@ class PVForgetPsdVC: PVBaseNavigationVC {
         
     }
     
-    deinit {
-        timer.resume()
-        timer.cancel()
-    }
 
     func initUI() {
         view.addSubview(titleLabel)
@@ -223,9 +219,9 @@ class PVForgetPsdVC: PVBaseNavigationVC {
         
         func auth() {
             var t = 60
-            self.timer.setEventHandler {
+            self.timer.setEventHandler { [weak self] in
                 if t <= 1 {
-                    self.timer.suspend()
+                    self?.timer.suspend()
                     DispatchQueue.main.async {
                         sender.setTitle("获取验证码", for: .normal)
                         sender.backgroundColor = kColor_pink

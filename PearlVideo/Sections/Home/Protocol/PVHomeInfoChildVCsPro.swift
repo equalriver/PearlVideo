@@ -24,7 +24,7 @@ extension PVHomeUserLevelVC {
     }
     
     func loadCurrentInfo() {
-        PVNetworkTool.Request(router: .currentUserLevel(), success: { (resp) in
+        PVNetworkTool.Request(router: .currentUserLevel, success: { (resp) in
             if let d = Mapper<PVHomeCurrentUserLevel>().map(JSONObject: resp["result"].object) {
                 self.infoData = d
                 self.headerView.data = d
@@ -96,7 +96,7 @@ extension PVHomeUserLevelDetailVC {
     }
     
     func loadData() {
-        PVNetworkTool.Request(router: .userLevelDetail(), success: { (resp) in
+        PVNetworkTool.Request(router: .userLevelDetail, success: { (resp) in
         
             if let d = Mapper<PVHomeUserLevelDetailModel>().mapArray(JSONObject: resp["result"]["levelList"].arrayObject) {
                 self.dataArr = d

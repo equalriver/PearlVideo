@@ -113,6 +113,7 @@ class PVNetworkTool: SessionManager {
                             DispatchQueue.ypj_once(token: "login", block: {
                                 DispatchQueue.main.async {
                                     guard let vc = YPJOtherTool.ypj.currentViewController() else { return }
+                                    if vc.isKind(of: PVLoginVC.self) { return }
                                     YPJOtherTool.ypj.loginValidate(currentVC: vc, isLogin: nil)
                                 }
                             })
@@ -141,7 +142,7 @@ class PVNetworkTool: SessionManager {
                         }
                         SVProgressHUD.showError(withStatus: error.localizedDescription)
                         failure(error)
-                        DispatchQueue.main.asyncAfter(deadline: .now() + 2, execute: {
+                        DispatchQueue.main.asyncAfter(deadline: .now() + 1.5, execute: {
                             SVProgressHUD.dismiss()
                         })
                     }

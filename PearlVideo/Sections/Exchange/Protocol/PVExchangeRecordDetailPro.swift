@@ -9,8 +9,22 @@
 //MARK: - 买单详情
 extension PVExchangeRecordBuyDetailVC {
     
+    func loadData() {
+        PVNetworkTool.Request(router: .recordDetail(orderId: orderId), success: { (resp) in
+            
+            
+        }) { (e) in
+            
+        }
+    }
+    
     @objc func cancelOrder(sender: UIButton) {
-        
+        PVNetworkTool.Request(router: .cancelOrder(orderId: orderId), success: { (resp) in
+            
+            
+        }) { (e) in
+            
+        }
     }
     
 }
@@ -61,8 +75,8 @@ extension PVExchangeRecordChangingDetailVC: ChangingScreenshotDelegate {
         }
     }
     
-    func didTapScreenshot() {
-        if type == .waitForPay {
+    func didTapScreenshot(image: UIImage?) {
+        if type == .waitForPay {//待支付重新上传
             YPJOtherTool.ypj.getPhotosAuth(target: self) {
                 let picker = UIImagePickerController()
                 picker.allowsEditing = true
@@ -70,6 +84,13 @@ extension PVExchangeRecordChangingDetailVC: ChangingScreenshotDelegate {
                 picker.delegate = self
                 self.present(picker, animated: true, completion: nil)
             }
+        }
+        else {//查看图片
+            guard image != nil else { return }
+            guard uploadImageURL != nil else { return }
+            let imgManager = LZImageBrowserManager.init(urlStr: [uploadImageURL!.absoluteString], originImageViews: [screenshotView.imageIV], originController: self, forceTouch: false, forceTouchActionTitles: nil, forceTouchActionComplete: nil)
+            imgManager.selectPage = 0
+            imgManager.showImageBrowser()
         }
     }
     

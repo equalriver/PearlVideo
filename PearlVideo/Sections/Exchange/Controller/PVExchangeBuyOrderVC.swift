@@ -10,9 +10,9 @@ class PVExchangeBuyOrderVC: PVBaseNavigationVC {
     
     let titles = ["价格区间", "单价", "平安果数量", "总金额", "交换密码", "收款账号"]
     
-    var price = ""
+    var price = 0.0
     
-    var count = ""
+    var count = 0
     
     var password = ""
     
@@ -54,17 +54,31 @@ class PVExchangeBuyOrderVC: PVBaseNavigationVC {
             make.top.equalTo(tableView.snp.bottom).offset(10)
             make.centerX.equalToSuperview()
         }
+        loadInfo()
     }
     
     @objc func textFieldEditingChange(sender: UITextField) {
-        sendBtn.isEnabled = price.count > 0 && count.count > 0 && password.count > 0
+        sendBtn.isEnabled = price > 0 && count > 0 && password.count > 0
         sendBtn.backgroundColor = sendBtn.isEnabled ? kColor_pink : UIColor.gray
     }
     
     @objc func sendAction(sender: UIButton) {
-        
+        PVNetworkTool.Request(router: .sendBuyOrder(price: price, count: count, password: password), success: { (resp) in
+            
+            
+        }) { (e) in
+            
+        }
     }
     
+    func loadInfo() {
+        PVNetworkTool.Request(router: .readySendBuyOrder, success: { (resp) in
+            
+            
+        }) { (e) in
+            
+        }
+    }
     
 }
 

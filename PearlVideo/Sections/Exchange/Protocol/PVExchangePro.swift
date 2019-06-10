@@ -7,12 +7,22 @@
 //
 
 import ObjectMapper
+import SVProgressHUD
 
 extension PVExchangeVC {
     
+    override func rightButtonsAction(sender: UIButton) {
+        let vc = PVExchangeRecordVC()
+        navigationController?.pushViewController(vc, animated: true)
+    }
+    
     func loadInfoData() {
-        PVNetworkTool.Request(router: .exchangeInfo(), success: { (resp) in
-            //PVExchangeInfoModel
+        PVNetworkTool.Request(router: .exchangeInfo, success: { (resp) in
+            if let d = Mapper<PVExchangeInfoModel>().map(JSONObject: resp["result"].object) {
+                self.data = d
+                self.headerView.data = d
+                self.tableView.tableHeaderView = self.headerView
+            }
             
         }) { (e) in
             
@@ -23,13 +33,17 @@ extension PVExchangeVC {
         isLoadingMore = true
         PVNetworkTool.Request(router: .exchangeInfoList(isBuyOrder: isBuyOrderView, phone: "", page: page * 10), success: { (resp) in
             
-            if let d = Mapper<PVExchangeOrderList>().mapArray(JSONObject: resp["result"]["videoList"].arrayObject) {
+            if let d = Mapper<PVExchangeOrderList>().mapArray(JSONObject: resp["result"]["orderList"].arrayObject) {
                 if page == 0 {
                     self.dataArr = d
                 }
                 else {
                     self.dataArr += d
-                    if d.count == 0 { self.page -= 1 }
+                    if d.count == 0 {
+                        self.page -= 1
+                        self.isLoadingMore = false
+                        return
+                    }
                 }
                 if self.dataArr.count == 0 { self.tableView.stateEmpty() }
                 else { self.tableView.stateNormal() }
@@ -42,6 +56,20 @@ extension PVExchangeVC {
         }) { (e) in
             self.page = self.page > 0 ? self.page - 1 : 0
             self.isLoadingMore = false
+        }
+    }
+    
+    @objc func searchData(phone: String) {
+        PVNetworkTool.Request(router: .exchangeInfoList(isBuyOrder: isBuyOrderView, phone: phone, page: page * 10), success: { (resp) in
+            
+            if let d = Mapper<PVExchangeOrderList>().mapArray(JSONObject: resp["result"]["orderList"].arrayObject) {
+                self.searchArr = d
+//                self.searchVC.searchSuggestionView.reloadData()
+                
+            }
+            
+        }) { (e) in
+            
         }
     }
     
@@ -78,7 +106,7 @@ extension PVExchangeVC: UITableViewDelegate, UITableViewDataSource {
     }
     
     func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
-        return 40 * KScreenRatio_6
+        return 60 * KScreenRatio_6
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -104,7 +132,7 @@ extension PVExchangeVC: UITableViewDelegate, UITableViewDataSource {
             let total = scrollView.contentSize.height
             let ratio = current / total
             
-            let needRead = CGFloat(itemPerPage) * threshold + CGFloat(page * itemPerPage) * 0.8 
+            let needRead = CGFloat(itemPerPage) * threshold + CGFloat(page * itemPerPage) * 0.8
             let totalItem = itemPerPage * (page + 1)
             let newThreshold = needRead / CGFloat(totalItem)
             
@@ -124,16 +152,40 @@ extension PVExchangeVC: PVExchangeOrderDelegate {
     
     func didSelectedDeal(cell: PVExchangeCell, isBuyOrder: Bool) {
         guard let indexPath = tableView.indexPath(for: cell) else { return }
-        if cell.isBuyOrder {//买入
-            PVNetworkTool.Request(router: .readyAcceptOrder(orderId: dataArr[indexPath.row].orderId), success: { (resp) in
+        
+        func acceptOrder(id: String, psd: String, count: Int, isBuyOrder: Bool) {
+            PVNetworkTool.Request(router: .acceptOrder(orderId: id, password: psd, count: count), success: { (resp) in
+                SVProgressHUD.showSuccess(withStatus: "接单成功")
+                let vc = PVExchangeRecordVC()
+                vc.selectIndex = isBuyOrder ? 0 : 1
+                DispatchQueue.main.asyncAfter(deadline: .now() + 1.5, execute: {
+                    self.navigationController?.pushViewController(vc, animated: true)
+                })
                 
             }) { (e) in
                 
             }
         }
-        else {//卖出
+        
+        SVProgressHUD.show()
+        PVNetworkTool.Request(router: .readyAcceptOrder(orderId: self.dataArr[indexPath.row].orderId), success: { (resp) in
+            SVProgressHUD.dismiss()
+            guard let d = Mapper<PVExchangeReadyAcceptOrderModel>().map(JSONObject: resp["result"].object) else { return }
+            if cell.isBuyOrder {//买入
+                let alert = PVExchangeBuyAlert.init(frame: self.view.bounds) { (count, psd) in
+                    acceptOrder(id: self.dataArr[indexPath.row].orderId, psd: psd, count: Int(count) ?? 0, isBuyOrder: cell.isBuyOrder)
+                }
+                alert.data = d
+                self.view.addSubview(alert)
+            }
+            else {//卖出
+                
+            }
+            
+        }) { (e) in
             
         }
+        
     }
     
 }
@@ -147,7 +199,14 @@ extension PVExchangeVC: PVExchangeHeaderSectionDelegate {
     }
     //发单
     func didSelectedSendOrder() {
-        
+        if isBuyOrderView {
+            let vc = PVExchangeBuyOrderVC()
+            navigationController?.pushViewController(vc, animated: true)
+        }
+        else {
+            let vc = PVExchangeSellOrderVC()
+            navigationController?.pushViewController(vc, animated: true)
+        }
     }
 
 }
@@ -169,27 +228,29 @@ extension PVExchangeVC: PYSearchViewControllerDelegate, PYSearchViewControllerDa
             cell = PVExchangeCell.init(style: .default, reuseIdentifier: "PVExchangeCell")
         }
         guard searchArr.count > indexPath.row else { return cell! }
-        
+        cell?.delegate = self
+        cell?.data = searchArr[indexPath.row]
+        cell?.isBuyOrder = isBuyOrderView
         return cell!
     }
     
     
     func searchViewController(_ searchViewController: PYSearchViewController!, searchTextDidChange searchBar: UISearchBar!, searchText: String!) {
-        
-        
+        NSObject.cancelPreviousPerformRequests(withTarget: self, selector: #selector(searchData(phone:)), object: nil)
+        self.perform(#selector(searchData(phone:)), with: searchText, afterDelay: 0.5)
         
     }
     
     func searchViewController(_ searchViewController: PYSearchViewController!, didSelectSearchSuggestionAt indexPath: IndexPath!, searchBar: UISearchBar!) {
         
-        guard searchArr.count > indexPath.row else { return }
-        
-        searchViewController.dismiss(animated: true) {
-            
-            DispatchQueue.main.async {
-                
-            }
-        }
+//        guard searchArr.count > indexPath.row else { return }
+//
+//        searchViewController.dismiss(animated: true) {
+//
+//            DispatchQueue.main.async {
+//
+//            }
+//        }
         
     }
     

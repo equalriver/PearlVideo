@@ -31,6 +31,7 @@ class PVExchangeRecordVC: PVBaseWMPageVC {
 class PVExchangeRecordBuyVC: PVBaseViewController {
     
     var page = 0
+    var dataArr = Array<PVExchangeRecordList>()
     
     
     lazy var tableView: UITableView = {

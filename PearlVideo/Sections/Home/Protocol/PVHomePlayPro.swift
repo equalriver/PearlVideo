@@ -12,7 +12,7 @@ import AliyunVodPlayerSDK
 extension PVHomePlayVC {
     //获取点播STS
     func getSTS() {
-        PVNetworkTool.Request(router: .getVideoSTS(), success: { (resp) in
+        PVNetworkTool.Request(router: .getVideoSTS, success: { (resp) in
             if let accessKeyId = resp["result"]["accessKeyId"].string {
                 self.accessKeyId = accessKeyId
             }

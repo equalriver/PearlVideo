@@ -45,7 +45,7 @@ class PVMeSettingVC: PVBaseNavigationVC {
     }
 
     func loadData() {
-        PVNetworkTool.Request(router: .getUserValidateStatus(), success: { (resp) in
+        PVNetworkTool.Request(router: .getUserValidateStatus, success: { (resp) in
             if let d = Mapper<PVMeUserValidateModel>().map(JSONObject: resp["result"].object) {
                 self.data = d
                 self.tableView.reloadData()

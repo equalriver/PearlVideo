@@ -17,7 +17,7 @@ extension PVHomeMyTeamVC {
     }
     
     func loadData() {
-        PVNetworkTool.Request(router: .teamInfo(), success: { (resp) in
+        PVNetworkTool.Request(router: .teamInfo, success: { (resp) in
             if let d = Mapper<PVHomeTeamModel>().map(JSONObject: resp["result"].object) {
                 self.data = d
             }

@@ -121,6 +121,35 @@ class PVExchangeRecordSellDetailView: PVExchangeRecordBuyDetailView {
 //MARK: - 交换中
 class ChangingDetailHeadView: UIView {
     
+    public var data: PVExchangeRecordDetailModel! {
+        didSet{
+            var t = data.leftTime
+            timer.setEventHandler { [weak self] in
+                if t >= 1 {
+                    t -= 1
+                    DispatchQueue.main.async {
+                        let time = self?.formatter.string(from: Date.init(timeIntervalSince1970: TimeInterval(t)))
+                        self?.leftTimeLabel.text = time
+                    }
+                }
+                else {
+                    self?.timer.suspend()
+                    DispatchQueue.main.async {
+                        self?.leftTimeLabel.text = nil
+                    }
+                }
+            }
+            timer.resume()
+            
+            //
+            costItemView.detailLabel.text = "¥\(data.totalPrice)"
+            priceItemView.detailLabel.text = "¥\(data.price)"
+            countItemView.detailLabel.text = "\(data.count)平安果"
+            orderNumberItemView.detailLabel.text = data.orderId
+            orderTimeItemView.detailLabel.text = data.createAt
+        }
+    }
+    
     public var type = ExchangeRecordChangingType.getFruit {
         didSet{
             switch type {
@@ -195,6 +224,16 @@ class ChangingDetailHeadView: UIView {
         v.titleLabel.text = "订单时间："
         return v
     }()
+    lazy var formatter: DateFormatter = {
+        let f = DateFormatter()
+        f.dateFormat = "HH时mm分ss秒"
+        return f
+    }()
+    lazy var timer: DispatchSourceTimer = {
+        let t = DispatchSource.makeTimerSource(flags: .strict, queue: DispatchQueue.main)
+        t.schedule(deadline: .now(), repeating: 1)
+        return t
+    }()
     
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -252,6 +291,7 @@ class ChangingDetailHeadView: UIView {
         fatalError("init(coder:) has not been implemented")
     }
     
+ 
     
 }
 
@@ -382,7 +422,7 @@ class ChangingFootView: UIView {
 //MARK: - 上传截图
 protocol ChangingScreenshotDelegate: NSObjectProtocol {
     func didSelectedUpload(success: @escaping () -> Void)
-    func didTapScreenshot()
+    func didTapScreenshot(image: UIImage?)
 }
 class ChangingScreenshotView: UIView {
     
@@ -459,7 +499,7 @@ class ChangingScreenshotView: UIView {
     }
     
     @objc func imageTapAction(sender: UITapGestureRecognizer) {
-        delegate?.didTapScreenshot()
+        delegate?.didTapScreenshot(image: imageIV.image)
     }
 }
 

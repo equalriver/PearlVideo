@@ -9,6 +9,12 @@
 //MARK: - 买单详情
 class PVExchangeRecordBuyDetailVC: PVBaseNavigationVC {
     
+    var orderId = "" {
+        didSet{
+            loadData()
+        }
+    }
+    
     lazy var headView: PVExchangeRecordBuyDetailView = {
         let v = PVExchangeRecordBuyDetailView.init(frame: .zero)
         return v
@@ -41,12 +47,16 @@ class PVExchangeRecordBuyDetailVC: PVBaseNavigationVC {
             make.centerX.equalToSuperview()
             make.bottom.equalToSuperview().offset(-kIphoneXLatterInsetHeight - 15)
         }
+        
+        
     }
     
 }
 
 //MARK: - 卖单详情
 class PVExchangeRecordSellDetailVC: PVBaseNavigationVC {
+    
+    var orderId = ""
     
     lazy var headView: PVExchangeRecordSellDetailView = {
         let v = PVExchangeRecordSellDetailView.init(frame: .zero)
@@ -101,6 +111,11 @@ class PVExchangeRecordChangingDetailVC: PVBaseNavigationVC {
     
     var type = ExchangeRecordChangingType.none
     
+    var orderId = ""
+    
+    var data: PVExchangeRecordDetailModel!
+    
+    
     lazy var contentView: UIScrollView = {
         let v = UIScrollView()
         v.backgroundColor = kColor_deepBackground
@@ -128,10 +143,11 @@ class PVExchangeRecordChangingDetailVC: PVBaseNavigationVC {
         return v
     }()
     
-    required convenience init(type: ExchangeRecordChangingType) {
+    required convenience init(type: ExchangeRecordChangingType, orderId: String) {
         self.init()
         initUI()
         self.type = type
+        self.orderId = orderId
         headerView.type = type
         bottomBtns.type = type
         switch type {

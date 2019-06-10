@@ -131,7 +131,7 @@
 		4850C10722AB56D300945A56 /* LZImageBrowserForceTouchViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4850C0FD22AB56D300945A56 /* LZImageBrowserForceTouchViewController.m */; };
 		4850C10822AB56D300945A56 /* LZImageBrowserMainView.m in Sources */ = {isa = PBXBuildFile; fileRef = 4850C0FE22AB56D300945A56 /* LZImageBrowserMainView.m */; };
 		4850C10922AB56D300945A56 /* LZImageBrowserTranslation.m in Sources */ = {isa = PBXBuildFile; fileRef = 4850C10022AB56D300945A56 /* LZImageBrowserTranslation.m */; };
-		4850C10A22AB56D300945A56 /* LZImageBrowserManger.m in Sources */ = {isa = PBXBuildFile; fileRef = 4850C10222AB56D300945A56 /* LZImageBrowserManger.m */; };
+		4850C10A22AB56D300945A56 /* LZImageBrowserManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 4850C10222AB56D300945A56 /* LZImageBrowserManager.m */; };
 		4876ECC5229BEAA4005370CF /* PVExchangeVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4876ECC4229BEAA4005370CF /* PVExchangeVC.swift */; };
 		4876ECC7229BEB1B005370CF /* PVExchangeViews.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4876ECC6229BEB1B005370CF /* PVExchangeViews.swift */; };
 		487A068022A65DA70068C859 /* PVExchangeRecordCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 487A067F22A65DA70068C859 /* PVExchangeRecordCell.swift */; };
@@ -291,7 +291,7 @@
 		4850C0F722AB56D300945A56 /* LZImageBrowserTranslation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LZImageBrowserTranslation.h; sourceTree = "<group>"; };
 		4850C0F822AB56D300945A56 /* LZImageBrowserSubView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LZImageBrowserSubView.m; sourceTree = "<group>"; };
 		4850C0F922AB56D300945A56 /* LZImageBrowserMainView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LZImageBrowserMainView.h; sourceTree = "<group>"; };
-		4850C0FA22AB56D300945A56 /* LZImageBrowserManger.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LZImageBrowserManger.h; sourceTree = "<group>"; };
+		4850C0FA22AB56D300945A56 /* LZImageBrowserManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LZImageBrowserManager.h; sourceTree = "<group>"; };
 		4850C0FB22AB56D300945A56 /* LZImageBrowserHeader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LZImageBrowserHeader.h; sourceTree = "<group>"; };
 		4850C0FC22AB56D300945A56 /* LZImageBrowserModel.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LZImageBrowserModel.m; sourceTree = "<group>"; };
 		4850C0FD22AB56D300945A56 /* LZImageBrowserForceTouchViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LZImageBrowserForceTouchViewController.m; sourceTree = "<group>"; };
@@ -299,7 +299,7 @@
 		4850C0FF22AB56D300945A56 /* LZImageBrowserSubView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LZImageBrowserSubView.h; sourceTree = "<group>"; };
 		4850C10022AB56D300945A56 /* LZImageBrowserTranslation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LZImageBrowserTranslation.m; sourceTree = "<group>"; };
 		4850C10122AB56D300945A56 /* LZImageBrowserViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LZImageBrowserViewController.h; sourceTree = "<group>"; };
-		4850C10222AB56D300945A56 /* LZImageBrowserManger.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LZImageBrowserManger.m; sourceTree = "<group>"; };
+		4850C10222AB56D300945A56 /* LZImageBrowserManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LZImageBrowserManager.m; sourceTree = "<group>"; };
 		4850C10322AB56D300945A56 /* LZImageBrowserModel.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LZImageBrowserModel.h; sourceTree = "<group>"; };
 		4876ECC4229BEAA4005370CF /* PVExchangeVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PVExchangeVC.swift; sourceTree = "<group>"; };
 		4876ECC6229BEB1B005370CF /* PVExchangeViews.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PVExchangeViews.swift; sourceTree = "<group>"; };
@@ -742,7 +742,7 @@
 				4850C0F722AB56D300945A56 /* LZImageBrowserTranslation.h */,
 				4850C0F822AB56D300945A56 /* LZImageBrowserSubView.m */,
 				4850C0F922AB56D300945A56 /* LZImageBrowserMainView.h */,
-				4850C0FA22AB56D300945A56 /* LZImageBrowserManger.h */,
+				4850C0FA22AB56D300945A56 /* LZImageBrowserManager.h */,
 				4850C0FB22AB56D300945A56 /* LZImageBrowserHeader.h */,
 				4850C0FC22AB56D300945A56 /* LZImageBrowserModel.m */,
 				4850C0FD22AB56D300945A56 /* LZImageBrowserForceTouchViewController.m */,
@@ -750,7 +750,7 @@
 				4850C0FF22AB56D300945A56 /* LZImageBrowserSubView.h */,
 				4850C10022AB56D300945A56 /* LZImageBrowserTranslation.m */,
 				4850C10122AB56D300945A56 /* LZImageBrowserViewController.h */,
-				4850C10222AB56D300945A56 /* LZImageBrowserManger.m */,
+				4850C10222AB56D300945A56 /* LZImageBrowserManager.m */,
 				4850C10322AB56D300945A56 /* LZImageBrowserModel.h */,
 			);
 			path = LZImageBrowser;
@@ -965,7 +965,7 @@
 				48365800225C30B700BCB2D9 /* PVMeTeamVCChildPro.swift in Sources */,
 				482F3C42225B716800FEC130 /* PVMeTeamVC.swift in Sources */,
 				484DADCA224F1741002BA454 /* PVBaseModel.swift in Sources */,
-				4850C10A22AB56D300945A56 /* LZImageBrowserManger.m in Sources */,
+				4850C10A22AB56D300945A56 /* LZImageBrowserManager.m in Sources */,
 				481C59A3225338A50086F616 /* PVHomePlayVC.swift in Sources */,
 				4876ECC7229BEB1B005370CF /* PVExchangeViews.swift in Sources */,
 				48274C3B22A26A8400374C62 /* YPJOtherToolsObjC.m in Sources */,

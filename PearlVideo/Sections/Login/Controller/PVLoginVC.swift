@@ -39,7 +39,7 @@ class PVLoginVC: PVBaseViewController {
         tf.font = kFont_text
         tf.textColor = UIColor.white
         tf.attributedPlaceholder = NSAttributedString.init(string: "请输入手机号码", attributes: [.font: kFont_text, .foregroundColor: kColor_text!])
-        tf.keyboardType = .numbersAndPunctuation
+        tf.keyboardType = .numberPad
         tf.clearButtonMode = .whileEditing
         tf.textAlignment = .center
         tf.layer.cornerRadius = 20 * KScreenRatio_6
@@ -73,7 +73,7 @@ class PVLoginVC: PVBaseViewController {
         tf.font = kFont_text
         tf.textColor = UIColor.white
         tf.attributedPlaceholder = NSAttributedString.init(string: "请输入验证码", attributes: [.font: kFont_text, .foregroundColor: kColor_text!])
-        tf.keyboardType = .numbersAndPunctuation
+        tf.keyboardType = .numberPad
         tf.clearButtonMode = .whileEditing
         tf.textAlignment = .center
         tf.layer.cornerRadius = 20 * KScreenRatio_6
@@ -181,11 +181,6 @@ class PVLoginVC: PVBaseViewController {
         initUI()
         view.backgroundColor = kColor_deepBackground
         
-    }
-    
-    deinit {
-        timer.resume()
-        timer.cancel()
     }
     
     func initUI() {

@@ -34,8 +34,8 @@ public let kClientDataFilePath = NSHomeDirectory() + "/Documents/xxxx.plist"
 
 
 ///base url
-public let kBaseURLString = "http://192.168.0.112:8088/api/"
-//public let kBaseURLString = "http://www.lzmingsi.com:8080/api/"
+//public let kBaseURLString = "http://192.168.0.178:8088/api/"
+public let kBaseURLString = "http://www.lzmingsi.com:8080/api/"
 //public let kBaseURLString = "https://yjhfuyin.lzmingsi.com/api/"
 
 ///用户协议

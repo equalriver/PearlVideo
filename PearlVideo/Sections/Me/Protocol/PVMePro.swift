@@ -91,6 +91,7 @@ extension PVMeViewController {
             YPJOtherTool.ypj.loginValidate(currentVC: self) {[weak self] (isLogin) in
                 self?.loadData()
             }
+            print("me loginValidate")
             return
         }
         loadData()

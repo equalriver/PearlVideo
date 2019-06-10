@@ -123,9 +123,13 @@ class PVExchangeReadyAcceptOrderModel: PVBaseModel {
 
 //MARK: - 交易记录列表
 enum PVExchangeRecordListType: String {
+    ///买单
     case buy = "BID"
+    ///卖单
     case sell = "ASK"
+    ///交换中
     case exchanging = "TRADING"
+    ///已完成
     case finish = "COMPLETED"
 }
 
@@ -157,7 +161,7 @@ class PVExchangeRecordList: PVBaseModel {
     
     var avatarURL = ""
     
-    var count = 0.0
+    var count = 0
     
     var totalPrice = 0.0
     
@@ -203,7 +207,7 @@ class PVExchangeRecordDetailModel: PVBaseModel {
     
     var avatarURL = ""
     
-    var count = 0.0
+    var count = 0
     
     var totalPrice = 0.0
     

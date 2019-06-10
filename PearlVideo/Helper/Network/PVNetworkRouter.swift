@@ -26,16 +26,16 @@ enum Router: URLRequestConvertible {
     case changePsd(userId: String, phone: String, psd: String)
     
     ///退出登录
-    case loginOut()
+    case loginOut
     
     ///获取版本号
-    case getVersion()
+    case getVersion
     
     
     
     //首页
     ///首页
-    case homePage()
+    case homePage
     
     ///首页推荐视频列表
     case homeRecommendVideoList(page: Int)
@@ -47,10 +47,10 @@ enum Router: URLRequestConvertible {
     case userLevel(nextPage: Int)
     
     ///当前会员等级信息
-    case currentUserLevel()
+    case currentUserLevel
     
     ///会员等级详情
-    case userLevelDetail()
+    case userLevelDetail
     
     ///活跃度详情
     case activenessDetail(page: Int)
@@ -74,7 +74,7 @@ enum Router: URLRequestConvertible {
     case historyTask(page: Int)
     
     ///我的团队信息
-    case teamInfo()
+    case teamInfo
     
     ///全部团队成员列表
     case teamAllList(page: Int)
@@ -89,7 +89,7 @@ enum Router: URLRequestConvertible {
     case messsageList(page: Int, category: String)
     
     ///获取消息状态
-    case messageBadgeState()
+    case messageBadgeState
     
     ///更新消息状态category：NOTICEMESSAGE(通知)，COMMENTMESSAGE（评论），FOLLOWMESSAGE（关注），THUMBUPMESSAGE（点赞）
     case refreshMessageBadgeState(category: String)
@@ -102,7 +102,7 @@ enum Router: URLRequestConvertible {
     case getUploadAuthAndAddress(description: String, fileName: String)
     
     ///获取播放STS
-    case getVideoSTS()
+    case getVideoSTS
     
     ///所有视频播放列表 1: 推荐, 2: 关注, 3: 我的作品, 4: 我的喜欢视频, 5: 私密视频
     case videoList(type: Int, videoIndex: Int, videoId: String)
@@ -135,21 +135,21 @@ enum Router: URLRequestConvertible {
     case twiceComment(id: Int, videoId: String, content: String)
     
     ///获取邀请码
-    case getInviteCode()
+    case getInviteCode
     
     
     //交换中心
     ///市场信息
-    case exchangeInfo()
+    case exchangeInfo
     
     ///市场订单列表
     case exchangeInfoList(isBuyOrder: Bool, phone: String, page: Int)
     
     ///准备发布买单
-    case readySendBuyOrder()
+    case readySendBuyOrder
     
     ///准备发布卖单
-    case readySendSellOrder()
+    case readySendSellOrder
     
     ///发布买单
     case sendBuyOrder(price: Double, count: Int, password: String)
@@ -182,7 +182,7 @@ enum Router: URLRequestConvertible {
     case userInfo(userId: String, page: Int)
     
     ///关于我们
-    case about()
+    case about
     
     ///视频 type: 3作品 4喜欢 5私密
     case userInfoVideo(userId: String, type: Int, page: Int)
@@ -203,7 +203,7 @@ enum Router: URLRequestConvertible {
     case getAuthWithUploadImage(imageExt: String)
     
     ///获取用户认证状态
-    case getUserValidateStatus()
+    case getUserValidateStatus
     
     ///非人脸身份认证 verifyId: 加密的参数("name|idCard|deviceId", 密钥"fuyin")
     case userValidate(name: String, idCard: String, deviceId: String)

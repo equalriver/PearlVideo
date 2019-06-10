@@ -27,7 +27,11 @@ extension PVMeProductionVC {
                 }
                 else {
                     self.dataArr += d
-                    if d.count == 0 { self.page -= 1 }
+                    if d.count == 0 {
+                        self.page -= 1
+                        self.isLoadingMore = false
+                        return
+                    }
                 }
                 if self.dataArr.count == 0 { self.collectionView.stateEmpty() }
                 else { self.collectionView.stateNormal() }
@@ -106,7 +110,11 @@ extension PVMeLikeVC {
                 }
                 else {
                     self.dataArr += d
-                    if d.count == 0 { self.page -= 1 }
+                    if d.count == 0 {
+                        self.page -= 1
+                        self.isLoadingMore = false
+                        return
+                    }
                 }
                 if self.dataArr.count == 0 { self.collectionView.stateEmpty() }
                 else { self.collectionView.stateNormal() }
@@ -184,7 +192,11 @@ extension PVMeSecureVC {
                 }
                 else {
                     self.dataArr += d
-                    if d.count == 0 { self.page -= 1 }
+                    if d.count == 0 {
+                        self.page -= 1
+                        self.isLoadingMore = false
+                        return
+                    }
                 }
                 if self.dataArr.count == 0 { self.collectionView.stateEmpty() }
                 else { self.collectionView.stateNormal() }

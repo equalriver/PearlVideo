@@ -14,6 +14,6 @@
 #import <AlipaySDK/AlipaySDK.h>
 #import <WechatOpenSDK/WXApi.h>
 #import <PYSearch/PYSearch.h>
-#import "LZImageBrowserManger.h"
+#import "LZImageBrowserManager.h"
 #endif /* BridgingHeader_h */
 

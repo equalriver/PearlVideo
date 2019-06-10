@@ -10,6 +10,17 @@
 
 class PVExchangeHeaderView: UIView {
     
+    public var data: PVExchangeInfoModel! {
+        didSet{
+            lowPrice.countLabel.text = "\(data.minPrice)"
+            highPrice.countLabel.text = "\(data.maxPrice)"
+            priceLimit.countLabel.text = "\(data.rateOfChange)"
+            turnover.countLabel.text = "\(data.totalVolume)"
+            buyOrder.countLabel.text = "\(data.bidOrderCount)"
+            sellOrder.countLabel.text = "\(data.askOrderCount)"
+        }
+    }
+    
     lazy var sepView_1: UIView = {
         let v = UIView()
         v.backgroundColor = kColor_background
@@ -37,28 +48,34 @@ class PVExchangeHeaderView: UIView {
     }()
     lazy var lowPrice: PVExchangeHeaderItem = {
         let v = PVExchangeHeaderItem.init(frame: .zero)
+        v.nameLabel.text = "最低价"
         return v
     }()
     lazy var highPrice: PVExchangeHeaderItem = {
         let v = PVExchangeHeaderItem.init(frame: .zero)
+        v.nameLabel.text = "最高价"
         return v
     }()
     ///涨跌幅
     lazy var priceLimit: PVExchangeHeaderItem = {
         let v = PVExchangeHeaderItem.init(frame: .zero)
+        v.nameLabel.text = "涨跌幅"
         return v
     }()
     ///成交量
     lazy var turnover: PVExchangeHeaderItem = {
         let v = PVExchangeHeaderItem.init(frame: .zero)
+        v.nameLabel.text = "成交量"
         return v
     }()
     lazy var buyOrder: PVExchangeHeaderItem = {
         let v = PVExchangeHeaderItem.init(frame: .zero)
+        v.nameLabel.text = "当前买单"
         return v
     }()
     lazy var sellOrder: PVExchangeHeaderItem = {
         let v = PVExchangeHeaderItem.init(frame: .zero)
+        v.nameLabel.text = "当前卖单"
         return v
     }()
     
@@ -261,7 +278,7 @@ class PVExchangeCell: PVBaseTableCell {
         }
         priceLabel.snp.makeConstraints { (make) in
             make.left.equalTo(avatarIV)
-            make.top.equalTo(avatarIV.snp.bottom).offset(20 * KScreenRatio_6)
+            make.top.equalTo(avatarIV.snp.bottom).offset(10 * KScreenRatio_6)
             make.right.equalTo(actionBtn.snp.left).offset(-20)
         }
         countLabel.snp.makeConstraints { (make) in
@@ -305,6 +322,7 @@ class PVExchangeHeaderSectionView: UIView {
     
     lazy var searchBtn: UIButton = {
         let b = UIButton()
+        b.setImage(UIImage.init(named: "ex_search"), for: .normal)
         b.addTarget(self, action: #selector(searchAction(sender:)), for: .touchUpInside)
         return b
     }()
@@ -321,6 +339,7 @@ class PVExchangeHeaderSectionView: UIView {
     
     override init(frame: CGRect) {
         super.init(frame: frame)
+        backgroundColor = kColor_deepBackground
         addSubview(searchBtn)
         addSubview(sendOrderBtn)
         searchBtn.snp.makeConstraints { (make) in
@@ -351,6 +370,14 @@ class PVExchangeHeaderSectionView: UIView {
 
 //MARK: - buy alert view
 class PVExchangeBuyAlert: UIView {
+    
+    public var data: PVExchangeReadyAcceptOrderModel! {
+        didSet{
+            priceLabel.text = "单价：￥\(data.price)  数 量：\(data.count)"
+            totalPriceLabel.text = "总价：￥\(data.totalPrice)"
+            currentCountLabel.text = "现有平安果：\(data.amountAvailable)"
+        }
+    }
     
     typealias callback = (_ count: String, _ password: String) -> Void
     
@@ -387,6 +414,8 @@ class PVExchangeBuyAlert: UIView {
     }()
     lazy var totalPriceLabel: UILabel = {
         let l = UILabel()
+        l.font = kFont_btn_weight
+        l.textColor = kColor_pink
         return l
     }()
     lazy var payWayLabel: UILabel = {
@@ -411,7 +440,7 @@ class PVExchangeBuyAlert: UIView {
         tf.layer.cornerRadius = 20 * KScreenRatio_6
         tf.leftView = UIView.init(frame: CGRect.init(x: 0, y: 0, width: 15, height: 20))
         tf.leftViewMode = .always
-        tf.keyboardType = .numbersAndPunctuation
+        tf.keyboardType = .numberPad
         tf.addTarget(self, action: #selector(textFieldEditingChange(sender:)), for: .editingChanged)
         return tf
     }()
@@ -538,7 +567,7 @@ class PVExchangeBuyAlert: UIView {
     @objc func cancelAction(sender: UIButton) {
         contentView.ypj.viewAnimateDismissFromBottom(duration: 0.3) { (isFinish) in
             if isFinish {
-                self.handle = nil
+//                self.handle = nil
                 self.removeFromSuperview()
             }
         }
@@ -549,7 +578,7 @@ class PVExchangeBuyAlert: UIView {
         handle?(countTF.text!, passwordTF.text!)
         contentView.ypj.viewAnimateDismissFromBottom(duration: 0.3) { (isFinish) in
             if isFinish {
-                self.handle = nil
+//                self.handle = nil
                 self.removeFromSuperview()
             }
         }
