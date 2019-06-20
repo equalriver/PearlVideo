@@ -57,6 +57,7 @@ class PVHomeMsgNoticeVC: PVBaseViewController {
     var dataArr = Array<PVHomeNoticeMessageList>()
     
     var page = 0
+    var nextPage = ""
     
     lazy var tableView: UITableView = {
         let tb = UITableView.init(frame: .zero, style: .plain)
@@ -104,6 +105,7 @@ class PVHomeMsgCommentVC: PVBaseViewController {
     var dataArr = Array<PVHomeMessageList>()
     
     var page = 0
+    var nextPage = ""
     
     lazy var tableView: UITableView = {
         let tb = UITableView.init(frame: .zero, style: .plain)
@@ -129,7 +131,7 @@ class PVHomeMsgCommentVC: PVBaseViewController {
 class PVHomeMsgLikeVC: PVBaseViewController {
     
     var dataArr = Array<PVHomeMessageList>()
-    
+    var nextPage = ""
     var page = 0
     
     lazy var tableView: UITableView = {
@@ -158,6 +160,7 @@ class PVHomeMsgAttentionVC: PVBaseViewController {
     var dataArr = Array<PVHomeMessageList>()
     
     var page = 0
+    var nextPage = ""
     
     lazy var tableView: UITableView = {
         let tb = UITableView.init(frame: .zero, style: .plain)

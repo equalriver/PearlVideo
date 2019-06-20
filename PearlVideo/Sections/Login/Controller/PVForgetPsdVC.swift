@@ -15,6 +15,7 @@ class PVForgetPsdVC: PVBaseNavigationVC {
     
     var isChangePsdView = false
     
+    var isTimerRun = false
     
     lazy var titleLabel: UILabel = {
         let l = UILabel()
@@ -96,6 +97,11 @@ class PVForgetPsdVC: PVBaseNavigationVC {
         super.viewDidLoad()
         initUI()
         
+    }
+    
+    deinit {
+        if isTimerRun == false { timer.resume() }
+        timer.cancel()
     }
     
 
@@ -222,6 +228,7 @@ class PVForgetPsdVC: PVBaseNavigationVC {
             self.timer.setEventHandler { [weak self] in
                 if t <= 1 {
                     self?.timer.suspend()
+                    self?.isTimerRun = false
                     DispatchQueue.main.async {
                         sender.setTitle("获取验证码", for: .normal)
                         sender.backgroundColor = kColor_pink
@@ -238,6 +245,7 @@ class PVForgetPsdVC: PVBaseNavigationVC {
                 }
             }
             self.timer.resume()
+            isTimerRun = true
             authCodeTF.becomeFirstResponder()
         }
     }

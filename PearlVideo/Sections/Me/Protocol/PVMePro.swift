@@ -34,7 +34,7 @@ extension PVMeViewController {
     }
     
     func loadData() {
-        PVNetworkTool.Request(router: .userInfo(userId: UserDefaults.standard.string(forKey: kUserId) ?? "", page: 0), success: { (resp) in
+        PVNetworkTool.Request(router: .userInfo(userId: UserDefaults.standard.string(forKey: kUserId) ?? "", next: ""), success: { (resp) in
             if let d = Mapper<PVMeModel>().map(JSONObject: resp["result"].object) {
                 self.data = d
                 self.headerView.data = d
@@ -99,16 +99,16 @@ extension PVMeViewController {
     
     //scroll view delegate
     override func scrollViewDidScroll(_ scrollView: UIScrollView) {
-        super.scrollViewDidScroll(scrollView)
-        
         if scrollView == contentScrollView {
+            guard contentScrollView.contentOffset.y > 0 else { return }
             productionVC.collectionView.isScrollEnabled = scrollView.contentOffset.y >= headerViewHeight - kNavigationBarAndStatusHeight - safeInset
             let alpha: CGFloat = scrollView.contentOffset.y >= headerViewHeight - kNavigationBarAndStatusHeight ? 1.0 : scrollView.contentOffset.y / (headerViewHeight - kNavigationBarAndStatusHeight)
             effectView.alpha = alpha
             naviBar.titleView.alpha = alpha
+            contentScrollView.bounces = contentScrollView.contentOffset.y <= 20
         }
         else {
-
+            super.scrollViewDidScroll(scrollView)
         }
        
     }
@@ -118,7 +118,7 @@ extension PVMeViewController {
 //MARK: - PVMeHeaderViewDelegate
 extension PVMeViewController: PVMeHeaderViewDelegate {
     //编辑or登录
-    func didSelectedEdit() {
+    func didSelectedEdit(sender: UIButton) {
         if YPJOtherTool.ypj.loginValidate(currentVC: self, isLogin: nil) {
             let vc = PVMeUserinfoEditVC()
             vc.data = data
@@ -245,6 +245,10 @@ extension PVMeViewController: UIImagePickerControllerDelegate, UINavigationContr
 //MARK: - 作品, 喜欢, 私密
 extension PVMeViewController: PVMeProductionDelegate, PVMeLikeDelegate, PVMeSecureDelegate {
     
+    func scrollViewWillDragging(sender: UIScrollView) {
+        if contentScrollView.contentOffset.y <= 0 { sender.isScrollEnabled = false }
+    }
+    
     func didBeginHeaderRefresh(sender: UIScrollView?) {
         DispatchQueue.main.asyncAfter(deadline: .now() + 0.2) {
             sender?.mj_header.endRefreshing()
@@ -270,9 +274,11 @@ extension PVMeViewController {
     
     override func pageController(_ pageController: WMPageController, viewControllerAt index: Int) -> UIViewController {
         if index == 0 {//作品
+            productionVC.userId = UserDefaults.standard.string(forKey: kUserId) ?? ""
             return productionVC
         }
         if index == 1 {//喜欢
+            likeVC.userId = UserDefaults.standard.string(forKey: kUserId) ?? ""
             return likeVC
         }
         if index == 2 {//私密

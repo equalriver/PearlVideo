@@ -11,7 +11,10 @@ import ObjectMapper
 extension PVVideoCommentView {
     
     func loadData(page: Int) {
-        PVNetworkTool.Request(router: .videoCommentList(videoId: videoId, page: page * 10), success: { (resp) in
+        PVNetworkTool.Request(router: .videoCommentList(videoId: videoId, next: nextPage), success: { (resp) in
+            let n = resp["result"]["next"].string ?? "\(resp["result"]["skip"].intValue)"
+            self.nextPage = n
+            
             if let d = Mapper<PVVideoCommentModel>().mapArray(JSONObject: resp["result"]["commentList"].arrayObject) {
                 if page == 0 { self.dataArr = d }
                 else {
@@ -33,6 +36,7 @@ extension PVVideoCommentView {
     func setRefresh() {
         PVRefresh.headerRefresh(scrollView: tableView) {[weak self] in
             self?.page = 0
+            self?.nextPage = ""
             self?.loadData(page: 0)
         }
         PVRefresh.footerRefresh(scrollView: tableView) {[weak self] in
@@ -80,6 +84,10 @@ extension PVVideoCommentView {
         
     }
     
+    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
+        endEditing(true)
+    }
+    
 }
 
 
@@ -107,6 +115,13 @@ extension PVVideoCommentView: UITableViewDataSource, UITableViewDelegate {
         return cell
     }
     
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        let vc = PVVideoCommentReplyVC.init(commentId: dataArr[indexPath.row].id, videoId: dataArr[indexPath.row].videoId)
+        if let currentVC = YPJOtherTool.ypj.currentViewController() {
+            currentVC.present(vc, animated: true, completion: nil)
+        }
+    }
+    
 }
 
 
@@ -126,12 +141,12 @@ extension PVVideoCommentView: PVVideoCommentCellDelegate {
         if let indexPath = tableView.indexPath(for: cell) {
             if dataArr.count > indexPath.row {
                 if sender.isSelected {
-                    dataArr[indexPath.row].replyThumbCount += 1
+                    dataArr[indexPath.row].commentThumbupCount += 1
                 }
                 else {
-                    dataArr[indexPath.row].replyThumbCount -= 1
+                    dataArr[indexPath.row].commentThumbupCount -= 1
                 }
-                sender.setTitle("\(dataArr[indexPath.row].replyThumbCount)", for: .normal)
+                sender.setTitle("\(dataArr[indexPath.row].commentThumbupCount)", for: .normal)
                 let args: [String: Any] = ["videoId": dataArr[indexPath.row].videoId, "commentId": dataArr[indexPath.row].id, "action": sender.isSelected ? 1 : 2]
                 NSObject.cancelPreviousPerformRequests(withTarget: self, selector: #selector(likeAction(args:)), object: args)
                 self.perform(#selector(likeAction(args:)), with: args, afterDelay: 2)
@@ -164,9 +179,12 @@ extension PVVideoCommentView: YYTextViewDelegate {
         if text == "\n" {
             delegate?.didSelectedDone(content: textView.text ?? "", completion: {
                 self.page = 0
+                self.nextPage = ""
                 self.loadData(page: self.page)
+                DispatchQueue.main.asyncAfter(deadline: .now() + 1, execute: {
+                    textView.text = ""
+                })
             })
-            textView.text = nil
             textView.resignFirstResponder()
             return true
         }

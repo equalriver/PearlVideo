@@ -31,10 +31,10 @@ extension PVRegisterVC {
         
         func auth() {
             var t = 60
-            
             self.timer.setEventHandler { [weak self] in
                 if t <= 1 {
                     self?.timer.suspend()
+                    self?.isTimerRun = false
                     DispatchQueue.main.async {
                         sender.setTitle("获取验证码", for: .normal)
                         sender.backgroundColor = kColor_pink
@@ -51,6 +51,7 @@ extension PVRegisterVC {
                 }
             }
             self.timer.resume()
+            isTimerRun = true
             authCodeTF.becomeFirstResponder()
         }
         

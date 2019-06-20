@@ -5,6 +5,7 @@ import UIKit
 
 //MARK: - 作品
 protocol PVMeProductionDelegate: NSObjectProtocol {
+    func scrollViewWillDragging(sender: UIScrollView)
     func didBeginHeaderRefresh(sender: UIScrollView?)
 }
 
@@ -12,15 +13,20 @@ class PVMeProductionVC: PVBaseViewController {
     
     weak public var delegate: PVMeProductionDelegate?
     
-    public var userId = ""
+    public var userId: String = UserDefaults.standard.string(forKey: kUserId) ?? "" {
+        didSet{
+            loadData(page: 0)
+        }
+    }
     
     var isLoadingMore = false
     
     var dataArr = Array<PVMeVideoList>()
     
-    let threshold: CGFloat = 0.7
+    let threshold: CGFloat = 0.6
     let itemPerPage: CGFloat = 10   //每页条数
     var page: CGFloat = 0
+    var nextPage = ""
     
     lazy var collectionView: UICollectionView = {
         let l = UICollectionViewFlowLayout()
@@ -44,13 +50,18 @@ class PVMeProductionVC: PVBaseViewController {
             make.size.centerY.centerX.equalToSuperview()
         }
         setRefresh()
-        loadData(page: 0)
+        NotificationCenter.default.addObserver(self, selector: #selector(refreshNoti(sender:)), name: .kNotiName_refreshMeProductionVC, object: nil)
+    }
+    
+    deinit {
+        NotificationCenter.default.removeObserver(self)
     }
 
 }
 
 //MARK: - 喜欢
 protocol PVMeLikeDelegate: NSObjectProtocol {
+    func scrollViewWillDragging(sender: UIScrollView)
     func didBeginHeaderRefresh(sender: UIScrollView?)
 }
 
@@ -58,16 +69,20 @@ class PVMeLikeVC: PVBaseViewController {
     
     weak public var delegate: PVMeLikeDelegate?
     
-    public var userId = ""
+    public var userId: String = UserDefaults.standard.string(forKey: kUserId) ?? "" {
+        didSet{
+            loadData(page: 0)
+        }
+    }
     
     var isLoadingMore = false
     
     var dataArr = Array<PVMeVideoList>()
     
-    let threshold: CGFloat = 0.7
+    let threshold: CGFloat = 0.6
     let itemPerPage: CGFloat = 10   //每页条数
     var page: CGFloat = 0
-    
+    var nextPage = ""
     
     lazy var collectionView: UICollectionView = {
         let l = UICollectionViewFlowLayout()
@@ -91,13 +106,19 @@ class PVMeLikeVC: PVBaseViewController {
             make.size.centerY.centerX.equalToSuperview()
         }
         setRefresh()
-        loadData(page: 0)
+        NotificationCenter.default.addObserver(self, selector: #selector(refreshNoti(sender:)), name: .kNotiName_refreshMeLikeVC, object: nil)
+        
+    }
+    
+    deinit {
+        NotificationCenter.default.removeObserver(self)
     }
     
 }
 
 //MARK: - 私密
 protocol PVMeSecureDelegate: NSObjectProtocol {
+    func scrollViewWillDragging(sender: UIScrollView)
     func didBeginHeaderRefresh(sender: UIScrollView?)
 }
 
@@ -105,16 +126,20 @@ class PVMeSecureVC: PVBaseViewController {
     
     weak public var delegate: PVMeSecureDelegate?
     
-    public var userId = ""
+    public var userId: String = UserDefaults.standard.string(forKey: kUserId) ?? "" {
+        didSet{
+            loadData(page: 0)
+        }
+    }
     
     var isLoadingMore = false
     
     var dataArr = Array<PVMeVideoList>()
     
-    let threshold: CGFloat = 0.7
+    let threshold: CGFloat = 0.6
     let itemPerPage: CGFloat = 10   //每页条数
     var page: CGFloat = 0
-    
+    var nextPage = ""
     
     lazy var collectionView: UICollectionView = {
         let l = UICollectionViewFlowLayout()
@@ -139,6 +164,11 @@ class PVMeSecureVC: PVBaseViewController {
         }
         setRefresh()
         loadData(page: 0)
+        NotificationCenter.default.addObserver(self, selector: #selector(refreshNoti(sender:)), name: .kNotiName_refreshMeSecrityVC, object: nil)
+    }
+    
+    deinit {
+        NotificationCenter.default.removeObserver(self)
     }
     
 }

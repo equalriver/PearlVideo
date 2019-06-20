@@ -6,15 +6,32 @@
 //  Copyright © 2019 equalriver. All rights reserved.
 //
 
+class PVExchangeSearchVC: PYSearchViewController {
+    
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        guard navigationController != nil else { return }
+        for v in navigationController!.navigationBar.subviews {
+            v.backgroundColor = kColor_deepBackground
+        }
+    }
+}
+
 class PVExchangeVC: PVBaseNavigationVC {
     
     var isBuyOrderView = true
     
     var isLoadingMore = false
     
-    let threshold: CGFloat = 0.7
+    let threshold: CGFloat = 0.6
     let itemPerPage = 10   //每页条数
     var page = 0
+    var nextPage = ""
     
     var dataArr = Array<PVExchangeOrderList>()
     var searchArr = Array<PVExchangeOrderList>()
@@ -57,16 +74,17 @@ class PVExchangeVC: PVBaseNavigationVC {
         tb.delegate = self
         return tb
     }()
-    lazy var searchVC: PYSearchViewController = {
-        let vc = PYSearchViewController.init(hotSearches: nil, searchBarPlaceholder: "请输入对方账号")
+    lazy var searchVC: PVExchangeSearchVC = {
+        let vc = PVExchangeSearchVC.init(hotSearches: nil, searchBarPlaceholder: "请输入对方账号")
         vc!.delegate = self
         vc!.dataSource = self
         vc?.showSearchHistory = false
+        vc?.searchBar.returnKeyType = UIReturnKeyType.search
         vc?.searchBar.setImage(UIImage.init(named: "ex_搜索"), for: UISearchBar.Icon.search, state: .normal)
+        vc?.searchTextField.textColor = UIColor.white
         vc?.searchTextField.attributedPlaceholder = NSAttributedString.init(string: "请输入对方账号", attributes: [.font: kFont_text_2_weight, .foregroundColor: kColor_subText!])
         vc?.searchBarCornerRadius = kCornerRadius
         vc?.searchBarBackgroundColor = kColor_deepBackground
-        vc?.searchSuggestionView.backgroundColor = kColor_deepBackground
         vc?.view.backgroundColor = kColor_deepBackground
         vc?.cancelButton.backgroundColor = kColor_deepBackground
         vc?.cancelButton.setTitleColor(kColor_text, for: .normal)

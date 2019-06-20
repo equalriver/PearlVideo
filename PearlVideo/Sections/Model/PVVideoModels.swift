@@ -29,7 +29,7 @@ class PVVideoCommentModel: PVBaseModel {
     var commentThumbupCount = 0
     
     ///回复点赞总数
-    var replyThumbCount = 0
+//    var replyThumbCount = 0
     
     ///回复数量
     var replyCount = 0
@@ -50,11 +50,62 @@ class PVVideoCommentModel: PVBaseModel {
         parentId <- map["parentId"]
         createAt <- map["createAt"]
         commentThumbupCount <- map["commentThumbupCount"]
-        replyThumbCount <- map["replyThumbCount"]
+//        replyThumbCount <- map["replyThumbCount"]
         replyCount <- map["replyCount"]
         avatarUrl <- map["avatarUrl"]
         nickname <- map["nickname"]
         status <- map["status"]
+    }
+    
+}
+
+//MARK: - 评论的回复
+class PVCommentReplyModel: PVBaseModel {
+    
+    ///评论id
+    var id = 0
+    
+    ///评论内容
+    var content = ""
+    
+    var videoId = ""
+    
+    var userId = ""
+    
+    ///父Id
+    var parentId = 0
+    
+    var createAt = ""
+    
+    ///评论点赞总数
+    var commentThumbupCount = 0
+    
+    ///回复数量
+    var replyCount = 0
+    
+    var avatarUrl = ""
+    
+    var nickname = ""
+    
+    ///当前用户在评论上是否点赞 1 点赞 2没点赞
+    var status = 0
+    
+    ///回复列表
+    var replies = Array<PVVideoCommentModel>()
+    
+    override func mapping(map: Map) {
+        id <- map["id"]
+        content <- map["content"]
+        videoId <- map["videoId"]
+        userId <- map["userId"]
+        parentId <- map["parentId"]
+        createAt <- map["createAt"]
+        commentThumbupCount <- map["commentThumbupCount"]
+        replyCount <- map["replyCount"]
+        avatarUrl <- map["avatarUrl"]
+        nickname <- map["nickname"]
+        status <- map["status"]
+        replies <- map["replies"]
     }
     
 }
@@ -91,4 +142,21 @@ class PVVideoShareModel: PVBaseModel {
     
 }
 
+//MARK: - 上传视频
+class PVUploadVideModel: PVBaseModel {
+    
+    var videoId = ""
+    
+    var uploadAddress = ""
+    
+    var uploadAuth = ""
+    
+    
+    override func mapping(map: Map) {
+        videoId <- map["videoId"]
+        uploadAddress <- map["uploadAddress"]
+        uploadAuth <- map["uploadAuth"]
+    }
+    
+}
 

@@ -62,7 +62,8 @@ extension YPJOtherTool {
         for v in files {
             let fileAbsolutePath = path + "/" + v
             if FileManager.default.fileExists(atPath: fileAbsolutePath) {
-               try? FileManager.default.removeItem(atPath: fileAbsolutePath)
+                do { try FileManager.default.removeItem(atPath: fileAbsolutePath) }
+                catch { print("清除缓存错误: ", error.localizedDescription) }
             }
         }
     }
@@ -214,7 +215,7 @@ extension YPJOtherTool {
             if let error = error {
                 //没有设置指纹（没有设置密码也会走到这），但是支持指纹识别
                 if error.code == kLAErrorTouchIDNotEnrolled || error.code == kLAErrorPasscodeNotSet {
-                    showAlert(title: nil, message: "没有设置指纹", style: .alert, isNeedCancel: false, handle: nil)
+                    showAlert(title: "未设置密码", message: "请到“系统设置”设置密码或指纹", style: .alert, isNeedCancel: false, handle: nil)
                 }
             }
         }
@@ -227,11 +228,17 @@ extension YPJOtherTool {
         let alert = UIAlertController.init(title: title, message: message, preferredStyle: style)
         
         let ac = UIAlertAction.init(title: "确定", style: .default) { (act) in
-            handle?(act)
+            DispatchQueue.main.async {
+                handle?(act)
+            }
         }
         
         let cancel = UIAlertAction.init(title: isNeedCancel == true ? "取消" : "好", style: .cancel) { (act) in
-            if isNeedCancel == false { handle?(act) }
+            if isNeedCancel == false {
+                DispatchQueue.main.async {
+                    handle?(act)
+                }
+            }
         }
         
         alert.addAction(cancel)
@@ -402,8 +409,7 @@ extension YPJOtherTool {
     //MARK: - 跳转到app权限设置页面
     ///跳转到app权限设置页面
     func gotoAuthorizationView(type: String, vc: UIViewController) {
-        
-        let alert = UIAlertController.init(title: nil, message: "app需要获取\(type)权限,点击确定跳转设置页面", preferredStyle: .alert)
+        let alert = UIAlertController.init(title: nil, message: "app需要获取“\(type)”权限,点击确定跳转设置页面", preferredStyle: .alert)
         let action = UIAlertAction.init(title: "确定", style: .default) { (ac) in
             if let url = URL.init(string: UIApplication.openSettingsURLString){
                 if UIApplication.shared.canOpenURL(url){
@@ -423,21 +429,28 @@ extension YPJOtherTool {
     //MARK: - 获取相册权限
     ///获取相册权限
     func getPhotosAuth(target: UIViewController, _ auth: @escaping () -> Void) {
-        
         let status = PHPhotoLibrary.authorizationStatus()
         switch status {
-        case .authorized, .notDetermined: auth()
+        case .authorized:
+            auth()
+            break
             
         default:
             PHPhotoLibrary.requestAuthorization { (s) in
-                switch s {
-                case .authorized, .notDetermined:
-                    DispatchQueue.main.async { auth() }
-                    
-                default: self.gotoAuthorizationView(type: "相册", vc: target)
+                DispatchQueue.main.async {
+                    switch s {
+                    case .authorized, .notDetermined:
+                        auth()
+                        break
+                        
+                    default:
+                        self.gotoAuthorizationView(type: "相册", vc: target)
+                        break
+                    }
                 }
             }
         }
+        
     }
     
     //MARK: - 获取摄像头权限
@@ -445,28 +458,43 @@ extension YPJOtherTool {
     func getCameraAuth(target: UIViewController, _ auth: @escaping () -> Void) {
         let status = AVCaptureDevice.authorizationStatus(for: AVMediaType.video)
         switch status {
-        case .authorized, .notDetermined: auth()
+        case .authorized:
+            DispatchQueue.main.async { auth() }
+            break
             
         default:
             AVCaptureDevice.requestAccess(for: .video) { (isGranted) in
-                if isGranted {
-                    DispatchQueue.main.async { auth() }
+                DispatchQueue.main.async {
+                    if isGranted {
+                        auth()
+                    }
+                    else {
+                        self.gotoAuthorizationView(type: "摄像头", vc: target)
+                    }
                 }
-                else {
-                    self.gotoAuthorizationView(type: "摄像头", vc: target)
-                }
+                
             }
+            break
         }
     }
     
-    //MARK: - debug string
-    ///debug string
-    func debugString(debugStr: String) -> String {
-        #if DEBUG
-        return debugStr
-        #else
-        return ""
-        #endif
+    //MARK: - 获取定位权限
+    ///获取定位权限
+    func getLocationAuth(target: UIViewController, manager: CLLocationManager) {
+        
+        switch CLLocationManager.authorizationStatus() {
+        case .authorizedAlways, .authorizedWhenInUse:
+            manager.startUpdatingLocation()
+            break
+            
+        case .denied, .restricted:
+            self.gotoAuthorizationView(type: "位置", vc: target)
+            break
+
+        case .notDetermined:
+            manager.requestWhenInUseAuthorization()
+            break
+        }
     }
     
     

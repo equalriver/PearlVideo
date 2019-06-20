@@ -10,6 +10,57 @@ import AliyunVodPlayerSDK
 
 //MARK: - action
 extension PVHomePlayVC {
+    
+    func firstLoadData() {
+        PVNetworkTool.Request(router: .videoList(type: self.type, videoIndex: self.videoIndex, videoId: self.videoId, userId: userId), success: { (resp) in
+            if let nextPos = resp["result"]["nextPos"].int { self.videoIndex = nextPos }
+            
+            if let d = Mapper<PVVideoPlayModel>().mapArray(JSONObject: resp["result"]["videoList"].arrayObject) {
+                if self.page == 0 { self.dataArr = d }
+                else { self.dataArr += d }
+                self.firstHandleWhenHavedataArrWithStartPlayIndex(startPlayIndex: &self.playStableVideoStartIndex)
+                //用户滑动过快的时候等待请求下来再去管理预加载资源
+                self.managePreloadingSourceWhenPlayNext()
+                
+            }
+            
+        }) { (e) in
+            self.page = self.page > 0 ? self.page - 1 : 0
+        }
+    }
+    
+    func loadPlayTime() {
+        PVNetworkTool.Request(router: .getVideoPlayTime, success: { (resp) in
+            guard let isOpen = resp["result"]["isTimeEffective"].bool else { return }
+            if isOpen == false {
+                self.playTimeProgressView.isHidden = true
+                return
+            }
+            if let m = resp["result"]["minutes"].int {
+                self.playTimeMinutes = m
+                self.timer.setEventHandler(handler: { [weak self] in
+                    guard self != nil && self!.playTimeMinutes != nil else { return }
+                    if self!.playTimeMinutes! > kVideoPlayTime { self?.timer.cancel()
+                        return
+                    }
+                    DispatchQueue.main.async {
+                        self!.playTimeMinutes! += 1
+                        self?.playTimeProgressView.text = "\(self!.playTimeMinutes!)"
+                        self?.playTimeProgress.strokeEnd = CGFloat(self!.playTimeMinutes!) / CGFloat(kVideoPlayTime)
+                        PVNetworkTool.Request(router: .setVideoPlayTime(minutes: self!.playTimeMinutes!), success: { (resp) in
+
+                        }, failure: { (e) in
+
+                        })
+                    }
+                })
+            }
+            
+        }) { (e) in
+            
+        }
+    }
+    /*
     //获取点播STS
     func getSTS() {
         PVNetworkTool.Request(router: .getVideoSTS, success: { (resp) in
@@ -27,37 +78,17 @@ extension PVHomePlayVC {
         }) { (e) in
             
         }
-        
-        func firstLoadData() {
-            PVNetworkTool.Request(router: .videoList(type: self.type, videoIndex: self.videoIndex, videoId: self.videoId), success: { (resp) in
-                if let d = Mapper<PVVideoPlayModel>().mapArray(JSONObject: resp["result"]["videoList"].arrayObject) {
-                    if self.page == 0 { self.dataArr = d }
-                    else { self.dataArr += d }
-                    self.firstHandleWhenHavedataArrWithStartPlayIndex(startPlayIndex: &self.playStableVideoStartIndex)
-                    //用户滑动过快的时候等待请求下来再去管理预加载资源
-                    self.managePreloadingSourceWhenPlayNext()
-                    
-                }
-                if let nextPos = resp["result"]["nextPos"].int {
-                    self.videoIndex = nextPos
-                }
-                
-            }) { (e) in
-                self.page = self.page > 0 ? self.page - 1 : 0
-            }
-        }
-        
+
     }
-    
+    */
     func loadData(page: Int) {
-        PVNetworkTool.Request(router: .videoList(type: type, videoIndex: videoIndex, videoId: videoId), success: { (resp) in
+        PVNetworkTool.Request(router: .videoList(type: type, videoIndex: videoIndex, videoId: videoId, userId: userId), success: { (resp) in
+            if let nextPos = resp["result"]["nextPos"].int { self.videoIndex = nextPos }
+            
             if let d = Mapper<PVVideoPlayModel>().mapArray(JSONObject: resp["result"]["dataArr"].arrayObject) {
                 if page == 0 { self.dataArr = d }
                 else { self.dataArr += d }
                 
-            }
-            if let nextPos = resp["result"]["nextPos"].int {
-                self.videoIndex = nextPos
             }
             
         }) { (e) in
@@ -241,8 +272,9 @@ extension PVHomePlayVC {
     //准备播放视频
     func prepareWithPlayer(player: AliyunVodPlayer, model: PVVideoPlayModel) {
         player.stop()   //SDK开发人员的建议：准备之前先stop，防止prepare多次引发一些问题
-        player.prepare(withVid: model.videoId, accessKeyId: accessKeyId, accessKeySecret: accessKeySecret, securityToken: securityToken)
-        if accessKeyId == nil || accessKeySecret == nil || securityToken == nil { print("sts异常") }
+        player.prepare(with: URL.init(string: model.videoURL))
+//        player.prepare(withVid: model.videoId, accessKeyId: accessKeyId, accessKeySecret: accessKeySecret, securityToken: securityToken)
+//        if accessKeyId == nil || accessKeySecret == nil || securityToken == nil { print("sts异常") }
     }
     
     //根据情况判断是否要去请求新的资源
@@ -486,7 +518,6 @@ extension PVHomePlayVC {
         else if savedPlayStatus == AliyunVodPlayerState.play {
             currentPlayContainer?.vodPlayer?.resume()
         }
-        
         
     }
     

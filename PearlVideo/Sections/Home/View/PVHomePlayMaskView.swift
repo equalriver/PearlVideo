@@ -32,11 +32,11 @@ class PVHomePlayMaskView: UIView {
                 return
             }
             attentionBtn.isHidden = false
-            attentionBtn.isSelected = playContainer!.data.IsFollowed
+            attentionBtn.isSelected = playContainer!.data.isFollowed
             avatarBtn.kf.setImage(with: URL.init(string: playContainer!.data.avatarUrl), for: .normal)
             nameLabel.text = playContainer!.data.nickname
             detailLabel.text = playContainer!.data.title
-            likeBtn.isSelected = playContainer!.data.IsFollowed
+            likeBtn.isSelected = playContainer!.data.isThumbuped
             likeBtn.setTitle("\(playContainer!.data.thumbCount)", for: .normal)
             commentBtn.setTitle("\(playContainer!.data.commentCount)", for: .normal)
         }

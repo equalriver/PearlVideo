@@ -12,13 +12,15 @@ import AliyunVodPlayerSDK
 
 class PVMeVideoPlayVC: PVBaseViewController {
     
-    var accessKeyId: String?
-    
-    var accessKeySecret: String?
-    
-    var securityToken: String?
+//    var accessKeyId: String?
+//
+//    var accessKeySecret: String?
+//
+//    var securityToken: String?
     
     var videoId = ""
+    
+    var userId = ""
     
     var videoIndex = 0
     
@@ -26,6 +28,8 @@ class PVMeVideoPlayVC: PVBaseViewController {
     
     var currentIndex = 0
     
+    ///是否点击设置私密
+    var isSelectedSecurity = false
     
     /*
      type = 1 = 推荐
@@ -84,11 +88,12 @@ class PVMeVideoPlayVC: PVBaseViewController {
         return b
     }()
     
-    public required convenience init(type: Int, videoId: String, videoIndex: Int) {
+    public required convenience init(type: Int, videoId: String, videoIndex: Int, userId: String) {
         self.init()
         self.type = type
         self.videoId = videoId
         self.videoIndex = videoIndex
+        self.userId = userId
         initUI()
     }
     
@@ -100,7 +105,8 @@ class PVMeVideoPlayVC: PVBaseViewController {
         initPlayConfig()
         addNotification()
         addGesture()
-        getSTS()
+//        getSTS()
+        firstLoadData()
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -113,7 +119,9 @@ class PVMeVideoPlayVC: PVBaseViewController {
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
         UIApplication.shared.isIdleTimerDisabled = false
-        
+        if isSelectedSecurity {
+            NotificationCenter.default.post(name: .kNotiName_refreshMeSecrityVC, object: nil)
+        }
     }
     
     override func viewDidDisappear(_ animated: Bool) {

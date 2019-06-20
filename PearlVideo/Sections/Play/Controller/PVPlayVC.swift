@@ -8,6 +8,7 @@
 
 import AliyunVideoSDKPro
 
+
 class PVPlayVC: PVBaseViewController {
     
     let recordMaxTime: CGFloat = 10 //视频最大时长
@@ -62,6 +63,7 @@ class PVPlayVC: PVBaseViewController {
         let r = AliyunIRecorder.init(delegate: self, videoSize: outputSize) ?? AliyunIRecorder()
         r.frontCaptureSessionPreset = "AVCaptureSessionPreset960x540" //前置摄像头采集分辨率
         r.encodeMode = 1 //编码方式 0软编  1硬编 iOS强制硬编
+        r.beautifyValue = 50 //美颜度 [0,100]
         r.videoQuality = .hight //视频质量
         let d = Date().timeIntervalSince1970.description
         r.outputPath = outputPath + "/\(d)" + ".mp4"//视频的输出路径
@@ -73,7 +75,7 @@ class PVPlayVC: PVBaseViewController {
     }()
     lazy var cameraView: PVPlayCameraView = {
         let v = PVPlayCameraView.init(frame: .zero)
-        v.backgroundColor = UIColor.white
+        v.backgroundColor = kColor_deepBackground
         v.minDuration = recordMinTime
         v.maxDuration = recordMaxTime
         v.delegate = self

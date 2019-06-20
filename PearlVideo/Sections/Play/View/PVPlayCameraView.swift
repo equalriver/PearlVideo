@@ -8,12 +8,21 @@
 
 
 protocol PVPlayCameraDelegate: NSObjectProtocol {
+    //开始录制
     func didStartRecord()
+    //暂停录制
     func didPauseRecord()
+    //删除
     func didSelectedDelete()
+    //下一步
     func didSelectedFinish()
+    //摄像头切换
     func didSelectedSwitch()
+    //闪光灯
     func didSelectedFlash(sender: UIButton)
+    //本地视频
+    func didSelectedLocalVideo()
+    
     func didSelectedDismiss()
 }
 
@@ -26,6 +35,7 @@ class PVPlayCameraView: UIView {
             topView.isHidden = newValue
             deleteBtn.isHidden = newValue
             finishButton.isHidden = newValue
+            localVideoBtn.isHidden = true
         }
     }
     
@@ -95,6 +105,15 @@ class PVPlayCameraView: UIView {
         b.addTarget(self, action: #selector(recordAction(sender:)), for: .touchUpInside)
         return b
     }()
+    //本地视频
+    lazy var localVideoBtn: UIButton = {
+        let b = UIButton()
+        b.isExclusiveTouch = true
+        b.backgroundColor = UIColor.clear
+        b.setImage(UIImage.init(named: "video_相册"), for: .normal)
+        b.addTarget(self, action: #selector(localVideo(sender:)), for: .touchUpInside)
+        return b
+    }()
     //顶部view
     lazy var topView: UIView = {
         let v = UIView()
@@ -142,6 +161,7 @@ class PVPlayCameraView: UIView {
         addSubview(progressView)
         addSubview(recordBtn)
         addSubview(finishButton)
+        addSubview(localVideoBtn)
         previewView.snp.makeConstraints { (make) in
             make.size.centerX.centerY.equalToSuperview()
         }
@@ -177,6 +197,10 @@ class PVPlayCameraView: UIView {
         }
         finishButton.snp.makeConstraints { (make) in
             make.left.equalTo(recordBtn.snp.right).offset(50 * KScreenRatio_6)
+            make.centerY.equalTo(recordBtn)
+        }
+        localVideoBtn.snp.makeConstraints { (make) in
+            make.right.equalTo(recordBtn.snp.left).offset(-50 * KScreenRatio_6)
             make.centerY.equalTo(recordBtn)
         }
     }

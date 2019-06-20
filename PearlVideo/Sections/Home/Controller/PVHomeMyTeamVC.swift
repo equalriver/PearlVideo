@@ -61,6 +61,7 @@ class PVHomeMyTeamAllVC: PVBaseViewController {
     var dataArr = Array<PVHomeTeamList>()
     
     var page = 0
+    var nextPage = ""
     
     lazy var tableView: UITableView = {
         let tb = UITableView.init(frame: .zero, style: .plain)
@@ -89,6 +90,7 @@ class PVHomeMyTeamAuthVC: PVBaseViewController {
     var dataArr = Array<PVHomeTeamList>()
     
     var page = 0
+    var nextPage = ""
     
     lazy var tableView: UITableView = {
         let tb = UITableView.init(frame: .zero, style: .plain)
@@ -122,6 +124,7 @@ class PVHomeMyTeamNotAuthVC: PVBaseViewController {
     var dataArr = Array<PVHomeTeamList>()
     
     var page = 0
+    var nextPage = ""
     
     lazy var tableView: UITableView = {
         let tb = UITableView.init(frame: .zero, style: .plain)

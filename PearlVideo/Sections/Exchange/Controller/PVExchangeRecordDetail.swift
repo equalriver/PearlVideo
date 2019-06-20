@@ -15,6 +15,7 @@ class PVExchangeRecordBuyDetailVC: PVBaseNavigationVC {
         }
     }
     
+    
     lazy var headView: PVExchangeRecordBuyDetailView = {
         let v = PVExchangeRecordBuyDetailView.init(frame: .zero)
         return v
@@ -47,8 +48,12 @@ class PVExchangeRecordBuyDetailVC: PVBaseNavigationVC {
             make.centerX.equalToSuperview()
             make.bottom.equalToSuperview().offset(-kIphoneXLatterInsetHeight - 15)
         }
+        NotificationCenter.default.addObserver(self, selector: #selector(refreshNoti(sender:)), name: .kNotiName_refreshRecordBuyDetail, object: nil)
         
-        
+    }
+    
+    deinit {
+        NotificationCenter.default.removeObserver(self)
     }
     
 }
@@ -56,7 +61,11 @@ class PVExchangeRecordBuyDetailVC: PVBaseNavigationVC {
 //MARK: - 卖单详情
 class PVExchangeRecordSellDetailVC: PVBaseNavigationVC {
     
-    var orderId = ""
+    var orderId = "" {
+        didSet{
+            loadData()
+        }
+    }
     
     lazy var headView: PVExchangeRecordSellDetailView = {
         let v = PVExchangeRecordSellDetailView.init(frame: .zero)
@@ -90,30 +99,27 @@ class PVExchangeRecordSellDetailVC: PVBaseNavigationVC {
             make.centerX.equalToSuperview()
             make.bottom.equalToSuperview().offset(-kIphoneXLatterInsetHeight - 15)
         }
+        
+        NotificationCenter.default.addObserver(self, selector: #selector(refreshNoti(sender:)), name: .kNotiName_refreshRecordSellDetail, object: nil)
+    }
+    
+    deinit {
+        NotificationCenter.default.removeObserver(self)
     }
     
 }
 
 
 //MARK: - 交换中详情
-enum ExchangeRecordChangingType {
-    case none
-    case waitForBuyerPay
-    case waitForPay
-    case payWithFruit
-    case getFruit
-}
 class PVExchangeRecordChangingDetailVC: PVBaseNavigationVC {
     
     var uploadImageSuccess: (() -> Void)?
     
     var uploadImageURL: URL?
     
-    var type = ExchangeRecordChangingType.none
+    var type = PVExchangeRecordListState.none
     
     var orderId = ""
-    
-    var data: PVExchangeRecordDetailModel!
     
     
     lazy var contentView: UIScrollView = {
@@ -143,12 +149,13 @@ class PVExchangeRecordChangingDetailVC: PVBaseNavigationVC {
         return v
     }()
     
-    required convenience init(type: ExchangeRecordChangingType, orderId: String) {
+    required convenience init(type: PVExchangeRecordListState, orderId: String) {
         self.init()
         initUI()
         self.type = type
         self.orderId = orderId
         headerView.type = type
+        footerView.type = type
         bottomBtns.type = type
         switch type {
         case .waitForBuyerPay:  //待买家付款
@@ -160,23 +167,31 @@ class PVExchangeRecordChangingDetailVC: PVBaseNavigationVC {
             
             break
             
-        case .payWithFruit: //待放平安果
+        case .waitForFruit: //待放平安果
             
             break
             
-        case .getFruit: //待收平安果
+        case .success: //待收平安果
             bottomBtns.isHidden = true
             contentView.isScrollEnabled = false
             break
             
         case .none: break
+            
+        default: break
         }
+        loadData()
+        
     }
     
     override func viewDidLoad() {
         super.viewDidLoad()
         title = "订单详情"
-        
+        NotificationCenter.default.addObserver(self, selector: #selector(refreshNoti(sender:)), name: .kNotiName_refreshRecordExchanging, object: nil)
+    }
+    
+    deinit {
+        NotificationCenter.default.removeObserver(self)
     }
     
     func initUI() {
@@ -209,4 +224,6 @@ class PVExchangeRecordChangingDetailVC: PVBaseNavigationVC {
             make.height.equalTo(60 * KScreenRatio_6)
         }
     }
+    
+    
 }

@@ -24,6 +24,7 @@ class PVVideoCommentView: UIView {
     var videoId = ""
     
     var page = 0
+    var nextPage = ""
     
     let inputViewRect = CGRect.init(x: 0, y: 420 * KScreenRatio_6, width: kScreenWidth, height: 50 * KScreenRatio_6)
     
@@ -92,9 +93,8 @@ class PVVideoCommentView: UIView {
             make.centerX.equalToSuperview()
         }
         closeBtn.snp.makeConstraints { (make) in
-            make.top.equalToSuperview()
-            make.size.equalTo(CGSize.init(width: 30 * KScreenRatio_6, height: 30 * KScreenRatio_6))
-            make.right.equalToSuperview().offset(-10)
+            make.top.right.equalToSuperview()
+            make.size.equalTo(CGSize.init(width: 40 * KScreenRatio_6, height: 40 * KScreenRatio_6))
         }
         tableView.snp.makeConstraints { (make) in
             make.top.equalToSuperview().offset(50 * KScreenRatio_6)
@@ -113,7 +113,6 @@ class PVVideoCommentView: UIView {
 protocol PVVideoCommentCellDelegate: NSObjectProtocol {
     func didSelectedAvatar(cell: PVVideoCommentCell)
     func didSelectedLike(cell: PVVideoCommentCell, sender: UIButton)
-    func didSelectedMoreReply(cell: PVVideoCommentCell, sender: UIButton)
 }
 
 class PVVideoCommentCell: PVBaseTableCell {
@@ -128,7 +127,7 @@ class PVVideoCommentCell: PVBaseTableCell {
             contentLabel.text = data.content
             dateLabel.text = data.createAt
             likeBtn.isSelected = data.status == 1
-            likeBtn.setTitle("\(data.replyThumbCount)", for: .normal)
+            likeBtn.setTitle("\(data.commentThumbupCount)", for: .normal)
             if data.replyCount > 0 {
                 moreReplyBtn.setTitle("查看\(data.replyCount)条回复", for: .normal)
                 moreReplyBtn.snp.updateConstraints { (make) in
@@ -162,7 +161,7 @@ class PVVideoCommentCell: PVBaseTableCell {
     }()
     lazy var contentLabel: UILabel = {
         let l = UILabel()
-        l.font = kFont_text_3
+        l.font = kFont_text_2
         l.textColor = UIColor.white
         l.numberOfLines = 0
         return l
@@ -184,10 +183,11 @@ class PVVideoCommentCell: PVBaseTableCell {
     }()
     lazy var moreReplyBtn: TitleFrontButton = {
         let b = TitleFrontButton.init(frame: .zero)
+        b.isUserInteractionEnabled = false
         b.titleLabel?.font = kFont_text_3
         b.setTitleColor(kColor_subText, for: .normal)
         b.setImage(UIImage.init(named: "video_push"), for: .normal)
-        b.addTarget(self, action: #selector(moreReply(sender:)), for: .touchUpInside)
+//        b.addTarget(self, action: #selector(moreReply(sender:)), for: .touchUpInside)
         return b
     }()
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
@@ -257,10 +257,6 @@ class PVVideoCommentCell: PVBaseTableCell {
     
     @objc func likeAction(sender: UIButton) {
         delegate?.didSelectedLike(cell: self, sender: sender)
-    }
-    
-    @objc func moreReply(sender: UIButton) {
-        delegate?.didSelectedMoreReply(cell: self, sender: sender)
     }
     
 }

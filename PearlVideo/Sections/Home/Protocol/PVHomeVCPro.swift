@@ -32,6 +32,7 @@ extension PVHomeVC {
             if let d = Mapper<PVHomeModel>().map(JSONObject: resp["result"].object) {
                 self.data = d
                 self.headerView.data = d
+                self.badge.isHidden = !d.messageStatus
                 self.reloadData()
             }
             
@@ -39,9 +40,8 @@ extension PVHomeVC {
             
         }
     }
-    
+    //FIX
     func checkVersion() {
-        
         PVNetworkTool.Request(router: .getVersion, success: { (resp) in
             if let d = Mapper<PVVersionModel>().map(JSONObject: resp["result"].object) {
                 if d.versionCode != kAppUpdateVersionValue {
@@ -52,18 +52,21 @@ extension PVHomeVC {
                 }
 
             }
-            
+
         }) { (e) in
-            
+
         }
     }
+    
     
     //scroll view delegate
     override func scrollViewDidScroll(_ scrollView: UIScrollView) {
         if scrollView == contentScrollView {
+            guard contentScrollView.contentOffset.y > 0 else { return }
             recommendVC.collectionView.isScrollEnabled = scrollView.contentOffset.y >= headerViewHeight - safeInset
             attentionVC.collectionView.isScrollEnabled = scrollView.contentOffset.y >= headerViewHeight - safeInset
             msgBtn.isHidden = scrollView.contentOffset.y >= 200
+            contentScrollView.bounces = contentScrollView.contentOffset.y <= 20
         }
         else {
             super.scrollViewDidScroll(scrollView)
@@ -75,18 +78,25 @@ extension PVHomeVC {
 //MARK: - Recommend Delegate
 extension PVHomeVC: PVHomeRecommendDelegate {
     
+    func recommendScrollViewWillDragging(sender: UIScrollView) {
+        if contentScrollView.contentOffset.y <= 0 { sender.isScrollEnabled = false }
+    }
+    
     func didBeginHeaderRefresh(sender: UIScrollView?) {
         DispatchQueue.main.asyncAfter(deadline: .now() + 0.2) {
             sender?.mj_header.endRefreshing()
             self.contentScrollView.setContentOffset(CGPoint.init(x: 0, y: -20), animated: true)
         }
-        
     }
     
 }
 
 //MARK: - attention Delegate
 extension PVHomeVC: PVHomeAttentionDelegate {
+    
+    func attentionScrollViewWillDragging(sender: UIScrollView) {
+        if contentScrollView.contentOffset.y <= 0 { sender.isScrollEnabled = false }
+    }
     
     func didBeginAttentionHeaderRefresh(sender: UIScrollView?) {
         DispatchQueue.main.asyncAfter(deadline: .now() + 0.2) {
@@ -137,7 +147,6 @@ extension PVHomeVC: PVHomeHeaderDelegate {
     }
     
     func didSelectedTitlesItem(index: Int) {
-//        view.makeToast("暂未开放")
         switch index {
         case 0: //会员等级
             let vc = PVHomeUserLevelVC()
@@ -166,7 +175,6 @@ extension PVHomeVC: PVHomeHeaderDelegate {
     func didSelectedActionItem(index: Int) {
         switch index {
         case 0: //任务
-//            view.makeToast("暂未开放")
             let vc = PVHomeTaskVC()
             navigationController?.pushViewController(vc, animated: true)
             break

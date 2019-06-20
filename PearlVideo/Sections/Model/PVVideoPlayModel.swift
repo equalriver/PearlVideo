@@ -8,6 +8,23 @@
 
 import ObjectMapper
 
+enum PVVideoType: Int {
+    ///推荐
+    case recommend = 1
+    
+    ///关注
+    case attention = 2
+    
+    ///我的作品
+    case production = 3
+    
+    ///我的喜欢视频
+    case like = 4
+    
+    ///私密视频
+    case security = 5
+}
+
 class PVVideoPlayModel: PVBaseModel {
     
     ///评论数量
@@ -40,13 +57,16 @@ class PVVideoPlayModel: PVBaseModel {
     var isDeleted = false
     
     ///是否关注
-    var IsFollowed = false
+    var isFollowed = false
     
     ///是否点赞
-    var IsThumbuped = false
+    var isThumbuped = false
     
     ///是否是私密
     var isPrivacy = false
+    
+    ///视频url
+    var videoURL = ""
     
 
     override func mapping(map: Map) {
@@ -61,9 +81,10 @@ class PVVideoPlayModel: PVBaseModel {
         videoId <- map["videoId"]
         isMine <- map["isMine"]
         isDeleted <- map["isDeleted"]
-        IsFollowed <- map["IsFollowed"]
-        IsThumbuped <- map["IsThumbuped"]
+        isFollowed <- map["isFollowed"]
+        isThumbuped <- map["isThumbuped"]
         isPrivacy <- map["isPrivacy"]
+        videoURL <- map["videoUrl"]
     }
     
 }

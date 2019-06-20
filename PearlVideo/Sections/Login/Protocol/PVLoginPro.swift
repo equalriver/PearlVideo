@@ -17,28 +17,12 @@ extension PVLoginVC {
     
     //获取验证码
     @objc func getAuthCode(sender: UIButton) {
-        guard phoneTF.hasText else {
-            view.makeToast("请输入手机号")
-            return
-        }
-        guard phoneTF.text!.ypj.isPhoneNumber else {
-            view.makeToast("手机号输入不正确")
-            return
-        }
-        sender.isEnabled = false
-        PVNetworkTool.Request(router: .getAuthCode(phone: phoneTF.text!), success: { (resp) in
-            auth()
-
-        }) { (e) in
-            sender.isEnabled = true
-
-        }
-        
         func auth() {
             var t = 60
             self.timer.setEventHandler { [weak self] in
                 if t <= 1 {
                     self?.timer.suspend()
+                    self?.isTimerRun = false
                     DispatchQueue.main.async {
                         sender.setTitle("获取验证码", for: .normal)
                         sender.backgroundColor = kColor_pink
@@ -55,7 +39,25 @@ extension PVLoginVC {
                 }
             }
             self.timer.resume()
+            isTimerRun = true
             authCodeTF.becomeFirstResponder()
+        }
+
+        guard phoneTF.hasText else {
+            view.makeToast("请输入手机号")
+            return
+        }
+        guard phoneTF.text!.ypj.isPhoneNumber else {
+            view.makeToast("手机号输入不正确")
+            return
+        }
+        sender.isEnabled = false
+        PVNetworkTool.Request(router: .getAuthCode(phone: phoneTF.text!), success: { (resp) in
+            auth()
+
+        }) { (e) in
+            sender.isEnabled = true
+
         }
         
     }
@@ -86,47 +88,57 @@ extension PVLoginVC {
     }
     
     @objc func login(sender: UIButton) {
-        guard phoneTF.hasText else {
-            view.makeToast("请输入手机号")
-            return
-        }
-        guard phoneTF.text!.ypj.isPhoneNumber else {
-            view.makeToast("手机号输入不正确")
-            return
-        }
-        var psd = ""
-        var code = ""
-        if isPasswordLogin {
-            guard passwordTF.hasText else {
-                view.makeToast("请输入密码")
+//        guard UserDefaults.standard.string(forKey: kUserLocation) != nil else {
+//            YPJOtherTool.ypj.getLocationAuth(target: self, manager: locationManager)
+//            return
+//        }
+        
+        func userLogin() {
+            guard phoneTF.hasText else {
+                view.makeToast("请输入手机号")
                 return
             }
-            psd = passwordTF.text!
-        }
-        else {
-            guard authCodeTF.hasText else {
-                view.makeToast("请输入验证码")
+            guard phoneTF.text!.ypj.isPhoneNumber else {
+                view.makeToast("手机号输入不正确")
                 return
             }
-            code = authCodeTF.text!
+            var psd = ""
+            var code = ""
+            if isPasswordLogin {
+                guard passwordTF.hasText else {
+                    view.makeToast("请输入密码")
+                    return
+                }
+                psd = passwordTF.text!
+            }
+            else {
+                guard authCodeTF.hasText else {
+                    view.makeToast("请输入验证码")
+                    return
+                }
+                code = authCodeTF.text!
+            }
+            
+            sender.isEnabled = false
+            PVNetworkTool.Request(router: .login(phone: phoneTF.text!, psd: psd, msgcode: code), success: { (resp) in
+                sender.isEnabled = true
+                if let token = resp["result"]["token"].string {
+                    UserDefaults.standard.set(token, forKey: kToken)
+                }
+                if let userId = resp["result"]["userId"].string {
+                    UserDefaults.standard.set(userId, forKey: kUserId)
+                }
+                UserDefaults.standard.synchronize()
+                self.loginCallback?(true)
+                self.dismiss(animated: true, completion: nil)
+                
+            }) { (e) in
+                sender.isEnabled = true
+            }
         }
         
-        sender.isEnabled = false
-        PVNetworkTool.Request(router: .login(phone: phoneTF.text!, psd: psd, msgcode: code), success: { (resp) in
-            sender.isEnabled = true
-            if let token = resp["result"]["token"].string {
-                UserDefaults.standard.set(token, forKey: kToken)
-            }
-            if let userId = resp["result"]["userId"].string {
-                UserDefaults.standard.set(userId, forKey: kUserId)
-            }
-            UserDefaults.standard.synchronize()
-            self.loginCallback?(true)
-            self.dismiss(animated: true, completion: nil)
-            
-        }) { (e) in
-            sender.isEnabled = true
-        }
+        //
+        userLogin()
     }
     
     @objc func register(sender: UIButton) {
@@ -158,3 +170,27 @@ extension PVLoginVC {
     
 }
 
+extension PVLoginVC: CLLocationManagerDelegate {
+    
+    func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
+        guard let location = locations.first else {
+            view.makeToast("获取定位信息失败")
+            return
+        }
+        let coder = CLGeocoder.init()
+        coder.reverseGeocodeLocation(location) { (placemarks, error) in
+            if error != nil {
+                self.view.makeToast("获取定位信息失败")
+                return
+            }
+            guard let placemark = placemarks?.first else { return }
+            guard let city = placemark.addressDictionary?["City"] as? String else {
+                self.view.makeToast("获取定位信息失败")
+                return
+            }
+            
+        }
+        
+    }
+    
+}

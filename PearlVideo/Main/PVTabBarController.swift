@@ -56,6 +56,16 @@ class PVTabBarController: UITabBarController {
         tb.playBtn.addTarget(self, action: #selector(didSelectedPlay), for: .touchUpInside)
         return tb
     }()
+    private lazy var emptyVC_1: PVBaseViewController = {
+        let vc = PVBaseViewController()
+        vc.view.backgroundColor = kColor_deepBackground
+        return vc
+    }()
+    private lazy var emptyVC_2: PVBaseViewController = {
+        let vc = PVBaseViewController()
+        vc.view.backgroundColor = kColor_deepBackground
+        return vc
+    }()
     
     private let tabTitles = ["首页", "活动中心", "交换中心", "我的"]
     
@@ -68,12 +78,12 @@ class PVTabBarController: UITabBarController {
         return vc
     }()
 
-    private lazy var hotVC: PVBaseRootNaviVC = {
-        let vc = PVBaseRootNaviVC.init(rootViewController: PVExchangeVC())
-        return vc
-    }()
+//    private lazy var hotVC: PVBaseRootNaviVC = {
+//        let vc = PVBaseRootNaviVC.init(rootViewController: PVExchangeVC())
+//        return vc
+//    }()
 
-    private lazy var pearlVC: PVBaseRootNaviVC = {
+    private lazy var exchangeVC: PVBaseRootNaviVC = {
         let vc = PVBaseRootNaviVC.init(rootViewController: PVExchangeVC())
         return vc
     }()
@@ -89,7 +99,10 @@ class PVTabBarController: UITabBarController {
         view.backgroundColor = kColor_deepBackground
         
         self.setValue(customTabBar, forKey: "tabBar")
-        viewControllers = [homeVC, hotVC, pearlVC, userVC]
+        emptyVC_1.view.stateEmpty()
+        emptyVC_2.view.stateEmpty()
+//        viewControllers = [homeVC, emptyVC_1, exchangeVC, userVC]
+        viewControllers = [homeVC, emptyVC_1, emptyVC_2, userVC]
         for (index, item) in (viewControllers?.enumerated())! {
             item.tabBarItem.title = tabTitles[index]
             item.tabBarItem.image = tabImages[index]
@@ -100,8 +113,8 @@ class PVTabBarController: UITabBarController {
     
     
     @objc func didSelectedPlay() {
-//        SVProgressHUD.showInfo(withStatus: "暂未开放")
-//        return
+        SVProgressHUD.showInfo(withStatus: "暂未开放")
+        return
         if let vc = self.selectedViewController {
             let playVC = PVPlayVC()
             vc.present(PVBaseRootNaviVC.init(rootViewController: playVC), animated: true, completion: nil)

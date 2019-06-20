@@ -75,9 +75,9 @@ class PVMeModel: PVBaseModel {
         gender <- map["gender"]
         followCount <- map["followCount"]
         fansCount <- map["fansCount"]
-        Level <- map["Level"]
+        Level <- map["level"]
         reelLivenessCount <- map["reelLivenessCount"]
-        LivenessCount <- map["LivenessCount"]
+        LivenessCount <- map["livenessCount"]
         pearlToal <- map["pearlToal"]
         likeTotal <- map["likeTotal"]
         videoTotal <- map["videoTotal"]
@@ -208,13 +208,35 @@ class PVMeAttentionModel: PVBaseModel {
     
     var isFollow = false
 
+    var userId = ""
     
     override func mapping(map: Map) {
         status <- map["status"]
-        nickName <- map["nickName"]
+        nickName <- map["nickname"]
         avatarImageUrl <- map["avatarImageUrl"]
         gender <- map["gender"]
         isFollow <- map["isFollow"]
+        userId <- map["userId"]
+    }
+    
+}
+
+
+//MARK: - 收款方式
+class PVMePayWayModel: PVBaseModel {
+    
+    var type = ""
+    
+    var account = ""
+    
+    var name = ""
+    
+    
+    override func mapping(map: Map) {
+        type <- map["type"]
+        name <- map["name"]
+        account <- map["account"]
+      
     }
     
 }

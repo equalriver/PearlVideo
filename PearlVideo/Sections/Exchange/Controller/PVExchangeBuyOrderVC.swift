@@ -6,15 +6,22 @@
 //  Copyright © 2019 equalriver. All rights reserved.
 //
 
+import ObjectMapper
+
 class PVExchangeBuyOrderVC: PVBaseNavigationVC {
     
     let titles = ["价格区间", "单价", "平安果数量", "总金额", "交换密码", "收款账号"]
     
     var price = 0.0
     
-    var count = 0
+    var count = 0.0
     
     var password = ""
+    
+    var data = PVExchangeSendOrderModel()
+    
+    var totalPriceTF: UITextField?
+    var countTF: UITextField?
     
     
     lazy var tableView: UITableView = {
@@ -63,8 +70,11 @@ class PVExchangeBuyOrderVC: PVBaseNavigationVC {
     }
     
     @objc func sendAction(sender: UIButton) {
-        PVNetworkTool.Request(router: .sendBuyOrder(price: price, count: count, password: password), success: { (resp) in
-            
+        PVNetworkTool.Request(router: .sendBuyOrder(price: price, count: Int(count), password: password), success: { (resp) in
+            self.view.makeToast("发布成功")
+            DispatchQueue.main.asyncAfter(deadline: .now() + 1.5, execute: {
+                self.navigationController?.popViewController(animated: true)
+            })
             
         }) { (e) in
             
@@ -73,11 +83,35 @@ class PVExchangeBuyOrderVC: PVBaseNavigationVC {
     
     func loadInfo() {
         PVNetworkTool.Request(router: .readySendBuyOrder, success: { (resp) in
-            
+            if let d = Mapper<PVExchangeSendOrderModel>().map(JSONObject: resp["result"].object) {
+                self.data = d
+                self.tableView.reloadData()
+            }
             
         }) { (e) in
             
         }
+    }
+    
+    @objc func priceTextFieldEditingChange(sender: UITextField) {
+        //tag: 0 单价，1 总金额，2 交换密码
+        guard sender.hasText else { return }
+       
+        if sender.tag == 0 { price = Double(sender.text!) ?? 0.0 }
+        count = Double(countTF!.text!) ?? 0.0
+        
+        if price >= data.minPrice && price <= data.maxPrice {
+            if countTF != nil && countTF!.hasText { totalPriceTF?.text = "¥\(count * price)" }
+        }
+        else {
+            view.makeToast("不在价格区间范围内")
+        }
+        
+        if sender.tag == 2 {
+            password = sender.text ?? ""
+        }
+        
+        sendBtn.isEnabled = count > 0 && price > 0 && password.count > 0
     }
     
 }
@@ -104,29 +138,39 @@ extension PVExchangeBuyOrderVC: UITableViewDelegate, UITableViewDataSource {
         switch indexPath.row {
         case 0: //价格区间
             cell.detailTF.isUserInteractionEnabled = false
+            cell.detailTF.text = data.maxPrice > 0 ? "¥\(data.minPrice)~¥\(data.maxPrice)" : ""
             break
             
         case 1: //单价
             cell.detailTF.attributedPlaceholder = NSAttributedString.init(string: "请输入单价", attributes: [.font: kFont_text, .foregroundColor: kColor_text!])
-            
+            cell.detailTF.addTarget(self, action: #selector(priceTextFieldEditingChange(sender:)), for: .editingChanged)
+            cell.detailTF.keyboardType = .numbersAndPunctuation
+            cell.detailTF.tag = 0
             break
             
         case 2: //平安果数量
             cell.detailTF.attributedPlaceholder = NSAttributedString.init(string: "请输入数量", attributes: [.font: kFont_text, .foregroundColor: kColor_text!])
-            
+            cell.detailTF.addTarget(self, action: #selector(priceTextFieldEditingChange(sender:)), for: .editingChanged)
+            cell.detailTF.keyboardType = .numbersAndPunctuation
+            cell.detailTF.tag = 1
+            countTF = cell.detailTF
             break
             
         case 3: //总金额
             cell.detailTF.isUserInteractionEnabled = false
+            totalPriceTF = cell.detailTF
             break
             
         case 4: //交换密码
             cell.detailTF.attributedPlaceholder = NSAttributedString.init(string: "请输入交换密码", attributes: [.font: kFont_text, .foregroundColor: kColor_text!])
             cell.detailTF.isSecureTextEntry = true
+            cell.detailTF.addTarget(self, action: #selector(priceTextFieldEditingChange(sender:)), for: .editingChanged)
+            cell.detailTF.tag = 2
             break
             
         case 5: //收款账号
             cell.detailTF.isUserInteractionEnabled = false
+            cell.detailTF.text = data.alipayAccount
             break
             
         default: break

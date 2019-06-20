@@ -21,7 +21,7 @@ class PVHomeReportDetailVC: PVBaseNavigationVC {
         }
     }
     
-    let addImg = UIImage.init(named: "setting_add")!
+    let addImg = UIImage.init(named: "setting_背景图")!
     var imgs: [UIImage]!
     var selectedImageIndex = 0
     
@@ -71,7 +71,7 @@ class PVHomeReportDetailVC: PVBaseNavigationVC {
         l.minimumInteritemSpacing = 12
         l.scrollDirection = .horizontal
         let cv = UICollectionView.init(frame: .zero, collectionViewLayout: l)
-        cv.backgroundColor = UIColor.white
+        cv.backgroundColor = kColor_deepBackground
         cv.dataSource = self
         cv.delegate = self
         cv.register(PVMeFeedbackCell.self, forCellWithReuseIdentifier: "PVMeFeedbackCell")
@@ -135,8 +135,8 @@ class PVHomeReportDetailVC: PVBaseNavigationVC {
         }
         imgCollectionView.snp.makeConstraints { (make) in
             make.left.equalToSuperview().offset(20 * KScreenRatio_6)
-            make.top.equalTo(contentBgView.snp.bottom).offset(20 * KScreenRatio_6)
-            make.height.equalTo(70 * KScreenRatio_6)
+            make.top.equalTo(contentBgView.snp.bottom).offset(10 * KScreenRatio_6)
+            make.height.equalTo(90 * KScreenRatio_6)
             make.right.equalToSuperview().offset(-20 * KScreenRatio_6)
         }
         commitBtn.snp.makeConstraints { (make) in

@@ -223,6 +223,7 @@ extension PVMePasswordChangeVC {
             self.timer.setEventHandler { [weak self] in
                 if t <= 1 {
                     self?.timer.suspend()
+                    self?.isTimerRun = false
                     DispatchQueue.main.async {
                         sender.setTitle("获取验证码", for: .normal)
                         sender.backgroundColor = kColor_pink
@@ -239,6 +240,7 @@ extension PVMePasswordChangeVC {
                 }
             }
             self.timer.resume()
+            isTimerRun = true
             authCodeTF.becomeFirstResponder()
         }
     }
@@ -316,7 +318,7 @@ extension PVMeExchangePsdVC {
             return
         }
         sender.isEnabled = false
-        PVNetworkTool.Request(router: .getAuthCode(phone: phoneTF.text!), success: { (resp) in
+        PVNetworkTool.Request(router: .getExchangeAuthCode(phone: phoneTF.text!), success: { (resp) in
             auth()
             
         }) { (e) in
@@ -329,6 +331,7 @@ extension PVMeExchangePsdVC {
             self.timer.setEventHandler { [weak self] in
                 if t <= 1 {
                     self?.timer.suspend()
+                    self?.isTimerRun = false
                     DispatchQueue.main.async {
                         sender.setTitle("获取验证码", for: .normal)
                         sender.backgroundColor = kColor_pink
@@ -345,18 +348,55 @@ extension PVMeExchangePsdVC {
                 }
             }
             self.timer.resume()
+            isTimerRun = true
             authCodeTF.becomeFirstResponder()
         }
     }
     
     @objc func confirmAction(sender: UIButton) {
+        guard phoneTF.hasText && passwordTF_1.hasText && passwordTF_2.hasText && authCodeTF.hasText else { return }
+        guard passwordTF_1.text! == passwordTF_2.text! else {
+            view.makeToast("两次输入的密码不一致")
+            return
+        }
+        guard passwordTF_1.text!.count >= kExchangePsdLimitCount else {
+            view.makeToast("密码至少设置\(kExchangePsdLimitCount)位")
+            return
+        }
         sender.isEnabled = false
-        
+        PVNetworkTool.Request(router: .setExchangePassword(phone: phoneTF.text!, authCode: authCodeTF.text!, password: passwordTF_1.text!), success: { (resp) in
+            sender.isEnabled = true
+            self.view.makeToast("设置交换密码成功")
+            self.view.endEditing(true)
+            DispatchQueue.main.asyncAfter(deadline: .now() + 1.5, execute: {
+                self.navigationController?.popToRootViewController(animated: true)
+            })
+            
+        }) { (e) in
+            sender.isEnabled = true
+        }
     }
 }
 
 //MARK: - 收款方式
 extension PVMePayWayVC {
+    
+    func loadData() {
+        PVNetworkTool.Request(router: .getPayWay, success: { (resp) in
+            if let d = Mapper<PVMePayWayModel>().mapArray(JSONObject: resp["result"]["accountList"].arrayObject) {
+//                self.dataArr = d
+                if d.count > 0 {
+                    let att = NSMutableAttributedString.init(string: "修改 " + d.first!.account)
+                    att.addAttributes([.font: kFont_text, .foregroundColor: kColor_text!], range: NSMakeRange(0, 3))
+                    att.addAttributes([.font: kFont_btn_weight, .foregroundColor: kColor_text!], range: NSMakeRange(3, d.first!.account.count))
+                    self.addBtn.setAttributedTitle(att, for: .normal)
+                }
+            }
+            
+        }) { (e) in
+            
+        }
+    }
     
     @objc func addAccount(sender: UIButton) {
         let v = PVMePayWayAlert.init(frame: CGRect.init(x: 0, y: 0, width: kScreenWidth, height: kScreenHeight))
@@ -369,10 +409,15 @@ extension PVMePayWayVC {
 extension PVMePayWayVC: PVMePayWayAlertDelegate {
     
     func didSelectedConfirm(name: String, account: String) {
-        let att = NSMutableAttributedString.init(string: "修改 " + account)
-        att.addAttributes([.font: kFont_text, .foregroundColor: kColor_text!], range: NSMakeRange(0, 3))
-        att.addAttributes([.font: kFont_btn_weight, .foregroundColor: kColor_text!], range: NSMakeRange(3, account.count))
-        addBtn.setAttributedTitle(att, for: .normal)
+        PVNetworkTool.Request(router: .setPayWay(name: name, account: account), success: { (resp) in
+            let att = NSMutableAttributedString.init(string: "修改 " + account)
+            att.addAttributes([.font: kFont_text, .foregroundColor: kColor_text!], range: NSMakeRange(0, 3))
+            att.addAttributes([.font: kFont_btn_weight, .foregroundColor: kColor_text!], range: NSMakeRange(3, account.count))
+            self.addBtn.setAttributedTitle(att, for: .normal)
+            
+        }) { (e) in
+            
+        }
     }
 }
 
@@ -390,7 +435,7 @@ extension PVMeFeedbackVC {
                 view.makeToast("上传图片失败")
                 return
             }
-            
+            group.enter()
             func upload(imgPath: String) {
                 PVNetworkTool.Request(router: .getAuthWithUploadImage(imageExt: "jpg"), success: { (resp) in
                     
@@ -401,11 +446,13 @@ extension PVMeFeedbackVC {
                                 return
                             }
                             imgPaths.append(d.imageUrl)
+                            group.leave()
                         })
                     }
                     
                 }) { (e) in
                     sender.isEnabled = true
+                    group.leave()
                 }
             }
             
@@ -415,10 +462,7 @@ extension PVMeFeedbackVC {
             }))
             
         }
-        if imgPaths.count != uploadImages.count {
-            view.makeToast("上传图片失败")
-            return
-        }
+
         //类型: 1解冻 2优化意见 3其他
         group.notify(queue: .global()) {
             print("group  notify")
@@ -614,7 +658,10 @@ extension PVMeFeedbackVC: UIGestureRecognizerDelegate {
 extension PVMeMyFeedbackVC {
     
     func loadData(page: Int) {
-        PVNetworkTool.Request(router: .myFeedback(page: page * 10), success: { (resp) in
+        PVNetworkTool.Request(router: .myFeedback(next: nextPage), success: { (resp) in
+            let n = resp["result"]["next"].string ?? "\(resp["result"]["skip"].intValue)"
+            self.nextPage = n
+            
             if let d = Mapper<PVMeFeedbackList>().mapArray(JSONObject: resp["result"]["feedbackList"].arrayObject) {
                 if page == 0 { self.dataArr = d }
                 else { self.dataArr += d }
@@ -633,6 +680,7 @@ extension PVMeMyFeedbackVC {
     func setRefresh() {
         PVRefresh.headerRefresh(scrollView: tableView) {[weak self] in
             self?.page = 0
+            self?.nextPage = ""
             self?.loadData(page: 0)
         }
         PVRefresh.footerRefresh(scrollView: tableView) {[weak self] in

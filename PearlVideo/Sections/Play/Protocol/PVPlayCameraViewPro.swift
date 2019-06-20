@@ -53,6 +53,11 @@ extension PVPlayCameraView {
        
     }
     
+    //本地视频
+    @objc func localVideo(sender: UIButton) {
+        delegate?.didSelectedLocalVideo()
+    }
+    
     @objc func dismissAction() {
         delegate?.didSelectedDismiss()
     }

@@ -100,10 +100,10 @@ class PVExchangeReadyAcceptOrderModel: PVBaseModel {
     var price = 0.0
     
     ///订单数量
-    var count = ""
+    var count = 0
     
     ///订单总价
-    var totalPrice = ""
+    var totalPrice = 0.0
     
     ///支付方式
     var paymentMethod = ""
@@ -138,7 +138,7 @@ enum PVExchangeRecordListState: String {
     case none = ""
     
     ///等待匹配
-    case waitForMatch = "WAIT_MATCHING"
+    case waitForBuyerPay = "WAIT_MATCHING"
     ///等待支付
     case waitForPay = "WAIT_PAYING"
     ///等待发放平安果
@@ -214,7 +214,7 @@ class PVExchangeRecordDetailModel: PVBaseModel {
     var price = 0.0
     
     ///订单创建时间
-    var createAt = ""
+    var createAt = 0
     
     ///订单状态
     var state = PVExchangeRecordListState.none
@@ -244,6 +244,27 @@ class PVExchangeRecordDetailModel: PVBaseModel {
         state <- map["orderStatus"]
         leftTime <- map["expireSeconds"]
         payImageUrl <- map["paymentImageUrl"]
+    }
+    
+}
+
+
+//MARK: - 发单
+class PVExchangeSendOrderModel: PVBaseModel {
+    
+    var minPrice = 0.0
+    
+    var maxPrice = 0.0
+    
+    var alipayAccount = ""
+    ///手续费
+    var feeRatio = 0
+    
+    override func mapping(map: Map) {
+        minPrice <- map["minPrice"]
+        maxPrice <- map["maxPrice"]
+        alipayAccount <- map["alipayAccount"]
+        feeRatio <- map["feeRatio"]
     }
     
 }

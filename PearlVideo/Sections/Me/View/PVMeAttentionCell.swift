@@ -28,7 +28,7 @@ class PVMeAttentionCell: PVBaseTableCell {
     lazy var nameLabel: UILabel = {
         let l = UILabel()
         l.font = kFont_text_2
-        l.textColor = kColor_text
+        l.textColor = UIColor.white
         l.backgroundColor = kColor_deepBackground
         return l
     }()

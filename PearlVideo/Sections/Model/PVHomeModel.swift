@@ -13,17 +13,20 @@ class PVHomeModel: PVBaseModel {
     
     var bannerList = Array<PVHomeBannerModel>()
     ///当前收益
-    var currentIncome = 0
+    var currentIncome = 0.00
     ///会员等级
     var level = ""
     
     var noticeList = Array<PVHomeNoticeModel>()
     ///果子总数
-    var total = 0
+    var total = 0.0000
     ///活跃度1
     var activeness_1 = 0
     ///活跃度2
-    var activeness_2 = 0
+    var activeness_2 = 0.00
+    
+    var messageStatus = false
+    
     
     override func mapping(map: Map) {
         bannerList <- map["carouselList"]
@@ -33,6 +36,7 @@ class PVHomeModel: PVBaseModel {
         total <- map["pearlCount"]
         activeness_1 <- map["volumeLivenessCount"]
         activeness_2 <- map["otherLivenessCount"]
+        messageStatus <- map["messageStauts"]
     }
     
 }

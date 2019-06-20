@@ -17,13 +17,13 @@ class PVUserInfoVC: PVBaseWMPageVC {
     
     var panOffsetY: CGFloat = 0
     
-    let headerViewHeight: CGFloat = 430 * KScreenRatio_6
+    let headerViewHeight: CGFloat = 350 * KScreenRatio_6
     let safeInset = 10 * KScreenRatio_6
     
     lazy var contentScrollView: UIScrollView = {
         let v = UIScrollView.init(frame: CGRect.init(x: 0, y: 0, width: kScreenWidth, height: kScreenHeight))
         v.backgroundColor = kColor_deepBackground
-        v.contentSize = CGSize.init(width: 0, height: headerViewHeight + kScreenHeight - kTabBarHeight - kNavigationBarAndStatusHeight)
+        v.contentSize = CGSize.init(width: 0, height: headerViewHeight + kScreenHeight - kNavigationBarAndStatusHeight)
         v.showsVerticalScrollIndicator = false
         v.delegate = self
         v.scrollsToTop = false
@@ -44,6 +44,13 @@ class PVUserInfoVC: PVBaseWMPageVC {
         let vc = PVMeLikeVC()
         vc.delegate = self
         return vc
+    }()
+    lazy var effectView: UIVisualEffectView = {
+        let blur = UIBlurEffect.init(style: .light)
+        let e = UIVisualEffectView.init(effect: blur)
+        e.alpha = 0
+        e.frame = naviBar.bounds
+        return e
     }()
     
     //life cycle
@@ -74,8 +81,11 @@ class PVUserInfoVC: PVBaseWMPageVC {
     }
     
     func initUI() {
-        naviBar.isNeedBackButton = false
         naviBar.backgroundColor = UIColor.clear
+        naviBar.removeFromSuperview()
+        naviBar.addSubview(effectView)
+        naviBar.insertSubview(effectView, belowSubview: naviBar.titleView)
+        
         view.backgroundColor = kColor_deepBackground
         view.addSubview(headerView)
         menuView?.backgroundColor = kColor_background

@@ -73,6 +73,9 @@ class PVMeViewController: PVBaseWMPageVC {
         initUI()
         title = "我的"
         NotificationCenter.default.addObserver(self, selector: #selector(refreshNotification), name: .kNotiName_refreshMeVC, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(refreshNotification), name: .kNotiName_refreshMeProductionVC, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(refreshNotification), name: .kNotiName_refreshMeLikeVC, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(refreshNotification), name: .kNotiName_refreshMeSecrityVC, object: nil)
         loadData()
         setRefresh()
         UIApplication.shared.keyWindow?.addSubview(naviBar)

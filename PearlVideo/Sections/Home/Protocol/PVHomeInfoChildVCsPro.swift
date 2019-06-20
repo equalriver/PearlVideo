@@ -14,6 +14,7 @@ extension PVHomeUserLevelVC {
     func setRefresh() {
         PVRefresh.headerRefresh(scrollView: tableView) { [weak self] in
             self?.page = 0
+            self?.nextPage = ""
             self?.loadData(page: 0)
             self?.loadCurrentInfo()
         }
@@ -37,8 +38,11 @@ extension PVHomeUserLevelVC {
     }
     
     func loadData(page: Int) {
-        PVNetworkTool.Request(router: .userLevel(nextPage: page), success: { (resp) in
+        PVNetworkTool.Request(router: .userLevel(next: nextPage), success: { (resp) in
             self.tableView.mj_footer.endRefreshing()
+            let n = resp["result"]["next"].string ?? "\(resp["result"]["skip"].intValue)"
+            self.nextPage = n
+            
             if let d = Mapper<PVHomeUserLevelModel>().mapArray(JSONObject: resp["result"]["userExpList"].arrayObject) {
                 if page == 0 { self.dataArr = d }
                 else {
@@ -139,6 +143,7 @@ extension PVHomeActivenessVC {
     func setRefresh() {
         PVRefresh.headerRefresh(scrollView: tableView) {[weak self] in
             self?.page = 0
+            self?.nextPage = ""
             self?.loadData(page: 0)
         }
         PVRefresh.footerRefresh(scrollView: tableView) {[weak self] in
@@ -148,8 +153,11 @@ extension PVHomeActivenessVC {
     }
     
     func loadData(page: Int) {
-        PVNetworkTool.Request(router: .activenessDetail(page: page * 10), success: { (resp) in
+        PVNetworkTool.Request(router: .activenessDetail(next: nextPage), success: { (resp) in
             self.tableView.mj_footer.endRefreshing()
+            let n = resp["result"]["next"].string ?? "\(resp["result"]["skip"].intValue)"
+            self.nextPage = n
+            
             if let d = Mapper<PVHomeActivenessModel>().map(JSONObject: resp["result"].object) {
                 if page == 0 { self.data = d }
                 else {
@@ -196,6 +204,7 @@ extension PVHomeFruitVC {
     func setRefresh() {
         PVRefresh.headerRefresh(scrollView: tableView) {[weak self] in
             self?.page = 0
+            self?.nextPage = ""
             self?.loadData(page: 0)
         }
         PVRefresh.footerRefresh(scrollView: tableView) {[weak self] in
@@ -205,8 +214,11 @@ extension PVHomeFruitVC {
     }
     
     func loadData(page: Int) {
-        PVNetworkTool.Request(router: .fruitDetail(page: page * 10), success: { (resp) in
+        PVNetworkTool.Request(router: .fruitDetail(next: nextPage), success: { (resp) in
             self.tableView.mj_footer.endRefreshing()
+            let n = resp["result"]["next"].string ?? "\(resp["result"]["skip"].intValue)"
+            self.nextPage = n
+            
             if let d = Mapper<PVHomeFruitModel>().map(JSONObject: resp["result"].object) {
                 if page == 0 { self.data = d }
                 else {
@@ -284,8 +296,11 @@ extension PVHomeSchoolVC {
 extension PVHomeSchoolVideoVC {
     
     func loadData(page: Int) {
-        PVNetworkTool.Request(router: .schoolVideoList(page: page * 10), success: { (resp) in
+        PVNetworkTool.Request(router: .schoolVideoList(next: nextPage), success: { (resp) in
             self.tableView.mj_footer.endRefreshing()
+            let n = resp["result"]["next"].string ?? "\(resp["result"]["skip"].intValue)"
+            self.nextPage = n
+            
             if let d = Mapper<PVHomeSchoolVideoList>().mapArray(JSONObject: resp["result"]["courseList"].arrayObject) {
                 if page == 0 { self.dataArr = d }
                 else {
@@ -306,6 +321,7 @@ extension PVHomeSchoolVideoVC {
     func setRefresh() {
         PVRefresh.headerRefresh(scrollView: tableView) {[weak self] in
             self?.page = 0
+            self?.nextPage = ""
             self?.loadData(page: 0)
         }
         PVRefresh.footerRefresh(scrollView: tableView) {[weak self] in
@@ -341,8 +357,11 @@ extension PVHomeSchoolVideoVC: UITableViewDelegate, UITableViewDataSource {
 //新手指南
 extension PVHomeSchoolGuideVC {
     func loadData(page: Int) {
-        PVNetworkTool.Request(router: .schoolUserGuide(page: page * 10), success: { (resp) in
+        PVNetworkTool.Request(router: .schoolUserGuide(next: nextPage), success: { (resp) in
             self.tableView.mj_footer.endRefreshing()
+            let n = resp["result"]["next"].string ?? "\(resp["result"]["skip"].intValue)"
+            self.nextPage = n
+            
             if let d = Mapper<PVHomeSchoolGuideList>().mapArray(JSONObject: resp["result"]["commercialList"].arrayObject) {
                 if page == 0 { self.dataArr = d }
                 else {
@@ -363,6 +382,7 @@ extension PVHomeSchoolGuideVC {
     func setRefresh() {
         PVRefresh.headerRefresh(scrollView: tableView) {[weak self] in
             self?.page = 0
+            self?.nextPage = ""
             self?.loadData(page: 0)
         }
         PVRefresh.footerRefresh(scrollView: tableView) {[weak self] in

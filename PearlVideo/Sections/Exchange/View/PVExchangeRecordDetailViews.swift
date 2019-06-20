@@ -9,6 +9,17 @@
 //MARK: - 买单
 class PVExchangeRecordBuyDetailView: UIView {
     
+    public var data: PVExchangeRecordDetailModel! {
+        didSet{
+            costItemView.detailLabel.text = "¥\(data.totalPrice)"
+            priceItemView.detailLabel.text = "¥\(data.price)"
+            countItemView.detailLabel.text = "\(data.count)平安果"
+            orderNumberItemView.detailLabel.text = data.orderId
+            let date = formatter.string(from: Date.init(timeIntervalSince1970: TimeInterval(data.createAt / 1000)))
+            orderTimeItemView.detailLabel.text = date
+        }
+    }
+    
     lazy var headBgView: UIView = {
         let v = UIView()
         v.backgroundColor = kColor_pink
@@ -50,6 +61,11 @@ class PVExchangeRecordBuyDetailView: UIView {
         v.titleLabel.text = "订单时间："
         return v
     }()
+    lazy var formatter: DateFormatter = {
+        let f = DateFormatter()
+        f.dateFormat = "yyyy-MM-dd HH:mm:ss"
+        return f
+    }()
     
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -64,7 +80,7 @@ class PVExchangeRecordBuyDetailView: UIView {
         addSubview(orderTimeItemView)
         headBgView.snp.makeConstraints { (make) in
             make.width.top.centerX.equalToSuperview()
-            make.height.equalTo(150 * KScreenRatio_6)
+            make.height.equalTo(80 * KScreenRatio_6)
         }
         iconIV.snp.makeConstraints { (make) in
             make.size.equalTo(CGSize.init(width: 20, height: 20))
@@ -128,29 +144,30 @@ class ChangingDetailHeadView: UIView {
                 if t >= 1 {
                     t -= 1
                     DispatchQueue.main.async {
-                        let time = self?.formatter.string(from: Date.init(timeIntervalSince1970: TimeInterval(t)))
-                        self?.leftTimeLabel.text = time
+                        self?.leftTimeLabel.text = self?.leftTime(time: t)
                     }
                 }
                 else {
                     self?.timer.suspend()
+                    self?.isTimerRun = false
                     DispatchQueue.main.async {
                         self?.leftTimeLabel.text = nil
                     }
                 }
             }
             timer.resume()
-            
+            isTimerRun = true
             //
             costItemView.detailLabel.text = "¥\(data.totalPrice)"
             priceItemView.detailLabel.text = "¥\(data.price)"
             countItemView.detailLabel.text = "\(data.count)平安果"
             orderNumberItemView.detailLabel.text = data.orderId
-            orderTimeItemView.detailLabel.text = data.createAt
+            let date = orderFormatter.string(from: Date.init(timeIntervalSince1970: TimeInterval(data.createAt / 1000)))
+            orderTimeItemView.detailLabel.text = date
         }
     }
     
-    public var type = ExchangeRecordChangingType.getFruit {
+    public var type = PVExchangeRecordListState.none {
         didSet{
             switch type {
             case .waitForBuyerPay:
@@ -163,20 +180,24 @@ class ChangingDetailHeadView: UIView {
                 titleLabel.text = "待买家付款"
                 break
                 
-            case .getFruit:
+            case .success:
                 iconIV.image = UIImage.init(named: "ex_success")
                 titleLabel.text = "买家已付款"
                 break
                 
-            case .payWithFruit:
+            case .waitForFruit:
                 iconIV.image = UIImage.init(named: "ex_success")
                 titleLabel.text = "买家已付款"
                 break
                 
             case .none: break
+                
+            default: break
             }
         }
     }
+    
+    var isTimerRun = false
     
     lazy var headBgView: UIView = {
         let v = UIView()
@@ -224,9 +245,9 @@ class ChangingDetailHeadView: UIView {
         v.titleLabel.text = "订单时间："
         return v
     }()
-    lazy var formatter: DateFormatter = {
+    lazy var orderFormatter: DateFormatter = {
         let f = DateFormatter()
-        f.dateFormat = "HH时mm分ss秒"
+        f.dateFormat = "yyyy-MM-dd HH:mm:ss"
         return f
     }()
     lazy var timer: DispatchSourceTimer = {
@@ -249,7 +270,7 @@ class ChangingDetailHeadView: UIView {
         addSubview(orderTimeItemView)
         headBgView.snp.makeConstraints { (make) in
             make.width.top.centerX.equalToSuperview()
-            make.height.equalTo(150 * KScreenRatio_6)
+            make.height.equalTo(80 * KScreenRatio_6)
         }
         iconIV.snp.makeConstraints { (make) in
             make.size.equalTo(CGSize.init(width: 20, height: 20))
@@ -291,6 +312,24 @@ class ChangingDetailHeadView: UIView {
         fatalError("init(coder:) has not been implemented")
     }
     
+    deinit {
+        if isTimerRun == false { timer.resume() }
+        timer.cancel()
+    }
+    
+    func leftTime(time: Int) -> String {
+        let days = time / (3600 * 24)
+        let hours = (time - days * 24 * 3600) / 3600
+        let minutes = (time - days * 24 * 3600 - hours * 3600) / 60
+        let seconds = time - days * 24 * 3600 - hours * 3600 - minutes * 60
+        var h = "\(hours)时"
+        var m = "\(minutes)分"
+        var s = "\(seconds)秒"
+        if hours < 10 { h = "0\(hours)时" }
+        if minutes < 10 { m = "0\(minutes)分" }
+        if seconds < 10 { s = "0\(seconds)秒" }
+        return h + m + s
+    }
  
     
 }
@@ -302,6 +341,32 @@ protocol ChangingFootDelegate: NSObjectProtocol {
 class ChangingFootView: UIView {
     
     weak public var delegate: ChangingFootDelegate?
+    
+    public var type = PVExchangeRecordListState.none {
+        didSet{
+            switch type {
+            case .waitForBuyerPay:
+                titleLabel.text = "卖家信息"
+                break
+                
+            case .waitForPay:
+                titleLabel.text = "买家信息"
+                break
+                
+            case .success:
+                titleLabel.text = "买家信息"
+                break
+                
+            case .waitForFruit:
+                titleLabel.text = "买家信息"
+                break
+                
+            case .none: break
+                
+            default: break
+            }
+        }
+    }
     
     lazy var titleLabel: UILabel = {
         let l = UILabel()
@@ -512,7 +577,7 @@ class ChangingBottomButtons: UIView {
     
     weak public var delegate: ChangingBottomButtonsDelegate?
     
-    public var type = ExchangeRecordChangingType.getFruit {
+    public var type = PVExchangeRecordListState.none {
         didSet{
             switch type {
             case .waitForBuyerPay:  //待买家付款
@@ -526,7 +591,7 @@ class ChangingBottomButtons: UIView {
                 }
                 break
                 
-            case .payWithFruit: //待放平安果
+            case .waitForFruit: //待放平安果
                 payBtn.setTitle("确认发放平安果", for: .normal)
                 addSubview(cancelBtn)
                 addSubview(payBtn)
@@ -541,10 +606,12 @@ class ChangingBottomButtons: UIView {
                 }
                 break
                 
-            case .getFruit: //待收平安果
+            case .success: //待收平安果
                 break
                 
             case .none: break
+                
+            default: break
             }
         }
     }

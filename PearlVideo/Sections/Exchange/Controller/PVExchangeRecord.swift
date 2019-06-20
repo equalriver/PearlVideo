@@ -20,7 +20,7 @@ class PVExchangeRecordVC: PVBaseWMPageVC {
         progressWidth = 30 * KScreenRatio_6
         
         super.viewDidLoad()
-        
+        title = "交换记录"
         
     }
     
@@ -32,7 +32,95 @@ class PVExchangeRecordBuyVC: PVBaseViewController {
     
     var page = 0
     var dataArr = Array<PVExchangeRecordList>()
+    var nextPage = ""
     
+    lazy var tableView: UITableView = {
+        let tb = UITableView.init(frame: .zero, style: .plain)
+        tb.backgroundColor = kColor_deepBackground
+        tb.separatorStyle = .none
+        tb.dataSource = self
+        tb.delegate = self
+        return tb
+    }()
+    
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        view.addSubview(tableView)
+        tableView.snp.makeConstraints { (make) in
+            make.size.centerX.centerY.equalToSuperview()
+        }
+        setRefresh()
+        loadData(page: 0)
+    }
+    
+}
+
+//MARK: - 卖单
+class PVExchangeRecordSellVC: PVBaseViewController {
+    
+    var page = 0
+    var dataArr = Array<PVExchangeRecordList>()
+    var nextPage = ""
+    
+    lazy var tableView: UITableView = {
+        let tb = UITableView.init(frame: .zero, style: .plain)
+        tb.backgroundColor = kColor_deepBackground
+        tb.separatorStyle = .none
+        tb.dataSource = self
+        tb.delegate = self
+        return tb
+    }()
+    
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        view.addSubview(tableView)
+        tableView.snp.makeConstraints { (make) in
+            make.size.centerX.centerY.equalToSuperview()
+        }
+        setRefresh()
+        loadData(page: 0)
+    }
+    
+}
+
+//MARK: - 交换中
+class PVExchangeRecordExchangingVC: PVBaseViewController {
+    
+    var page = 0
+    var dataArr = Array<PVExchangeRecordList>()
+    var nextPage = ""
+    
+    lazy var tableView: UITableView = {
+        let tb = UITableView.init(frame: .zero, style: .plain)
+        tb.backgroundColor = kColor_deepBackground
+        tb.separatorStyle = .none
+        tb.dataSource = self
+        tb.delegate = self
+        return tb
+    }()
+    
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        view.addSubview(tableView)
+        tableView.snp.makeConstraints { (make) in
+            make.size.centerX.centerY.equalToSuperview()
+        }
+        setRefresh()
+        loadData(page: 0)
+        NotificationCenter.default.addObserver(self, selector: #selector(refreshNoti(sender:)), name: .kNotiName_refreshRecordExchanging, object: nil)
+    }
+    
+    deinit {
+        NotificationCenter.default.removeObserver(self)
+    }
+}
+
+//MARK: - 已完成
+class PVExchangeRecordFinishVC: PVBaseViewController {
+    
+    var page = 0
+    var dataArr = Array<PVExchangeRecordList>()
+    var nextPage = ""
     
     lazy var tableView: UITableView = {
         let tb = UITableView.init(frame: .zero, style: .plain)

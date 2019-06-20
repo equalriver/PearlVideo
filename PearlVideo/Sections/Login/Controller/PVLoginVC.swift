@@ -14,6 +14,9 @@ class PVLoginVC: PVBaseViewController {
     
     var isPasswordLogin = true
     
+    var isTimerRun = false
+    
+    
     lazy var dismissBtn: UIButton = {
         let b = UIButton()
         b.setImage(UIImage.init(named: "back_arrow"), for: .normal)
@@ -170,11 +173,15 @@ class PVLoginVC: PVBaseViewController {
         return l
     }()
     lazy var timer: DispatchSourceTimer = {
-        let t = DispatchSource.makeTimerSource(flags: .strict, queue: DispatchQueue.main)
-        t.schedule(deadline: .now(), repeating: 1)
-        return t
+        let timer = DispatchSource.makeTimerSource(flags: .strict, queue: DispatchQueue.main)
+        timer.schedule(deadline: .now(), repeating: 1)
+        return timer
     }()
-    
+    lazy var locationManager: CLLocationManager = {
+        let l = CLLocationManager.init()
+        l.delegate = self
+        return l
+    }()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -182,6 +189,12 @@ class PVLoginVC: PVBaseViewController {
         view.backgroundColor = kColor_deepBackground
         
     }
+    
+    deinit {
+        if isTimerRun == false { timer.resume() }
+        timer.cancel()
+    }
+    
     
     func initUI() {
         view.addSubview(dismissBtn)

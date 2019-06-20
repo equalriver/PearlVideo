@@ -22,9 +22,8 @@ extension PVHomePlayVC: PVHomePlayDelegate {
     
     //关注
     func didSelectedAttention(sender: UIButton, data: PVVideoPlayModel) {
-//        view.makeToast("暂未开放")
         sender.isSelected = !sender.isSelected
-        data.IsFollowed = sender.isSelected
+        data.isFollowed = sender.isSelected
         let args: [String: Any] = ["data": data, "sender": sender]
         NSObject.cancelPreviousPerformRequests(withTarget: self, selector: #selector(videoAttention(args:)), object: args)
         self.perform(#selector(videoAttention(args:)), with: args, afterDelay: 2)
@@ -36,6 +35,7 @@ extension PVHomePlayVC: PVHomePlayDelegate {
         guard let sender = args["sender"] as? UIButton else { return }
         PVNetworkTool.Request(router: .attention(id: data.userId, action: sender.isSelected ? 1 : 2), success: { (resp) in
             print("关注：", data.userId)
+            
         }) { (e) in
             
         }
@@ -43,9 +43,11 @@ extension PVHomePlayVC: PVHomePlayDelegate {
     
     //点赞
     func didSelectedLike(sender: UIButton, data: PVVideoPlayModel) {
-//        view.makeToast("暂未开放")
         sender.isSelected = !sender.isSelected
-        data.IsThumbuped = sender.isSelected
+        data.isThumbuped = sender.isSelected
+        if sender.isSelected { data.thumbCount += 1 }
+        else { data.thumbCount -= 1 }
+        sender.setTitle("\(data.thumbCount)", for: .normal)
         let args: [String: Any] = ["data": data, "sender": sender]
         NSObject.cancelPreviousPerformRequests(withTarget: self, selector: #selector(videoLike(args:)), object: args)
         self.perform(#selector(videoLike(args:)), with: args, afterDelay: 2)
@@ -55,8 +57,9 @@ extension PVHomePlayVC: PVHomePlayDelegate {
     @objc func videoLike(args: [String: Any]) {
         guard let data = args["data"] as? PVVideoPlayModel else { return }
         guard let sender = args["sender"] as? UIButton else { return }
-        PVNetworkTool.Request(router: .attention(id: data.videoId, action: sender.isSelected ? 1 : 2), success: { (resp) in
+        PVNetworkTool.Request(router: .videoLike(id: data.videoId, action: sender.isSelected ? 1 : 2), success: { (resp) in
             print("点赞：", data.userId)
+            NotificationCenter.default.post(name: .kNotiName_refreshMeLikeVC, object: nil)
         }) { (e) in
             
         }
@@ -66,6 +69,7 @@ extension PVHomePlayVC: PVHomePlayDelegate {
     func didSelectedComment(data: PVVideoPlayModel) {
 //        view.makeToast("暂未开放")
         let v = PVVideoCommentView.init(videoId: data.videoId, delegate: self)
+        commentView = v
         allContainView.addSubview(v)
     }
     
@@ -167,20 +171,20 @@ extension PVHomePlayVC: AliyunVodPlayerDelegate {
     
     //播放出错
     func vodPlayer(_ vodPlayer: AliyunVodPlayer!, playBack errorModel: AliyunPlayerVideoErrorModel!) {
-        if errorModel.errorCode == ALIVC_ERR_AUTH_EXPIRED {
-            getSTS()
-        }
+//        if errorModel.errorCode == ALIVC_ERR_AUTH_EXPIRED {
+//            getSTS()
+//        }
         print(errorModel!.errorMsg!)
     }
     
     //鉴权数据过期
     func onTimeExpiredError(with vodPlayer: AliyunVodPlayer!) {
-        getSTS()
+//        getSTS()
     }
     
     //播放地址将要过期
     func vodPlayerPlaybackAddressExpired(withVideoId videoId: String!, quality: AliyunVodPlayerVideoQuality, videoDefinition: String!) {
-        getSTS()
+//        getSTS()
     }
     
     //播放器状态改变回调

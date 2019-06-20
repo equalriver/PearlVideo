@@ -6,6 +6,8 @@
 //  Copyright © 2019 equalriver. All rights reserved.
 //
 
+import Charts
+
 class PVHomeTaskVC: PVBaseWMPageVC {
     
     override func viewDidLoad() {
@@ -32,7 +34,7 @@ class PVHomeMyTaskVC: PVBaseViewController {
     var dataArr = Array<PVHomeTaskList>()
     
     var page = 0
-    
+    var nextPage = ""
     
     lazy var tableView: UITableView = {
         let tb = UITableView.init(frame: .zero, style: .plain)
@@ -49,8 +51,14 @@ class PVHomeMyTaskVC: PVBaseViewController {
         tableView.snp.makeConstraints { (make) in
             make.size.centerX.centerY.equalToSuperview()
         }
+        NotificationCenter.default.addObserver(self, selector: #selector(refreshNoti(sender:)), name: .kNotiName_refreshMyTask, object: nil)
         setRefresh()
         loadData(page: 0)
+        loadTaskProgress()
+    }
+    
+    deinit {
+        NotificationCenter.default.removeObserver(self)
     }
     
 }
@@ -59,8 +67,6 @@ class PVHomeMyTaskVC: PVBaseViewController {
 class PVHomeAllTaskVC: PVBaseViewController {
     
     var dataArr = Array<PVHomeTaskList>()
-    
-    var page = 0
     
     //交换密码
     var exchangePsd = ""
@@ -82,7 +88,7 @@ class PVHomeAllTaskVC: PVBaseViewController {
             make.size.centerX.centerY.equalToSuperview()
         }
         setRefresh()
-        loadData(page: 0)
+        loadData()
     }
     
 }
@@ -93,6 +99,7 @@ class PVHomeHistoryTaskVC: PVBaseViewController {
     var dataArr = Array<PVHomeTaskList>()
     
     var page = 0
+    var nextPage = ""
     
     lazy var tableView: UITableView = {
         let tb = UITableView.init(frame: .zero, style: .plain)

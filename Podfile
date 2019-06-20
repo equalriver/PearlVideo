@@ -1,4 +1,4 @@
-platform :ios, '8.0'
+platform :ios, '9.0'
 
 inhibit_all_warnings!
 
@@ -43,7 +43,7 @@ pod 'WechatOpenSDK'
 #pod 'FCUUID'
 #pod 'SWTableViewCell'
 #pod 'RealmSwift'
-#pod 'Charts'
+pod 'Charts'
 #pod 'JPush'
 
 

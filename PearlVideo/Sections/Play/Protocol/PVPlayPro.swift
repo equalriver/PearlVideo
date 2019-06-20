@@ -7,6 +7,7 @@
 //
 
 import AliyunVideoSDKPro
+import SVProgressHUD
 
 //MARK: - action
 extension PVPlayVC {
@@ -103,12 +104,20 @@ extension PVPlayVC {
     
     func startPreview() {
         if isPreviewing == false {
-            recorder.startPreview(withPositon: currentCameraPosition)
-            if recorder.cameraPosition == .front {
-                cameraView.flashButton.isSelected = false
+            SVProgressHUD.show(withStatus: "正在准备中...")
+            DispatchQueue.global().async {
+                self.recorder.startPreview(withPositon: self.currentCameraPosition)
+                DispatchQueue.main.async {
+                    if self.recorder.cameraPosition == .front {
+                        self.cameraView.flashButton.isSelected = false
+                    }
+                    self.isPreviewing = true
+                    self.cameraView.resetRecordButtonUI()
+                }
+                DispatchQueue.main.asyncAfter(deadline: .now() + 0.25, execute: {
+                    SVProgressHUD.dismiss()
+                })
             }
-            isPreviewing = true
-            cameraView.resetRecordButtonUI()
             
         }
     }
@@ -251,6 +260,18 @@ extension PVPlayVC: PVPlayCameraDelegate {
         
     }
     
+    //本地视频
+    func didSelectedLocalVideo() {
+        stopPreview()
+        YPJOtherTool.ypj.getCameraAuth(target: self, {
+            let picker = UIImagePickerController()
+            picker.sourceType = .photoLibrary
+            picker.mediaTypes = ["public.movie"]
+            picker.delegate = self
+            self.present(picker, animated: true, completion: nil)
+        })
+    }
+    
     func didSelectedDismiss() {
         dismiss(animated: true, completion: nil)
     }
@@ -262,4 +283,28 @@ extension PVPlayVC: UIGestureRecognizerDelegate {
     func gestureRecognizer(_ gestureRecognizer: UIGestureRecognizer, shouldRecognizeSimultaneouslyWith otherGestureRecognizer: UIGestureRecognizer) -> Bool {
         return true
     }
+}
+
+//MARK: - Image Picker Controller Delegate
+extension PVPlayVC: UIImagePickerControllerDelegate, UINavigationControllerDelegate {
+    
+    func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
+        
+        if let url = info[.mediaURL] as? URL {
+            picker.dismiss(animated: true) {
+                DispatchQueue.main.async {
+                    let vc = PVPlayVideoUploadVC.init(url: url)
+                    self.navigationController?.pushViewController(vc, animated: true)
+                }
+            }
+        }
+        
+    }
+    
+    func imagePickerControllerDidCancel(_ picker: UIImagePickerController) {
+        picker.dismiss(animated: true, completion: {
+            
+        })
+    }
+    
 }

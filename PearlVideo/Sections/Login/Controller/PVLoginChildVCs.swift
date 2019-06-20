@@ -15,6 +15,7 @@ class PVRegisterVC: PVBaseNavigationVC {
     ///当前编辑的text field frame
     var currentTextFieldRect = CGRect.zero
     
+    var isTimerRun = false
     
     lazy var iconIV: UIImageView = {
         let v = UIImageView.init(image: UIImage.init(named: "logo"))
@@ -160,6 +161,8 @@ class PVRegisterVC: PVBaseNavigationVC {
     }
     
     deinit {
+        if isTimerRun == false { timer.resume() }
+        timer.cancel()
         NotificationCenter.default.removeObserver(self)
     }
     

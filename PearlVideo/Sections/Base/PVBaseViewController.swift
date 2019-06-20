@@ -35,8 +35,9 @@ class PVBaseViewController: UIViewController {
     }
  
     deinit {
-        NotificationCenter.default.removeObserver(self)
-    }
+        NotificationCenter.default.removeObserver(self, name: .kNotiName_themeColorChange, object: nil)
+        NotificationCenter.default.removeObserver(self, name: .kNotiName_pageRefreshByToken, object: nil)
+     }
 }
 
 

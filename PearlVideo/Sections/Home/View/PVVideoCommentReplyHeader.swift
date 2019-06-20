@@ -7,6 +7,7 @@
 //
 
 protocol PVVideoCommentReplyHeaderDelegate: NSObjectProtocol {
+    func didSelectedAvatar()
     func didSelectedLike(sender: UIButton)
     func didSelectedDismiss()
 }
@@ -14,6 +15,18 @@ protocol PVVideoCommentReplyHeaderDelegate: NSObjectProtocol {
 class PVVideoCommentReplyHeader: UIView {
     
     public var delegate: PVVideoCommentReplyHeaderDelegate?
+    
+    public var data: PVCommentReplyModel! {
+        didSet{
+            titleLabel.text = "\(data.replyCount)条回复"
+            iconIV.kf.setImage(with: URL.init(string: data.avatarUrl))
+            nameLabel.text = data.nickname
+            contentLabel.text = data.content
+            dateLabel.text = data.createAt
+            likeBtn.isSelected = data.status == 1
+            likeBtn.setTitle("\(data.commentThumbupCount)", for: .normal)
+        }
+    }
     
     lazy var titleLabel: UILabel = {
         let l = UILabel()
@@ -33,9 +46,9 @@ class PVVideoCommentReplyHeader: UIView {
         iv.contentMode = .scaleAspectFill
         let rect = CGRect.init(x: 0, y: 0, width: 40 * KScreenRatio_6, height: 40 * KScreenRatio_6)
         iv.ypj.addCornerShape(rect: rect, cornerRadius: rect.height / 2, fillColor: kColor_deepBackground!)
-//        iv.isUserInteractionEnabled = true
-//        let tap = UITapGestureRecognizer.init(target: self, action: #selector(headerTap))
-//        iv.addGestureRecognizer(tap)
+        iv.isUserInteractionEnabled = true
+        let tap = UITapGestureRecognizer.init(target: self, action: #selector(headerTap))
+        iv.addGestureRecognizer(tap)
         return iv
     }()
     lazy var nameLabel: UILabel = {
@@ -46,7 +59,7 @@ class PVVideoCommentReplyHeader: UIView {
     }()
     lazy var contentLabel: UILabel = {
         let l = UILabel()
-        l.font = kFont_text_3
+        l.font = kFont_text_2
         l.textColor = UIColor.white
         l.numberOfLines = 0
         return l
@@ -103,51 +116,55 @@ class PVVideoCommentReplyHeader: UIView {
         titleLabel.snp.makeConstraints { (make) in
             make.width.equalToSuperview().dividedBy(2)
             make.centerX.equalToSuperview()
-            make.top.equalToSuperview().offset(kNavigationBarAndStatusHeight - 20)
+            make.top.equalToSuperview().offset(40)
+            make.height.equalTo(15)
         }
         dismissBtn.snp.makeConstraints { (make) in
             make.size.equalTo(CGSize.init(width: 30, height: 30))
             make.right.equalToSuperview().offset(-5)
-            make.centerY.equalTo(titleLabel)
+            make.top.equalToSuperview().offset(25)
         }
         iconIV.snp.makeConstraints { (make) in
             make.size.equalTo(CGSize.init(width: 40 * KScreenRatio_6, height: 40 * KScreenRatio_6))
-            make.top.left.equalToSuperview().offset(15 * KScreenRatio_6)
+            make.left.equalToSuperview().offset(15 * KScreenRatio_6)
+            make.top.equalTo(titleLabel.snp.bottom).offset(15 * KScreenRatio_6)
         }
         nameLabel.snp.makeConstraints { (make) in
             make.left.equalTo(iconIV.snp.right).offset(15 * KScreenRatio_6)
             make.top.equalTo(iconIV)
+            make.height.equalTo(15)
         }
         contentLabel.snp.makeConstraints { (make) in
             make.left.equalTo(nameLabel)
             make.top.equalTo(nameLabel.snp.bottom).offset(10 * KScreenRatio_6)
-            make.width.equalTo(230 * KScreenRatio_6)
+            make.width.equalTo(kCommentContentWidth)
             make.bottom.equalTo(dateLabel.snp.top).offset(-8 * KScreenRatio_6)
         }
         dateLabel.snp.makeConstraints { (make) in
             make.left.equalTo(nameLabel)
-           
             make.width.equalTo(contentLabel)
+            make.bottom.equalTo(sepView.snp.top).offset(-10 * KScreenRatio_6)
         }
         likeBtn.snp.makeConstraints { (make) in
-            make.top.equalToSuperview().offset(10)
+            make.top.equalTo(iconIV)
             make.right.equalToSuperview().offset(-20 * KScreenRatio_6)
             make.height.equalTo(40)
         }
         sepView.snp.makeConstraints { (make) in
             make.width.centerX.equalToSuperview()
             make.height.equalTo(8)
-            make.top.equalTo(dateLabel.snp.bottom).offset(10 * KScreenRatio_6)
+            make.bottom.equalTo(replyLabel.snp.top).offset(-20 * KScreenRatio_6)
         }
         replyLabel.snp.makeConstraints { (make) in
             make.left.equalToSuperview().offset(15 * KScreenRatio_6)
-            make.top.equalTo(sepView.snp.bottom).offset(15 * KScreenRatio_6)
+            make.bottom.equalToSuperview().offset(-15 * KScreenRatio_6)
         }
     }
     
-//    @objc func headerTap() {
-//        delegate?.didSelectedAvatar(cell: self)
-//    }
+    
+    @objc func headerTap() {
+        delegate?.didSelectedAvatar()
+    }
     
     @objc func likeAction(sender: UIButton) {
         delegate?.didSelectedLike(sender: sender)

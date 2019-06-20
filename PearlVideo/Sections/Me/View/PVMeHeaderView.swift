@@ -9,7 +9,7 @@
 import UIKit
 
 protocol PVMeHeaderViewDelegate: NSObjectProtocol {
-    func didSelectedEdit()
+    func didSelectedEdit(sender: UIButton)
     func didSelectedLevel()
     func didSelectedActiveness()
     func didSelectedFruit()
@@ -22,7 +22,6 @@ class PVMeHeaderView: UIView {
     
     public var data = PVMeModel() {
         didSet{
-            titlesCV.reloadData()
             backgroundImageIV.kf.setImage(with: URL.init(string: data.backgroundImageUrl), placeholder: UIImage.init(named: "me_bg"), options: nil, progressBlock: nil, completionHandler: nil)
             avatarIV.kf.setImage(with: URL.init(string: data.avatarUrl), placeholder: UIImage.init(named: "me_placeholder"), options: nil, progressBlock: nil, completionHandler: nil)
             nameLabel.text = data.nickName
@@ -31,22 +30,25 @@ class PVMeHeaderView: UIView {
             
             fansLabel.text = data.nickName.count > 0 ? "\(data.fansCount)粉丝 | \(data.followCount)关注" : nil
             if data.isMine {
+                titlesCV.reloadData()
                 editBtn.setTitle("编辑个人资料", for: .normal)
                 editBtn.backgroundColor = kColor_deepBackground
                 editBtn.layer.borderColor = UIColor.white.cgColor
             }
             else {
-                if data.nickName.count > 0 {
+                titlesCV.isHidden = true
+                if data.isFollow {
+                    editBtn.setTitle("取消关注", for: .normal)
+                    editBtn.setTitleColor(kColor_subText, for: .normal)
+                    editBtn.backgroundColor = kColor_deepBackground
+                    editBtn.layer.borderColor = kColor_subText!.cgColor
+                }
+                else {
                     editBtn.setTitle("+关注", for: .normal)
+                    editBtn.setTitleColor(UIColor.white, for: .normal)
                     editBtn.backgroundColor = kColor_pink
                     editBtn.layer.borderColor = nil
                 }
-                else {
-                    editBtn.setTitle("登录/注册", for: .normal)
-                    editBtn.backgroundColor = kColor_deepBackground
-                    editBtn.layer.borderColor = UIColor.white.cgColor
-                }
-                
             }
             introLabel.text = data.autograph
             authIV.isHidden = !data.isCertification
@@ -108,7 +110,7 @@ class PVMeHeaderView: UIView {
         b.layer.cornerRadius = 15 * KScreenRatio_6
         b.backgroundColor = kColor_background
         b.addBlock(for: .touchUpInside, block: {[weak self] (btn) in
-            self?.delegate?.didSelectedEdit()
+            self?.delegate?.didSelectedEdit(sender: btn as! UIButton)
         })
         return b
     }()

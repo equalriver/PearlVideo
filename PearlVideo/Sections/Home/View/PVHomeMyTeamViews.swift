@@ -13,6 +13,7 @@ class PVHomeMyTeamHeaderView: UIView {
         didSet{
             avatarIV.kf.setImage(with: URL.init(string: data.avatarImageUrl))
             infoLabel.text = data.isLeader ? "一级领导人：\(data.name)" : "我的推荐人: \(data.name)"
+            totalCountLabel.text = "团队总人数(\(data.total))"
             infoCV.reloadData()
         }
     }
@@ -47,6 +48,12 @@ class PVHomeMyTeamHeaderView: UIView {
         l.textColor = UIColor.white
         return l
     }()
+    lazy var totalCountLabel: UILabel = {
+        let l = UILabel()
+        l.font = kFont_text
+        l.textColor = UIColor.white
+        return l
+    }()
     
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -55,6 +62,7 @@ class PVHomeMyTeamHeaderView: UIView {
         addSubview(infoBgView)
         infoBgView.addSubview(avatarIV)
         infoBgView.addSubview(infoLabel)
+        infoBgView.addSubview(totalCountLabel)
         infoCV.snp.makeConstraints { (make) in
             make.height.equalTo(72 * KScreenRatio_6)
             make.top.width.centerX.equalToSuperview()
@@ -72,6 +80,10 @@ class PVHomeMyTeamHeaderView: UIView {
         infoLabel.snp.makeConstraints { (make) in
             make.left.equalTo(avatarIV.snp.right).offset(15 * KScreenRatio_6)
             make.centerY.equalToSuperview()
+        }
+        totalCountLabel.snp.makeConstraints { (make) in
+            make.centerY.equalToSuperview()
+            make.right.equalToSuperview().offset(-10 * KScreenRatio_6)
         }
     }
     

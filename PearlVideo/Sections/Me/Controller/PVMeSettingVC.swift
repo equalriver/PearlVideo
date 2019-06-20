@@ -148,7 +148,6 @@ extension PVMeSettingVC: UITableViewDataSource, UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         func loginValidate(_ handler: () -> Void) {
             guard let _ = UserDefaults.standard.value(forKey: kToken) else {
-
                 view.makeToast("未登录")
                 return
             }
@@ -159,7 +158,7 @@ extension PVMeSettingVC: UITableViewDataSource, UITableViewDelegate {
             let paste = UIPasteboard.general
             //FIX ME
             paste.string = ""  //复制到粘贴板
-            view.makeToast("复制地址成功")
+//            view.makeToast("复制地址成功")
         }
         //账号
         if indexPath.section == 1 {

@@ -12,6 +12,7 @@ class PVHomeUserLevelVC: PVBaseNavigationVC {
     var dataArr = Array<PVHomeUserLevelModel>()
     var page = 0
     var infoData = PVHomeCurrentUserLevel()
+    var nextPage = ""
     
     lazy var headerView: PVHomeUserLevelHeaderView = {
         let v = PVHomeUserLevelHeaderView.init(frame: CGRect.init(x: 0, y: 0, width: kScreenWidth, height: 180 * KScreenRatio_6))
@@ -82,7 +83,7 @@ class PVHomeActivenessVC: PVBaseNavigationVC {
     
     var data = PVHomeActivenessModel()
     var page = 0
-    
+    var nextPage = ""
     
     lazy var headerView: PVHomeActivenessHeaderView = {
         let v = PVHomeActivenessHeaderView.init(frame: CGRect.init(x: 0, y: 0, width: kScreenWidth, height: 170 * KScreenRatio_6))
@@ -122,7 +123,7 @@ class PVHomeFruitVC: PVBaseNavigationVC {
     var data = PVHomeFruitModel()
     
     var page = 0
-    
+    var nextPage = ""
     
     lazy var headerView: PVHomeActivenessHeaderView = {
         let v = PVHomeActivenessHeaderView.init(frame: CGRect.init(x: 0, y: 0, width: kScreenWidth, height: 170 * KScreenRatio_6))
@@ -180,7 +181,7 @@ class PVHomeSchoolVC: PVBaseWMPageVC {
 class PVHomeSchoolVideoVC: PVBaseViewController {
     
     var page = 0
-    
+    var nextPage = ""
     var dataArr = Array<PVHomeSchoolVideoList>()
     
     lazy var tableView: UITableView = {
@@ -209,7 +210,7 @@ class PVHomeSchoolVideoVC: PVBaseViewController {
 class PVHomeSchoolGuideVC: PVBaseViewController {
     
     var page = 0
-    
+    var nextPage = ""
     var dataArr = Array<PVHomeSchoolGuideList>()
     
     lazy var tableView: UITableView = {

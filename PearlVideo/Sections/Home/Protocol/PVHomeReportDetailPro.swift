@@ -18,37 +18,59 @@ extension PVHomeReportDetailVC {
         let uploadImages = imgs.filter { (obj) -> Bool in
             return obj != addImg
         }
+        
+        var imgPaths = Array<String>()
+        let group = DispatchGroup.init()
+        
         SVProgressHUD.show()
         for (i, v) in uploadImages.enumerated() {
-            if let imgPath = v.ypj.saveImageToLocalFolder(directory: .cachesDirectory, compressionQuality: 1.0) {
+            guard let p = v.ypj.saveImageToLocalFolder(directory: .cachesDirectory, compressionQuality: 1.0) else {
+                view.makeToast("上传图片失败")
+                return
+            }
+            group.enter()
+            func upload(imgPath: String) {
                 PVNetworkTool.Request(router: .getAuthWithUploadImage(imageExt: "jpg"), success: { (resp) in
-                    
                     if let d = Mapper<PVUploadImageModel>().map(JSONObject: resp["result"].object) {
                         PVNetworkTool.uploadFileWithAliyun(description: "", auth: d.uploadAuth, address: d.uploadAddress, filePath: imgPath, handle: { (isSuccess) in
                             if isSuccess == false {
                                 SVProgressHUD.showError(withStatus: "上传图片失败")
                                 return
                             }
-                            PVNetworkTool.Request(router: .videoReport(videoId: self.videoId, type: self.type, content: self.contentTV.text ?? ""), success: { (resp) in
-                                if i == uploadImages.count - 1 {
-                                   SVProgressHUD.dismiss()
-                                    self.navigationController?.popToRootViewController(animated: true)
-                                }
-                                
-                                
-                            }) { (e) in
-                                SVProgressHUD.dismiss()
-                                sender.isEnabled = true
-                            }
+                            imgPaths.append(d.imageUrl)
+                            group.leave()
                         })
                     }
                     
+                    
                 }) { (e) in
+                    group.leave()
                     sender.isEnabled = true
                 }
             }
+            DispatchQueue.global().async(group: group, execute: DispatchWorkItem.init(block: {
+                upload(imgPath: p)
+                print("上传第\(i)张图片")
+            }))
         }
+ 
+        group.notify(queue: .global()) {
+            print("group  notify")
+            PVNetworkTool.Request(router: .videoReport(videoId: self.videoId, type: self.type, content: self.contentTV.text.count > 0 ? self.contentTV.text : "无", imageUrl: imgPaths), success: { (resp) in
+                SVProgressHUD.dismiss()
+                self.navigationController?.popToRootViewController(animated: true)
 
+            }) { (e) in
+                SVProgressHUD.dismiss()
+                sender.isEnabled = true
+            }
+        }
+        
+        
+    }
+    
+    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
+        view.endEditing(true)
     }
     
 }
@@ -64,7 +86,8 @@ extension PVHomeReportDetailVC: UICollectionViewDataSource, UICollectionViewDele
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "PVMeFeedbackCell", for: indexPath) as! PVMeFeedbackCell
         cell.delegate = self
-        
+        cell.imgIV.image = imgs[indexPath.item]
+        cell.deleteBtn.isHidden = imgs[indexPath.item] == addImg
         return cell
     }
     
@@ -106,7 +129,12 @@ extension PVHomeReportDetailVC: UIImagePickerControllerDelegate, UINavigationCon
                 imgs[selectedImageIndex] = img
             }
             imgCollectionView.reloadData()
+            if imgs.count > 1 {
+                commitBtn.isEnabled = true
+                commitBtn.backgroundColor = commitBtn.isEnabled ? kColor_pink : UIColor.gray
+            }
         }
+        picker.dismiss(animated: true, completion: nil)
         
     }
     
@@ -125,6 +153,10 @@ extension PVHomeReportDetailVC: PVMeFeedbackImageDelegate {
             if imgs.count > indexPath.item {
                 imgs.remove(at: indexPath.item)
                 imgCollectionView.deleteItems(at: [indexPath])
+            }
+            if imgs.contains(addImg) == false {
+                imgs.append(addImg)
+                imgCollectionView.reloadData()
             }
         }
     }

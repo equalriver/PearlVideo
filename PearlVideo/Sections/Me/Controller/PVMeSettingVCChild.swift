@@ -145,8 +145,8 @@ class PVMeNameValidateVC: PVBaseNavigationVC {
         if validateStateData != nil && validateStateData.isVerfiedSuccess {
             validateContent.isHidden = true
             didValidateContent.isHidden = false
-            loadData()
         }
+        else { loadData() }
     }
     
     deinit {
@@ -235,6 +235,8 @@ class PVMeNameValidateVC: PVBaseNavigationVC {
 //MARK: - 修改密码
 class PVMePasswordChangeVC: PVBaseNavigationVC {
     
+    var isTimerRun = false
+    
     lazy var phoneTF: PVBottomLineTextField = {
         let tf = PVBottomLineTextField()
         tf.font = kFont_text
@@ -293,7 +295,10 @@ class PVMePasswordChangeVC: PVBaseNavigationVC {
         title = "修改密码"
     }
     
- 
+    deinit {
+        if isTimerRun == false { timer.resume() }
+        timer.cancel()
+    }
     
     func initUI() {
         view.addSubview(phoneTF)
@@ -417,6 +422,8 @@ class PVMePasswordEditVC: PVBaseNavigationVC {
 //MARK: - 交换密码
 class PVMeExchangePsdVC: PVBaseNavigationVC {
     
+    var isTimerRun = false
+    
     lazy var phoneTF: PVBottomLineTextField = {
         let tf = PVBottomLineTextField()
         tf.font = kFont_text
@@ -493,7 +500,10 @@ class PVMeExchangePsdVC: PVBaseNavigationVC {
         initUI()
     }
     
- 
+    deinit {
+        if isTimerRun == false { timer.resume() }
+        timer.cancel()
+    }
     
     func initUI() {
         view.addSubview(phoneTF)
@@ -537,6 +547,8 @@ class PVMeExchangePsdVC: PVBaseNavigationVC {
 //MARK: - 收款方式
 class PVMePayWayVC: PVBaseNavigationVC {
     
+    var dataArr = Array<PVMePayWayModel>()
+    
     lazy var bgView: UIView = {
         let v = UIView()
         v.backgroundColor = kColor_background
@@ -571,7 +583,7 @@ class PVMePayWayVC: PVBaseNavigationVC {
         super.viewDidLoad()
         title = "收款方式"
         initUI()
-        
+        loadData()
     }
     
     func initUI() {
@@ -832,6 +844,7 @@ class PVMeMyFeedbackVC: PVBaseNavigationVC {
     
     var page = 0
     var dataArr = Array<PVMeFeedbackList>()
+    var nextPage = ""
     
     lazy var tableView: UITableView = {
         let tb = UITableView.init(frame: .zero, style: .plain)

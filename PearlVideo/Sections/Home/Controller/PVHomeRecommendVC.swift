@@ -9,6 +9,7 @@ import MJRefresh
 import ObjectMapper
 
 protocol PVHomeRecommendDelegate: NSObjectProtocol {
+    func recommendScrollViewWillDragging(sender: UIScrollView)
     func didBeginHeaderRefresh(sender: UIScrollView?)
 }
 
@@ -18,9 +19,11 @@ class PVHomeRecommendVC: PVBaseViewController {
     
     private var isLoadingMore = false
     
-    let threshold: CGFloat = 0.7
+    let threshold: CGFloat = 0.6
     let itemPerPage = 10   //每页条数
     var page = 0
+    var nextPage = ""
+    
     
     var dataArr = Array<PVHomeVideoModel>()
     
@@ -59,7 +62,9 @@ class PVHomeRecommendVC: PVBaseViewController {
     
     func loadData(page: Int) {
         isLoadingMore = true
-        PVNetworkTool.Request(router: .homeRecommendVideoList(page: page), success: { (resp) in
+        PVNetworkTool.Request(router: .homeRecommendVideoList(next: nextPage), success: { (resp) in
+            let n = resp["result"]["next"].string ?? "\(resp["result"]["skip"].intValue)"
+            self.nextPage = n
             
             if let d = Mapper<PVHomeVideoModel>().mapArray(JSONObject: resp["result"]["videoList"].arrayObject) {
                 if page == 0 {
@@ -90,6 +95,7 @@ class PVHomeRecommendVC: PVBaseViewController {
     func setRefresh() {
         let headerRef = MJRefreshHeader.init {[weak self] in
             self?.page = 0
+            self?.nextPage = ""
             self?.loadData(page: 0)
             self?.delegate?.didBeginHeaderRefresh(sender: self?.collectionView)
         }
@@ -111,13 +117,17 @@ extension PVHomeRecommendVC: UICollectionViewDataSource, UICollectionViewDelegat
         return cell
     }
     
+    func scrollViewWillBeginDragging(_ scrollView: UIScrollView) {
+        delegate?.recommendScrollViewWillDragging(sender: scrollView)
+    }
+    
     func scrollViewDidEndDragging(_ scrollView: UIScrollView, willDecelerate decelerate: Bool) {
         if isLoadingMore == false {
             let current = scrollView.contentOffset.y + scrollView.frame.size.height
             let total = scrollView.contentSize.height
             let ratio = current / total
             
-            let needRead = CGFloat(itemPerPage) * threshold + CGFloat(page * itemPerPage) * 0.8
+            let needRead = CGFloat(itemPerPage) * threshold + CGFloat(page * itemPerPage)
             let totalItem = itemPerPage * (page + 1)
             let newThreshold = needRead / CGFloat(totalItem)
            
@@ -131,7 +141,7 @@ extension PVHomeRecommendVC: UICollectionViewDataSource, UICollectionViewDelegat
     }
     
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        let vc = PVHomePlayVC.init(type: 1, videoId: dataArr[indexPath.item].videoId, videoIndex: indexPath.item)
+        let vc = PVHomePlayVC.init(type: PVVideoType.recommend.rawValue, videoId: dataArr[indexPath.item].videoId, videoIndex: indexPath.item, userId: dataArr[indexPath.item].userId)
         navigationController?.pushViewController(vc, animated: true)
     }
    

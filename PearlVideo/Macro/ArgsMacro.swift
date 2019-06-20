@@ -14,12 +14,6 @@ public let emptyButtonTag = 9202
 public let errorButtonTag = 9203
 public let unloginButtonTag = 9204
 
-//语音
-public let speechViewTag = 9300
-
-
-
-
 //corner raidus
 public let kCornerRadius: CGFloat = 6
 
@@ -98,6 +92,9 @@ public let kColor_analyze_orange = UIColor.init(hexString: "#ee7b5c")
 
 
 //MARK: - text limit count
+///昵称字数限制
+public let kNameLimitCount = 8
+
 ///签名字数限制
 public let kSigningLimitCount = 32
 
@@ -110,6 +107,9 @@ public let kFeedbackImageLimitCount = 6
 ///意见反馈内容限制
 public let kFeedbackContentLimitCount = 30
 
+///交换密码位数限制
+public let kExchangePsdLimitCount = 6
+
 
 //MARK: - 短视频相关
 public let kPreviousCount = 2 //当前播放界面（player实例）之前的界面（player实例）保留个数，应对用户下滑秒开
@@ -120,3 +120,9 @@ public let kCountLess_mustQurryMoreData = 3 //当前播放的视频，播放资�
 
 public let kAnimationTime = 0.26 //滑动一个完整的视频需要的时间 - 秒
 
+///观看视频任务的时长
+public let kVideoPlayTime = 10
+
+
+//MARK: - string width
+public let kCommentContentWidth = 230 * KScreenRatio_6

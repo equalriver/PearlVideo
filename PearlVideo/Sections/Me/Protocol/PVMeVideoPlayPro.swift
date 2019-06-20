@@ -11,6 +11,7 @@ import AliyunVodPlayerSDK
 
 //MARK: - action
 extension PVMeVideoPlayVC {
+    /*
     //获取点播STS
     func getSTS() {
         PVNetworkTool.Request(router: .getVideoSTS, success: { (resp) in
@@ -28,37 +29,38 @@ extension PVMeVideoPlayVC {
         }) { (e) in
             
         }
-        
-        func firstLoadData() {
-            PVNetworkTool.Request(router: .videoList(type: self.type, videoIndex: self.videoIndex, videoId: self.videoId), success: { (resp) in
-                if let d = Mapper<PVVideoPlayModel>().mapArray(JSONObject: resp["result"]["videoList"].arrayObject) {
-                    if self.page == 0 { self.dataArr = d }
-                    else { self.dataArr += d }
-                    self.firstHandleWhenHavedataArrWithStartPlayIndex(startPlayIndex: &self.playStableVideoStartIndex)
-                    //用户滑动过快的时候等待请求下来再去管理预加载资源
-                    self.managePreloadingSourceWhenPlayNext()
-                    
-                }
-                if let nextPos = resp["result"]["nextPos"].int {
-                    self.videoIndex = nextPos
-                }
-                
-            }) { (e) in
-                self.page = self.page > 0 ? self.page - 1 : 0
-            }
-        }
-        
+ 
     }
-    
-    func loadData(page: Int) {
-        PVNetworkTool.Request(router: .videoList(type: type, videoIndex: videoIndex, videoId: videoId), success: { (resp) in
-            if let d = Mapper<PVVideoPlayModel>().mapArray(JSONObject: resp["result"]["dataArr"].arrayObject) {
-                if page == 0 { self.dataArr = d }
+    */
+    func firstLoadData() {
+        PVNetworkTool.Request(router: .videoList(type: self.type, videoIndex: self.videoIndex, videoId: self.videoId, userId: userId), success: { (resp) in
+            if let nextPos = resp["result"]["nextPos"].int { self.videoIndex = nextPos }
+            
+            if let d = Mapper<PVVideoPlayModel>().mapArray(JSONObject: resp["result"]["videoList"].arrayObject) {
+                if self.page == 0 { self.dataArr = d }
                 else { self.dataArr += d }
+                self.firstHandleWhenHavedataArrWithStartPlayIndex(startPlayIndex: &self.playStableVideoStartIndex)
+                //用户滑动过快的时候等待请求下来再去管理预加载资源
+                self.managePreloadingSourceWhenPlayNext()
                 
             }
             if let nextPos = resp["result"]["nextPos"].int {
                 self.videoIndex = nextPos
+            }
+            
+        }) { (e) in
+            self.page = self.page > 0 ? self.page - 1 : 0
+        }
+    }
+    
+    func loadData(page: Int) {
+        PVNetworkTool.Request(router: .videoList(type: type, videoIndex: videoIndex, videoId: videoId, userId: userId), success: { (resp) in
+            if let nextPos = resp["result"]["nextPos"].int { self.videoIndex = nextPos }
+            
+            if let d = Mapper<PVVideoPlayModel>().mapArray(JSONObject: resp["result"]["dataArr"].arrayObject) {
+                if page == 0 { self.dataArr = d }
+                else { self.dataArr += d }
+                
             }
             
         }) { (e) in
@@ -240,8 +242,9 @@ extension PVMeVideoPlayVC {
     //准备播放视频
     func prepareWithPlayer(player: AliyunVodPlayer, model: PVVideoPlayModel) {
         player.stop()   //SDK开发人员的建议：准备之前先stop，防止prepare多次引发一些问题
-        player.prepare(withVid: model.videoId, accessKeyId: accessKeyId, accessKeySecret: accessKeySecret, securityToken: securityToken)
-        if accessKeyId == nil || accessKeySecret == nil || securityToken == nil { print("sts异常") }
+        player.prepare(with: URL.init(string: model.videoURL))
+//        player.prepare(withVid: model.videoId, accessKeyId: accessKeyId, accessKeySecret: accessKeySecret, securityToken: securityToken)
+//        if accessKeyId == nil || accessKeySecret == nil || securityToken == nil { print("sts异常") }
     }
     
     //根据情况判断是否要去请求新的资源
@@ -486,9 +489,9 @@ extension PVMeVideoPlayVC: PVMePlayDelegate {
             
         }
         let security = UIAlertAction.init(title: data.isPrivacy ? "公开视频" : "设为私密", style: .destructive) { (ac) in
-            PVNetworkTool.Request(router: .setVideoSecurity(videoId: data.videoId, security: !data.isPrivacy), success: { (resp) in
+            PVNetworkTool.Request(router: .setVideoSecurity(videoId: data.videoId, security: data.isPrivacy), success: { (resp) in
                 data.isPrivacy = !data.isPrivacy
-                
+                self.isSelectedSecurity = true
             }, failure: { (e) in
                 
             })
@@ -508,6 +511,21 @@ extension PVMeVideoPlayVC: PVMePlayDelegate {
     func didSelectedDelete(data: PVVideoPlayModel) {
         YPJOtherTool.ypj.showAlert(title: nil, message: "是否删除该视频？", style: .alert, isNeedCancel: true) { (ac) in
             PVNetworkTool.Request(router: .deleteVideo(videoId: data.videoId), success: { (resp) in
+                switch self.type {
+                case PVVideoType.production.rawValue:
+                    NotificationCenter.default.post(name: .kNotiName_refreshMeProductionVC, object: nil)
+                    break
+                    
+                case PVVideoType.like.rawValue:
+                    NotificationCenter.default.post(name: .kNotiName_refreshMeLikeVC, object: nil)
+                    break
+                    
+                case PVVideoType.security.rawValue:
+                    NotificationCenter.default.post(name: .kNotiName_refreshMeSecrityVC, object: nil)
+                    break
+                    
+                default: break
+                }
                 self.navigationController?.popViewController(animated: true)
                 
             }, failure: { (e) in
@@ -543,7 +561,7 @@ extension PVMeVideoPlayVC: PVVideoCommentDelegate {
             completion()
             
         }) { (e) in
-            self.view.makeToast("评论失败")
+          
         }
     }
     
@@ -588,20 +606,20 @@ extension PVMeVideoPlayVC: AliyunVodPlayerDelegate {
     
     //播放出错
     func vodPlayer(_ vodPlayer: AliyunVodPlayer!, playBack errorModel: AliyunPlayerVideoErrorModel!) {
-        if errorModel.errorCode == ALIVC_ERR_AUTH_EXPIRED {
-            getSTS()
-        }
+//        if errorModel.errorCode == ALIVC_ERR_AUTH_EXPIRED {
+//            getSTS()
+//        }
         print(errorModel!.errorMsg!)
     }
     
     //鉴权数据过期
     func onTimeExpiredError(with vodPlayer: AliyunVodPlayer!) {
-        getSTS()
+//        getSTS()
     }
     
     //播放地址将要过期
     func vodPlayerPlaybackAddressExpired(withVideoId videoId: String!, quality: AliyunVodPlayerVideoQuality, videoDefinition: String!) {
-        getSTS()
+//        getSTS()
     }
     
     //播放器状态改变回调

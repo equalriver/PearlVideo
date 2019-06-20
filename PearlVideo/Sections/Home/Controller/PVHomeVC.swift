@@ -21,6 +21,13 @@ class PVHomeVC: PVBaseWMPageVC {
         b.addTarget(self, action: #selector(messageAction), for: .touchUpInside)
         return b
     }()
+    lazy var badge: UIView = {
+        let badge = UIView.init(frame: CGRect.init(x: 22, y: 2, width: 6, height: 6))
+        badge.backgroundColor = kColor_pink
+        badge.layer.cornerRadius = 3
+        badge.isHidden = true
+        return badge
+    }()
     lazy var headerView: PVHomeHeaderView = {
         let v = PVHomeHeaderView.init(frame: CGRect.init(x: 0, y: 0, width: kScreenWidth, height: headerViewHeight))
         v.delegate = self
@@ -102,13 +109,14 @@ class PVHomeVC: PVBaseWMPageVC {
                 self.checkVersion()
             }
         }
-        
+    
     }
     
     func initUI() {
         view.backgroundColor = kColor_background
         view.addSubview(headerView)
         view.addSubview(msgBtn)
+        msgBtn.addSubview(badge)
         msgBtn.snp.makeConstraints { (make) in
             make.size.equalTo(CGSize.init(width: 30, height: 30))
             make.right.equalTo(headerView).offset(-15 * KScreenRatio_6)

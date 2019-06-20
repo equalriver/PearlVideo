@@ -12,13 +12,15 @@ import AliyunVodPlayerSDK
 
 class PVHomePlayVC: PVBaseViewController {
 
-    var accessKeyId: String?
-    
-    var accessKeySecret: String?
-    
-    var securityToken: String?
+//    var accessKeyId: String?
+//
+//    var accessKeySecret: String?
+//
+//    var securityToken: String?
     
     var videoId = ""
+    
+    var userId = ""
     
     var videoIndex = 0
     
@@ -48,15 +50,38 @@ class PVHomePlayVC: PVBaseViewController {
             allContainView.playContainer = currentPlayContainer
         }
     }
+    ///评论视图
+    weak var commentView: PVVideoCommentView?
     
     ///是否加载过图片
 //    var isHaveQuerryImageWhenFirstEnter = false
     
     ///是否已经查询完全部的数据了
 //    var isHaveQuerryAllVideo = false
+    
+    ///记录播放时间
+    var playTimeMinutes: Int? 
+    
+    ///是否正在记录播放时间
+    var isRecordPlayTime = false
+    
+    var isTimerRun = false
 
     ///记录的播放状态 - 退出后台前，再次进入前台的时候恢复之前的播放状态
-    var savedPlayStatus: AliyunVodPlayerState?
+    var savedPlayStatus: AliyunVodPlayerState? {
+        willSet{
+            if newValue != nil && newValue! == .play && isRecordPlayTime == false && timer.isCancelled == false {
+                isRecordPlayTime = true
+                timer.resume()
+                isTimerRun = true
+            }
+            if newValue != nil && newValue! != .play && isRecordPlayTime && timer.isCancelled == false {
+                isRecordPlayTime = false
+                timer.suspend()
+                isTimerRun = false
+            }
+        }
+    }
     
     ///是否在前台处于活跃状态
     var isActive = true
@@ -98,13 +123,51 @@ class PVHomePlayVC: PVBaseViewController {
         b.addTarget(self, action: #selector(backAction(sender:)), for: .touchUpInside)
         return b
     }()
+    //播放时间进度条
+    lazy var playTimeProgressView: UILabel = {
+        let v = UILabel()
+        v.textColor = UIColor.white
+        v.textAlignment = .center
+        v.font = kFont_text_2
+        v.backgroundColor = UIColor.clear
+        let b = UIBezierPath.init(arcCenter: CGPoint.init(x: 15, y: 15), radius: 15, startAngle: -CGFloat.pi * 0.5, endAngle: CGFloat.pi * 1.5, clockwise: true)
+        let l = CAShapeLayer.init()
+        l.strokeColor = UIColor.gray.cgColor
+        l.lineWidth = 3
+        l.fillColor = UIColor.clear.cgColor
+        l.strokeEnd = 1
+        l.lineCap = CAShapeLayerLineCap.round
+        l.path = b.cgPath
+        v.layer.addSublayer(l)
+        return v
+    }()
+    lazy var playTimeProgress: CAShapeLayer = {
+        let b = UIBezierPath.init(arcCenter: CGPoint.init(x: 15, y: 15), radius: 15, startAngle: -CGFloat.pi * 0.5, endAngle: CGFloat.pi * 1.5, clockwise: true)
+        let l = CAShapeLayer.init()
+        l.strokeColor = UIColor.green.cgColor
+        l.lineWidth = 3
+        l.fillColor = UIColor.clear.cgColor
+        l.strokeEnd = 0
+        l.path = b.cgPath
+        l.lineCap = CAShapeLayerLineCap.round
+        return l
+    }()
     
-    public required convenience init(type: Int, videoId: String, videoIndex: Int) {
+    lazy var timer: DispatchSourceTimer = {
+        let t = DispatchSource.makeTimerSource(flags: .strict, queue: DispatchQueue.main)
+        t.schedule(deadline: .now(), repeating: 60)
+        return t
+    }()
+   
+    
+    public required convenience init(type: Int, videoId: String, videoIndex: Int, userId: String) {
         self.init()
         self.type = type
         self.videoId = videoId
         self.videoIndex = videoIndex
+        self.userId = userId
         initUI()
+        
     }
     
     //MARK: - life cycle
@@ -116,7 +179,10 @@ class PVHomePlayVC: PVBaseViewController {
         initDownloadConfig()
         addNotification()
         addGesture()
-        getSTS()
+//        getSTS()
+        firstLoadData()
+        loadPlayTime()
+        
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -126,7 +192,7 @@ class PVHomePlayVC: PVBaseViewController {
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
-        if currentPlayContainer?.vodPlayer != nil {
+        if currentPlayContainer?.vodPlayer != nil && commentView == nil {
             currentPlayContainer?.vodPlayer.resume()
         }
     }
@@ -134,7 +200,6 @@ class PVHomePlayVC: PVBaseViewController {
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
         UIApplication.shared.isIdleTimerDisabled = false
-        
     }
     
     override func viewDidDisappear(_ animated: Bool) {
@@ -145,6 +210,8 @@ class PVHomePlayVC: PVBaseViewController {
     }
     
     deinit {
+        if isTimerRun == false { timer.resume() }
+        timer.cancel()
         for v in playContainerList {
             if v.vodPlayer != nil {
                 v.vodPlayer.release()
@@ -154,6 +221,8 @@ class PVHomePlayVC: PVBaseViewController {
         if downloadingMediaInfo != nil {
             AliyunVodDownLoadManager.share()?.stopDownloadMedia(downloadingMediaInfo!)
         }
+        NotificationCenter.default.removeObserver(self)
+     
     }
     
 
@@ -162,9 +231,16 @@ class PVHomePlayVC: PVBaseViewController {
     func initUI() {
         view.addSubview(allContainView)
         view.addSubview(backBtn)
+        view.addSubview(playTimeProgressView)
+        playTimeProgressView.layer.addSublayer(playTimeProgress)
         backBtn.snp.makeConstraints { (make) in
             make.size.equalTo(CGSize.init(width: 30, height: 30))
             make.left.equalToSuperview().offset(15 * KScreenRatio_6)
+            make.top.equalToSuperview().offset(kIphoneXLatterInsetHeight + 20)
+        }
+        playTimeProgressView.snp.makeConstraints { (make) in
+            make.size.equalTo(CGSize.init(width: 30, height: 30))
+            make.right.equalToSuperview().offset(-15 * KScreenRatio_6)
             make.top.equalToSuperview().offset(kIphoneXLatterInsetHeight + 20)
         }
     }

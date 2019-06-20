@@ -38,6 +38,9 @@ class PVHomeVideoModel: PVBaseModel {
     ///视频ID
     var videoId = ""
     
+    ///视频地址
+    var videoUrl = ""
+    
     
     override func mapping(map: Map) {
         commentCount <- map["commentCount"]
@@ -49,6 +52,7 @@ class PVHomeVideoModel: PVBaseModel {
         avatarUrl <- map["avatarUrl"]
         userId <- map["userId"]
         videoId <- map["videoId"]
+        videoUrl <- map["videoUrl"]
     }
     
 }

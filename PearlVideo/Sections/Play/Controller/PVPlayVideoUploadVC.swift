@@ -8,16 +8,16 @@
 
 import AVKit
 import SVProgressHUD
+import ObjectMapper
 
 class PVPlayVideoUploadVC: PVBaseNavigationVC {
     
     
     private var url: URL!
     
-    private var uploadAuth: String?
+    private var data = PVUploadVideModel()
     
-    private var uploadAddress: String?
-    
+    private var cacheVideoPath: URL?
     
     lazy var avPlayerVC: AVPlayerViewController = {
         let vc = AVPlayerViewController.init()
@@ -112,12 +112,12 @@ class PVPlayVideoUploadVC: PVBaseNavigationVC {
         //开始上传回调
         listener.started = {[weak self] (fileInfo) in
             // fileInfo 上传文件信息
-            self?.uploadManager.setUploadAuthAndAddress(fileInfo, uploadAuth: self?.uploadAuth, uploadAddress: self?.uploadAddress)
+            self?.uploadManager.setUploadAuthAndAddress(fileInfo, uploadAuth: self?.data.uploadAuth, uploadAddress: self?.data.uploadAddress)
         }
         
         //token过期回调
         listener.expire = {[weak self] in
-            self?.uploadManager.resume(withAuth: self?.uploadAuth)
+            self?.uploadManager.resume(withAuth: self?.data.uploadAuth)
         }
         
         listener.progress = { (fileInfo, uploadedSize, totalSize) in
@@ -130,9 +130,25 @@ class PVPlayVideoUploadVC: PVBaseNavigationVC {
             // result 上传结果信息
             if let info: UploadFileInfo = fileInfo {
                 if info.state == .success {
-                    SVProgressHUD.showSuccess(withStatus: "上传成功")
-                    DispatchQueue.main.asyncAfter(deadline: .now() + 2, execute: {
-                        self?.navigationController?.dismiss(animated: true, completion: nil)
+                    PVNetworkTool.Request(router: .uploadVideoSuccess(videoId: self?.data.videoId ?? "", title: self?.contentTV.text ?? ""), success: { (resp) in
+                        SVProgressHUD.showSuccess(withStatus: "上传成功")
+                        DispatchQueue.main.asyncAfter(deadline: .now() + 1.5, execute: {
+                            //删除缓存中转码视频
+                            if let p = self?.cacheVideoPath?.path {
+                                if FileManager.default.fileExists(atPath: p) {
+                                    do { try FileManager.default.removeItem(atPath: p) }
+                                    catch { print("删除缓存中转码视频出错：", error.localizedDescription) }
+                                }
+                            }
+                            self?.navigationController?.dismiss(animated: true, completion: nil)
+                        })
+                        DispatchQueue.main.asyncAfter(deadline: .now() + 10, execute: {
+                            NotificationCenter.default.post(name: .kNotiName_refreshMeProductionVC, object: nil)
+                        })
+                        
+                        
+                    }, failure: { (e) in
+                        
                     })
                 }
                 if info.state == .failure {
@@ -158,31 +174,73 @@ class PVPlayVideoUploadVC: PVBaseNavigationVC {
         
     }
     
+    //上传
     @objc func upload(sender: UIButton) {
         guard contentTV.hasText else {
             view.makeToast("请写一些此刻的想法")
             return
         }
         guard let p = url.path.components(separatedBy: "/").last else { return }
+        guard let fileName = p.components(separatedBy: ".").first else { return }
         sender.isEnabled = false
         SVProgressHUD.show(withStatus: "正在上传...")
-        PVNetworkTool.Request(router: .getUploadAuthAndAddress(description: contentTV.text, fileName: p), success: { (resp) in
-            if let auth = resp["result"]["uploadAuth"].string {
-                self.uploadAuth = auth
-            }
-            if let address = resp["result"]["uploadAddress"].string {
-                self.uploadAddress = address
+        PVNetworkTool.Request(router: .getUploadAuthAndAddress(description: contentTV.text, fileName: fileName + ".mp4"), success: { (resp) in
+            if let d = Mapper<PVUploadVideModel>().map(JSONObject: resp["result"].object) {
+                self.data = d
             }
             let vodInfo = VodInfo.init()
             vodInfo.title = self.contentTV.text
-            self.uploadManager.addFile(self.url.path, vodInfo: vodInfo)
-            self.uploadManager.start()
+            self.movFileTransformToMp4WithSourceURL(fileName: fileName, url: self.url, completion: { (fileURL) in
+                self.uploadManager.addFile(fileURL.path, vodInfo: vodInfo)
+                self.uploadManager.start()
+            })
          
         }) { (e) in
             SVProgressHUD.dismiss()
             sender.isEnabled = true
         }
         
+    }
+    
+    //视频转换格式.mov 转成 .mp4
+    func movFileTransformToMp4WithSourceURL(fileName: String, url: URL, completion: @escaping (URL) -> Void) {
+        //以当前时间来为文件命名
+//        let date = Date()
+//        let formatter = DateFormatter.init()
+//        formatter.dateFormat = "yyyyMMddHHmmss"
+//        let fileName = formatter.string(from: date) + ".mp4"
+        
+        //保存址沙盒路径
+        let docPath = NSSearchPathForDirectoriesInDomains(.cachesDirectory, .userDomainMask, true).first ?? ""
+        let videoSandBoxPath = docPath + "/transformVideo" + fileName + ".mp4"
+        cacheVideoPath = URL.init(fileURLWithPath: videoSandBoxPath)
+        print(videoSandBoxPath)
+        
+        //如有此文件则直接返回
+        if FileManager.default.fileExists(atPath: videoSandBoxPath) {
+            let dataURL = URL.init(fileURLWithPath: videoSandBoxPath)
+            completion(dataURL)
+            return
+        }
+        
+        //转码配置
+        let avAsset = AVURLAsset.init(url: url, options: nil)
+        
+        let exportSession = AVAssetExportSession.init(asset: avAsset, presetName: AVAssetExportPresetMediumQuality)
+        exportSession?.shouldOptimizeForNetworkUse = true
+        exportSession?.outputURL = URL.init(fileURLWithPath: videoSandBoxPath)
+        exportSession?.outputFileType = .mp4 //控制转码的格式
+        exportSession?.exportAsynchronously(completionHandler: {
+            if exportSession?.status == AVAssetExportSession.Status.failed {
+                print("转码失败")
+            }
+            if exportSession?.status == AVAssetExportSession.Status.completed {
+                print("转码成功")
+                //转码成功后就可以通过dataurl获取视频的Data用于上传了
+                let dataURL = URL.init(fileURLWithPath: videoSandBoxPath)
+                completion(dataURL)
+            }
+        })
     }
     
     //获取视频第一帧图片

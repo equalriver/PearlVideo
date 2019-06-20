@@ -6,12 +6,17 @@
 //  Copyright © 2019 equalriver. All rights reserved.
 //
 
+import ObjectMapper
+import SVProgressHUD
+
 //MARK: - 买单详情
 extension PVExchangeRecordBuyDetailVC {
     
     func loadData() {
         PVNetworkTool.Request(router: .recordDetail(orderId: orderId), success: { (resp) in
-            
+            if let d = Mapper<PVExchangeRecordDetailModel>().map(JSONObject: resp["result"].object) {
+                self.headView.data = d
+            }
             
         }) { (e) in
             
@@ -19,29 +24,81 @@ extension PVExchangeRecordBuyDetailVC {
     }
     
     @objc func cancelOrder(sender: UIButton) {
-        PVNetworkTool.Request(router: .cancelOrder(orderId: orderId), success: { (resp) in
-            
-            
-        }) { (e) in
-            
+        YPJOtherTool.ypj.showAlert(title: "取消订单", message: "是否取消订单？", style: .alert, isNeedCancel: true) { (ac) in
+            PVNetworkTool.Request(router: .cancelOrder(orderId: self.orderId), success: { (resp) in
+                self.view.makeToast("已取消")
+                NotificationCenter.default.post(name: .kNotiName_refreshRecordBuyDetail, object: nil)
+                DispatchQueue.main.asyncAfter(deadline: .now() + 1.5, execute: {
+                    self.navigationController?.popViewController(animated: true)
+                })
+                
+            }) { (e) in
+                
+            }
         }
     }
     
+    @objc func refreshNoti(sender: Notification) {
+        loadData()
+    }
 }
 
 
 //MARK: - 卖单详情
 extension PVExchangeRecordSellDetailVC {
     
+    func loadData() {
+        PVNetworkTool.Request(router: .recordDetail(orderId: orderId), success: { (resp) in
+            if let d = Mapper<PVExchangeRecordDetailModel>().map(JSONObject: resp["result"].object) {
+                self.headView.data = d
+            }
+            
+        }) { (e) in
+            
+        }
+    }
+    
     @objc func cancelOrder(sender: UIButton) {
+        YPJOtherTool.ypj.showAlert(title: "取消订单", message: "是否取消订单？", style: .alert, isNeedCancel: true) { (ac) in
+            PVNetworkTool.Request(router: .cancelOrder(orderId: self.orderId), success: { (resp) in
+                self.view.makeToast("已取消")
+                NotificationCenter.default.post(name: .kNotiName_refreshRecordSellDetail, object: nil)
+                DispatchQueue.main.asyncAfter(deadline: .now() + 1.5, execute: {
+                    self.navigationController?.popViewController(animated: true)
+                })
+                
+            }) { (e) in
+                
+            }
+        }
         
     }
     
+    @objc func refreshNoti(sender: Notification) {
+        loadData()
+    }
 }
 
 
 //MARK: - 交换中详情
-extension PVExchangeRecordChangingDetailVC {}
+extension PVExchangeRecordChangingDetailVC {
+    
+    func loadData() {
+        PVNetworkTool.Request(router: .recordDetail(orderId: orderId), success: { (resp) in
+            if let d = Mapper<PVExchangeRecordDetailModel>().map(JSONObject: resp["result"].object) {
+                self.headerView.data = d
+            }
+            
+        }) { (e) in
+            
+        }
+    }
+    
+    @objc func refreshNoti(sender: Notification) {
+        loadData()
+    }
+    
+}
 
 
 extension PVExchangeRecordChangingDetailVC: ChangingFootDelegate {
@@ -119,22 +176,43 @@ extension PVExchangeRecordChangingDetailVC: UIImagePickerControllerDelegate, UIN
     
 }
 
-//MARK: - bottom buttons action
+//MARK: -- bottom buttons action
 extension PVExchangeRecordChangingDetailVC: ChangingBottomButtonsDelegate {
     
     func didSelectedCancel() {
         //申诉
-        if type == .payWithFruit {//待放平安果
-            
+        if type == .waitForFruit {//待放平安果的申诉
+            YPJOtherTool.ypj.showAlert(title: "确认申诉", message: "确认申诉将冻结双方账号确认申诉？ 可前往设置意见反馈解冻账号", style: .alert, isNeedCancel: true) { (ac) in
+                PVNetworkTool.Request(router: .appealOrder(orderId: self.orderId), success: { (resp) in
+                    NotificationCenter.default.post(name: .kNotiName_refreshRecordExchanging, object: nil)
+                    self.view.makeToast("提交成功")
+                    DispatchQueue.main.asyncAfter(deadline: .now() + 1.5, execute: {
+                        self.navigationController?.popViewController(animated: true)
+                    })
+                    
+                }, failure: { (e) in
+                    
+                })
+            }
             return
         }
        
     }
     
     func didSelectedPay() {
-        
-        if type == .payWithFruit {//待放平安果
-            
+        if type == .waitForFruit {//待放平安果
+            YPJOtherTool.ypj.showAlert(title: "确认发送平安果", message: "请先确认是否已收到买家款项， 发送平安果不可撤回", style: .alert, isNeedCancel: true) { (ac) in
+                PVNetworkTool.Request(router: .confirmFruit(orderId: self.orderId), success: { (resp) in
+                    NotificationCenter.default.post(name: .kNotiName_refreshRecordExchanging, object: nil)
+                    self.view.makeToast("提交成功")
+                    DispatchQueue.main.asyncAfter(deadline: .now() + 1.5, execute: {
+                        self.navigationController?.popViewController(animated: true)
+                    })
+                    
+                }, failure: { (e) in
+                    
+                })
+            }
             return
         }
         
@@ -144,12 +222,36 @@ extension PVExchangeRecordChangingDetailVC: ChangingBottomButtonsDelegate {
                 return
             }
             //FIX: upload
-            if let url = uploadImageURL {
+            guard let url = uploadImageURL else { return }
+            PVNetworkTool.Request(router: .getAuthWithUploadImage(imageExt: "jpg"), success: { (resp) in
+                
+                if let d = Mapper<PVUploadImageModel>().map(JSONObject: resp["result"].object) {
+                    PVNetworkTool.uploadFileWithAliyun(description: "", auth: d.uploadAuth, address: d.uploadAddress, filePath: url.absoluteString, handle: { (isSuccess) in
+                        if isSuccess == false {
+                            SVProgressHUD.showError(withStatus: "上传图片失败")
+                            return
+                        }
+                        PVNetworkTool.Request(router: .payOrder(orderId: self.orderId, screenshot: d.imageUrl), success: { (resp) in
+                            NotificationCenter.default.post(name: .kNotiName_refreshRecordExchanging, object: nil)
+                            self.view.makeToast("提交成功")
+                            DispatchQueue.main.asyncAfter(deadline: .now() + 1.5, execute: {
+                                self.navigationController?.popViewController(animated: true)
+                            })
+                            
+                        }, failure: { (e) in
+                            
+                        })
+                        
+                    })
+                }
+                
+            }) { (e) in
                 
             }
-            
             return
         }
+        
+        
     }
 
 }

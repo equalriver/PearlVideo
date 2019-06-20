@@ -144,7 +144,10 @@ extension UIView {
             make.centerY.equalTo(v).multipliedBy(0.6)
         }
         
+        if title == nil && btnTitle == nil { return }
+        
         let titleLabel = UILabel()
+        titleLabel.backgroundColor = self.backgroundColor
         titleLabel.font = kFont_text
         titleLabel.textColor = kColor_subText
         titleLabel.text = title
@@ -158,7 +161,7 @@ extension UIView {
         
         if btnTitle != nil {
             let stateEmptyBtn = UIButton()
-            stateEmptyBtn.backgroundColor = kColor_theme
+            stateEmptyBtn.backgroundColor = self.backgroundColor
             stateEmptyBtn.titleLabel?.font = kFont_text_weight
             stateEmptyBtn.setTitle(btnTitle, for: .normal)
             stateEmptyBtn.setTitleColor(UIColor.white, for: .normal)

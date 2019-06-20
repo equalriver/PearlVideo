@@ -18,7 +18,7 @@ public let kAppVersionURL = "http://itunes.apple.com/lookup?id=\(kAPPID)"
 
 //app version
 public let kAppVersion = "PV_app_version"
-public let kAppUpdateVersionValue = "2" //FIX: 打包更新时修改
+public let kAppUpdateVersionValue = "4" //FIX: 打包更新时修改
 
 ///上一次输入的IP
 public let kLastInputIP = "kLastInputIP"
@@ -29,14 +29,17 @@ public let kLastInputAccount = "kLastInputAccount"
 ///客户数据路径
 public let kClientDataFilePath = NSHomeDirectory() + "/Documents/xxxx.plist"
 
+///用户位置
+public let kUserLocation = "kUserLocation"
 
 
 
 
 ///base url
 //public let kBaseURLString = "http://192.168.0.178:8088/api/"
-public let kBaseURLString = "http://www.lzmingsi.com:8080/api/"
-//public let kBaseURLString = "https://yjhfuyin.lzmingsi.com/api/"
+//public let kBaseURLString = "http://192.168.2.11:8088/api/"
+//public let kBaseURLString = "http://www.lzmingsi.com:8080/api/"
+public let kBaseURLString = "https://yjhfuyin.lzmingsi.com/api/"
 
 ///用户协议
 public let kUserAgreementURL = "http://www.lzmingsi.com/?formal=%e7%94%a8%e6%88%b7%e5%8d%8f%e8%ae%ae"
@@ -89,19 +92,53 @@ public let kAlipayScheme = "2019052365384112"
 //MARK: - noti
 extension Notification.Name {
     
+    //
     ///主题颜色变化
     public static let kNotiName_themeColorChange = Notification.Name.init("kNotiName_themeColorChange")
     
     ///token过期刷新页面
     public static let kNotiName_pageRefreshByToken = Notification.Name.init("kNotiName_pageRefreshByToken")
     
-    ///刷新“我的”页面
-    public static let kNotiName_refreshMeVC = Notification.Name.init("kNotiName_refreshMeVC")
+    ///实名认证成功
+    public static let kNotiName_userValidateSuccess = Notification.Name.init("kNotiName_userValidateSuccess")
     
     ///alipay支付成功
     public static let kNotiName_alipaySuccess = Notification.Name.init("kNotiName_alipaySuccess")
     
-    ///实名认证成功
-    public static let kNotiName_userValidateSuccess = Notification.Name.init("kNotiName_userValidateSuccess")
+    
+    
+    //home
+    ///刷新"我的任务"
+    public static let kNotiName_refreshMyTask = Notification.Name.init("kNotiName_refreshMyTask")
+    
+    ///刷新“关注视频”
+    public static let kNotiName_refreshAttention = Notification.Name.init("kNotiName_refreshAttention")
+    
+    
+    
+    //交换中心
+    ///刷新"交换记录--买单详情"
+    public static let kNotiName_refreshRecordBuyDetail = Notification.Name.init("kNotiName_refreshRecordBuyDetail")
+    
+    ///刷新"交换记录--卖单详情"
+    public static let kNotiName_refreshRecordSellDetail = Notification.Name.init("kNotiName_refreshRecordSellDetail")
+    
+    ///刷新"交换记录--交换中"
+    public static let kNotiName_refreshRecordExchanging = Notification.Name.init("kNotiName_refreshRecordExchanging")
+    
+    
+    
+    //me
+    ///刷新“我的”页面
+    public static let kNotiName_refreshMeVC = Notification.Name.init("kNotiName_refreshMeVC")
+    
+    ///刷新“我的作品”
+    public static let kNotiName_refreshMeProductionVC = Notification.Name.init("kNotiName_refreshMeProductionVC")
 
+    ///刷新“我的喜欢”
+    public static let kNotiName_refreshMeLikeVC = Notification.Name.init("kNotiName_refreshMeLikeVC")
+    
+    ///刷新“我的私密”
+    public static let kNotiName_refreshMeSecrityVC = Notification.Name.init("kNotiName_refreshMeSecrityVC")
+    
 }

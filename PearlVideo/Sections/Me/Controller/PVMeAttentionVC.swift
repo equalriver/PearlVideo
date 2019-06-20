@@ -13,7 +13,7 @@ import ObjectMapper
 class PVMeAttentionVC: PVBaseNavigationVC {
     
     public var userId = ""
-    
+    var nextPage = ""
     var page = 0
     var dataArr = Array<PVMeAttentionModel>()
     var searchDataArr = Array<PVMeAttentionModel>()
@@ -28,19 +28,19 @@ class PVMeAttentionVC: PVBaseNavigationVC {
     }()
     lazy var searchBtn: UIButton = {
         let b = UIButton.init(frame: .zero)
-        b.setImage(UIImage.init(named: ""), for: .normal)
+        b.setImage(UIImage.init(named: "me_attention_search"), for: .normal)
         b.addTarget(self, action: #selector(searchAction), for: .touchUpInside)
         return b
     }()
-    lazy var searchVC: PYSearchViewController = {
-        let searchVC = PYSearchViewController.init()
+    lazy var searchVC: PVExchangeSearchVC = {
+        let searchVC = PVExchangeSearchVC.init()
         searchVC.delegate = self
         searchVC.dataSource = self
         searchVC.showSearchHistory = false
+        searchVC.searchTextField.textColor = UIColor.white
         searchVC.searchTextField.attributedPlaceholder = NSAttributedString.init(string: "请输入对方昵称", attributes: [.font: kFont_text_2_weight, .foregroundColor: kColor_subText!])
         searchVC.searchBarCornerRadius = kCornerRadius
         searchVC.searchBarBackgroundColor = kColor_deepBackground
-        searchVC.searchSuggestionView.backgroundColor = kColor_deepBackground
         searchVC.view.backgroundColor = kColor_deepBackground
         searchVC.cancelButton.backgroundColor = kColor_deepBackground
         searchVC.cancelButton.setTitleColor(kColor_text, for: .normal)
@@ -69,6 +69,7 @@ class PVMeAttentionVC: PVBaseNavigationVC {
     func setRefresh() {
         PVRefresh.headerRefresh(scrollView: tableView) {[weak self] in
             self?.page = 0
+            self?.nextPage = ""
             self?.loadData(page: 0)
         }
         PVRefresh.footerRefresh(scrollView: tableView) {[weak self] in
@@ -78,8 +79,11 @@ class PVMeAttentionVC: PVBaseNavigationVC {
     }
     
     func loadData(page: Int) {
-        PVNetworkTool.Request(router: .attentionAndFansList(type: 1, userId: userId, content: "", page: page * 10), success: { (resp) in
+        PVNetworkTool.Request(router: .attentionAndFansList(type: 1, userId: userId, content: "", next: nextPage), success: { (resp) in
             self.tableView.mj_footer.endRefreshing()
+            let n = resp["result"]["next"].string ?? "\(resp["result"]["skip"].intValue)"
+            self.nextPage = n
+            
             if let d = Mapper<PVMeAttentionModel>().mapArray(JSONObject: resp["result"]["followUserProfileList"].arrayObject) {
                 if page == 0 { self.dataArr = d }
                 else {
@@ -149,9 +153,11 @@ extension PVMeAttentionVC: PYSearchViewControllerDelegate, PYSearchViewControlle
     
     
     func searchViewController(_ searchViewController: PYSearchViewController!, searchTextDidChange searchBar: UISearchBar!, searchText: String!) {
-        PVNetworkTool.Request(router: .attentionAndFansList(type: 3, userId: userId, content: searchText, page: 0), success: { (resp) in
+        PVNetworkTool.Request(router: .attentionAndFansList(type: 3, userId: userId, content: searchText, next: ""), success: { (resp) in
+            
             if let d = Mapper<PVMeAttentionModel>().mapArray(JSONObject: resp["result"]["followInfolist"].arrayObject) {
-                
+                self.searchDataArr = d
+                searchViewController.searchSuggestionView.reloadData()
             }
         }) { (e) in
             

@@ -70,6 +70,7 @@ class PVMeUserinfoEditVC: PVBaseNavigationVC {
         tf.font = kFont_text
         tf.textColor = UIColor.white
         tf.attributedPlaceholder = NSAttributedString.init(string: "请输入昵称", attributes: [.font: kFont_text, .foregroundColor: kColor_subText!])
+        tf.addTarget(self, action: #selector(textFieldEditingChange(sender:)), for: .editingChanged)
         return tf
     }()
     lazy var genderLabel: UILabel = {
@@ -263,6 +264,7 @@ class PVMeUserinfoEditVC: PVBaseNavigationVC {
  
     }
     
+    //点击头像
     @objc func didSelectedHeader(sender: UITapGestureRecognizer) {
 
         let alert = UIAlertController.init(title: nil, message: nil, preferredStyle: .actionSheet)
@@ -294,6 +296,16 @@ class PVMeUserinfoEditVC: PVBaseNavigationVC {
             self.present(alert, animated: true, completion: nil)
         }
         
+    }
+    
+    @objc func textFieldEditingChange(sender: UITextField) {
+        guard sender.markedTextRange == nil else { return }
+        guard sender.hasText else { return }
+        if sender.text!.count > kNameLimitCount {
+            sender.text = String(sender.text!.prefix(kNameLimitCount))
+            view.makeToast("最多输入\(kNameLimitCount)个字符")
+            return
+        }
     }
     
     @objc func genderAction() {

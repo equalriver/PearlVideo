@@ -74,6 +74,7 @@ extension PVHomeMyTeamAllVC {
     func setRefresh() {
         PVRefresh.headerRefresh(scrollView: tableView) {[weak self] in
             self?.page = 0
+            self?.nextPage = ""
             self?.loadData(page: 0)
         }
         PVRefresh.footerRefresh(scrollView: tableView) {[weak self] in
@@ -83,8 +84,11 @@ extension PVHomeMyTeamAllVC {
     }
     
     func loadData(page: Int) {
-        PVNetworkTool.Request(router: .teamAllList(page: page * 10), success: { (resp) in
+        PVNetworkTool.Request(router: .teamAllList(next: nextPage), success: { (resp) in
             self.tableView.mj_footer.endRefreshing()
+            let n = resp["result"]["next"].string ?? "\(resp["result"]["skip"].intValue)"
+            self.nextPage = n
+            
             if let d = Mapper<PVHomeTeamList>().mapArray(JSONObject: resp["result"]["userTeamList"].arrayObject) {
                 if page == 0 { self.dataArr = d }
                 else {
@@ -136,6 +140,7 @@ extension PVHomeMyTeamAuthVC {
     func setRefresh() {
         PVRefresh.headerRefresh(scrollView: tableView) {[weak self] in
             self?.page = 0
+            self?.nextPage = ""
             self?.loadData(page: 0)
         }
         PVRefresh.footerRefresh(scrollView: tableView) {[weak self] in
@@ -145,8 +150,11 @@ extension PVHomeMyTeamAuthVC {
     }
     
     func loadData(page: Int) {
-        PVNetworkTool.Request(router: .teamAuthList(page: page * 10), success: { (resp) in
+        PVNetworkTool.Request(router: .teamAuthList(next: nextPage), success: { (resp) in
             self.tableView.mj_footer.endRefreshing()
+            let n = resp["result"]["next"].string ?? "\(resp["result"]["skip"].intValue)"
+            self.nextPage = n
+            
             if let d = Mapper<PVHomeTeamList>().mapArray(JSONObject: resp["result"]["realNameAuthenticationList"].arrayObject) {
                 if page == 0 { self.dataArr = d }
                 else {
@@ -199,6 +207,7 @@ extension PVHomeMyTeamNotAuthVC {
     func setRefresh() {
         PVRefresh.headerRefresh(scrollView: tableView) {[weak self] in
             self?.page = 0
+            self?.nextPage = ""
             self?.loadData(page: 0)
         }
         PVRefresh.footerRefresh(scrollView: tableView) {[weak self] in
@@ -208,8 +217,11 @@ extension PVHomeMyTeamNotAuthVC {
     }
     
     func loadData(page: Int) {
-        PVNetworkTool.Request(router: .teamNotAuthList(page: page * 10), success: { (resp) in
+        PVNetworkTool.Request(router: .teamNotAuthList(next: nextPage), success: { (resp) in
             self.tableView.mj_footer.endRefreshing()
+            let n = resp["result"]["next"].string ?? "\(resp["result"]["skip"].intValue)"
+            self.nextPage = n
+            
             if let d = Mapper<PVHomeTeamList>().mapArray(JSONObject: resp["result"]["notRealNameAuthenticationList"].arrayObject) {
                 if page == 0 { self.dataArr = d }
                 else {

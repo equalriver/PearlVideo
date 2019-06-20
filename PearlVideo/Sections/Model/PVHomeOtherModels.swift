@@ -205,7 +205,7 @@ class PVHomeTaskList: PVBaseModel {
     var content = ""
     
     ///类别
-    var category = 0
+    var category = -1
     
     ///总收益
     var total = 0
@@ -231,7 +231,11 @@ class PVHomeTaskList: PVBaseModel {
     var userId = ""
     
     ///等级
-    var grade = 0
+    var grade = -1
+    
+    ///是否已兑换
+    var isExchange = false
+    private var isEx = ""
     
     override func mapping(map: Map) {
         id <- map["id"]
@@ -247,7 +251,33 @@ class PVHomeTaskList: PVBaseModel {
         endTime <- map["endTime"]
         userId <- map["userId"]
         grade <- map["grade"]
-        
+        isEx <- map["isExchange"]
+        isExchange = isEx == "T"
+    }
+}
+
+//MARK: - 完成任务进度
+class PVTaskProgressModel: PVBaseModel {
+    
+    ///已看视频多少分钟
+    var watchVideo = 0
+    
+    ///未看视频多少分钟
+    var notWatchVideo = 0
+    
+    ///已点赞多少视频
+    var thumbupVideo = 0
+    
+    ///未点赞多少视频
+    var notThumbupVideo = 0
+    
+    
+    
+    override func mapping(map: Map) {
+        watchVideo <- map["watchVideo"]
+        notWatchVideo <- map["notWatchVideo"]
+        thumbupVideo <- map["thumbupVideo"]
+        notThumbupVideo <- map["notThumbupVideo"]
     }
 }
 
@@ -273,6 +303,9 @@ class PVHomeTeamModel: PVBaseModel {
     
     var isLeader = false
     
+    ///团队总人数
+    var total = 0
+    
     
     override func mapping(map: Map) {
         userTeamCount <- map["userTeamCount"]
@@ -282,6 +315,7 @@ class PVHomeTeamModel: PVBaseModel {
         name <- map["name"]
         avatarImageUrl <- map["avatarImageUrl"]
         isLeader <- map["isLeader"]
+        total <- map["total"]
     }
 }
 

@@ -108,8 +108,11 @@ extension PVHomeMessageVC {
 //MARK: - 通知
 extension PVHomeMsgNoticeVC {
     func loadData(page: Int) {
-        PVNetworkTool.Request(router: .messsageList(page: page * 10, category: "NOTICEMESSAGE"), success: { (resp) in
+        PVNetworkTool.Request(router: .messsageList(next: nextPage, category: "NOTICEMESSAGE"), success: { (resp) in
             self.tableView.mj_footer.endRefreshing()
+            let n = resp["result"]["next"].string ?? "\(resp["result"]["skip"].intValue)"
+            self.nextPage = n
+            
             if let d = Mapper<PVHomeNoticeMessageList>().mapArray(JSONObject: resp["result"]["noticeList"].arrayObject) {
                 if page == 0 { self.dataArr = d }
                 else {
@@ -130,6 +133,7 @@ extension PVHomeMsgNoticeVC {
     func setRefresh() {
         PVRefresh.headerRefresh(scrollView: tableView) {[weak self] in
             self?.page = 0
+            self?.nextPage = ""
             self?.loadData(page: 0)
         }
         PVRefresh.footerRefresh(scrollView: tableView) {[weak self] in
@@ -190,8 +194,11 @@ extension PVHomeMsgNoticeDetailVC: UITableViewDelegate, UITableViewDataSource {
 //MARK: - 评论
 extension PVHomeMsgCommentVC {
     func loadData(page: Int) {
-        PVNetworkTool.Request(router: .messsageList(page: page * 10, category: "COMMENTMESSAGE"), success: { (resp) in
+        PVNetworkTool.Request(router: .messsageList(next: nextPage, category: "COMMENTMESSAGE"), success: { (resp) in
             self.tableView.mj_footer.endRefreshing()
+            let n = resp["result"]["next"].string ?? "\(resp["result"]["skip"].intValue)"
+            self.nextPage = n
+            
             if let d = Mapper<PVHomeMessageList>().mapArray(JSONObject: resp["result"]["commentMessageList"].arrayObject) {
                 if page == 0 { self.dataArr = d }
                 else {
@@ -212,6 +219,7 @@ extension PVHomeMsgCommentVC {
     func setRefresh() {
         PVRefresh.headerRefresh(scrollView: tableView) {[weak self] in
             self?.page = 0
+            self?.nextPage = ""
             self?.loadData(page: 0)
         }
         PVRefresh.footerRefresh(scrollView: tableView) {[weak self] in
@@ -249,8 +257,11 @@ extension PVHomeMsgCommentVC: UITableViewDataSource, UITableViewDelegate {
 //MARK: - 点赞
 extension PVHomeMsgLikeVC {
     func loadData(page: Int) {
-        PVNetworkTool.Request(router: .messsageList(page: page * 10, category: "THUMBUPMESSAGE"), success: { (resp) in
+        PVNetworkTool.Request(router: .messsageList(next: nextPage, category: "THUMBUPMESSAGE"), success: { (resp) in
             self.tableView.mj_footer.endRefreshing()
+            let n = resp["result"]["next"].string ?? "\(resp["result"]["skip"].intValue)"
+            self.nextPage = n
+            
             if let d = Mapper<PVHomeMessageList>().mapArray(JSONObject: resp["result"]["thumbupMessageList"].arrayObject) {
                 if page == 0 { self.dataArr = d }
                 else {
@@ -271,6 +282,7 @@ extension PVHomeMsgLikeVC {
     func setRefresh() {
         PVRefresh.headerRefresh(scrollView: tableView) {[weak self] in
             self?.page = 0
+            self?.nextPage = ""
             self?.loadData(page: 0)
         }
         PVRefresh.footerRefresh(scrollView: tableView) {[weak self] in
@@ -309,8 +321,11 @@ extension PVHomeMsgLikeVC: UITableViewDataSource, UITableViewDelegate {
 //MARK: - 关注
 extension PVHomeMsgAttentionVC {
     func loadData(page: Int) {
-        PVNetworkTool.Request(router: .messsageList(page: page * 10, category: "FOLLOWMESSAGE"), success: { (resp) in
+        PVNetworkTool.Request(router: .messsageList(next: nextPage, category: "FOLLOWMESSAGE"), success: { (resp) in
             self.tableView.mj_footer.endRefreshing()
+            let n = resp["result"]["next"].string ?? "\(resp["result"]["skip"].intValue)"
+            self.nextPage = n
+            
             if let d = Mapper<PVHomeMessageList>().mapArray(JSONObject: resp["result"]["followMessageList"].arrayObject) {
                 if page == 0 { self.dataArr = d }
                 else {
@@ -331,6 +346,7 @@ extension PVHomeMsgAttentionVC {
     func setRefresh() {
         PVRefresh.headerRefresh(scrollView: tableView) {[weak self] in
             self?.page = 0
+            self?.nextPage = ""
             self?.loadData(page: 0)
         }
         PVRefresh.footerRefresh(scrollView: tableView) {[weak self] in

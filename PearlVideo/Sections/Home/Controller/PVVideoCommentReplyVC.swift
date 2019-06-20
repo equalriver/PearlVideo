@@ -7,12 +7,15 @@
 //
 
 import UITableView_FDTemplateLayoutCell
+import ObjectMapper
 
 class PVVideoCommentReplyVC: PVBaseViewController {
     
     var commentId = 0
     var videoId = ""
+    var data = PVCommentReplyModel()
     
+    let inputViewRect = CGRect.init(x: 0, y: kScreenHeight - 50 * KScreenRatio_6, width: kScreenWidth, height: 50 * KScreenRatio_6)
     
     lazy var headerView: PVVideoCommentReplyHeader = {
         let v = PVVideoCommentReplyHeader.init(frame: .zero)
@@ -38,11 +41,13 @@ class PVVideoCommentReplyVC: PVBaseViewController {
         initUI()
         self.commentId = commentId
         self.videoId = videoId
+        loadData()
     }
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+        NotificationCenter.default.addObserver(self, selector: #selector(keyboardShowAction(noti:)), name: UIApplication.keyboardWillShowNotification, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(keyboardHideAction(noti:)), name: UIApplication.keyboardWillHideNotification, object: nil)
     }
     
     func initUI() {
@@ -64,13 +69,78 @@ class PVVideoCommentReplyVC: PVBaseViewController {
         }
     }
     
+    @objc func keyboardShowAction(noti: Notification) {
+        guard let info = noti.userInfo else { return }
+        guard let duration = info[UIApplication.keyboardAnimationDurationUserInfoKey] as? TimeInterval else { return }
+        guard let keyboardFrame = info[UIApplication.keyboardFrameEndUserInfoKey] as? CGRect else { return }
+        
+        UIView.animate(withDuration: duration) {
+            self.commentInputView.centerY = self.inputViewRect.origin.y + self.inputViewRect.height / 2 - keyboardFrame.height
+        }
+        
+    }
+    
+    @objc func keyboardHideAction(noti: Notification) {
+        guard let info = noti.userInfo else { return }
+        guard let duration = info[UIApplication.keyboardAnimationDurationUserInfoKey] as? TimeInterval else { return }
+        UIView.animate(withDuration: duration) {
+            self.commentInputView.centerY = self.inputViewRect.origin.y + self.inputViewRect.height / 2
+        }
+    }
+    
+    func loadData() {
+        PVNetworkTool.Request(router: .commentReplyList(commitId: commentId), success: { (resp) in
+            if let d = Mapper<PVCommentReplyModel>().map(JSONObject: resp["result"].object) {
+                self.data = d
+                self.headerView.data = d
+                self.tableView.reloadData()
+                DispatchQueue.main.asyncAfter(deadline: .now() + 0.2, execute: {
+                    self.headerView.snp.updateConstraints({ (make) in
+                        let h = self.data.content.ypj.getStringHeight(font: kFont_text_2, width: kCommentContentWidth)
+                        make.height.equalTo(200 * KScreenRatio_6 + h)
+                    })
+                })
+            }
+            
+        }) { (e) in
+            
+        }
+    }
+    
 }
 
 //MARK: - header view delegate
 extension PVVideoCommentReplyVC: PVVideoCommentReplyHeaderDelegate {
+    //头像
+    func didSelectedAvatar() {
+        if let currentId = UserDefaults.standard.string(forKey: kUserId) {
+            if data.userId == currentId { return }
+        }
+        let vc  = PVUserInfoVC()
+        vc.userId = data.userId
+        navigationController?.pushViewController(vc, animated: true)
+    }
     
+    //点赞
     func didSelectedLike(sender: UIButton) {
-        
+        sender.isSelected = !sender.isSelected
+        data.status = sender.isSelected ? 1 : 2
+        if sender.isSelected { data.commentThumbupCount += 1 }
+        else { data.commentThumbupCount -= 1 }
+        sender.setTitle("\(data.commentThumbupCount)", for: .normal)
+        let args: [String: Any] = ["data": data, "sender": sender]
+        NSObject.cancelPreviousPerformRequests(withTarget: self, selector: #selector(videoHeaderLike(args:)), object: args)
+        self.perform(#selector(videoHeaderLike(args:)), with: args, afterDelay: 2)
+    }
+    
+    @objc func videoHeaderLike(args: [String: Any]) {
+        guard let data = args["data"] as? PVCommentReplyModel else { return }
+        guard let sender = args["sender"] as? UIButton else { return }
+        PVNetworkTool.Request(router: .videoLike(id: data.videoId, action: sender.isSelected ? 1 : 2), success: { (resp) in
+            print("点赞：", data.userId)
+        }) { (e) in
+            
+        }
     }
     
     func didSelectedDismiss() {
@@ -83,36 +153,58 @@ extension PVVideoCommentReplyVC: PVVideoCommentReplyHeaderDelegate {
 extension PVVideoCommentReplyVC: UITableViewDelegate, UITableViewDataSource {
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return 0
+        return data.replies.count
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         return tableView.fd_heightForCell(withIdentifier: "PVVideoCommentCell", cacheBy: indexPath, configuration: { (cell) in
-            
+            guard let cell = cell as? PVVideoCommentCell else { return }
+            cell.data = self.data.replies[indexPath.row]
         })
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "PVVideoCommentCell", for: indexPath) as! PVVideoCommentCell
         cell.delegate = self
-        
+        guard data.replies.count > indexPath.row else { return cell }
+        cell.data = data.replies[indexPath.row]
         return cell
     }
 }
 
 //MARK: - cell delegate
 extension PVVideoCommentReplyVC: PVVideoCommentCellDelegate {
-    
+    //头像
     func didSelectedAvatar(cell: PVVideoCommentCell) {
-        
+        guard let indexPath = tableView.indexPath(for: cell) else { return }
+        if let currentId = UserDefaults.standard.string(forKey: kUserId) {
+            if data.replies[indexPath.row].userId == currentId { return }
+        }
+        let vc  = PVUserInfoVC()
+        vc.userId = data.replies[indexPath.row].userId
+        navigationController?.pushViewController(vc, animated: true)
     }
-    
+    //点赞
     func didSelectedLike(cell: PVVideoCommentCell, sender: UIButton) {
-        
+        guard let indexPath = tableView.indexPath(for: cell) else { return }
+        sender.isSelected = !sender.isSelected
+        if sender.isSelected { data.replies[indexPath.row].commentThumbupCount += 1 }
+        else { data.replies[indexPath.row].commentThumbupCount -= 1 }
+        sender.setTitle("\(data.replies[indexPath.row].commentThumbupCount)", for: .normal)
+        data.replies[indexPath.row].status = sender.isSelected ? 1 : 2
+        let args: [String: Any] = ["data": data.replies[indexPath.row], "sender": sender]
+        NSObject.cancelPreviousPerformRequests(withTarget: self, selector: #selector(videoLike(args:)), object: args)
+        self.perform(#selector(videoLike(args:)), with: args, afterDelay: 2)
     }
     
-    func didSelectedMoreReply(cell: PVVideoCommentCell, sender: UIButton) {
-        
+    @objc func videoLike(args: [String: Any]) {
+        guard let data = args["data"] as? PVVideoCommentModel else { return }
+        guard let sender = args["sender"] as? UIButton else { return }
+        PVNetworkTool.Request(router: .videoLike(id: data.videoId, action: sender.isSelected ? 1 : 2), success: { (resp) in
+            print("点赞：", data.userId)
+        }) { (e) in
+            
+        }
     }
     
 }
@@ -120,33 +212,22 @@ extension PVVideoCommentReplyVC: PVVideoCommentCellDelegate {
 //MARK: - input view delegate
 extension PVVideoCommentReplyVC: YYTextViewDelegate {
     
-    func textViewDidChange(_ textView: YYTextView) {
-        if textView.contentSize.height > textView.height && textView.contentSize.height <= 80 {
-            let offsetY = textView.contentSize.height - textView.height
-            commentInputView.origin.y -= offsetY
-            commentInputView.height += offsetY
-        }
-    }
-    
-}
-
-extension PVVideoCommentReplyVC {
-    
-    func didSelectedDone(textView: YYTextView) {
-        if textView.hasText {
+    func textView(_ textView: YYTextView, shouldChangeTextIn range: NSRange, replacementText text: String) -> Bool {
+        if text == "\n" {
             PVNetworkTool.Request(router: .twiceComment(id: commentId, videoId: videoId, content: textView.text), success: { (resp) in
-                
+                self.loadData()
+                DispatchQueue.main.asyncAfter(deadline: .now() + 1, execute: {
+                    textView.text = ""
+                })
                 
             }) { (e) in
                 
             }
+            textView.resignFirstResponder()
+            return true
         }
-        textView.text = nil
-        textView.resignFirstResponder()
-        UIView.animate(withDuration: 0.25) {
-            self.commentInputView.origin.y = kScreenHeight * 2 - 50 * KScreenRatio_6
-            self.commentInputView.height = 50 * KScreenRatio_6
-        }
+        return true
     }
     
 }
+

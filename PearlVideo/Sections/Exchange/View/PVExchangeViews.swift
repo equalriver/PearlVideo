@@ -384,7 +384,7 @@ class PVExchangeBuyAlert: UIView {
     private var handle: callback?
     
     lazy var contentView: UIView = {
-        let v = UIView.init(frame: CGRect.init(x: 0, y: kScreenHeight, width: kScreenWidth, height: 380 * KScreenRatio_6 + kIphoneXLatterInsetHeight))
+        let v = UIView.init(frame: CGRect.init(x: 0, y: kScreenHeight, width: kScreenWidth, height: 380 * KScreenRatio_6 + kTabBarHeight))
         v.backgroundColor = kColor_background
         return v
     }()
@@ -465,7 +465,7 @@ class PVExchangeBuyAlert: UIView {
         b.setTitle("取消", for: .normal)
         b.setTitleColor(UIColor.white, for: .normal)
         b.layer.cornerRadius = 20 * KScreenRatio_6
-        b.backgroundColor = kColor_background
+        b.backgroundColor = UIColor.gray
         b.addTarget(self, action: #selector(cancelAction(sender:)), for: .touchUpInside)
         return b
     }()
@@ -567,7 +567,7 @@ class PVExchangeBuyAlert: UIView {
     @objc func cancelAction(sender: UIButton) {
         contentView.ypj.viewAnimateDismissFromBottom(duration: 0.3) { (isFinish) in
             if isFinish {
-//                self.handle = nil
+                self.handle = nil
                 self.removeFromSuperview()
             }
         }
@@ -575,10 +575,16 @@ class PVExchangeBuyAlert: UIView {
     
     @objc func orderAction(sender: UIButton) {
         guard countTF.hasText && passwordTF.hasText else { return }
+        guard data != nil else { return }
+        let currentCount = Int(countTF.text!) ?? 0
+        if currentCount > data.count {
+            makeToast("超过当前总数")
+            return
+        }
         handle?(countTF.text!, passwordTF.text!)
         contentView.ypj.viewAnimateDismissFromBottom(duration: 0.3) { (isFinish) in
             if isFinish {
-//                self.handle = nil
+                self.handle = nil
                 self.removeFromSuperview()
             }
         }

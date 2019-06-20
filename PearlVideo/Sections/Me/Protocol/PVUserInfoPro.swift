@@ -24,7 +24,7 @@ extension PVUserInfoVC {
     }
     
     func loadData() {
-        PVNetworkTool.Request(router: .userInfo(userId: UserDefaults.standard.string(forKey: kUserId) ?? "", page: 0), success: { (resp) in
+        PVNetworkTool.Request(router: .userInfo(userId: userId, next: ""), success: { (resp) in
             if let d = Mapper<PVMeModel>().map(JSONObject: resp["result"].object) {
                 self.data = d
                 self.headerView.data = d
@@ -79,15 +79,17 @@ extension PVUserInfoVC {
     
     //scroll view delegate
     override func scrollViewDidScroll(_ scrollView: UIScrollView) {
-        super.scrollViewDidScroll(scrollView)
-        
         if scrollView == contentScrollView {
-            productionVC.collectionView.isScrollEnabled = scrollView.contentOffset.y >= headerViewHeight - kNavigationBarAndStatusHeight - safeInset
+            guard contentScrollView.contentOffset.y > 0 else { return }
+            productionVC.collectionView.isScrollEnabled = scrollView.contentOffset.y >= headerViewHeight - safeInset - kNavigationBarAndStatusHeight
+            likeVC.collectionView.isScrollEnabled = scrollView.contentOffset.y >= headerViewHeight - safeInset - kNavigationBarAndStatusHeight
+            
             let alpha: CGFloat = scrollView.contentOffset.y >= headerViewHeight - kNavigationBarAndStatusHeight ? 1.0 : scrollView.contentOffset.y / (headerViewHeight - kNavigationBarAndStatusHeight)
-            naviBar.titleView.alpha = alpha
+            effectView.alpha = alpha
+            contentScrollView.bounces = contentScrollView.contentOffset.y <= 20
         }
         else {
-            
+            super.scrollViewDidScroll(scrollView)
         }
         
     }
@@ -96,28 +98,28 @@ extension PVUserInfoVC {
 
 //MARK: - HeaderViewDelegate
 extension PVUserInfoVC: PVMeHeaderViewDelegate {
-    //编辑or登录
-    func didSelectedEdit() {
-        if YPJOtherTool.ypj.loginValidate(currentVC: self, isLogin: nil) {
-            let vc = PVMeUserinfoEditVC()
-            vc.data = data
-            navigationController?.pushViewController(vc, animated: true)
+    //关注对方
+    func didSelectedEdit(sender: UIButton) {
+        guard data.isMine == false else { return }
+        PVNetworkTool.Request(router: .attention(id: userId, action: data.isFollow ? 2 : 1), success: { (resp) in
+            print("关注：", self.userId)
+            self.data.isFollow = !self.data.isFollow
+            self.headerView.data = self.data
+        }) { (e) in
+            
         }
     }
     //会员等级
     func didSelectedLevel() {
-        let vc = PVHomeUserLevelVC()
-        navigationController?.pushViewController(vc, animated: true)
+
     }
     //活跃度
     func didSelectedActiveness() {
-        let vc = PVHomeActivenessVC()
-        navigationController?.pushViewController(vc, animated: true)
+
     }
     //平安果
     func didSelectedFruit() {
-        let vc = PVHomeFruitVC()
-        navigationController?.pushViewController(vc, animated: true)
+
     }
     //长按头像
     func didLongPressBackground() {
@@ -135,6 +137,10 @@ extension PVUserInfoVC: PVMeHeaderViewDelegate {
 
 //MARK: - 作品, 喜欢
 extension PVUserInfoVC: PVMeProductionDelegate, PVMeLikeDelegate {
+    
+    func scrollViewWillDragging(sender: UIScrollView) {
+        if contentScrollView.contentOffset.y <= 0 { sender.isScrollEnabled = false }
+    }
     
     func didBeginHeaderRefresh(sender: UIScrollView?) {
         DispatchQueue.main.asyncAfter(deadline: .now() + 0.2) {
@@ -160,9 +166,11 @@ extension PVUserInfoVC {
     
     override func pageController(_ pageController: WMPageController, viewControllerAt index: Int) -> UIViewController {
         if index == 0 {//作品
+            productionVC.userId = userId
             return productionVC
         }
         if index == 1 {//喜欢
+            likeVC.userId = userId
             return likeVC
         }
         
@@ -174,7 +182,7 @@ extension PVUserInfoVC {
     }
     
     override func pageController(_ pageController: WMPageController, preferredFrameForContentView contentView: WMScrollView) -> CGRect {
-        let h = kScreenHeight - kTabBarHeight - 50 * KScreenRatio_6 - kNavigationBarAndStatusHeight - safeInset
+        let h = kScreenHeight - 50 * KScreenRatio_6 - kNavigationBarAndStatusHeight - safeInset
         return CGRect.init(x: 0, y: headerViewHeight + 50 * KScreenRatio_6, width: kScreenWidth, height: h)
     }
     

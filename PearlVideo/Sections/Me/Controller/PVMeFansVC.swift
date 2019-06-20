@@ -11,7 +11,7 @@ import ObjectMapper
 class PVMeFansVC: PVBaseNavigationVC {
     
     public var userId = ""
-    
+    var nextPage = ""
     var page = 0
     var dataArr = Array<PVMeAttentionModel>()
     
@@ -40,6 +40,7 @@ class PVMeFansVC: PVBaseNavigationVC {
     func setRefresh() {
         PVRefresh.headerRefresh(scrollView: tableView) {[weak self] in
             self?.page = 0
+            self?.nextPage = ""
             self?.loadData(page: 0)
         }
         PVRefresh.footerRefresh(scrollView: tableView) {[weak self] in
@@ -49,8 +50,11 @@ class PVMeFansVC: PVBaseNavigationVC {
     }
     
     func loadData(page: Int) {
-        PVNetworkTool.Request(router: .attentionAndFansList(type: 2, userId: userId, content: "", page: page * 10), success: { (resp) in
+        PVNetworkTool.Request(router: .attentionAndFansList(type: 2, userId: userId, content: "", next: nextPage), success: { (resp) in
             self.tableView.mj_footer.endRefreshing()
+            let n = resp["result"]["next"].string ?? "\(resp["result"]["skip"].intValue)"
+            self.nextPage = n
+            
             if let d = Mapper<PVMeAttentionModel>().mapArray(JSONObject: resp["result"]["followUserProfileList"].arrayObject) {
                 if page == 0 { self.dataArr = d }
                 else {
@@ -99,7 +103,7 @@ extension PVMeFansVC: PVMeFansDelegate {
     func didSelectedAttention(cell: PVMeFansCell, sender: UIButton) {
         guard let indexPath = tableView.indexPath(for: cell) else { return }
         sender.isEnabled = false
-        let action = dataArr[indexPath.row].isFollow ? 1 : 2
+        let action = dataArr[indexPath.row].isFollow ? 2 : 1
         PVNetworkTool.Request(router: .attention(id: userId, action: action), success: { (resp) in
             sender.isEnabled = true
             self.dataArr[indexPath.row].isFollow = !self.dataArr[indexPath.row].isFollow

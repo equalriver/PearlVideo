@@ -8,6 +8,7 @@
 
 import WMPageController
 import ObjectMapper
+import SVProgressHUD
 
 extension PVHomeTaskVC {
     override func numbersOfChildControllers(in pageController: WMPageController) -> Int {
@@ -49,6 +50,7 @@ extension PVHomeMyTaskVC {
     func setRefresh() {
         PVRefresh.headerRefresh(scrollView: tableView) {[weak self] in
             self?.page = 0
+            self?.nextPage = ""
             self?.loadData(page: 0)
         }
         PVRefresh.footerRefresh(scrollView: tableView) {[weak self] in
@@ -58,8 +60,11 @@ extension PVHomeMyTaskVC {
     }
     
     func loadData(page: Int) {
-        PVNetworkTool.Request(router: .myTask(page: page * 10), success: { (resp) in
+        PVNetworkTool.Request(router: .myTask(next: nextPage), success: { (resp) in
             self.tableView.mj_footer.endRefreshing()
+            let n = resp["result"]["next"].string ?? "\(resp["result"]["skip"].intValue)"
+            self.nextPage = n
+            
             if let d = Mapper<PVHomeTaskList>().mapArray(JSONObject: resp["result"]["list"].arrayObject) {
                 if page == 0 { self.dataArr = d }
                 else {
@@ -75,6 +80,27 @@ extension PVHomeMyTaskVC {
             self.page = self.page > 0 ? self.page - 1 : 0
             self.tableView.mj_footer.endRefreshing()
         }
+    }
+    
+    func loadTaskProgress() {
+        PVNetworkTool.Request(router: .taskProgress, success: { (resp) in
+            if let d = Mapper<PVTaskProgressModel>().map(JSONObject: resp["result"].object) {
+                let watchPercent = Float(d.watchVideo) / Float(d.watchVideo + d.notWatchVideo) * 100
+                let likePercent = Float(d.thumbupVideo) / Float(d.thumbupVideo + d.notThumbupVideo) * 100
+                let v = PVHomeMyTaskHeaderView.init(frame: CGRect.init(x: 0, y: 0, width: kScreenWidth, height: 110 * KScreenRatio_6), watchPercent: Int(watchPercent), likePercent: Int(likePercent))
+                self.tableView.tableHeaderView = v
+                self.tableView.reloadData()
+            }
+            
+        }) { (e) in
+            
+        }
+    }
+    
+    @objc func refreshNoti(sender: Notification) {
+        page = 0
+        nextPage = ""
+        loadData(page: 0)
     }
     
 }
@@ -106,32 +132,22 @@ extension PVHomeAllTaskVC {
     
     func setRefresh() {
         PVRefresh.headerRefresh(scrollView: tableView) {[weak self] in
-            self?.page = 0
-            self?.loadData(page: 0)
+            self?.loadData()
         }
-        PVRefresh.footerRefresh(scrollView: tableView) {[weak self] in
-            self?.page += 1
-            self?.loadData(page: self?.page ?? 0)
-        }
+       
     }
     
-    func loadData(page: Int) {
-        PVNetworkTool.Request(router: .taskAll(page: page * 10), success: { (resp) in
-            self.tableView.mj_footer.endRefreshing()
+    func loadData() {
+        PVNetworkTool.Request(router: .taskAll, success: { (resp) in
             if let d = Mapper<PVHomeTaskList>().mapArray(JSONObject: resp["result"]["list"].arrayObject) {
-                if page == 0 { self.dataArr = d }
-                else {
-                    self.dataArr += d
-                    if d.count == 0 { self.page -= 1 }
-                }
+                self.dataArr = d
                 if self.dataArr.count == 0 { self.tableView.stateEmpty() }
                 else { self.tableView.stateNormal() }
                 self.tableView.reloadData()
             }
             
         }) { (e) in
-            self.page = self.page > 0 ? self.page - 1 : 0
-            self.tableView.mj_footer.endRefreshing()
+            
         }
     }
     
@@ -162,33 +178,65 @@ extension PVHomeAllTaskVC: UITableViewDelegate, UITableViewDataSource {
 
 extension PVHomeAllTaskVC: PVHomeAllTaskDelegate {
     
-    func didSelectedExchange(cell: UITableViewCell) {
+    func didSelectedExchange(cell: PVHomeAllTaskCell, sender: UIButton) {
         guard let indexPath = tableView.indexPath(for: cell) else { return }
-        let alert = UIAlertController.init(title: nil, message: "交换密码", preferredStyle: .alert)
-        alert.addTextField { (tf) in
-            tf.isSecureTextEntry = true
-            tf.placeholder = "请输入交换密码"
-            tf.font = kFont_text
-            tf.textColor = UIColor.black
-            tf.addBlock(for: .editingChanged, block: {[weak self] (t) in
-                self?.exchangePsd = tf.text ?? ""
-            })
-            tf.backgroundColor = UIColor.white
-            tf.tintColor = kColor_border
-            tf.borderStyle = .roundedRect
+        if dataArr[indexPath.row].category == 0 {//领取
+            
         }
-        let confirm = UIAlertAction.init(title: "确定", style: .default) { (ac) in
-            self.view.endEditing(true)
-            DispatchQueue.main.asyncAfter(deadline: .now() + 0.25, execute: {
-                
-            })
+        else {//兑换
+            func exchange(password: String) {
+                DispatchQueue.main.asyncAfter(deadline: .now() + 0.25, execute: {
+//                    YPJOtherTool.ypj.authWithTouchID(callback: { (isSuccess) in
+//                        if isSuccess {
+                            SVProgressHUD.show()
+                            PVNetworkTool.Request(router: .exchangeTask(id: self.dataArr[indexPath.row].id, password: password), success: { (resp) in
+                                SVProgressHUD.showSuccess(withStatus: "兑换成功")
+                                sender.isEnabled = false
+                                self.dataArr[indexPath.row].isExchange = true
+                                self.tableView.reloadRow(at: indexPath, with: .none)
+                                NotificationCenter.default.post(name: .kNotiName_refreshMyTask, object: nil)
+                                
+                            }, failure: { (e) in
+                                
+                            })
+//                        }
+//                    })
+                })
+            }
+            
+            let alert = UIAlertController.init(title: nil, message: "确定兑换该书卷吗？", preferredStyle: .alert)
+            alert.addTextField { (tf) in
+                tf.isSecureTextEntry = true
+                tf.placeholder = "请输入交换密码"
+                tf.font = kFont_text
+                tf.textColor = UIColor.black
+                tf.addBlock(for: .editingChanged, block: {[weak self] (t) in
+                    self?.exchangePsd = tf.text ?? ""
+                })
+                tf.backgroundColor = UIColor.white
+                tf.tintColor = kColor_border
+                tf.borderStyle = .roundedRect
+            }
+            let confirm = UIAlertAction.init(title: "确定", style: .default) { (ac) in
+                guard let tf = alert.textFields?.first else { return }
+                guard tf.hasText else {
+                    self.view.makeToast("请输入交换密码")
+                    return
+                }
+                self.view.endEditing(true)
+                DispatchQueue.main.asyncAfter(deadline: .now() + 0.25, execute: {
+                    exchange(password: tf.text!)
+                })
+            }
+            let cancel = UIAlertAction.init(title: "取消", style: .cancel, handler: nil)
+            alert.addAction(confirm)
+            alert.addAction(cancel)
+            DispatchQueue.main.async {
+                self.present(alert, animated: true, completion: nil)
+            }
+ 
         }
-        let cancel = UIAlertAction.init(title: "取消", style: .cancel, handler: nil)
-        alert.addAction(confirm)
-        alert.addAction(cancel)
-        DispatchQueue.main.async {
-            self.present(alert, animated: true, completion: nil)
-        }
+        
     }
     
 }
@@ -200,6 +248,7 @@ extension PVHomeHistoryTaskVC {
     func setRefresh() {
         PVRefresh.headerRefresh(scrollView: tableView) {[weak self] in
             self?.page = 0
+            self?.nextPage = ""
             self?.loadData(page: 0)
         }
         PVRefresh.footerRefresh(scrollView: tableView) {[weak self] in
@@ -209,8 +258,10 @@ extension PVHomeHistoryTaskVC {
     }
     
     func loadData(page: Int) {
-        PVNetworkTool.Request(router: .historyTask(page: page * 10), success: { (resp) in
+        PVNetworkTool.Request(router: .historyTask(next: nextPage), success: { (resp) in
             self.tableView.mj_footer.endRefreshing()
+            if let n = resp["result"]["next"].string { self.nextPage = n }
+            
             if let d = Mapper<PVHomeTaskList>().mapArray(JSONObject: resp["result"]["list"].arrayObject) {
                 if page == 0 { self.dataArr = d }
                 else {

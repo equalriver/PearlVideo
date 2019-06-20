@@ -38,13 +38,13 @@ enum Router: URLRequestConvertible {
     case homePage
     
     ///首页推荐视频列表
-    case homeRecommendVideoList(page: Int)
+    case homeRecommendVideoList(next: String)
     
     ///首页关注视频列表
-    case homeAttentionVideoList(page: Int)
+    case homeAttentionVideoList(next: String)
     
     ///会员等级
-    case userLevel(nextPage: Int)
+    case userLevel(next: String)
     
     ///当前会员等级信息
     case currentUserLevel
@@ -53,40 +53,46 @@ enum Router: URLRequestConvertible {
     case userLevelDetail
     
     ///活跃度详情
-    case activenessDetail(page: Int)
+    case activenessDetail(next: String)
     
     ///平安果详情
-    case fruitDetail(page: Int)
+    case fruitDetail(next: String)
     
     ///商学院视频列表
-    case schoolVideoList(page: Int)
+    case schoolVideoList(next: String)
     
     ///商学院新手指南
-    case schoolUserGuide(page: Int)
+    case schoolUserGuide(next: String)
     
     ///我的任务
-    case myTask(page: Int)
+    case myTask(next: String)
     
     ///任务书卷
-    case taskAll(page: Int)
+    case taskAll
     
     ///历史任务
-    case historyTask(page: Int)
+    case historyTask(next: String)
+    
+    ///兑换书卷任务
+    case exchangeTask(id: Int, password: String)
+    
+    ///完成任务进度
+    case taskProgress
     
     ///我的团队信息
     case teamInfo
     
     ///全部团队成员列表
-    case teamAllList(page: Int)
+    case teamAllList(next: String)
     
     ///未实名认证团队成员列表
-    case teamNotAuthList(page: Int)
+    case teamNotAuthList(next: String)
     
     ///实名认证团队成员列表
-    case teamAuthList(page: Int)
+    case teamAuthList(next: String)
 
     ///消息列表category：NOTICEMESSAGE(通知)，COMMENTMESSAGE（评论），FOLLOWMESSAGE（关注），THUMBUPMESSAGE（点赞）
-    case messsageList(page: Int, category: String)
+    case messsageList(next: String, category: String)
     
     ///获取消息状态
     case messageBadgeState
@@ -98,6 +104,9 @@ enum Router: URLRequestConvertible {
     
     
     //video
+    ///上传视频成功通知
+    case uploadVideoSuccess(videoId: String, title: String)
+    
     ///获取上传地址和凭证
     case getUploadAuthAndAddress(description: String, fileName: String)
     
@@ -105,7 +114,7 @@ enum Router: URLRequestConvertible {
     case getVideoSTS
     
     ///所有视频播放列表 1: 推荐, 2: 关注, 3: 我的作品, 4: 我的喜欢视频, 5: 私密视频
-    case videoList(type: Int, videoIndex: Int, videoId: String)
+    case videoList(type: Int, videoIndex: Int, videoId: String, userId: String)
     
     ///关注 action: 1关注 2取消
     case attention(id: String, action: Int)
@@ -114,10 +123,13 @@ enum Router: URLRequestConvertible {
     case videoLike(id: String, action: Int)
     
     ///视频评论列表
-    case videoCommentList(videoId: String, page: Int)
+    case videoCommentList(videoId: String, next: String)
+    
+    ///评论的回复列表
+    case commentReplyList(commitId: Int)
     
     ///视频举报 imageUrl<string>数组
-    case videoReport(videoId: String, type: String, content: String)
+    case videoReport(videoId: String, type: String, content: String, imageUrl: [String])
     
     ///视频评论点赞 action: 1点赞 2取消
     case videoCommentLike(videoId: String, commentId: Int, action: Int)
@@ -137,13 +149,20 @@ enum Router: URLRequestConvertible {
     ///获取邀请码
     case getInviteCode
     
+    ///获取今天看视频的时间
+    case getVideoPlayTime
+    
+    ///设置观看视频时间
+    case setVideoPlayTime(minutes: Int)
+    
+    
     
     //交换中心
     ///市场信息
     case exchangeInfo
     
     ///市场订单列表
-    case exchangeInfoList(isBuyOrder: Bool, phone: String, page: Int)
+    case exchangeInfoList(isBuyOrder: Bool, phone: String, next: String)
     
     ///准备发布买单
     case readySendBuyOrder
@@ -164,7 +183,7 @@ enum Router: URLRequestConvertible {
     case acceptOrder(orderId: String, password: String, count: Int)
     
     ///交易记录列表
-    case recordList(type: PVExchangeRecordListType, nextPage: Int)
+    case recordList(type: PVExchangeRecordListType, next: String)
     
     ///交易记录详情
     case recordDetail(orderId: String)
@@ -175,23 +194,29 @@ enum Router: URLRequestConvertible {
     ///支付订单
     case payOrder(orderId: String, screenshot: String)
     
+    ///确认发放平安果
+    case confirmFruit(orderId: String)
+    
+    ///申诉交换订单
+    case appealOrder(orderId: String)
+    
     
     
     //我的
     ///用户信息
-    case userInfo(userId: String, page: Int)
+    case userInfo(userId: String, next: String)
     
     ///关于我们
     case about
     
     ///视频 type: 3作品 4喜欢 5私密
-    case userInfoVideo(userId: String, type: Int, page: Int)
+    case userInfoVideo(userId: String, type: Int, next: String)
     
     ///意见反馈 类型: 1解冻 2优化意见 3其他
     case feedback(type: Int, name: String, phone: String, idCard: String, imageUrl: [String], content: String)
     
     ///我的反馈
-    case myFeedback(page: Int)
+    case myFeedback(next: String)
     
     ///修改用户信息  sign签名
     case editUserInfo(name: String, avatarUrl: String, sign: String, gender: String)
@@ -212,13 +237,19 @@ enum Router: URLRequestConvertible {
     case editBackgroundImage(imagePath: String)
     
     ///关注和粉丝列表 type：1.关注 2粉丝 3.搜索
-    case attentionAndFansList(type: Int, userId: String, content: String, page: Int)
+    case attentionAndFansList(type: Int, userId: String, content: String, next: String)
     
-    ///设置交易密码
+    ///设置交换密码
     case setExchangePassword(phone: String, authCode: String, password: String)
+    
+    ///获取交换密码验证码
+    case getExchangeAuthCode(phone: String)
     
     ///设置支付方式
     case setPayWay(name: String, account: String)
+    
+    ///获取支付账号
+    case getPayWay
     
     
     
@@ -292,6 +323,12 @@ enum Router: URLRequestConvertible {
             case .historyTask:
                 return "getPastReel"
                 
+            case .exchangeTask:
+                return "exchangeReel"
+                
+            case .taskProgress:
+                return "TaskPercentage"
+                
             case .teamInfo:
                 return "GetUserTeamInfo"
                 
@@ -316,6 +353,9 @@ enum Router: URLRequestConvertible {
                 
                 
             //video
+            case .uploadVideoSuccess:
+                return "AddVideo"
+                
             case .getUploadAuthAndAddress:
                 return "CreateUploadVideo"
                 
@@ -333,6 +373,9 @@ enum Router: URLRequestConvertible {
                 
             case .videoCommentList:
                 return "GetCommentList"
+                
+            case .commentReplyList:
+                return "GetReplyList"
                 
             case .videoReport:
                 return "Report"
@@ -354,6 +397,12 @@ enum Router: URLRequestConvertible {
                 
             case .getInviteCode:
                 return "GetShareUserInfo"
+                
+            case .getVideoPlayTime:
+                return "GetTodayWatchVideoTime"
+                
+            case .setVideoPlayTime:
+                return "SetTodayWatchVideoTime"
                 
                 
             //交换中心
@@ -392,6 +441,12 @@ enum Router: URLRequestConvertible {
                 
             case .payOrder:
                 return "PayXchgOrder"
+                
+            case .confirmFruit:
+                return "ConfirmXchgOrder"
+                
+            case .appealOrder:
+                return "AppealXchgOrder"
                 
                 
                 
@@ -435,8 +490,14 @@ enum Router: URLRequestConvertible {
             case .setExchangePassword:
                 return "ResetXchgPassword"
                 
+            case .getExchangeAuthCode:
+                return "SendCheckCodeSms"
+                
             case .setPayWay:
-                return "SetXchgMoneyAcctApiSpec"
+                return "SetXchgMoneyAcct"
+                
+            case .getPayWay:
+                return "GetXchgMoneyAcct"
                 
             }
           
@@ -499,19 +560,19 @@ enum Router: URLRequestConvertible {
         //home
         case .homePage: break
             
-        case .homeRecommendVideoList(let page):
+        case .homeRecommendVideoList(let next):
             param = [
-                "next": page
+                "next": next
             ]
             
-        case .homeAttentionVideoList(let page):
+        case .homeAttentionVideoList(let next):
             param = [
-                "next": page
+                "next": next
             ]
             
-        case .userLevel(let nextPage):
+        case .userLevel(let next):
             param = [
-                "next": nextPage
+                "next": next
             ]
             
         case .currentUserLevel: break
@@ -519,62 +580,66 @@ enum Router: URLRequestConvertible {
         case .userLevelDetail: break
             
             
-        case .activenessDetail(let page):
+        case .activenessDetail(let next):
             param = [
-                "skip": page
+                "skip": next
             ]
             
-        case .fruitDetail(let page):
+        case .fruitDetail(let next):
             param = [
-                "skip": page
+                "skip": next
             ]
             
-        case .schoolVideoList(let page):
+        case .schoolVideoList(let next):
             param = [
-                "skip": page
+                "skip": next
             ]
             
-        case .schoolUserGuide(let page):
+        case .schoolUserGuide(let next):
             param = [
-                "skip": page
+                "skip": next
             ]
             
-        case .myTask(let page):
+        case .myTask(let next):
             param = [
-                "skip": page
+                "skip": next
             ]
             
-        case .taskAll(let page):
+        case .taskAll: break
+            
+        case .historyTask(let next):
             param = [
-                "skip": page
+                "skip": next
             ]
             
-        case .historyTask(let page):
+        case .exchangeTask(let id, let password):
             param = [
-                "skip": page
+                "reelId": id,
+                "password": password
             ]
             
+        case .taskProgress: break
             
         case .teamInfo: break
             
-        case .teamAllList(let page):
+        case .teamAllList(let next):
             param = [
-                "skip": page
+                "skip": next
             ]
             
-        case .teamNotAuthList(let page):
+        case .teamNotAuthList(let next):
             param = [
-                "skip": page
+                "skip": next
             ]
             
-        case .teamAuthList(let page):
+        case .teamAuthList(let next):
             param = [
-                "skip": page
+                "skip": next
             ]
             
-        case .messsageList(let page, let category):
+        case .messsageList(let next, let category):
             param = [
-                "skip": page,
+                "skip": next,
                 "category": category
             ]
             
@@ -587,6 +652,12 @@ enum Router: URLRequestConvertible {
         
             
         //video
+        case .uploadVideoSuccess(let videoId, let title):
+            param = [
+                "videoId": videoId,
+                "title": title
+            ]
+            
         case .getUploadAuthAndAddress(let description, let fileName):
             param = [
                 "title": description,
@@ -596,11 +667,12 @@ enum Router: URLRequestConvertible {
             
         case .getVideoSTS: break
             
-        case .videoList(let type, let videoIndex, let videoId):
+        case .videoList(let type, let videoIndex, let videoId, let userId):
             param = [
                 "type": type,
                 "nextPos": videoIndex,
-                "videoId": videoId
+                "videoId": videoId,
+                "userId": userId
             ]
             
         case .attention(let id, let action):
@@ -615,17 +687,23 @@ enum Router: URLRequestConvertible {
                 "action": action
             ]
             
-        case .videoCommentList(let videoId, let page):
+        case .videoCommentList(let videoId, let next):
             param = [
                 "videoId": videoId,
-                "skip": page
+                "skip": next
             ]
             
-        case .videoReport(let videoId, let type, let content):
+        case .commentReplyList(let commitId):
+            param = [
+                "id": commitId
+            ]
+            
+        case .videoReport(let videoId, let type, let content, let imageUrl):
             param = [
                 "videoId": videoId,
                 "type": type,
-                "content": content
+                "content": content,
+                "imageUrl": imageUrl
             ]
             
         case .videoCommentLike(let videoId, let commentId, let action):
@@ -661,15 +739,22 @@ enum Router: URLRequestConvertible {
             
         case .getInviteCode: break
             
+        case .getVideoPlayTime: break
+            
+        case .setVideoPlayTime(let minutes):
+            param = [
+                "minutes": minutes
+            ]
+            
         
         //交换中心
         case .exchangeInfo: break
             
-        case .exchangeInfoList(let isBuyOrder, let phone, let page):
+        case .exchangeInfoList(let isBuyOrder, let phone, let next):
             param = [
                 "type": isBuyOrder ? "BID" : "ASK",
                 "mobile": phone,
-                "skip": page
+                "next": next
             ]
             
         case .readySendBuyOrder: break
@@ -702,10 +787,10 @@ enum Router: URLRequestConvertible {
                 "amount": count
             ]
             
-        case .recordList(let type, let nextPage):
+        case .recordList(let type, let next):
             param = [
                 "orderCategory": type.rawValue,
-                "next": nextPage
+                "next": next
             ]
             
         case .recordDetail(let orderId):
@@ -724,22 +809,32 @@ enum Router: URLRequestConvertible {
                 "paymentImageUrl": screenshot
             ]
             
+        case .confirmFruit(let orderId):
+            param = [
+                "orderId": orderId
+            ]
+            
+        case .appealOrder(let orderId):
+            param = [
+                "orderId": orderId
+            ]
+            
             
         
         //我的
-        case .userInfo(let userId, let page):
+        case .userInfo(let userId, let next):
             param = [
                 "userId": userId,
-                "skip": page
+                "skip": next
             ]
             
         case .about: break
             
-        case .userInfoVideo(let userId, let type, let page):
+        case .userInfoVideo(let userId, let type, let next):
             param = [
                 "userId": userId,
                 "type": type,
-                "skip": page
+                "skip": next
             ]
             
         case .feedback(let type, let name, let phone, let idCard, let imageUrl, let content):
@@ -752,9 +847,9 @@ enum Router: URLRequestConvertible {
                 "content": content
             ]
             
-        case .myFeedback(let page):
+        case .myFeedback(let next):
             param = [
-                "skip": page
+                "skip": next
             ]
             
         case .editUserInfo(let name, let avatarUrl, let sign, let gender):
@@ -791,12 +886,12 @@ enum Router: URLRequestConvertible {
                 "backgroundImageUrl": imagePath
             ]
 
-        case .attentionAndFansList(let type, let userId, let content, let page):
+        case .attentionAndFansList(let type, let userId, let content, let next):
             param = [
                 "type": type,
                 "userId": userId,
                 "content": content,
-                "skip": page
+                "skip": next
             ]
             
         case .setExchangePassword(let phone, let authCode, let password):
@@ -806,12 +901,20 @@ enum Router: URLRequestConvertible {
                 "xchgPassword": password
             ]
             
+        case .getExchangeAuthCode(let phone):
+            param = [
+                "mobile": phone,
+                "type": "RESET_XCHG_PASSWORD"
+            ]
+            
         case .setPayWay(let name, let account):
             param = [
                 "name": name,
                 "account": account,
                 "type": "ALIPAY"
             ]
+            
+        case .getPayWay: break
             
         }
         
