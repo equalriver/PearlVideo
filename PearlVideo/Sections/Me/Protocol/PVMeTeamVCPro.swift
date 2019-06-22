@@ -34,11 +34,11 @@ extension PVMeTeamVC {
 extension PVMeTeamVC {
     
     override func numbersOfChildControllers(in pageController: WMPageController) -> Int {
-        return 3
+        return items.count
     }
     
     override func pageController(_ pageController: WMPageController, titleAt index: Int) -> String {
-        return ["我推荐的", "好友推荐", "已认证"][index]
+        return items[index]
     }
     
     override func pageController(_ pageController: WMPageController, viewControllerAt index: Int) -> UIViewController {

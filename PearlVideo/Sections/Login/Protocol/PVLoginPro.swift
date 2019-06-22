@@ -38,7 +38,7 @@ extension PVLoginVC {
                     }
                 }
             }
-            self.timer.resume()
+            if isTimerRun == false { timer.resume() }
             isTimerRun = true
             authCodeTF.becomeFirstResponder()
         }

@@ -12,11 +12,11 @@ import SVProgressHUD
 
 extension PVHomeTaskVC {
     override func numbersOfChildControllers(in pageController: WMPageController) -> Int {
-        return 3
+        return items.count
     }
     
     override func pageController(_ pageController: WMPageController, titleAt index: Int) -> String {
-        return ["我的任务", "任务书卷", "历史任务"][index]
+        return items[index]
     }
     
     override func pageController(_ pageController: WMPageController, viewControllerAt index: Int) -> UIViewController {

@@ -16,6 +16,9 @@ class PVHomeMessageVC: PVBaseWMPageVC {
     ///关注状态
     var followMessageStatus = false
     
+    let items = ["通知", "评论", "点赞", "关注"]
+    
+    
     override func viewDidLoad() {
         titleSizeNormal = 15 * KScreenRatio_6
         titleSizeSelected = 15 * KScreenRatio_6
@@ -23,6 +26,7 @@ class PVHomeMessageVC: PVBaseWMPageVC {
         titleColorSelected = UIColor.white
         progressWidth = 30 * KScreenRatio_6
         menuViewStyle = .line
+        menuItemWidth = kScreenWidth / CGFloat(items.count)
         
         super.viewDidLoad()
         title = "消息列表"

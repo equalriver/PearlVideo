@@ -159,6 +159,7 @@ class PVHomeFruitVC: PVBaseNavigationVC {
 //MARK: - 商学院
 class PVHomeSchoolVC: PVBaseWMPageVC {
     
+    let items = ["视频区", "新手指南"]
     
     override func viewDidLoad() {
         titleSizeNormal = 15 * KScreenRatio_6
@@ -167,6 +168,7 @@ class PVHomeSchoolVC: PVBaseWMPageVC {
         titleColorSelected = UIColor.white
         progressWidth = 30 * KScreenRatio_6
         menuViewStyle = .line
+        menuItemWidth = kScreenWidth / CGFloat(items.count)
         
         super.viewDidLoad()
         title = "商学院"

@@ -10,6 +10,8 @@ import Charts
 
 class PVHomeTaskVC: PVBaseWMPageVC {
     
+    let items = ["我的任务", "任务书卷", "历史任务"]
+    
     override func viewDidLoad() {
         titleSizeNormal = 15 * KScreenRatio_6
         titleSizeSelected = 15 * KScreenRatio_6
@@ -17,6 +19,7 @@ class PVHomeTaskVC: PVBaseWMPageVC {
         titleColorSelected = UIColor.white
         progressWidth = 30 * KScreenRatio_6
         menuViewStyle = .line
+        menuItemWidth = kScreenWidth / CGFloat(items.count)
         
         super.viewDidLoad()
         title = "任务书卷"

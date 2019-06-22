@@ -31,7 +31,7 @@ extension PVExchangeVC {
     
     func loadData(page: Int) {
         isLoadingMore = true
-        PVNetworkTool.Request(router: .exchangeInfoList(isBuyOrder: isBuyOrderView, phone: "", next: nextPage), success: { (resp) in
+        PVNetworkTool.Request(router: .exchangeInfoList(isBuyOrder: !isBuyOrderView, phone: "", next: nextPage), success: { (resp) in
             let n = resp["result"]["next"].string ?? "\(resp["result"]["skip"].intValue)"
             self.nextPage = n
             
@@ -160,7 +160,7 @@ extension PVExchangeVC: PVExchangeOrderDelegate {
                 SVProgressHUD.showSuccess(withStatus: "接单成功")
                 self.tableView.mj_header.beginRefreshing()
                 let vc = PVExchangeRecordVC()
-                vc.selectIndex = isBuyOrder ? 0 : 1
+                vc.selectIndex = 2
                 DispatchQueue.main.asyncAfter(deadline: .now() + 1.5, execute: {
                     self.navigationController?.pushViewController(vc, animated: true)
                 })
@@ -174,21 +174,16 @@ extension PVExchangeVC: PVExchangeOrderDelegate {
         PVNetworkTool.Request(router: .readyAcceptOrder(orderId: self.dataArr[indexPath.row].orderId), success: { (resp) in
             SVProgressHUD.dismiss()
             guard let d = Mapper<PVExchangeReadyAcceptOrderModel>().map(JSONObject: resp["result"].object) else { return }
-            if cell.isBuyOrder {//买入
-                let alert = PVExchangeBuyAlert.init(frame: self.view.bounds) { (count, psd) in
-                    acceptOrder(id: self.dataArr[indexPath.row].orderId, psd: psd, count: Int(count) ?? 0, isBuyOrder: cell.isBuyOrder)
-                }
-                alert.data = d
-                self.view.addSubview(alert)
+            let alert = PVExchangeBuyAlert.init(frame: self.view.bounds) { (count, psd) in
+                acceptOrder(id: self.dataArr[indexPath.row].orderId, psd: psd, count: Int(count) ?? 0, isBuyOrder: cell.isBuyOrder)
             }
-            else {//卖出
-                let alert = PVExchangeBuyAlert.init(frame: self.view.bounds) { (count, psd) in
-                    acceptOrder(id: self.dataArr[indexPath.row].orderId, psd: psd, count: Int(count) ?? 0, isBuyOrder: !cell.isBuyOrder)
-                }
+            if cell.isBuyOrder == false {//卖出
                 alert.titleLabel.text = "卖出平安果"
-                alert.data = d
-                self.view.addSubview(alert)
             }
+            
+            alert.data = d
+            self.view.addSubview(alert)
+            
             
         }) { (e) in
             

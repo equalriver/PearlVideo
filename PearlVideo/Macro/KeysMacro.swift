@@ -36,10 +36,10 @@ public let kUserLocation = "kUserLocation"
 
 
 ///base url
-//public let kBaseURLString = "http://192.168.0.178:8088/api/"
+public let kBaseURLString = "http://192.168.0.136:8088/api/"
 //public let kBaseURLString = "http://192.168.2.11:8088/api/"
 //public let kBaseURLString = "http://www.lzmingsi.com:8080/api/"
-public let kBaseURLString = "https://yjhfuyin.lzmingsi.com/api/"
+//public let kBaseURLString = "https://yjhfuyin.lzmingsi.com/api/"
 
 ///用户协议
 public let kUserAgreementURL = "http://www.lzmingsi.com/?formal=%e7%94%a8%e6%88%b7%e5%8d%8f%e8%ae%ae"
@@ -117,11 +117,11 @@ extension Notification.Name {
     
     
     //交换中心
-    ///刷新"交换记录--买单详情"
-    public static let kNotiName_refreshRecordBuyDetail = Notification.Name.init("kNotiName_refreshRecordBuyDetail")
+    ///刷新"交换记录--买单"
+    public static let kNotiName_refreshRecordBuy = Notification.Name.init("kNotiName_refreshRecordBuy")
     
-    ///刷新"交换记录--卖单详情"
-    public static let kNotiName_refreshRecordSellDetail = Notification.Name.init("kNotiName_refreshRecordSellDetail")
+    ///刷新"交换记录--卖单"
+    public static let kNotiName_refreshRecordSell = Notification.Name.init("kNotiName_refreshRecordSell")
     
     ///刷新"交换记录--交换中"
     public static let kNotiName_refreshRecordExchanging = Notification.Name.init("kNotiName_refreshRecordExchanging")

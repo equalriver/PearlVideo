@@ -20,7 +20,7 @@ class PVMeMessageVC: PVBaseWMPageVC {
         titleSizeNormal = 16 * KScreenRatio_6
         titleSizeSelected = 18 * KScreenRatio_6
         menuViewStyle = .line
-        
+        menuItemWidth = kScreenWidth / CGFloat(items.count)
         super.viewDidLoad()
         naviBar.isNeedBackButton = false
         title = "消息"

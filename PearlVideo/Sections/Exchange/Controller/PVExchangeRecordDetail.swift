@@ -48,12 +48,8 @@ class PVExchangeRecordBuyDetailVC: PVBaseNavigationVC {
             make.centerX.equalToSuperview()
             make.bottom.equalToSuperview().offset(-kIphoneXLatterInsetHeight - 15)
         }
-        NotificationCenter.default.addObserver(self, selector: #selector(refreshNoti(sender:)), name: .kNotiName_refreshRecordBuyDetail, object: nil)
         
-    }
-    
-    deinit {
-        NotificationCenter.default.removeObserver(self)
+        
     }
     
 }
@@ -100,7 +96,7 @@ class PVExchangeRecordSellDetailVC: PVBaseNavigationVC {
             make.bottom.equalToSuperview().offset(-kIphoneXLatterInsetHeight - 15)
         }
         
-        NotificationCenter.default.addObserver(self, selector: #selector(refreshNoti(sender:)), name: .kNotiName_refreshRecordSellDetail, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(refreshNoti(sender:)), name: .kNotiName_refreshRecordSell, object: nil)
     }
     
     deinit {
@@ -118,6 +114,8 @@ class PVExchangeRecordChangingDetailVC: PVBaseNavigationVC {
     var uploadImageURL: URL?
     
     var type = PVExchangeRecordListState.none
+    
+    var orderType = PVExchangeRecordOrderType.none
     
     var orderId = ""
     
@@ -141,30 +139,38 @@ class PVExchangeRecordChangingDetailVC: PVBaseNavigationVC {
     lazy var screenshotView: ChangingScreenshotView = {
         let v = ChangingScreenshotView.init(frame: .zero)
         v.delegate = self
+        v.isHidden = true
         return v
     }()
     lazy var bottomBtns: ChangingBottomButtons = {
         let v = ChangingBottomButtons.init(frame: .zero)
         v.delegate = self
+        v.isHidden = true
         return v
     }()
     
-    required convenience init(type: PVExchangeRecordListState, orderId: String) {
+    required convenience init(type: PVExchangeRecordListState, orderType: PVExchangeRecordOrderType, orderId: String) {
         self.init()
         initUI()
         self.type = type
+        self.orderType = orderType
         self.orderId = orderId
         headerView.type = type
         footerView.type = type
         bottomBtns.type = type
         switch type {
         case .waitForBuyerPay:  //待买家付款
-            bottomBtns.isHidden = true
             contentView.isScrollEnabled = false
             break
             
         case .waitForPay: //待支付
-            
+            if orderType == .sell {//待对方支付
+                
+            }
+            if orderType == .buy {//待自己支付
+                screenshotView.isHidden = false
+                bottomBtns.isHidden = false
+            }
             break
             
         case .waitForFruit: //待放平安果
@@ -172,7 +178,6 @@ class PVExchangeRecordChangingDetailVC: PVBaseNavigationVC {
             break
             
         case .success: //待收平安果
-            bottomBtns.isHidden = true
             contentView.isScrollEnabled = false
             break
             
@@ -187,11 +192,7 @@ class PVExchangeRecordChangingDetailVC: PVBaseNavigationVC {
     override func viewDidLoad() {
         super.viewDidLoad()
         title = "订单详情"
-        NotificationCenter.default.addObserver(self, selector: #selector(refreshNoti(sender:)), name: .kNotiName_refreshRecordExchanging, object: nil)
-    }
-    
-    deinit {
-        NotificationCenter.default.removeObserver(self)
+  
     }
     
     func initUI() {
@@ -212,7 +213,7 @@ class PVExchangeRecordChangingDetailVC: PVBaseNavigationVC {
         footerView.snp.makeConstraints { (make) in
             make.width.centerX.equalToSuperview()
             make.top.equalTo(headerView.snp.bottom).offset(10)
-            make.height.equalTo(250 * KScreenRatio_6)
+            make.height.equalTo(310 * KScreenRatio_6)
         }
         screenshotView.snp.makeConstraints { (make) in
             make.width.centerX.equalToSuperview()

@@ -47,11 +47,11 @@ extension PVHomeMessageVC {
 //WMPageController delegate
 extension PVHomeMessageVC {
     override func numbersOfChildControllers(in pageController: WMPageController) -> Int {
-        return ["通知", "评论", "点赞", "关注"].count
+        return items.count
     }
     
     override func pageController(_ pageController: WMPageController, titleAt index: Int) -> String {
-        return ["通知", "评论", "点赞", "关注"][index]
+        return items[index]
     }
     
     override func pageController(_ pageController: WMPageController, viewControllerAt index: Int) -> UIViewController {

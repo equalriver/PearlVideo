@@ -263,11 +263,11 @@ extension PVHomeFruitVC: UITableViewDataSource, UITableViewDelegate {
 extension PVHomeSchoolVC {
     
     override func numbersOfChildControllers(in pageController: WMPageController) -> Int {
-        return 2
+        return items.count
     }
     
     override func pageController(_ pageController: WMPageController, titleAt index: Int) -> String {
-        return ["视频区", "新手指南"][index]
+        return items[index]
     }
     
     override func pageController(_ pageController: WMPageController, viewControllerAt index: Int) -> UIViewController {

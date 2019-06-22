@@ -8,6 +8,7 @@
 
 import ObjectMapper
 import SVProgressHUD
+import Photos
 
 //MARK: - 买单详情
 extension PVExchangeRecordBuyDetailVC {
@@ -27,7 +28,7 @@ extension PVExchangeRecordBuyDetailVC {
         YPJOtherTool.ypj.showAlert(title: "取消订单", message: "是否取消订单？", style: .alert, isNeedCancel: true) { (ac) in
             PVNetworkTool.Request(router: .cancelOrder(orderId: self.orderId), success: { (resp) in
                 self.view.makeToast("已取消")
-                NotificationCenter.default.post(name: .kNotiName_refreshRecordBuyDetail, object: nil)
+                NotificationCenter.default.post(name: .kNotiName_refreshRecordBuy, object: nil)
                 DispatchQueue.main.asyncAfter(deadline: .now() + 1.5, execute: {
                     self.navigationController?.popViewController(animated: true)
                 })
@@ -37,10 +38,7 @@ extension PVExchangeRecordBuyDetailVC {
             }
         }
     }
-    
-    @objc func refreshNoti(sender: Notification) {
-        loadData()
-    }
+
 }
 
 
@@ -62,7 +60,7 @@ extension PVExchangeRecordSellDetailVC {
         YPJOtherTool.ypj.showAlert(title: "取消订单", message: "是否取消订单？", style: .alert, isNeedCancel: true) { (ac) in
             PVNetworkTool.Request(router: .cancelOrder(orderId: self.orderId), success: { (resp) in
                 self.view.makeToast("已取消")
-                NotificationCenter.default.post(name: .kNotiName_refreshRecordSellDetail, object: nil)
+                NotificationCenter.default.post(name: .kNotiName_refreshRecordSell, object: nil)
                 DispatchQueue.main.asyncAfter(deadline: .now() + 1.5, execute: {
                     self.navigationController?.popViewController(animated: true)
                 })
@@ -87,15 +85,12 @@ extension PVExchangeRecordChangingDetailVC {
         PVNetworkTool.Request(router: .recordDetail(orderId: orderId), success: { (resp) in
             if let d = Mapper<PVExchangeRecordDetailModel>().map(JSONObject: resp["result"].object) {
                 self.headerView.data = d
+                self.footerView.data = d
             }
             
         }) { (e) in
             
         }
-    }
-    
-    @objc func refreshNoti(sender: Notification) {
-        loadData()
     }
     
 }
@@ -104,8 +99,9 @@ extension PVExchangeRecordChangingDetailVC {
 extension PVExchangeRecordChangingDetailVC: ChangingFootDelegate {
     //拨打电话
     func didSelectedPhone(phone: String) {
-        if UIApplication.shared.canOpenURL(URL.init(string: "telprompt:\(phone)")!){
-            UIApplication.shared.openURL(URL.init(string: "telprompt:\(phone)")!)
+        guard let url = URL.init(string: "telprompt:\(phone)") else { return }
+        if UIApplication.shared.canOpenURL(url){
+            UIApplication.shared.openURL(url)
         }
     }
     
@@ -132,7 +128,8 @@ extension PVExchangeRecordChangingDetailVC: ChangingScreenshotDelegate {
         }
     }
     
-    func didTapScreenshot(image: UIImage?) {
+    func didTapScreenshot(image: UIImage?, success: @escaping () -> Void) {
+        uploadImageSuccess = success
         if type == .waitForPay {//待支付重新上传
             YPJOtherTool.ypj.getPhotosAuth(target: self) {
                 let picker = UIImagePickerController()
@@ -162,7 +159,11 @@ extension PVExchangeRecordChangingDetailVC: UIImagePickerControllerDelegate, UIN
             guard let imgData = resultImage.ypj.compressImage(maxLength: 1024 * 1024) else { return }
             guard let img = UIImage.init(data: imgData) else { return }
             screenshotView.imageIV.image = img
-            if let url = info[.mediaURL] as? URL { uploadImageURL = url }
+            guard let path = img.ypj.saveImageToLocalFolder(directory: .cachesDirectory, compressionQuality: 1.0) else {
+                picker.dismiss(animated: true, completion: nil)
+                return
+            }
+            self.uploadImageURL = URL.init(string: path)
             
             uploadImageSuccess?()
             picker.dismiss(animated: true, completion: nil)
@@ -219,10 +220,12 @@ extension PVExchangeRecordChangingDetailVC: ChangingBottomButtonsDelegate {
         if type == .waitForPay {//待支付
             if screenshotView.imageIV.image == nil {
                 view.makeToast("未上传支付截图")
+                contentView.scrollToBottom()
                 return
             }
             //FIX: upload
             guard let url = uploadImageURL else { return }
+            SVProgressHUD.show()
             PVNetworkTool.Request(router: .getAuthWithUploadImage(imageExt: "jpg"), success: { (resp) in
                 
                 if let d = Mapper<PVUploadImageModel>().map(JSONObject: resp["result"].object) {

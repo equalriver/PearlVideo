@@ -16,7 +16,7 @@ class PVHomeUserLevelModel: PVBaseModel {
     var userId = ""
     
     ///经验值
-    var value = 0
+    var value = 0.0
     
     var createAt = 0
     
@@ -100,7 +100,7 @@ class PVHomeActivenessList: PVBaseModel {
     var title = ""
     
     ///活跃度
-    var liveness = 0
+    var liveness = 0.0
     
     ///创建时间
     var createAt = ""

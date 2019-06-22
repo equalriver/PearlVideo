@@ -112,6 +112,7 @@ class PVHomePlayVC: PVBaseViewController {
         let r = YYReachability.init()
         return r
     }()
+    //交互视图层
     lazy var allContainView: PVHomePlayMaskView = {
         let v = PVHomePlayMaskView.init(frame: CGRect.init(x: 0, y: 0, width: kScreenWidth, height: kScreenHeight))
         v.delegate = self
@@ -152,11 +153,16 @@ class PVHomePlayVC: PVBaseViewController {
         l.lineCap = CAShapeLayerLineCap.round
         return l
     }()
-    
     lazy var timer: DispatchSourceTimer = {
         let t = DispatchSource.makeTimerSource(flags: .strict, queue: DispatchQueue.main)
         t.schedule(deadline: .now(), repeating: 60)
         return t
+    }()
+    lazy var likeAnimationIV: UIImageView = {
+        let v = UIImageView.init(image: UIImage.init(named: "video_点赞动画"))
+        v.isHidden = true
+        v.alpha = 0.9
+        return v
     }()
    
     
@@ -233,6 +239,7 @@ class PVHomePlayVC: PVBaseViewController {
         view.addSubview(backBtn)
         view.addSubview(playTimeProgressView)
         playTimeProgressView.layer.addSublayer(playTimeProgress)
+        allContainView.addSubview(likeAnimationIV)
         backBtn.snp.makeConstraints { (make) in
             make.size.equalTo(CGSize.init(width: 30, height: 30))
             make.left.equalToSuperview().offset(15 * KScreenRatio_6)
@@ -242,6 +249,10 @@ class PVHomePlayVC: PVBaseViewController {
             make.size.equalTo(CGSize.init(width: 30, height: 30))
             make.right.equalToSuperview().offset(-15 * KScreenRatio_6)
             make.top.equalToSuperview().offset(kIphoneXLatterInsetHeight + 20)
+        }
+        likeAnimationIV.snp.makeConstraints { (make) in
+            make.size.equalTo(CGSize.init(width: 80, height: 80))
+            make.center.equalToSuperview()
         }
     }
 
@@ -375,8 +386,16 @@ class PVHomePlayVC: PVBaseViewController {
     func addGesture() {
         let tapGesture = UITapGestureRecognizer()
         tapGesture.numberOfTapsRequired = 1
+        tapGesture.numberOfTouchesRequired = 1
         tapGesture.addTarget(self, action: #selector(tapAction(sender:)))
         allContainView.gestureView.addGestureRecognizer(tapGesture)
+        
+        let doubleTapGesture = UITapGestureRecognizer()
+        doubleTapGesture.numberOfTapsRequired = 2
+        doubleTapGesture.numberOfTouchesRequired = 1
+        doubleTapGesture.addTarget(self, action: #selector(doubleTapAction(sender:)))
+        tapGesture.require(toFail: doubleTapGesture)
+        allContainView.gestureView.addGestureRecognizer(doubleTapGesture)
         
         let panGesture = UIPanGestureRecognizer.init()
         panGesture.addTarget(self, action: #selector(panAction(sender:)))

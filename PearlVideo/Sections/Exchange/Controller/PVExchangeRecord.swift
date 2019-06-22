@@ -18,7 +18,7 @@ class PVExchangeRecordVC: PVBaseWMPageVC {
         titleColorSelected = kColor_pink!
         menuViewStyle = .line
         progressWidth = 30 * KScreenRatio_6
-        
+        menuItemWidth = kScreenWidth / CGFloat(items.count)
         super.viewDidLoad()
         title = "交换记录"
         
@@ -51,6 +51,11 @@ class PVExchangeRecordBuyVC: PVBaseViewController {
         }
         setRefresh()
         loadData(page: 0)
+        NotificationCenter.default.addObserver(self, selector: #selector(refreshNoti(sender:)), name: .kNotiName_refreshRecordBuy, object: nil)
+    }
+    
+    deinit {
+        NotificationCenter.default.removeObserver(self)
     }
     
 }
@@ -79,8 +84,12 @@ class PVExchangeRecordSellVC: PVBaseViewController {
         }
         setRefresh()
         loadData(page: 0)
+        NotificationCenter.default.addObserver(self, selector: #selector(refreshNoti(sender:)), name: .kNotiName_refreshRecordSell, object: nil)
     }
     
+    deinit {
+        NotificationCenter.default.removeObserver(self)
+    }
 }
 
 //MARK: - 交换中

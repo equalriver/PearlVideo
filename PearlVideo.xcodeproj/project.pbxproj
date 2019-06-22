@@ -56,6 +56,22 @@
 		48200A50225E0EE600D19735 /* PVHomeReportCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48200A4F225E0EE600D19735 /* PVHomeReportCell.swift */; };
 		48200A52225E130100D19735 /* PVHomeReportDetailVC.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48200A51225E130100D19735 /* PVHomeReportDetailVC.swift */; };
 		48200A54225E1B5900D19735 /* PVHomeReportDetailPro.swift in Sources */ = {isa = PBXBuildFile; fileRef = 48200A53225E1B5900D19735 /* PVHomeReportDetailPro.swift */; };
+		4820899422BE19050038D587 /* FaceLivenessOpen.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4820899122BE19040038D587 /* FaceLivenessOpen.framework */; };
+		4820899522BE19050038D587 /* AliyunOSSiOS.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4820899222BE19040038D587 /* AliyunOSSiOS.framework */; };
+		4820899622BE19050038D587 /* AliReachability.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4820899322BE19050038D587 /* AliReachability.framework */; };
+		482089A122BE19240038D587 /* SGNoCaptcha.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4820899722BE19220038D587 /* SGNoCaptcha.framework */; };
+		482089A222BE19240038D587 /* RPSDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4820899822BE19220038D587 /* RPSDK.framework */; };
+		482089A322BE19240038D587 /* WindVaneBridge.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4820899922BE19220038D587 /* WindVaneBridge.framework */; };
+		482089A422BE19240038D587 /* WindVaneBasic.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4820899A22BE19230038D587 /* WindVaneBasic.framework */; };
+		482089A522BE19240038D587 /* WindVane.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4820899B22BE19230038D587 /* WindVane.framework */; };
+		482089A622BE19240038D587 /* SGMain.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4820899C22BE19230038D587 /* SGMain.framework */; };
+		482089A722BE19240038D587 /* WindVaneCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4820899D22BE19240038D587 /* WindVaneCore.framework */; };
+		482089A822BE19240038D587 /* SGSecurityBody.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4820899E22BE19240038D587 /* SGSecurityBody.framework */; };
+		482089A922BE19240038D587 /* ZipArchive.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4820899F22BE19240038D587 /* ZipArchive.framework */; };
+		482089AA22BE19240038D587 /* SecurityGuardSDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 482089A022BE19240038D587 /* SecurityGuardSDK.framework */; };
+		482089AD22BE19430038D587 /* FaceLivenessSDK.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 482089AB22BE19420038D587 /* FaceLivenessSDK.bundle */; };
+		482089AE22BE19430038D587 /* RPSDK.bundle in Resources */ = {isa = PBXBuildFile; fileRef = 482089AC22BE19430038D587 /* RPSDK.bundle */; };
+		482089B022BE19540038D587 /* yw_1222_0769.jpg in Resources */ = {isa = PBXBuildFile; fileRef = 482089AF22BE19540038D587 /* yw_1222_0769.jpg */; };
 		4820F4082285823800898CD7 /* PVHomeInfoChildVCs.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4820F4072285823800898CD7 /* PVHomeInfoChildVCs.swift */; };
 		4820F40A228582E200898CD7 /* PVHomeVCChildViews.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4820F409228582E200898CD7 /* PVHomeVCChildViews.swift */; };
 		4820F40C2285874B00898CD7 /* PVHomeInfoChildVCsPro.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4820F40B2285874B00898CD7 /* PVHomeInfoChildVCsPro.swift */; };
@@ -214,6 +230,22 @@
 		48200A4F225E0EE600D19735 /* PVHomeReportCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PVHomeReportCell.swift; sourceTree = "<group>"; };
 		48200A51225E130100D19735 /* PVHomeReportDetailVC.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PVHomeReportDetailVC.swift; sourceTree = "<group>"; };
 		48200A53225E1B5900D19735 /* PVHomeReportDetailPro.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PVHomeReportDetailPro.swift; sourceTree = "<group>"; };
+		4820899122BE19040038D587 /* FaceLivenessOpen.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = FaceLivenessOpen.framework; sourceTree = "<group>"; };
+		4820899222BE19040038D587 /* AliyunOSSiOS.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = AliyunOSSiOS.framework; sourceTree = "<group>"; };
+		4820899322BE19050038D587 /* AliReachability.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = AliReachability.framework; sourceTree = "<group>"; };
+		4820899722BE19220038D587 /* SGNoCaptcha.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = SGNoCaptcha.framework; sourceTree = "<group>"; };
+		4820899822BE19220038D587 /* RPSDK.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = RPSDK.framework; sourceTree = "<group>"; };
+		4820899922BE19220038D587 /* WindVaneBridge.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = WindVaneBridge.framework; sourceTree = "<group>"; };
+		4820899A22BE19230038D587 /* WindVaneBasic.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = WindVaneBasic.framework; sourceTree = "<group>"; };
+		4820899B22BE19230038D587 /* WindVane.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = WindVane.framework; sourceTree = "<group>"; };
+		4820899C22BE19230038D587 /* SGMain.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = SGMain.framework; sourceTree = "<group>"; };
+		4820899D22BE19240038D587 /* WindVaneCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = WindVaneCore.framework; sourceTree = "<group>"; };
+		4820899E22BE19240038D587 /* SGSecurityBody.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = SGSecurityBody.framework; sourceTree = "<group>"; };
+		4820899F22BE19240038D587 /* ZipArchive.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = ZipArchive.framework; sourceTree = "<group>"; };
+		482089A022BE19240038D587 /* SecurityGuardSDK.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = SecurityGuardSDK.framework; sourceTree = "<group>"; };
+		482089AB22BE19420038D587 /* FaceLivenessSDK.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = FaceLivenessSDK.bundle; sourceTree = "<group>"; };
+		482089AC22BE19430038D587 /* RPSDK.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = RPSDK.bundle; sourceTree = "<group>"; };
+		482089AF22BE19540038D587 /* yw_1222_0769.jpg */ = {isa = PBXFileReference; lastKnownFileType = image.jpeg; path = yw_1222_0769.jpg; sourceTree = "<group>"; };
 		4820F4072285823800898CD7 /* PVHomeInfoChildVCs.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PVHomeInfoChildVCs.swift; sourceTree = "<group>"; };
 		4820F409228582E200898CD7 /* PVHomeVCChildViews.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PVHomeVCChildViews.swift; sourceTree = "<group>"; };
 		4820F40B2285874B00898CD7 /* PVHomeInfoChildVCsPro.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PVHomeInfoChildVCsPro.swift; sourceTree = "<group>"; };
@@ -341,17 +373,30 @@
 			buildActionMask = 2147483647;
 			files = (
 				48F353D122A13B5B00026594 /* libresolv.tbd in Frameworks */,
+				482089A322BE19240038D587 /* WindVaneBridge.framework in Frameworks */,
 				48F353CF22A13B4A00026594 /* SystemConfiguration.framework in Frameworks */,
+				482089A622BE19240038D587 /* SGMain.framework in Frameworks */,
 				482138DE226AD366001691E2 /* Pods_PearlVideo.framework in Frameworks */,
 				482138DD226AD1F9001691E2 /* libiconv.tbd in Frameworks */,
 				482138DB226AD1E1001691E2 /* libc++.tbd in Frameworks */,
 				482138D9226AD1D4001691E2 /* OpenAL.framework in Frameworks */,
 				482138D7226AD1CB001691E2 /* MediaPlayer.framework in Frameworks */,
+				482089A722BE19240038D587 /* WindVaneCore.framework in Frameworks */,
 				482138D5226AD1C3001691E2 /* VideoToolbox.framework in Frameworks */,
 				482138D3226AD1B8001691E2 /* CoreVideo.framework in Frameworks */,
+				482089A522BE19240038D587 /* WindVane.framework in Frameworks */,
 				482138D1226AD1B0001691E2 /* CoreMedia.framework in Frameworks */,
+				4820899622BE19050038D587 /* AliReachability.framework in Frameworks */,
+				4820899522BE19050038D587 /* AliyunOSSiOS.framework in Frameworks */,
+				482089A222BE19240038D587 /* RPSDK.framework in Frameworks */,
+				482089A122BE19240038D587 /* SGNoCaptcha.framework in Frameworks */,
+				4820899422BE19050038D587 /* FaceLivenessOpen.framework in Frameworks */,
+				482089A822BE19240038D587 /* SGSecurityBody.framework in Frameworks */,
+				482089A422BE19240038D587 /* WindVaneBasic.framework in Frameworks */,
+				482089A922BE19240038D587 /* ZipArchive.framework in Frameworks */,
 				482138CF226AD1A2001691E2 /* ImageIO.framework in Frameworks */,
 				482138CD226AD196001691E2 /* libz.tbd in Frameworks */,
+				482089AA22BE19240038D587 /* SecurityGuardSDK.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -410,6 +455,9 @@
 		484DAD1C224F1213002BA454 /* Resource */ = {
 			isa = PBXGroup;
 			children = (
+				482089AF22BE19540038D587 /* yw_1222_0769.jpg */,
+				482089AB22BE19420038D587 /* FaceLivenessSDK.bundle */,
+				482089AC22BE19430038D587 /* RPSDK.bundle */,
 			);
 			path = Resource;
 			sourceTree = "<group>";
@@ -448,6 +496,19 @@
 		484DAD20224F1254002BA454 /* Vendor */ = {
 			isa = PBXGroup;
 			children = (
+				4820899822BE19220038D587 /* RPSDK.framework */,
+				482089A022BE19240038D587 /* SecurityGuardSDK.framework */,
+				4820899C22BE19230038D587 /* SGMain.framework */,
+				4820899722BE19220038D587 /* SGNoCaptcha.framework */,
+				4820899E22BE19240038D587 /* SGSecurityBody.framework */,
+				4820899B22BE19230038D587 /* WindVane.framework */,
+				4820899A22BE19230038D587 /* WindVaneBasic.framework */,
+				4820899922BE19220038D587 /* WindVaneBridge.framework */,
+				4820899D22BE19240038D587 /* WindVaneCore.framework */,
+				4820899F22BE19240038D587 /* ZipArchive.framework */,
+				4820899322BE19050038D587 /* AliReachability.framework */,
+				4820899222BE19040038D587 /* AliyunOSSiOS.framework */,
+				4820899122BE19040038D587 /* FaceLivenessOpen.framework */,
 				4850C0F422AB56D300945A56 /* LZImageBrowser */,
 			);
 			path = Vendor;
@@ -890,7 +951,10 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				482089AE22BE19430038D587 /* RPSDK.bundle in Resources */,
 				484DAD12224F10B5002BA454 /* LaunchScreen.storyboard in Resources */,
+				482089B022BE19540038D587 /* yw_1222_0769.jpg in Resources */,
+				482089AD22BE19430038D587 /* FaceLivenessSDK.bundle in Resources */,
 				484DAD0F224F10B5002BA454 /* Assets.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

@@ -40,18 +40,26 @@ extension PVMeNameValidateVC {
     */
     
     // 人脸认证
-    /*
     func loadData() {
+        guard nameTF.hasText else { return }
+        guard nameTF.text!.ypj.isIncludeChinese else {
+            view.makeToast("姓名格式不对")
+            return
+        }
+        SVProgressHUD.show()
         PVNetworkTool.Request(router: .getUserValidateToken(idCard: idCardTF.text ?? "", name: nameTF.text ?? ""), success: { (resp) in
-            if let s = resp["result"]["bizMessage"].string {
-                self.view.makeToast(s)
-            }
+            SVProgressHUD.dismiss()
+            self.alertView?.closeAction()
+            
             if let d = Mapper<PVUserValidateModel>().map(JSONObject: resp["result"].object) {
                 self.data = d
+                //认证成功
                 if d.verifyStage == UserValidateStageType.success.rawValue {
+                    SVProgressHUD.showSuccess(withStatus: "认证成功")
                     self.didValidateContent.isHidden = false
                     self.validateContent.isHidden = true
-                    self.setNameAndIdCard(data: d)
+                    self.setNameAndIdCard(name: d.name, idCard: d.idCard)
+                    NotificationCenter.default.post(name: .kNotiName_userValidateSuccess, object: nil)
                 }
                 //去支付
                 if d.verifyStage == UserValidateStageType.payment.rawValue {
@@ -87,11 +95,12 @@ extension PVMeNameValidateVC {
             }
             
         }) { (e) in
-            
+            SVProgressHUD.dismiss()
+            self.alertView?.closeAction()
         }
     }
-    */
     
+    /*
     func loadData() {
         guard idCardTF.hasText && nameTF.hasText else { return }
         let uuid = YPJOtherTool.ypj.getUUIDWithkeyChain()
@@ -99,9 +108,7 @@ extension PVMeNameValidateVC {
         PVNetworkTool.Request(router: .userValidate(name: nameTF.text!, idCard: idCardTF.text!, deviceId: uuid), success: { (resp) in
             SVProgressHUD.dismiss()
             self.alertView?.closeAction()
-            if let s = resp["result"]["bizMessage"].string {
-                self.view.makeToast(s)
-            }
+
             if let d = Mapper<PVUserValidateModel>().map(JSONObject: resp["result"].object) {
                 self.data = d
                 //认证成功
@@ -130,9 +137,8 @@ extension PVMeNameValidateVC {
         }) { (e) in
             self.alertView?.closeAction()
         }
-        
-        
     }
+    */
     
     func setNameAndIdCard(name: String, idCard: String) {
         let att_name = NSMutableAttributedString.init(string: "真实姓名    " + name)
@@ -239,7 +245,7 @@ extension PVMePasswordChangeVC {
                     }
                 }
             }
-            self.timer.resume()
+            if isTimerRun == false { timer.resume() }
             isTimerRun = true
             authCodeTF.becomeFirstResponder()
         }
@@ -347,7 +353,7 @@ extension PVMeExchangePsdVC {
                     }
                 }
             }
-            self.timer.resume()
+            if isTimerRun == false { timer.resume() }
             isTimerRun = true
             authCodeTF.becomeFirstResponder()
         }

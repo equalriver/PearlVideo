@@ -75,8 +75,8 @@ class PVExchangeRecordUserInfoItemView: UIView {
             make.bottom.equalToSuperview().offset(-5)
         }
         titleLabel.snp.makeConstraints { (make) in
-            make.top.equalToSuperview()
-            make.left.equalTo(iconIV.snp.right).offset(10 * KScreenRatio_6)
+            make.left.equalTo(iconIV.snp.right).offset(10)
+            make.bottom.equalTo(iconIV.snp.top)
         }
         detailLabel.snp.makeConstraints { (make) in
             make.size.equalTo(CGSize.init(width: 230 * KScreenRatio_6, height: 25 * KScreenRatio_6))

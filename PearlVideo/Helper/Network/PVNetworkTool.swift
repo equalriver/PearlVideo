@@ -282,6 +282,7 @@ class PVNetworkTool: SessionManager {
             // code 错误码
             // message 错误描述
             uploadManager.stop()
+            print(message ?? "")
             DispatchQueue.main.async {
                 SVProgressHUD.dismiss()
                 handle(false)

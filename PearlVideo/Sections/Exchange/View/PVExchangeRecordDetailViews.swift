@@ -155,7 +155,7 @@ class ChangingDetailHeadView: UIView {
                     }
                 }
             }
-            timer.resume()
+            if isTimerRun == false { timer.resume() }
             isTimerRun = true
             //
             costItemView.detailLabel.text = "¥\(data.totalPrice)"
@@ -342,6 +342,15 @@ class ChangingFootView: UIView {
     
     weak public var delegate: ChangingFootDelegate?
     
+    public var data: PVExchangeRecordDetailModel! {
+        didSet{
+            nameLabel.text = "用户昵称：\(data.nickname)"
+            nameItem.detailLabel.text = "  " + data.name
+            phoneItem.detailLabel.text = "  " + data.phone
+            payItem.detailLabel.text = "  " + data.alipayAccount
+        }
+    }
+    
     public var type = PVExchangeRecordListState.none {
         didSet{
             switch type {
@@ -358,7 +367,7 @@ class ChangingFootView: UIView {
                 break
                 
             case .waitForFruit:
-                titleLabel.text = "买家信息"
+                titleLabel.text = "卖家信息"
                 break
                 
             case .none: break
@@ -424,6 +433,7 @@ class ChangingFootView: UIView {
     
     override init(frame: CGRect) {
         super.init(frame: frame)
+        backgroundColor = kColor_background
         addSubview(titleLabel)
         addSubview(sepView)
         addSubview(nameLabel)
@@ -447,7 +457,7 @@ class ChangingFootView: UIView {
         nameItem.snp.makeConstraints { (make) in
             make.width.centerX.equalToSuperview()
             make.top.equalTo(nameLabel.snp.bottom).offset(20 * KScreenRatio_6)
-            make.height.equalTo(60 * KScreenRatio_6)
+            make.height.equalTo(50 * KScreenRatio_6)
         }
         phoneItem.snp.makeConstraints { (make) in
             make.size.centerX.equalTo(nameItem)
@@ -474,7 +484,7 @@ class ChangingFootView: UIView {
     
     @objc func phoneAction(sender: UIButton) {
         guard phoneItem.detailLabel.text != nil else { return }
-        delegate?.didSelectedPhone(phone: phoneItem.detailLabel.text!)
+        delegate?.didSelectedPhone(phone: data.phone)
     }
     
     @objc func copyAction(sender: UIButton) {
@@ -487,7 +497,7 @@ class ChangingFootView: UIView {
 //MARK: - 上传截图
 protocol ChangingScreenshotDelegate: NSObjectProtocol {
     func didSelectedUpload(success: @escaping () -> Void)
-    func didTapScreenshot(image: UIImage?)
+    func didTapScreenshot(image: UIImage?, success: @escaping () -> Void)
 }
 class ChangingScreenshotView: UIView {
     
@@ -564,7 +574,10 @@ class ChangingScreenshotView: UIView {
     }
     
     @objc func imageTapAction(sender: UITapGestureRecognizer) {
-        delegate?.didTapScreenshot(image: imageIV.image)
+        delegate?.didTapScreenshot(image: imageIV.image, success: { [weak self] in
+            self?.placeholderIV.isHidden = true
+            self?.uploadBtn.isHidden = true
+        })
     }
 }
 

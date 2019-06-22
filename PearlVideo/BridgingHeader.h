@@ -15,5 +15,6 @@
 #import <WechatOpenSDK/WXApi.h>
 #import <PYSearch/PYSearch.h>
 #import "LZImageBrowserManager.h"
+#import <RPSDK/RPSDK.h>
 #endif /* BridgingHeader_h */
 

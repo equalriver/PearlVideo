@@ -82,6 +82,11 @@ extension PVExchangeRecordBuyVC {
         }
         
     }
+    
+    
+    @objc func refreshNoti(sender: Notification) {
+        tableView.mj_header.beginRefreshing()
+    }
 }
 
 extension PVExchangeRecordBuyVC: UITableViewDelegate, UITableViewDataSource {
@@ -150,6 +155,10 @@ extension PVExchangeRecordSellVC {
             self.tableView.mj_footer.endRefreshing()
         }
         
+    }
+    
+    @objc func refreshNoti(sender: Notification) {
+        tableView.mj_header.beginRefreshing()
     }
 }
 
@@ -222,9 +231,7 @@ extension PVExchangeRecordExchangingVC {
     }
     
     @objc func refreshNoti(sender: Notification) {
-        page = 0
-        nextPage = ""
-        loadData(page: 0)
+        tableView.mj_header.beginRefreshing()
     }
 }
 
@@ -244,13 +251,12 @@ extension PVExchangeRecordExchangingVC: UITableViewDelegate, UITableViewDataSour
             cell = PVExchangeRecordCell.init(style: .default, reuseIdentifier: "PVExchangeRecordCell")
         }
         guard dataArr.count > indexPath.row else { return cell! }
-        cell?.handleLabel.text = "买入"
         cell?.data = dataArr[indexPath.row]
         return cell!
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        let vc = PVExchangeRecordChangingDetailVC.init(type: dataArr[indexPath.row].state, orderId: dataArr[indexPath.row].orderId)
+        let vc = PVExchangeRecordChangingDetailVC.init(type: dataArr[indexPath.row].state, orderType: dataArr[indexPath.row].orderType, orderId: dataArr[indexPath.row].orderId)
         navigationController?.pushViewController(vc, animated: true)
     }
     

@@ -12,6 +12,8 @@ class PVMeTeamVC: PVBaseWMPageVC {
     
     var popoverIndex = 0
     
+    let items = ["我推荐的", "好友推荐", "已认证"]
+    
     
     lazy var popBtn: UIButton = {
         let b = UIButton()
@@ -63,6 +65,8 @@ class PVMeTeamVC: PVBaseWMPageVC {
         titleColorNormal = kColor_subText!
         titleColorSelected = kColor_text!
         menuViewStyle = .line
+        progressWidth = 30 * KScreenRatio_6
+        menuItemWidth = kScreenWidth / CGFloat(items.count)
         progressColor = kColor_pink
         super.viewDidLoad()
         

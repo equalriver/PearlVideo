@@ -101,8 +101,8 @@ class PVTabBarController: UITabBarController {
         self.setValue(customTabBar, forKey: "tabBar")
         emptyVC_1.view.stateEmpty()
         emptyVC_2.view.stateEmpty()
-//        viewControllers = [homeVC, emptyVC_1, exchangeVC, userVC]
-        viewControllers = [homeVC, emptyVC_1, emptyVC_2, userVC]
+        viewControllers = [homeVC, emptyVC_1, exchangeVC, userVC]
+//        viewControllers = [homeVC, emptyVC_1, emptyVC_2, userVC]
         for (index, item) in (viewControllers?.enumerated())! {
             item.tabBarItem.title = tabTitles[index]
             item.tabBarItem.image = tabImages[index]
@@ -113,8 +113,8 @@ class PVTabBarController: UITabBarController {
     
     
     @objc func didSelectedPlay() {
-        SVProgressHUD.showInfo(withStatus: "暂未开放")
-        return
+//        SVProgressHUD.showInfo(withStatus: "暂未开放")
+//        return
         if let vc = self.selectedViewController {
             let playVC = PVPlayVC()
             vc.present(PVBaseRootNaviVC.init(rootViewController: playVC), animated: true, completion: nil)

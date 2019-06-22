@@ -122,7 +122,16 @@ class PVExchangeReadyAcceptOrderModel: PVBaseModel {
 
 
 //MARK: - 交易记录列表
+enum PVExchangeRecordOrderType: String {
+    case none = ""
+    ///买单
+    case buy = "BID"
+    ///卖单
+    case sell = "ASK"
+}
+
 enum PVExchangeRecordListType: String {
+    case none = ""
     ///买单
     case buy = "BID"
     ///卖单
@@ -173,7 +182,7 @@ class PVExchangeRecordList: PVBaseModel {
     ///订单状态
     var state = PVExchangeRecordListState.none
 
-//    orderType    String    Y    订单类型 BID, ASK
+    var orderType = PVExchangeRecordOrderType.none
     
     
     override func mapping(map: Map) {
@@ -186,6 +195,7 @@ class PVExchangeRecordList: PVBaseModel {
         price <- map["unitPrice"]
         date <- map["date"]
         state <- map["orderStatus"]
+        orderType <- map["orderType"]
     }
     
 }

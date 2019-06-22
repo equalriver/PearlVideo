@@ -35,11 +35,11 @@ extension PVHomeMyTeamVC {
 //page controller delegate
 extension PVHomeMyTeamVC {
     override func numbersOfChildControllers(in pageController: WMPageController) -> Int {
-        return 3
+        return items.count
     }
     
     override func pageController(_ pageController: WMPageController, titleAt index: Int) -> String {
-        return ["全部队员", "实名队员", "未实名队员"][index]
+        return items[index]
     }
     
     override func pageController(_ pageController: WMPageController, viewControllerAt index: Int) -> UIViewController {

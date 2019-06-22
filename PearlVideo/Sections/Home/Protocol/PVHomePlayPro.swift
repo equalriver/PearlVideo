@@ -37,10 +37,12 @@ extension PVHomePlayVC {
                 return
             }
             if let m = resp["result"]["minutes"].int {
-                self.playTimeMinutes = m
+                self.playTimeMinutes = m == 0 ? m : m - 1
                 self.timer.setEventHandler(handler: { [weak self] in
                     guard self != nil && self!.playTimeMinutes != nil else { return }
-                    if self!.playTimeMinutes! > kVideoPlayTime { self?.timer.cancel()
+                    if self!.playTimeMinutes! > kVideoPlayTime {
+                        self!.playTimeProgressView.isHidden = true
+                        self?.timer.cancel()
                         return
                     }
                     DispatchQueue.main.async {
@@ -98,6 +100,20 @@ extension PVHomePlayVC {
     
     @objc func backAction(sender: UIButton) {
         navigationController?.popViewController(animated: true)
+    }
+    
+    func likeAnimation() {
+        allContainView.bringSubviewToFront(likeAnimationIV)
+        likeAnimationIV.isHidden = false
+        UIView.animate(withDuration: 0.6, animations: {
+            self.likeAnimationIV.alpha = 0
+            self.likeAnimationIV.transform = CGAffineTransform.init(scaleX: 4, y: 4)
+            
+        }) { (isFinish) in
+            self.likeAnimationIV.isHidden = true
+            self.likeAnimationIV.transform = .identity
+            self.likeAnimationIV.alpha = 0.9
+        }
     }
  
 }
@@ -417,6 +433,12 @@ extension PVHomePlayVC {
             prepareWithPlayer(player: player, model: currentPlayContainer!.data)
             break
         }
+    }
+    
+    @objc func doubleTapAction(sender: UITapGestureRecognizer) {
+        guard currentPlayContainer != nil && currentPlayContainer!.data != nil else { return }
+        didSelectedLike(sender: allContainView.likeBtn, data: currentPlayContainer!.data)
+    
     }
     
     @objc func panAction(sender: UIPanGestureRecognizer) {

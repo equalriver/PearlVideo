@@ -140,14 +140,14 @@ class PVMeNameValidateVC: PVBaseNavigationVC {
         NotificationCenter.default.addObserver(self, selector: #selector(alipayCallbackNoti(sender:)), name: .kNotiName_alipaySuccess, object: nil)
     }
     
-    override func viewWillAppear(_ animated: Bool) {
-        super.viewWillAppear(animated)
-        if validateStateData != nil && validateStateData.isVerfiedSuccess {
-            validateContent.isHidden = true
-            didValidateContent.isHidden = false
-        }
-        else { loadData() }
-    }
+//    override func viewWillAppear(_ animated: Bool) {
+//        super.viewWillAppear(animated)
+//        if (validateStateData != nil && validateStateData.isVerfiedSuccess) || data.name.count > 0 {
+//            validateContent.isHidden = true
+//            didValidateContent.isHidden = false
+//        }
+//        else { loadData() }
+//    }
     
     deinit {
         NotificationCenter.default.removeObserver(self)

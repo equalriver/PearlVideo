@@ -17,6 +17,37 @@ class PVExchangeRecordCell: PVBaseTableCell {
             countLabel.text = "数量：\(data.count)平安果"
             exchangeCostLabel.text = "交换金额：￥\(data.totalPrice)"
             dateLabel.text = data.date
+            switch data.state {
+            case .success:
+                handleLabel.text = "已完成"
+                break
+                
+            case .cancel:
+                handleLabel.text = "已取消"
+                break
+                
+            case .fail:
+                handleLabel.text = "失败"
+                break
+                
+            case .waitForFruit:
+                handleLabel.text = "待放平安果"
+                break
+                
+            case .waitForPay:
+                if data.orderType == .buy {
+                    handleLabel.text = "待付款"
+                    break
+                }
+                if data.orderType == .sell {
+                    handleLabel.text = "待对方付款"
+                    break
+                }
+                break
+                
+            default:
+                break
+            }
         }
     }
     

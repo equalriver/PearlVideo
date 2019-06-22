@@ -8,6 +8,8 @@
 
 class PVHomeMyTeamVC: PVBaseWMPageVC {
     
+    let items = ["全部队员", "实名队员", "未实名队员"]
+    
     public var data: PVHomeTeamModel! {
         didSet{
             headerView.data = data
@@ -36,7 +38,7 @@ class PVHomeMyTeamVC: PVBaseWMPageVC {
         progressWidth = 30 * KScreenRatio_6
         progressColor = UIColor.white
         menuViewStyle = .line
-        menuItemWidth = kScreenWidth / 3
+        menuItemWidth = kScreenWidth / CGFloat(items.count)
         
         super.viewDidLoad()
         title = "我的团队"

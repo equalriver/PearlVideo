@@ -48,6 +48,8 @@ extension PVHomePlayVC: PVHomePlayDelegate {
         if sender.isSelected { data.thumbCount += 1 }
         else { data.thumbCount -= 1 }
         sender.setTitle("\(data.thumbCount)", for: .normal)
+        if sender.isSelected { self.likeAnimation() }
+        
         let args: [String: Any] = ["data": data, "sender": sender]
         NSObject.cancelPreviousPerformRequests(withTarget: self, selector: #selector(videoLike(args:)), object: args)
         self.perform(#selector(videoLike(args:)), with: args, afterDelay: 2)
@@ -57,9 +59,11 @@ extension PVHomePlayVC: PVHomePlayDelegate {
     @objc func videoLike(args: [String: Any]) {
         guard let data = args["data"] as? PVVideoPlayModel else { return }
         guard let sender = args["sender"] as? UIButton else { return }
+        
         PVNetworkTool.Request(router: .videoLike(id: data.videoId, action: sender.isSelected ? 1 : 2), success: { (resp) in
             print("点赞：", data.userId)
             NotificationCenter.default.post(name: .kNotiName_refreshMeLikeVC, object: nil)
+            
         }) { (e) in
             
         }
