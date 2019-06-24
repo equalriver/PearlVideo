@@ -42,20 +42,20 @@ extension PVHomeVC {
     }
     //FIX
     func checkVersion() {
-//        PVNetworkTool.Request(router: .getVersion, success: { (resp) in
-//            if let d = Mapper<PVVersionModel>().map(JSONObject: resp["result"].object) {
-//                if d.versionCode != kAppUpdateVersionValue {
-//                    YPJOtherTool.ypj.showAlert(title: nil, message: "有新版本需要更新", style: .alert, isNeedCancel: false, handle: { (ac) in
-//                        guard let url = URL.init(string: d.downloadURL) else { return }
-//                        UIApplication.shared.openURL(url)
-//                    })
-//                }
-//
-//            }
-//
-//        }) { (e) in
-//
-//        }
+        PVNetworkTool.Request(router: .getVersion, success: { (resp) in
+            if let d = Mapper<PVVersionModel>().map(JSONObject: resp["result"].object) {
+                if d.versionCode != kAppUpdateVersionValue {
+                    YPJOtherTool.ypj.showAlert(title: nil, message: "有新版本需要更新", style: .alert, isNeedCancel: false, handle: { (ac) in
+                        guard let url = URL.init(string: d.downloadURL) else { return }
+                        UIApplication.shared.openURL(url)
+                    })
+                }
+
+            }
+
+        }) { (e) in
+
+        }
     }
     
     

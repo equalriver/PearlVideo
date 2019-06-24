@@ -18,7 +18,7 @@ public let kAppVersionURL = "http://itunes.apple.com/lookup?id=\(kAPPID)"
 
 //app version
 public let kAppVersion = "PV_app_version"
-public let kAppUpdateVersionValue = "4" //FIX: 打包更新时修改
+public let kAppUpdateVersionValue = "5" //FIX: 打包更新时修改
 
 ///上一次输入的IP
 public let kLastInputIP = "kLastInputIP"
